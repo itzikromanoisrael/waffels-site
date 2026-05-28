@@ -1,0 +1,5469 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <script>
+    (function () {
+      const openTarget = new URLSearchParams(window.location.search).get("open");
+      if (openTarget) {
+        window.addEventListener("DOMContentLoaded", function () {
+          document.getElementById(openTarget)?.scrollIntoView({ block: "start" });
+        });
+      }
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.stripe.com https://www.googleapis.com https://oauth2.googleapis.com; frame-src https://www.google.com https://maps.google.com https://checkout.stripe.com; font-src 'self' data:; manifest-src 'self'; worker-src 'self' blob:">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta name="theme-color" content="#111318">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="WAFFELS">
+  <link rel="apple-touch-icon" href="./assets/logo.png">
+  <title>WAFFELS</title>
+  <style>
+    :root {
+      font-size: 15.2px;
+      --bg: #090b11;
+      --surface: rgba(16, 20, 29, 0.88);
+      --surface-2: rgba(22, 27, 37, 0.94);
+      --line: rgba(255, 255, 255, 0.08);
+      --line-strong: rgba(255, 255, 255, 0.14);
+      --text: #f8f8fb;
+      --muted: #b9c2cf;
+      --pink: #eb4cb7;
+      --cyan: #25d4ee;
+      --gold: #d8b05a;
+      --lime: #8b5cf6;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+      --radius-xl: 36px;
+      --radius-lg: 26px;
+      --radius-md: 18px;
+      --max: 1140px;
+    }
+    * { box-sizing: border-box; }
+    html {
+      scroll-behavior: smooth;
+      background: #090b11;
+      min-height: 100%;
+    }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      background:
+        linear-gradient(135deg, rgba(212, 239, 58, 0.05), transparent 16%),
+        radial-gradient(circle at 10% 8%, rgba(37, 212, 238, 0.12), transparent 20%),
+        radial-gradient(circle at 88% 10%, rgba(235, 76, 183, 0.12), transparent 24%),
+        linear-gradient(180deg, #07090e 0%, #0d1118 38%, #121823 100%);
+      font-family: "Segoe UI Variable", "Segoe UI", Arial, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      overscroll-behavior-y: auto;
+      touch-action: pan-y;
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, transparent 0 18%, rgba(255,255,255,0.035) 18.2% 18.45%, transparent 18.7% 100%),
+        linear-gradient(115deg, transparent 0 72%, rgba(139,92,246,0.22) 72.2% 72.45%, transparent 72.7% 100%);
+      opacity: 0.5;
+      z-index: 0;
+    }
+    .gallery-archive {
+      display: none !important;
+    }
+    .mouse-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      left: 50%;
+      top: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 70%);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      z-index: 2;
+      mix-blend-mode: screen;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+    body.pointer-ready .mouse-glow {
+      opacity: 1;
+    }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    img, video { max-width: 100%; display: block; }
+    .shell { width: min(calc(100% - 28px), var(--max)); margin: 0 auto; position: relative; z-index: 1; }
+    .section { padding: 26px 0; }
+    main > .section,
+    main > .hero,
+    main > .skill-hero {
+      content-visibility: auto;
+      contain-intrinsic-size: auto 760px;
+    }
+    main > .skill-hero {
+      content-visibility: visible;
+    }
+     .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.08)), rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      box-shadow: 0 0 40px rgba(235, 76, 183, 0.2);
+      backdrop-filter: blur(15px);
+      transition:
+        transform 0.4s,
+        box-shadow 0.3s ease,
+        border-color 0.3s ease;
+    
+    }
+    .card:hover {
+      transform: none;
+    }
+    .pill, .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      padding: 12px 18px;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+    .pill:hover, .btn:hover { transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, #6e8efb, #a777e3);
+      border: none;
+      color: white;
+      font-weight: 700;
+      box-shadow: 0 4px 15px rgba(110, 142, 251, 0.4);
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.04);
+      border-color: var(--line);
+      color: var(--text);
+    }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      padding-top: 12px;
+      transform: translateZ(0);
+    }
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 16px;
+      background:
+        linear-gradient(180deg, rgba(12,15,22,0.96), rgba(16,20,29,0.88)),
+        linear-gradient(135deg, rgba(139,92,246,0.1), rgba(37,212,238,0.08), rgba(235,76,183,0.08));
+      border: 1px solid var(--line-strong);
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+    .brand-logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,0.18);
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.24);
+    }
+    .brand-copy strong {
+      display: block;
+      font: 800 0.98rem/1 "Segoe UI Variable", "Segoe UI", Arial, sans-serif;
+      letter-spacing: 0.18em;
+    }
+    .brand-copy span, .muted, .section-subtitle { color: var(--muted); line-height: 1.8; }
+    .nav { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .nav a {
+      padding: 9px 13px;
+      border-radius: 999px;
+      color: var(--muted);
+      border: 1px solid transparent;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .nav a:hover { border-color: var(--line-strong); color: var(--text); background: rgba(255,255,255,0.05); }
+    .skill-hero {
+      position: relative;
+      min-height: calc(100vh - 118px);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 30px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background:
+        radial-gradient(circle at 22% 14%, rgba(37,212,238,0.18), transparent 28%),
+        radial-gradient(circle at 82% 18%, rgba(235,76,183,0.16), transparent 30%),
+        radial-gradient(circle at 50% 82%, rgba(255,242,122,0.08), transparent 28%),
+        linear-gradient(180deg, rgba(3,5,12,0.98), rgba(8,11,22,0.9));
+      box-shadow: 0 30px 90px rgba(0,0,0,0.42);
+      isolation: isolate;
+    }
+    .skill-hero::before {
+      content: "";
+      position: absolute;
+      inset: -40px;
+      z-index: 0;
+      pointer-events: none;
+      display: none;
+    }
+    .logo-3d-field {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+      perspective: 900px;
+      transform-style: preserve-3d;
+    }
+    .logo-3d-field::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.34;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255,255,255,0.8) 0 1px, transparent 2px),
+        radial-gradient(circle at 28% 76%, rgba(123,245,255,0.72) 0 1px, transparent 2px),
+        radial-gradient(circle at 46% 24%, rgba(255,255,255,0.65) 0 1px, transparent 2px),
+        radial-gradient(circle at 69% 62%, rgba(255,122,223,0.7) 0 1px, transparent 2px),
+        radial-gradient(circle at 88% 34%, rgba(255,255,255,0.78) 0 1px, transparent 2px);
+      filter: drop-shadow(0 0 8px rgba(123,245,255,0.3));
+    }
+    .waffels-logo-3d {
+      position: absolute;
+      width: var(--logo-size, 96px);
+      height: var(--logo-size, 96px);
+      left: var(--logo-x, 50%);
+      top: var(--logo-y, 50%);
+      object-fit: contain;
+      opacity: var(--logo-opacity, 0.3);
+      transform:
+        translate(-50%, -50%)
+        translate3d(var(--push-x, 0px), var(--push-y, 0px), var(--logo-z, 0px))
+        rotateX(var(--logo-rx, 18deg))
+        rotateY(var(--logo-ry, -24deg))
+        rotateZ(var(--logo-rz, 0deg));
+      filter:
+        contrast(1.08)
+        saturate(1.28)
+        drop-shadow(0 16px 22px rgba(0,0,0,0.54))
+        drop-shadow(0 0 14px rgba(37,212,238,0.12));
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+    .skill-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(180deg, rgba(5,7,12,0.1), rgba(5,7,12,0.62)),
+        radial-gradient(circle at 50% 42%, rgba(255,255,255,0.05), transparent 24%);
+    }
+    .skill-flow-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      touch-action: none;
+      mix-blend-mode: screen;
+      opacity: 0.18;
+    }
+    .global-flow-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      touch-action: none;
+      mix-blend-mode: screen;
+      opacity: 0.18;
+      display: none;
+    }
+    .skill-hero-inner {
+      position: relative;
+      z-index: 2;
+      width: min(100% - 28px, 850px);
+      margin: 0 auto;
+      padding: 58px 0;
+      text-align: center;
+    }
+    .skill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(139,92,246,0.16);
+      border: 1px solid rgba(255,255,255,0.16);
+      color: rgba(255,255,255,0.9);
+      font-weight: 750;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+    .skill-badge-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #fff;
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.28);
+    }
+    .skill-title {
+      position: relative;
+      margin: 18px auto 0;
+      max-width: 780px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 6.2rem;
+      line-height: 0.95;
+      letter-spacing: 0;
+      background:
+        linear-gradient(115deg, #ffffff 0%, #ff7adf 24%, #7bf5ff 52%, #fff27a 76%, #ffffff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-wrap: balance;
+      overflow-wrap: anywhere;
+      filter:
+        drop-shadow(0 10px 20px rgba(0,0,0,0.4))
+        drop-shadow(0 0 12px rgba(255,122,223,0.16))
+        drop-shadow(0 0 12px rgba(123,245,255,0.14));
+    }
+    .skill-title::before {
+      content: "";
+      position: absolute;
+      inset: -18px -28px;
+      z-index: -1;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 25% 40%, rgba(255,122,223,0.2), transparent 42%),
+        radial-gradient(circle at 72% 44%, rgba(123,245,255,0.18), transparent 44%),
+        radial-gradient(circle at 50% 70%, rgba(255,242,122,0.12), transparent 38%);
+      filter: blur(18px);
+      opacity: 0.85;
+    }
+    .skill-title span {
+      display: block;
+    }
+    .skill-title span:first-child {
+      background: linear-gradient(100deg, #ffffff 0%, #ff7adf 34%, #7bf5ff 68%, #ffffff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .skill-title span:last-child {
+      background: linear-gradient(100deg, #fff5a8 0%, #ff8fe5 30%, #7bf5ff 64%, #ffffff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .skill-subtitle {
+      max-width: 690px;
+      margin: 18px auto 0;
+      color: rgba(245,248,255,0.86);
+      font-size: 1.16rem;
+      line-height: 1.9;
+    }
+    .skill-opening-video {
+      position: relative;
+      width: min(100%, 720px);
+      aspect-ratio: 16 / 9;
+      margin: 24px auto 0;
+      overflow: hidden;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 22% 18%, rgba(255,122,223,0.18), transparent 28%),
+        radial-gradient(circle at 82% 12%, rgba(123,245,255,0.16), transparent 30%),
+        rgba(4,6,10,0.72);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow:
+        0 26px 70px rgba(0,0,0,0.42),
+        0 0 32px rgba(123,245,255,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.12);
+      isolation: isolate;
+    }
+    .skill-opening-video video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.82;
+      filter: saturate(1.08) contrast(1.04);
+    }
+    .skill-opening-video::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.42)),
+        radial-gradient(circle at 50% 48%, transparent 0 34%, rgba(0,0,0,0.26) 68%);
+      pointer-events: none;
+    }
+    .skill-opening-photo {
+      position: absolute;
+      z-index: 2;
+      width: clamp(92px, 18vw, 148px);
+      aspect-ratio: 4 / 5;
+      object-fit: cover;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow:
+        0 16px 34px rgba(0,0,0,0.38),
+        0 0 18px rgba(123,245,255,0.1);
+      filter: saturate(1.08) contrast(1.04);
+      animation: openingPhotoFloat 5.6s ease-in-out infinite;
+    }
+    .skill-opening-photo.one {
+      right: 16px;
+      top: 16px;
+      transform: rotate(4deg);
+    }
+    .skill-opening-photo.two {
+      left: 16px;
+      bottom: 16px;
+      transform: rotate(-5deg);
+      animation-delay: -1.6s;
+    }
+    .skill-opening-photo.three {
+      left: 18px;
+      top: 18px;
+      width: clamp(82px, 15vw, 130px);
+      transform: rotate(5deg);
+      animation-delay: -3.1s;
+    }
+    .skill-opening-photo.four {
+      right: 26px;
+      bottom: 18px;
+      width: clamp(86px, 16vw, 136px);
+      transform: rotate(-3deg);
+      animation-delay: -4.4s;
+    }
+    @keyframes openingPhotoFloat {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -8px; }
+    }
+    .skill-chat {
+      margin: 34px auto 0;
+      max-width: 760px;
+      text-align: right;
+      background: rgba(0,0,0,0.58);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: 20px;
+      backdrop-filter: blur(18px);
+      box-shadow: 0 22px 70px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .skill-chat textarea {
+      width: 100%;
+      min-height: 54px;
+      max-height: 150px;
+      display: block;
+      resize: none;
+      border: 0;
+      outline: 0;
+      padding: 16px 18px;
+      color: white;
+      background: transparent;
+      line-height: 1.7;
+      overflow: hidden;
+    }
+    .skill-chat textarea::placeholder { color: rgba(255,255,255,0.56); }
+    .ai-quiz {
+      display: grid;
+      gap: 14px;
+      padding: 0 14px 14px;
+    }
+    .ai-question {
+      position: relative;
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+    .ai-question::before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: url("./assets/logo.png") center / cover no-repeat, #fff;
+      opacity: 0.9;
+      box-shadow:
+        0 8px 18px rgba(0,0,0,0.26),
+        0 0 18px rgba(123,245,255,0.14);
+    }
+    .ai-question strong {
+      display: block;
+      margin-bottom: 9px;
+      padding-left: 44px;
+      color: rgba(255,255,255,0.92);
+      font-size: 0.92rem;
+    }
+    .ai-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .ai-chip {
+      min-height: 36px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.28);
+      color: rgba(255,255,255,0.78);
+      font: inherit;
+      font-size: 0.84rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+    }
+    .ai-chip:hover,
+    .ai-chip.is-active {
+      transform: translateY(-1px);
+      color: #071016;
+      border-color: rgba(255,255,255,0.4);
+      background: linear-gradient(135deg, #e9fbff, #f7e4ff);
+    }
+    .skill-chat-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+    .skill-icon-btn,
+    .skill-send {
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.08);
+      color: white;
+      cursor: pointer;
+    }
+    .skill-send {
+      background: linear-gradient(135deg, #ffffff, #d9f8ff);
+      color: #05070b;
+      box-shadow: 0 10px 26px rgba(37,212,238,0.22);
+    }
+    .skill-send:disabled {
+      cursor: not-allowed;
+      opacity: 0.58;
+      background: rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.5);
+      box-shadow: none;
+    }
+    .skill-icon-btn svg,
+    .skill-send svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+    }
+    .skill-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .skill-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(0,0,0,0.46);
+      color: rgba(255,255,255,0.82);
+      font-size: 0.86rem;
+      font-weight: 700;
+      backdrop-filter: blur(12px);
+    }
+    .skill-action span:first-child {
+      display: inline-grid;
+      place-items: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.1);
+      color: #f8d77a;
+      font-size: 0.72rem;
+      direction: ltr;
+    }
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      align-items: stretch;
+      padding: 18px 0 8px;
+      min-height: 580px;
+    }
+    .hero-copy {
+      position: relative;
+      z-index: 3;
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 30px 30px 28px;
+      min-height: 520px;
+      width: min(100%, 520px);
+      margin: 28px;
+      background:
+        linear-gradient(180deg, rgba(9, 12, 17, 0.76), rgba(12, 16, 24, 0.62)),
+        linear-gradient(135deg, rgba(139,92,246,0.1), rgba(37,212,238,0.08), rgba(235,76,183,0.1));
+      border: 1px solid var(--line-strong);
+      overflow: hidden;
+      backdrop-filter: blur(16px);
+      box-shadow:
+        0 28px 80px rgba(0,0,0,0.36),
+        0 0 44px rgba(235,76,183,0.12),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .hero-copy::before {
+      content: "";
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      width: 86px;
+      height: 86px;
+      border-radius: 24px;
+      border: 1px solid rgba(139,92,246,0.24);
+      background: linear-gradient(135deg, rgba(139,92,246,0.16), transparent 68%);
+      transform: rotate(12deg);
+      pointer-events: none;
+    }
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      left: 28px;
+      bottom: 24px;
+      width: 112px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(139,92,246,0.92), rgba(139,92,246,0.12));
+      box-shadow: 0 0 24px rgba(139,92,246,0.28);
+      pointer-events: none;
+    }
+    .hero-glow-line {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        linear-gradient(110deg, transparent 0 18%, rgba(255,255,255,0.105) 19%, transparent 21% 100%);
+      opacity: 0.72;
+      transform: translateX(42%);
+      animation: heroLightSweep 5.8s ease-in-out infinite;
+    }
+    @keyframes heroLightSweep {
+      0%, 38% { transform: translateX(52%); opacity: 0; }
+      52% { opacity: 0.68; }
+      72%, 100% { transform: translateX(-62%); opacity: 0; }
+    }
+    .hero-media {
+      position: relative;
+      overflow: hidden;
+      min-height: 580px;
+      padding: 0;
+      border: 1px solid var(--line-strong);
+      background:
+        linear-gradient(180deg, rgba(10, 12, 18, 0.82), rgba(8, 10, 15, 0.68)),
+        linear-gradient(135deg, rgba(139,92,246,0.14), rgba(37,212,238,0.08));
+      grid-area: 1 / 1;
+    }
+    .hero-copy {
+      grid-area: 1 / 1;
+    }
+    .eyebrow {
+      display: inline-flex;
+      padding: 9px 13px;
+      border-radius: 999px;
+      background: rgba(139,92,246,0.14);
+      border: 1px solid rgba(139,92,246,0.24);
+      margin-bottom: 18px;
+      color: #efe7ff;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+    .hero h1, .section-title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 700;
+      line-height: 1.06;
+      background: linear-gradient(135deg, #ffffff 0%, #f1e8ff 18%, #ffffff 42%, #6feaf7 70%, #f26bc4 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero h1 {
+      font-size: clamp(2.7rem, 4.8vw, 4.9rem);
+      max-width: 8.4ch;
+      letter-spacing: -0.04em;
+      text-wrap: balance;
+    }
+    .hero p {
+      color: rgba(248,250,255,0.96);
+      line-height: 1.95;
+      font-size: clamp(1.16rem, 1.5vw, 1.34rem);
+      max-width: 46ch;
+      margin: 18px 0 0;
+    }
+    #heroSubtitle {
+      position: relative;
+      padding: 16px 18px;
+      border-radius: 22px;
+      font-family: "Segoe UI Variable", "Segoe UI", Arial, sans-serif;
+      font-weight: 650;
+      letter-spacing: 0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.032)),
+        linear-gradient(135deg, rgba(37,212,238,0.075), rgba(235,76,183,0.08));
+      border: 1px solid rgba(255,255,255,0.115);
+      box-shadow:
+        0 18px 44px rgba(0,0,0,0.22),
+        inset 0 1px 0 rgba(255,255,255,0.08);
+      text-shadow: 0 8px 22px rgba(0,0,0,0.22);
+      animation: heroSubtitleFade 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+    #heroSubtitle::before {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: inherit;
+      pointer-events: none;
+      background:
+        linear-gradient(115deg, transparent 0 28%, rgba(255,255,255,0.16) 38%, transparent 50% 100%);
+      opacity: 0;
+      transform: translateX(28%);
+      animation: subtitleSheen 4.8s ease-in-out infinite;
+    }
+    #heroSubtitle::after {
+      content: "";
+      position: absolute;
+      right: 18px;
+      bottom: 8px;
+      width: 74px;
+      height: 2px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(216,176,90,0.92), rgba(235,76,183,0.48), transparent);
+      box-shadow: 0 0 14px rgba(216,176,90,0.2);
+      pointer-events: none;
+    }
+    @keyframes subtitleSheen {
+      0%, 44% { opacity: 0; transform: translateX(34%); }
+      56% { opacity: 0.62; }
+      78%, 100% { opacity: 0; transform: translateX(-42%); }
+    }
+    #heroSubtitle strong {
+      color: #fff;
+      font-weight: 760;
+      text-shadow: 0 10px 26px rgba(0,0,0,0.26);
+    }
+    #heroSubtitle .hero-accent {
+      color: #f3d47a;
+      font-weight: 760;
+      text-shadow: 0 0 18px rgba(216,176,90,0.18);
+    }
+    @keyframes heroSubtitleFade {
+      from { opacity: 0; transform: translateY(12px) scale(0.985); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .hero-proof span {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.09);
+      color: rgba(246,248,252,0.9);
+      font-size: 0.86rem;
+      font-weight: 700;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.07);
+      animation: heroChipIn 0.72s ease both;
+    }
+    .hero-proof span:nth-child(2) { animation-delay: 0.08s; }
+    .hero-proof span:nth-child(3) { animation-delay: 0.16s; }
+    @keyframes heroChipIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 22px; }
+    .hero-actions .btn { min-width: 164px; padding: 14px 20px; font-size: 0.95rem; font-weight: 700; }
+    .trust-strip {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 22px;
+      max-width: 430px;
+    }
+    .trust-item {
+      padding: 11px 12px;
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.085), rgba(255,255,255,0.035)),
+        rgba(8,10,14,0.54);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 12px 24px rgba(0,0,0,0.18);
+      transform: translateZ(0);
+    }
+    .trust-item strong {
+      display: block;
+      color: #fff;
+      font-size: 0.92rem;
+      margin-bottom: 3px;
+    }
+    .trust-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.45;
+    }
+    .book-now {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 40;
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.03);
+      border-color: rgba(255,255,255,0.14);
+      color: var(--text);
+    }
+    .highlights {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .highlight {
+      width: 54px;
+      height: 54px;
+      padding: 0;
+      text-align: center;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(10,12,18,0.58);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 10px 26px rgba(0,0,0,0.18);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+      backdrop-filter: blur(10px);
+    }
+    .highlight:hover {
+      transform: translateY(-3px) scale(1.04);
+      border-color: rgba(255,255,255,0.16);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.105), rgba(255,255,255,0.035)),
+        rgba(10,12,18,0.72);
+    }
+    .highlight svg {
+      width: 27px;
+      height: 27px;
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.34));
+      shape-rendering: geometricPrecision;
+    }
+    .highlight.maps { color: #34a853; }
+    .highlight.instagram { color: #f56040; }
+    .highlight.tiktok { color: #ffffff; }
+    .highlight.whatsapp { color: #25d366; }
+    .media-stage {
+      position: relative;
+      height: 100%;
+      min-height: 560px;
+      border-radius: 34px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #0b0d12;
+    }
+    .media-stage::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(7, 9, 13, 0.08) 0%, rgba(7, 9, 13, 0.28) 34%, rgba(7, 9, 13, 0.58) 100%),
+        linear-gradient(120deg, transparent 0 68%, rgba(139,92,246,0.24) 68.3% 68.8%, transparent 69.1% 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .media-item {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transform: scale(1.05);
+      filter: blur(12px);
+      transition: opacity 1s ease, transform 1.2s ease, filter 1.2s ease;
+    }
+    .media-item.active {
+      opacity: 1;
+      transform: scale(1);
+      filter: blur(0);
+      z-index: 0;
+    }
+    .media-item img, .media-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-media-note { display: none; }
+    .hero-media-cta {
+      margin-top: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      font-size: 0.84rem;
+      cursor: pointer;
+    }
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+    .process-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      isolation: isolate;
+    }
+    .process-grid::before {
+      content: "";
+      position: absolute;
+      top: 38px;
+      left: 7%;
+      right: 7%;
+      height: 2px;
+      z-index: -1;
+      background:
+        linear-gradient(90deg, transparent, rgba(37,212,238,0.55), rgba(255,122,223,0.58), rgba(255,242,122,0.36), transparent);
+      box-shadow:
+        0 0 18px rgba(37,212,238,0.28),
+        0 0 22px rgba(255,122,223,0.18);
+      opacity: 0.75;
+    }
+    .process-grid::after {
+      content: "";
+      position: absolute;
+      top: 32px;
+      left: 7%;
+      width: 72px;
+      height: 14px;
+      z-index: -1;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.95), transparent);
+      filter: blur(5px);
+      animation: processLightRun 4.8s ease-in-out infinite;
+      opacity: 0.82;
+    }
+    @keyframes processLightRun {
+      0% { transform: translateX(0); opacity: 0; }
+      12% { opacity: 0.9; }
+      78% { opacity: 0.9; }
+      100% { transform: translateX(min(840px, 76vw)); opacity: 0; }
+    }
+    .process-step {
+      position: relative;
+      overflow: hidden;
+      padding: 18px 16px;
+      min-height: 142px;
+      border-radius: 22px;
+      background:
+        radial-gradient(circle at 22% 14%, rgba(255,255,255,0.13), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,0.095), rgba(255,255,255,0.035)),
+        linear-gradient(135deg, rgba(235,76,183,0.12), rgba(37,212,238,0.08));
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 18px 42px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08);
+      transform: translateY(0) rotateX(0deg);
+      transform-style: preserve-3d;
+      animation: processFloat 6s ease-in-out infinite;
+      animation-delay: calc(var(--step-index, 0) * -0.55s);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.32s ease, box-shadow 0.32s ease, background 0.32s ease;
+    }
+    .process-step:nth-child(1) { --step-index: 1; }
+    .process-step:nth-child(2) { --step-index: 2; }
+    .process-step:nth-child(3) { --step-index: 3; }
+    .process-step:nth-child(4) { --step-index: 4; }
+    .process-step:nth-child(5) { --step-index: 5; }
+    .process-step::before {
+      content: "";
+      position: absolute;
+      inset: -45%;
+      background: conic-gradient(from 180deg, transparent, rgba(37,212,238,0.16), transparent, rgba(255,122,223,0.14), transparent);
+      opacity: 0;
+      transform: rotate(0deg);
+      transition: opacity 0.28s ease;
+      animation: processAura 7s linear infinite;
+    }
+    .process-step::after {
+      content: "";
+      position: absolute;
+      inset: 1px;
+      border-radius: 21px;
+      background: linear-gradient(180deg, rgba(7,9,14,0.26), rgba(7,9,14,0.02));
+      pointer-events: none;
+    }
+    .process-step > * {
+      position: relative;
+      z-index: 1;
+    }
+    @keyframes processFloat {
+      0%, 100% { transform: translateY(0) rotateX(0deg); }
+      50% { transform: translateY(-4px) rotateX(2deg); }
+    }
+    @keyframes processAura {
+      to { transform: rotate(360deg); }
+    }
+    .process-step:hover {
+      transform: translateY(-10px) rotateX(8deg) scale(1.02);
+      border-color: rgba(123,245,255,0.34);
+      background:
+        radial-gradient(circle at 22% 14%, rgba(255,255,255,0.18), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.045)),
+        linear-gradient(135deg, rgba(255,122,223,0.16), rgba(37,212,238,0.12));
+      box-shadow:
+        0 30px 62px rgba(0,0,0,0.34),
+        0 0 28px rgba(123,245,255,0.14),
+        0 0 26px rgba(255,122,223,0.12);
+    }
+    .process-step:hover::before {
+      opacity: 1;
+    }
+    .process-step span {
+      display: inline-grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      color: #071016;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #7bf5ff 48%, #ff8fe5);
+      box-shadow:
+        0 14px 28px rgba(37,212,238,0.22),
+        0 0 18px rgba(255,122,223,0.18);
+    }
+    .process-step strong {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 1rem;
+    }
+    .process-step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.9rem;
+    }
+    .process-grid::after,
+    .process-step,
+    .process-step::before,
+    .treatment-info::before,
+    .brand-showcase-card::before,
+    .image-cursor-trail::before,
+    .image-cursor-trail::after,
+    .cursor-trail-center::before,
+    .cursor-trail-center::after,
+    .cursor-trail-logo {
+      animation-play-state: paused;
+    }
+    .is-in-view .process-grid::after,
+    .is-in-view .process-step,
+    .is-in-view .process-step::before,
+    .is-in-view .treatment-info::before,
+    .treatment-info.is-in-view::before,
+    .is-in-view .brand-showcase-card::before,
+    .is-in-view .image-cursor-trail::before,
+    .is-in-view .image-cursor-trail::after,
+    .is-in-view .cursor-trail-center::before,
+    .is-in-view .cursor-trail-center::after,
+    .is-in-view .cursor-trail-logo {
+      animation-play-state: running;
+    }
+    #heroSubtitle { white-space: pre-line; }
+    .section-title { font-size: clamp(1.7rem, 3vw, 2.8rem); }
+    .services, .review-grid, .gallery-grid, .before-grid, .contact-grid, .product-grid, .academy-grid, .pricing-grid {
+      display: grid;
+      gap: 16px;
+    }
+    .services { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .product-grid {
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+      width: 100%;
+      perspective: 1000px;
+    }
+    .product-card-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+      transform-style: preserve-3d;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .academy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .pricing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 18px; }
+    .service, .review, .gallery-item, .before-card, .contact-card, .google-box, .brand-strip, .creator-box, .booking-shell { padding: 18px; }
+    .service h3, .review h3, .before-card h3, .contact-card h3 { margin-top: 0; }
+    .product-card, .academy-card, .pricing-card {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03)),
+        linear-gradient(135deg, rgba(37,212,238,0.06), rgba(235,76,183,0.06));
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 20px;
+    }
+    .product-card {
+      min-height: 460px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)),
+        linear-gradient(135deg, rgba(37,212,238,0.08), rgba(235,76,183,0.055)),
+        var(--surface-2);
+      border-color: var(--line);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+      transform-style: preserve-3d;
+      transition:
+        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.5s ease;
+    }
+    .product-card-link:hover {
+      transform: translateY(-2px);
+    }
+    .product-card-link:hover .product-card,
+    .product-card:hover {
+      transform: translateY(-10px) rotateX(7deg) rotateY(-4deg);
+      border-color: rgba(255,255,255,0.25);
+      box-shadow:
+        -10px 25px 50px rgba(0,0,0,0.5),
+        0 0 30px rgba(37,212,238,0.24);
+    }
+    .product-image-wrapper {
+      width: 100%;
+      height: 210px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      position: relative;
+      margin-bottom: 16px;
+      background: rgba(0,0,0,0.3);
+      transform: translateZ(20px);
+      transition: transform 0.5s ease;
+    }
+    .product-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .product-brand-logo {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid var(--surface-2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      object-fit: contain;
+      padding: 4px;
+      z-index: 10;
+      transform: translateZ(40px);
+      transition: transform 0.5s ease;
+    }
+    .product-card-link:hover .product-image-wrapper,
+    .product-card:hover .product-image-wrapper {
+      transform: translateZ(35px);
+    }
+    .product-card-link:hover .product-brand-logo,
+    .product-card:hover .product-brand-logo {
+      transform: translateZ(55px) scale(1.05);
+    }
+    .product-card-link:hover .product-image-wrapper img,
+    .product-card:hover .product-image-wrapper img {
+      transform: scale(1.08);
+    }
+    .product-card h3 {
+      transform: translateZ(15px);
+    }
+    .product-card p {
+      color: var(--muted);
+      line-height: 1.65;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transform: translateZ(12px);
+    }
+    .product-card-footer {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      transform: translateZ(18px);
+    }
+    .product-card h3, .academy-card h3, .pricing-card h3 { margin-top: 0; margin-bottom: 8px; }
+    .academy-intro {
+      max-width: 860px;
+      margin: -6px 0 18px;
+      color: rgba(246,248,252,0.9);
+      line-height: 1.95;
+      font-size: 1.06rem;
+    }
+    .academy-mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 980px;
+      margin: 0 0 16px;
+    }
+    .academy-benefits {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-top: 16px;
+    }
+    .academy-mini-card {
+      padding: 16px;
+      border-radius: 18px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.032)),
+        linear-gradient(135deg, rgba(235,76,183,0.055), rgba(139,92,246,0.07), rgba(37,212,238,0.035)),
+        rgba(9,12,17,0.62);
+      border: 1px solid rgba(255,255,255,0.115);
+      box-shadow: 0 16px 38px rgba(0,0,0,0.2);
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    }
+    .academy-mini-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(235,76,183,0.24);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.24), 0 0 20px rgba(235,76,183,0.1);
+    }
+    .academy-mini-card strong {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--text);
+      font-size: 1.02rem;
+    }
+    .academy-mini-card span,
+    .academy-mini-card p {
+      display: block;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.94rem;
+    }
+    .academy-section-label {
+      margin: 20px 0 12px;
+      font-size: 1.18rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+    #academy .academy-grid {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 920px;
+    }
+    #academy .pricing-grid {
+      grid-template-columns: minmax(0, 0.9fr);
+      max-width: 720px;
+      margin-top: 16px;
+    }
+    #academy .academy-card,
+    #academy .pricing-card {
+      border-radius: 22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.085), rgba(255,255,255,0.038)),
+        linear-gradient(135deg, rgba(235,76,183,0.105), rgba(139,92,246,0.12), rgba(37,212,238,0.052));
+      border-color: rgba(255,255,255,0.14);
+      box-shadow: 0 22px 54px rgba(0,0,0,0.26);
+    }
+    #academy .academy-card:hover,
+    #academy .pricing-card:hover {
+      transform: translateY(-6px);
+      box-shadow:
+        0 22px 50px rgba(0,0,0,0.26),
+        0 0 24px rgba(235,76,183,0.14);
+    }
+    .academy-list {
+      margin: 14px 0 0;
+      padding: 0 20px 0 0;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+    .academy-list li { margin-bottom: 3px; }
+    #academy .pricing-value {
+      font-size: clamp(2.1rem, 4vw, 3.35rem);
+      color: #ffe08a;
+      text-shadow: 0 0 28px rgba(216,176,90,0.22);
+    }
+    .academy-price-lines {
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .academy-price-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.075);
+    }
+    .academy-price-line span { color: var(--muted); }
+    .academy-price-line strong { color: var(--text); }
+    .academy-price-note {
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.92rem;
+    }
+    .academy-cta-wrap { margin-top: 18px; }
+    #academyWhatsapp {
+      background: linear-gradient(135deg, #eb4cb7, #8b5cf6);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 16px 34px rgba(139,92,246,0.28);
+      font-weight: 800;
+    }
+    @media (max-width: 760px) {
+      .academy-mini-grid,
+      .academy-benefits {
+        grid-template-columns: 1fr;
+      }
+      .academy-price-line {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+    .product-brand {
+      display: inline-flex;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+    .pricing-value {
+      font-size: clamp(1.4rem, 2vw, 1.9rem);
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    .service,
+    .gallery-item,
+    .before-card,
+    .product-card,
+    .academy-card,
+    .pricing-card {
+      transform: translateY(0) scale(1);
+      will-change: transform;
+      transition:
+        transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.35s ease,
+        border-color 0.35s ease;
+    }
+    .service {
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03)),
+        linear-gradient(135deg, rgba(139,92,246,0.08), rgba(37,212,238,0.08), rgba(235,76,183,0.08));
+      border-color: rgba(255,255,255,0.11);
+      position: relative;
+      overflow: hidden;
+    }
+    .service::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 4px;
+      background: linear-gradient(180deg, var(--lime), var(--cyan), var(--pink));
+      opacity: 0.92;
+    }
+    .service h3 {
+      font-size: 1.22rem;
+      margin-bottom: 10px;
+    }
+    .service p {
+      font-size: 1.02rem;
+      line-height: 1.9;
+    }
+    .gallery-item:hover,
+    .before-card:hover,
+    .academy-card:hover,
+    .pricing-card:hover,
+    .service:hover {
+      transform: translateY(-8px) scale(1.025);
+      box-shadow:
+        0 24px 55px rgba(0,0,0,0.28),
+        0 0 28px rgba(235,76,183,0.18);
+    }
+    .treatment-info {
+      margin-top: 16px;
+      position: relative;
+      overflow: hidden;
+      padding: clamp(22px, 4vw, 34px);
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 12% 18%, rgba(123,245,255,0.18), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(255,122,223,0.18), transparent 30%),
+        radial-gradient(circle at 50% 105%, rgba(255,242,122,0.12), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.045)),
+        rgba(8, 10, 14, 0.78);
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow:
+        0 28px 70px rgba(0,0,0,0.32),
+        0 0 34px rgba(37,212,238,0.08),
+        inset 0 1px 0 rgba(255,255,255,0.1);
+      isolation: isolate;
+    }
+    .treatment-info::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      z-index: -1;
+      opacity: 0.42;
+      background: conic-gradient(from 180deg, transparent, rgba(37,212,238,0.18), transparent, rgba(255,122,223,0.16), transparent);
+      animation: treatmentAura 12s linear infinite;
+    }
+    .treatment-info::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 160px;
+      height: 160px;
+      border-radius: 0 30px 0 999px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), transparent 65%);
+      pointer-events: none;
+    }
+    @keyframes treatmentAura {
+      to { transform: rotate(360deg); }
+    }
+    .treatment-info h3 {
+      position: relative;
+      margin: 0 0 18px;
+      font-size: clamp(1.55rem, 3vw, 2.35rem);
+      line-height: 1.12;
+      font-weight: 900;
+      background: linear-gradient(100deg, #fff, #7bf5ff 42%, #ff8fe5 76%, #fff5a8);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      filter: drop-shadow(0 10px 24px rgba(0,0,0,0.28));
+    }
+    .treatment-list {
+      counter-reset: treatment;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .treatment-list li {
+      position: relative;
+      min-height: 92px;
+      padding: 17px 66px 17px 16px;
+      border-radius: 20px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.035)),
+        rgba(4,7,12,0.34);
+      border: 1px solid rgba(255,255,255,0.105);
+      color: rgba(248,250,255,0.9);
+      line-height: 1.65;
+      box-shadow: 0 16px 34px rgba(0,0,0,0.16);
+      transition: transform 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease;
+    }
+    .treatment-list li::before {
+      counter-increment: treatment;
+      content: counter(treatment, decimal-leading-zero);
+      position: absolute;
+      top: 17px;
+      right: 16px;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 15px;
+      color: #071016;
+      font-size: 0.78rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff, #7bf5ff 54%, #ff8fe5);
+      box-shadow: 0 12px 24px rgba(37,212,238,0.18);
+    }
+    .treatment-list li:hover {
+      transform: translateY(-5px);
+      border-color: rgba(123,245,255,0.28);
+      box-shadow:
+        0 22px 44px rgba(0,0,0,0.24),
+        0 0 22px rgba(255,122,223,0.1);
+    }
+    .treatment-meta {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .treatment-meta span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 12px 14px;
+      border-radius: 18px;
+      text-align: center;
+      background:
+        linear-gradient(180deg, rgba(216,176,90,0.17), rgba(216,176,90,0.075)),
+        rgba(255,255,255,0.04);
+      border: 1px solid rgba(216,176,90,0.28);
+      color: #ffe8a6;
+      font-weight: 750;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .haircut-category {
+      margin-top: 16px;
+      padding: 22px;
+      border-radius: 24px;
+      background:
+        linear-gradient(135deg, rgba(139,92,246,0.12), rgba(37,212,238,0.08), rgba(235,76,183,0.1)),
+        rgba(9, 12, 17, 0.72);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .haircut-category h3 {
+      margin: 0 0 6px;
+      font-size: 1.3rem;
+    }
+    .haircut-category > p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .haircut-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    .haircut-card {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.09);
+      min-height: 142px;
+    }
+    .haircut-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #fff;
+      font-size: 1.04rem;
+    }
+    .haircut-card span {
+      color: rgba(248,250,255,0.86);
+      line-height: 1.75;
+      display: block;
+    }
+    .haircut-card.featured {
+      border-color: rgba(216,176,90,0.32);
+      background:
+        linear-gradient(180deg, rgba(216,176,90,0.12), rgba(255,255,255,0.055)),
+        rgba(8,10,14,0.66);
+    }
+    .haircut-card.featured strong {
+      color: #f5df9f;
+    }
+    .special-wrap {
+      margin-top: 18px;
+    }
+    .premium-brands-section {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(190px, 1fr));
+      gap: 18px;
+      width: 100%;
+      padding: 20px 0;
+      perspective: 1500px;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scrollbar-width: thin;
+      scroll-snap-type: x proximity;
+    }
+    .brand-showcase-card {
+      min-height: 100%;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-xl);
+      background:
+        radial-gradient(circle at 18% 10%, rgba(37,212,238,0.12), transparent 30%),
+        radial-gradient(circle at 88% 8%, rgba(235,76,183,0.12), transparent 30%),
+        linear-gradient(135deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018)),
+        rgba(6,8,12,0.68);
+      border: 1px solid rgba(255,255,255,0.09);
+      transform-style: preserve-3d;
+      scroll-snap-align: start;
+      transition:
+        transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.4s ease;
+    }
+    .brand-showcase-card::before {
+      content: "";
+      position: absolute;
+      inset: -45%;
+      opacity: 0;
+      background: conic-gradient(from 180deg, transparent, rgba(37,212,238,0.16), transparent, rgba(235,76,183,0.14), transparent);
+      transition: opacity 0.35s ease;
+      animation: brandCardAura 10s linear infinite;
+    }
+    .brand-showcase-card > * {
+      position: relative;
+      z-index: 1;
+    }
+    .brand-showcase-card:hover {
+      transform: translateY(-12px) rotateX(6deg) rotateY(-3deg);
+      border-color: rgba(235,76,183,0.3);
+      box-shadow:
+        0 40px 80px rgba(0,0,0,0.6),
+        0 0 40px rgba(235,76,183,0.15),
+        0 0 80px rgba(37,212,238,0.1);
+    }
+    .brand-showcase-card:hover::before {
+      opacity: 1;
+    }
+    @keyframes brandCardAura {
+      to { transform: rotate(360deg); }
+    }
+    .brand-media-vault {
+      width: 100%;
+      height: 178px;
+      display: grid;
+      place-items: center;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      position: relative;
+      background:
+        radial-gradient(circle at 50% 34%, rgba(255,255,255,0.09), transparent 30%),
+        #05070a;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 20px 44px rgba(0,0,0,0.24);
+      transform: translateZ(30px);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .brand-wordmark {
+      width: min(100%, 260px);
+      min-height: 92px;
+      display: grid;
+      place-items: center;
+      padding: 18px 16px;
+      border-radius: 22px;
+      color: #fff;
+      text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.28rem, 1.6vw, 2rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: 0;
+      text-shadow:
+        0 10px 24px rgba(0,0,0,0.48),
+        0 0 18px rgba(255,255,255,0.16);
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255,255,255,0.22), transparent 32%),
+        linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.035));
+      border: 1px solid rgba(255,255,255,0.13);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.16),
+        0 24px 42px rgba(0,0,0,0.28);
+      transition: transform 0.6s ease, box-shadow 0.6s ease;
+    }
+    .brand-wordmark.special {
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255,122,223,0.28), transparent 36%),
+        linear-gradient(135deg, rgba(115,74,255,0.28), rgba(255,255,255,0.045));
+    }
+    .brand-wordmark.hydra {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(123,245,255,0.25), transparent 38%),
+        linear-gradient(135deg, rgba(38,150,255,0.24), rgba(255,255,255,0.045));
+    }
+    .brand-wordmark.igroom {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(129,255,170,0.24), transparent 38%),
+        linear-gradient(135deg, rgba(24,190,114,0.22), rgba(255,255,255,0.045));
+    }
+    .brand-wordmark.chris {
+      background:
+        radial-gradient(circle at 18% 18%, rgba(255,201,122,0.26), transparent 38%),
+        linear-gradient(135deg, rgba(214,142,40,0.25), rgba(255,255,255,0.045));
+    }
+    .brand-media-vault img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      padding: 12px;
+      transition: transform 0.6s ease, filter 0.6s ease;
+      filter: drop-shadow(0 20px 34px rgba(0,0,0,0.42));
+    }
+    .brand-showcase-card:hover .brand-media-vault {
+      transform: translateZ(44px);
+    }
+    .brand-showcase-card:hover .brand-wordmark {
+      transform: scale(1.035) translateY(-3px);
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.2),
+        0 30px 48px rgba(0,0,0,0.36);
+    }
+    .brand-showcase-card:hover .brand-media-vault img {
+      transform: scale(1.05) translateY(-5px);
+      filter: drop-shadow(0 26px 42px rgba(0,0,0,0.5));
+    }
+    .brand-badge-logo,
+    .brand-badge-mark {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      object-fit: contain;
+      padding: 6px;
+      z-index: 5;
+      transform: translateZ(60px);
+      transition: transform 0.6s ease;
+    }
+    .brand-badge-mark {
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 900;
+      font-size: 0.92rem;
+      line-height: 1;
+      text-transform: uppercase;
+      padding: 0;
+    }
+    .brand-showcase-card:hover .brand-badge-logo {
+      transform: translateZ(78px) scale(1.08);
+    }
+    .brand-showcase-card:hover .brand-badge-mark {
+      transform: translateZ(78px) scale(1.08);
+    }
+    .brand-showcase-card h3 {
+      margin: 16px 0 4px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.08rem;
+      letter-spacing: 0;
+      background: linear-gradient(135deg, #fff 0%, var(--muted) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      transform: translateZ(20px);
+    }
+    .ingredient-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 8px 0 12px;
+      transform: translateZ(15px);
+    }
+    .tag-spec {
+      font-size: 0.64rem;
+      font-weight: 700;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.045);
+      border: 1px solid rgba(255,255,255,0.09);
+      color: var(--cyan);
+      letter-spacing: 0.03em;
+    }
+    .brand-showcase-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.55;
+      transform: translateZ(10px);
+    }
+    .brand-action-link {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: transparent;
+      border: 1px solid var(--line-strong);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.3s ease;
+      transform: translateZ(20px);
+    }
+    .brand-showcase-card:hover .brand-action-link {
+      background: #fff;
+      color: #000;
+      border-color: #fff;
+      box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+    }
+    .brand-showcase-card[data-glow] {
+      --base: 220;
+      --spread: 240;
+      --radius: 26;
+      --border: 2;
+      --backdrop: hsl(0 0% 60% / 0.08);
+      --backup-border: rgba(255,255,255,0.09);
+      --size: 240;
+      --outer: 1;
+      --border-size: calc(var(--border, 2) * 1px);
+      --spotlight-size: calc(var(--size, 180) * 1px);
+      --hue: calc(var(--base) + (var(--xp, 0) * var(--spread, 0)));
+      background-image:
+        radial-gradient(
+          var(--spotlight-size) var(--spotlight-size) at
+          calc(var(--x, 0) * 1px)
+          calc(var(--y, 0) * 1px),
+          hsl(var(--hue, 210) 100% 70% / 0.13),
+          transparent
+        ),
+        linear-gradient(135deg, rgba(255,255,255,0.055), rgba(255,255,255,0.018));
+      background-color: var(--backdrop);
+      background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
+      background-position: 50% 50%;
+      background-attachment: fixed;
+      border: var(--border-size) solid var(--backup-border);
+      touch-action: pan-y;
+    }
+    .brand-showcase-card[data-glow]::before,
+    .brand-showcase-card[data-glow]::after {
+      pointer-events: none;
+      content: "";
+      position: absolute;
+      inset: calc(var(--border-size) * -1);
+      border: var(--border-size) solid transparent;
+      border-radius: calc(var(--radius) * 1px);
+      background-attachment: fixed;
+      background-size: calc(100% + (2 * var(--border-size))) calc(100% + (2 * var(--border-size)));
+      background-repeat: no-repeat;
+      background-position: 50% 50%;
+      opacity: 1;
+      mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+      mask-clip: padding-box, border-box;
+      mask-composite: intersect;
+      -webkit-mask: linear-gradient(transparent, transparent), linear-gradient(white, white);
+      -webkit-mask-clip: padding-box, border-box;
+      -webkit-mask-composite: source-in;
+      animation: none;
+      transform: none;
+    }
+    .brand-showcase-card[data-glow]::before {
+      background-image: radial-gradient(
+        calc(var(--spotlight-size) * 0.78) calc(var(--spotlight-size) * 0.78) at
+        calc(var(--x, 0) * 1px)
+        calc(var(--y, 0) * 1px),
+        hsl(var(--hue, 210) 100% 54% / 0.95),
+        transparent 100%
+      );
+      filter: brightness(2);
+    }
+    .brand-showcase-card[data-glow]::after {
+      background-image: radial-gradient(
+        calc(var(--spotlight-size) * 0.48) calc(var(--spotlight-size) * 0.48) at
+        calc(var(--x, 0) * 1px)
+        calc(var(--y, 0) * 1px),
+        hsl(0 100% 100% / 0.9),
+        transparent 100%
+      );
+    }
+    .brand-glow-inner[data-glow] {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      opacity: var(--outer, 1);
+      border-radius: calc(var(--radius) * 1px);
+      filter: blur(calc(var(--border-size) * 10));
+      pointer-events: none;
+    }
+    .brand-showcase-card.glow-purple { --base: 280; --spread: 300; }
+    .brand-showcase-card.glow-blue { --base: 210; --spread: 240; }
+    .brand-showcase-card.glow-green { --base: 125; --spread: 180; }
+    .brand-showcase-card.glow-orange { --base: 30; --spread: 200; }
+    .contact-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .booking-shell {
+      width: min(100%, 920px);
+      margin: 0 auto;
+      padding: 20px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.035)),
+        rgba(9, 12, 17, 0.72);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 18px 44px rgba(0,0,0,0.24);
+      transform: none;
+    }
+    .booking-layout {
+      display: grid;
+      grid-template-columns: 0.82fr 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+    .calendar-box, .booking-form {
+      padding: 16px;
+      border-radius: 20px;
+      background: rgba(8,10,14,0.5);
+      border: 1px solid rgba(255,255,255,0.08);
+      backdrop-filter: blur(10px);
+      transform: none;
+    }
+    .calendar-box {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(8,10,14,0.44);
+      border-color: rgba(255,255,255,0.09);
+    }
+    .booking-logo-card {
+      display: grid;
+      place-items: center;
+      margin-top: 14px;
+      padding: 16px 12px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(235,76,183,0.14), transparent 48%),
+        linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025));
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 14px 30px rgba(0,0,0,0.18);
+    }
+    .booking-logo-card img {
+      width: min(128px, 42%);
+      height: auto;
+      border-radius: 50%;
+      filter: drop-shadow(0 12px 22px rgba(0,0,0,0.26));
+    }
+    .booking-form-title {
+      margin: 0 0 6px;
+      font-size: 1.22rem;
+      font-family: Georgia, "Times New Roman", serif;
+      letter-spacing: 0.01em;
+    }
+    .booking-form-intro {
+      margin: 0 0 12px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.9rem;
+    }
+    .booking-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      margin: 0 0 12px;
+    }
+    .summary-card {
+      padding: 10px 11px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .summary-card strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 0.95rem;
+    }
+    .summary-card span {
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+    .booking-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .booking-form-grid .field { margin-bottom: 0; }
+    .field.full { grid-column: 1 / -1; }
+    .calendar-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .calendar-head strong {
+      font-size: 0.94rem;
+      letter-spacing: 0.01em;
+    }
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+    .icon-btn:hover {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.14);
+    }
+    .weekday-row, .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 5px;
+    }
+    .weekday-row div {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 4px 0;
+    }
+    .day {
+      min-height: 34px;
+      border-radius: 11px;
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(255,255,255,0.025);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    }
+    .day:hover:not(.disabled) {
+      background: rgba(255,255,255,0.055);
+      border-color: rgba(255,255,255,0.14);
+    }
+    .day.disabled {
+      opacity: 0.24;
+      cursor: not-allowed;
+      background: rgba(255,255,255,0.02);
+    }
+    .day.selected {
+      border-color: rgba(37,212,238,0.78);
+      background: linear-gradient(180deg, rgba(37,212,238,0.2), rgba(37,212,238,0.12));
+      color: #f8feff;
+      box-shadow: inset 0 0 0 1px rgba(37,212,238,0.24);
+    }
+    .slots {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 10px 0 12px;
+    }
+    .slot {
+      padding: 8px 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.035);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    }
+    .slot:hover:not(.taken):not(:disabled) {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.16);
+    }
+    .slot.taken, .slot:disabled { opacity: 0.34; cursor: not-allowed; }
+    .slot.selected {
+      background: linear-gradient(135deg, rgba(37,212,238,0.3), rgba(235,76,183,0.24));
+      border-color: rgba(37,212,238,0.4);
+      color: #ffffff;
+      box-shadow: none;
+    }
+    .field { display: grid; gap: 8px; margin-bottom: 14px; }
+    .field label {
+      font-weight: 700;
+      font-size: 0.92rem;
+      color: rgba(245,247,251,0.94);
+      letter-spacing: 0.01em;
+    }
+    .field input, .field textarea, .field select {
+      width: 100%;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      padding: 11px 13px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+    .field input:focus, .field textarea:focus, .field select:focus {
+      outline: none;
+      border-color: rgba(37,212,238,0.42);
+      box-shadow: 0 0 0 4px rgba(37,212,238,0.08);
+      background: rgba(255,255,255,0.07);
+    }
+    .field input.input-error {
+      border-color: rgba(255, 155, 176, 0.72);
+      box-shadow: 0 0 0 3px rgba(255, 155, 176, 0.1);
+    }
+    .field select option {
+      color: #111318;
+    }
+    .field textarea { min-height: 82px; resize: vertical; }
+    .file-hint {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.7;
+    }
+    .booking-photo-preview {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.03);
+      display: none;
+    }
+    .booking-photo-preview.show {
+      display: block;
+    }
+    .booking-photo-preview img {
+      width: 100%;
+      max-height: 210px;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #0b0d12;
+    }
+    .booking-note {
+      margin: 0 0 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 0.86rem;
+    }
+    .booking-shell,
+    .booking-shell *,
+    .booking-shell .btn:hover,
+    .booking-shell .day:hover,
+    .booking-shell .slot:hover,
+    .booking-shell .icon-btn:hover {
+      transform: none;
+    }
+    .booking-status {
+      min-height: 28px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .booking-status.success { color: #8ff0b6; }
+    .booking-status.error { color: #ff9bb0; }
+    .booking-status.info { color: var(--muted); }
+    .before-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 320px));
+      justify-content: center;
+      gap: 18px;
+    }
+    .before-card {
+      position: relative;
+      overflow: hidden;
+      max-width: 300px;
+      margin: 0 auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      will-change: transform;
+      transition:
+        transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.35s ease;
+    }
+    .before-card::before {
+      display: none;
+      content: none;
+    }
+    .before-card::after,
+    .before-media::before,
+    .before-media::after {
+      display: none;
+      content: none;
+    }
+    #before-after .before-dots,
+    #before-after .slider-dots,
+    #before-after .carousel-dots,
+    #before-after .carousel-indicators,
+    #before-after .before-indicators,
+    #before-after .media-dots,
+    #before-after .pagination,
+    #before-after .bullets,
+    #before-after .before-card .dot,
+    #before-after .before-card .dots,
+    #before-after .before-card [class*="dot"],
+    #before-after .before-card [class*="indicator"] {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    .before-card:hover {
+      border-color: rgba(255, 210, 225, 0.65);
+    }
+    .before-card:hover::before {
+      opacity: 0;
+    }
+    .before-after-card,
+    .before-media {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      height: auto;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #090b0f;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 12px;
+      flex-shrink: 0;
+      isolation: isolate;
+    }
+    .before-media img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      opacity: 0;
+      transform: scale(1);
+      filter: saturate(1.02) contrast(1.02);
+      transition:
+        opacity 2000ms cubic-bezier(0.22, 1, 0.36, 1),
+        transform 2200ms cubic-bezier(0.22, 1, 0.36, 1),
+        filter 2000ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .before-media img.active {
+      opacity: 1;
+      transform: scale(1.025);
+      filter: saturate(1.06) contrast(1.03);
+    }
+    .before-state {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(8,10,14,0.55);
+      border: 1px solid rgba(255,255,255,0.10);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: #fff;
+      z-index: 6;
+      backdrop-filter: blur(10px);
+      transition:
+        opacity 600ms ease,
+        transform 600ms ease;
+    }
+    .before-state::before,
+    .before-state::after {
+      display: none !important;
+      content: none !important;
+    }
+    .before-card:hover {
+      transform: translateY(-4px) scale(1.01);
+    }
+    .filter-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .filter {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      cursor: pointer;
+    }
+    .filter.active { background: rgba(37,212,238,0.16); border-color: rgba(37,212,238,0.42); }
+    .gallery-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .gallery-card,
+    .gallery-item {
+      width: 100%;
+    }
+    .gallery-item {
+      position: relative;
+      aspect-ratio: auto;
+      overflow: hidden;
+      border-radius: 22px;
+      background: #090b0f;
+      border-color: rgba(255,255,255,0.08);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.22);
+      will-change: transform;
+      transition:
+        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.42s cubic-bezier(0.16, 1, 0.3, 1),
+        border-color 0.35s ease,
+        background 0.35s ease;
+    }
+    .gallery-item::before {
+      display: none;
+      content: none;
+    }
+    .gallery-item::after,
+    .gallery-card::before,
+    .gallery-card::after {
+      display: none;
+      content: none;
+    }
+    #gallery .gallery-dots,
+    #gallery .slider-dots,
+    #gallery .carousel-dots,
+    #gallery .carousel-indicators,
+    #gallery .gallery-indicators,
+    #gallery .media-dots,
+    #gallery .pagination,
+    #gallery .bullets,
+    #gallery .gallery-item .dot,
+    #gallery .gallery-item .dots,
+    #gallery .gallery-item [class*="dot"],
+    #gallery .gallery-item [class*="indicator"] {
+      display: none !important;
+    }
+    .gallery-item:hover {
+      transform: translateY(-10px) scale(1.02);
+      border-color: rgba(255, 255, 255, 0.2);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03)),
+        #090b0f;
+      box-shadow:
+        0 30px 60px rgba(0,0,0,0.4),
+        0 0 30px rgba(235,76,183,0.22),
+        0 0 18px rgba(37,212,238,0.08);
+    }
+    .gallery-item:hover::before {
+      opacity: 0;
+    }
+    .gallery-card {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      border-radius: 22px;
+      margin-bottom: 12px;
+      position: relative;
+      background: #090b0f;
+      isolation: isolate;
+    }
+    .gallery-card img,
+    .gallery img,
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      border-radius: 20px;
+      display: block;
+      margin-bottom: 0;
+      backface-visibility: hidden;
+      transition:
+        transform 0.62s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.45s ease;
+    }
+    .gallery img:hover,
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: saturate(1.08) contrast(1.04);
+    }
+    .cursor-trail-showcase {
+      margin: 18px 0 28px;
+      padding: clamp(18px, 4vw, 34px);
+      border-radius: 30px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 18% 10%, rgba(37,212,238,0.16), transparent 28%),
+        radial-gradient(circle at 86% 12%, rgba(235,76,183,0.14), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.035)),
+        rgba(8,10,14,0.74);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.34);
+      isolation: isolate;
+    }
+    .cursor-trail-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 18px;
+      margin-bottom: 18px;
+    }
+    .cursor-trail-title {
+      margin: 0;
+      font-size: clamp(1.65rem, 3vw, 2.6rem);
+      line-height: 1.05;
+      font-weight: 900;
+    }
+    .cursor-trail-copy {
+      max-width: 42ch;
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .image-cursor-trail {
+      position: relative;
+      min-height: min(620px, 72svh);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.06), transparent 26%),
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.025)),
+        rgba(5,7,12,0.64);
+      border: 1px solid rgba(255,255,255,0.08);
+      touch-action: pan-y;
+    }
+    .image-cursor-trail::after {
+      content: "";
+      position: absolute;
+      width: min(360px, 74vw);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background:
+        conic-gradient(from 0deg, transparent, rgba(37,212,238,0.52), transparent, rgba(235,76,183,0.5), transparent),
+        radial-gradient(circle, rgba(255,255,255,0.11), transparent 62%);
+      opacity: 0.72;
+      filter: blur(1px) drop-shadow(0 0 28px rgba(37,212,238,0.22));
+      animation: galleryOrbitGlow 9s linear infinite;
+      pointer-events: none;
+    }
+    .image-cursor-trail::before {
+      content: "";
+      position: absolute;
+      inset: 18px;
+      border-radius: 24px;
+      border: 1px dashed rgba(255,255,255,0.13);
+      pointer-events: none;
+      animation: galleryDashedPulse 4.8s ease-in-out infinite;
+    }
+    .cursor-trail-center {
+      position: relative;
+      z-index: 2;
+      max-width: 460px;
+      padding: 28px;
+      text-align: center;
+      pointer-events: none;
+    }
+    .cursor-trail-center::before,
+    .cursor-trail-center::after {
+      content: "";
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #7bf5ff;
+      box-shadow:
+        0 0 18px rgba(123,245,255,0.88),
+        86px -62px 0 -2px rgba(255,122,223,0.82),
+        -112px -38px 0 -3px rgba(255,242,122,0.82),
+        126px 58px 0 -3px rgba(123,245,255,0.7),
+        -82px 78px 0 -2px rgba(255,122,223,0.68);
+      transform: translate(-50%, -50%);
+      animation: gallerySparkleDrift 7.5s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .cursor-trail-center::after {
+      width: 6px;
+      height: 6px;
+      background: #ff7adf;
+      animation-delay: -3.2s;
+      opacity: 0.8;
+    }
+    .cursor-trail-logo {
+      width: min(260px, 54vw);
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      filter:
+        drop-shadow(0 22px 38px rgba(0,0,0,0.42))
+        drop-shadow(0 0 20px rgba(123,245,255,0.18))
+        drop-shadow(0 0 18px rgba(255,122,223,0.14));
+      animation: galleryLogoBreathe 4.8s ease-in-out infinite;
+    }
+    @keyframes galleryLogoBreathe {
+      0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
+      45% { transform: translateY(-8px) scale(1.045) rotate(-1deg); }
+      70% { transform: translateY(-4px) scale(1.018) rotate(0.8deg); }
+    }
+    @keyframes galleryOrbitGlow {
+      from { transform: rotate(0deg) scale(0.92); }
+      50% { opacity: 0.9; }
+      to { transform: rotate(360deg) scale(0.92); }
+    }
+    @keyframes galleryDashedPulse {
+      0%, 100% { opacity: 0.34; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(0.985); }
+    }
+    @keyframes gallerySparkleDrift {
+      0%, 100% { opacity: 0.35; transform: translate(-50%, -50%) rotate(0deg) scale(0.92); }
+      45% { opacity: 0.98; transform: translate(-50%, -58%) rotate(12deg) scale(1.08); }
+      75% { opacity: 0.62; transform: translate(-50%, -47%) rotate(-7deg) scale(0.98); }
+    }
+    .cursor-trail-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: #dffcff;
+      font-weight: 800;
+      font-size: 0.82rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .cursor-trail-center strong {
+      display: block;
+      font-size: clamp(1.8rem, 4vw, 3.3rem);
+      line-height: 1;
+    }
+    .cursor-trail-center span {
+      display: block;
+      margin-top: 12px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .cursor-trail-image {
+      position: absolute;
+      right: auto;
+      bottom: auto;
+      width: clamp(112px, 16vw, 170px);
+      height: clamp(142px, 19vw, 212px);
+      object-fit: cover;
+      object-position: center;
+      border-radius: 26px;
+      opacity: 0;
+      z-index: 1;
+      pointer-events: none;
+      transform: translate(-50%, -50%) scale(0.5) rotate(var(--trail-rotate, -4deg));
+      filter: saturate(1.08) contrast(1.04);
+      box-shadow:
+        0 24px 52px rgba(0,0,0,0.46),
+        0 0 24px rgba(37,212,238,0.1),
+        0 0 20px rgba(235,76,183,0.1);
+      transition:
+        opacity 0.25s ease,
+        transform 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cursor-trail-image[data-status="active"] {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1) rotate(var(--trail-rotate, -4deg));
+    }
+    .cursor-trail-image[data-status="inactive"] {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.72) rotate(var(--trail-rotate, -4deg));
+    }
+    .before-card {
+      width: 100%;
+      aspect-ratio: auto;
+      overflow: visible;
+      border-radius: 22px;
+    }
+    .before-card h3 {
+      font-size: clamp(1.25rem, 2vw, 1.75rem);
+      font-weight: 800;
+    }
+    .before-card p,
+    .before-card .muted {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .google-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 16px;
+    }
+    .review-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .map-frame {
+      width: 100%;
+      min-height: 420px;
+      border: 0;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #0b0d12;
+    }
+    .map-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .map-fallback-card {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 12px;
+      padding: 18px;
+      border-radius: 22px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.045)),
+        rgba(8,10,14,0.7);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+    .site-footer { padding: 28px 0 calc(120px + env(safe-area-inset-bottom, 0px)); }
+    .footer-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 18px;
+    }
+    .creator-link {
+      display: inline-flex;
+      color: inherit;
+      text-decoration: none;
+      border-radius: 22px;
+    }
+    .creator-link:focus-visible {
+      outline: 2px solid rgba(167, 119, 227, 0.55);
+      outline-offset: 4px;
+    }
+    .creator-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .creator-box img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      border-radius: 12px;
+    }
+    .creator-box strong { display: block; font-size: 0.92rem; }
+    .creator-box span { color: var(--muted); font-size: 0.77rem; }
+    .fab {
+      position: fixed;
+      left: 16px;
+      bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+      z-index: 40;
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(180deg, #25d366, #119246);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 18px 38px rgba(17,146,70,0.34);
+    }
+    .fab svg {
+      width: 28px;
+      height: 28px;
+      display: block;
+    }
+    .bottom-nav {
+      position: fixed;
+      right: 50%;
+      transform: translateX(50%);
+      width: min(calc(100% - 40px), 680px);
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+      z-index: 35;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding: 10px 12px;
+      background:
+        linear-gradient(180deg, rgba(10,13,18,0.97), rgba(15,18,26,0.95)),
+        linear-gradient(135deg, rgba(139,92,246,0.1), rgba(37,212,238,0.08), rgba(235,76,183,0.08));
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 30px;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.32);
+      backdrop-filter: blur(18px);
+    }
+    .bottom-nav a {
+      text-align: center;
+      padding: 11px 8px;
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #f1f5fb;
+      font-weight: 600;
+      font-size: 0.94rem;
+      letter-spacing: 0.01em;
+      transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    }
+    .bottom-nav a:hover {
+      transform: translateY(-1px);
+      border-color: rgba(37,212,238,0.28);
+      background: linear-gradient(180deg, rgba(37,212,238,0.14), rgba(235,76,183,0.1));
+    }
+    .media-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(4, 6, 10, 0.82);
+      backdrop-filter: blur(10px);
+    }
+    .media-modal.open { display: flex; }
+    .media-modal-panel {
+      width: min(100%, 760px);
+      max-height: 72vh;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #0b0d12;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 24px 70px rgba(0,0,0,0.45);
+      position: relative;
+    }
+    .media-modal-panel img,
+    .media-modal-panel video {
+      width: 100%;
+      max-height: 72vh;
+      object-fit: contain;
+      background: #0b0d12;
+    }
+    .media-modal-close {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 2;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(8,10,14,0.72);
+      color: #fff;
+      cursor: pointer;
+    }
+    @media (max-width: 1040px) {
+      .hero, .special-wrap, .booking-layout { grid-template-columns: 1fr; }
+      .services, .contact-grid, .review-grid, .gallery-grid, .product-grid, .pricing-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .academy-grid { grid-template-columns: 1fr; }
+      .before-grid { grid-template-columns: 1fr; }
+      .booking-summary { grid-template-columns: 1fr 1fr 1fr; }
+      .hero-copy { min-height: auto; }
+    }
+    @media (max-width: 760px) {
+      :root {
+        font-size: 14.6px;
+      }
+      html, body {
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        touch-action: pan-y;
+      }
+      body {
+        padding-bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+      }
+      .shell { width: min(calc(100% - 16px), 1120px); }
+      .section { padding: 16px 0; }
+      .skill-hero {
+        width: 100%;
+        min-height: auto;
+        border-radius: 20px;
+        margin-top: 8px;
+      }
+      .skill-hero-inner {
+        width: min(100% - 18px, 850px);
+        padding: 28px 0 32px;
+      }
+      .skill-badge { padding: 7px; }
+      .skill-badge-logo {
+        width: 48px;
+        height: 48px;
+      }
+      .skill-title {
+        font-size: 2.08rem;
+        line-height: 1.08;
+        max-width: 100%;
+        margin-top: 14px;
+      }
+      .skill-subtitle {
+        font-size: 0.95rem;
+        line-height: 1.75;
+        margin-top: 12px;
+        max-width: 34ch;
+      }
+      .skill-opening-photo {
+        width: 82px;
+        border-radius: 14px;
+      }
+      .skill-opening-photo.one {
+        right: 10px;
+        top: 10px;
+      }
+      .skill-opening-photo.two {
+        left: 10px;
+        bottom: 10px;
+      }
+      .skill-opening-photo.three {
+        left: 10px;
+        top: 10px;
+        width: 72px;
+      }
+      .skill-opening-photo.four {
+        right: 10px;
+        bottom: 10px;
+        width: 74px;
+      }
+      .skill-chat {
+        width: 100%;
+        max-width: 100%;
+        margin-top: 22px;
+        border-radius: 18px;
+      }
+      .skill-chat textarea {
+        min-height: 52px;
+        padding: 14px;
+        font-size: 0.95rem;
+      }
+      .skill-chat-footer {
+        padding: 10px;
+        gap: 8px;
+      }
+      .skill-icon-btn,
+      .skill-send {
+        width: 40px;
+        height: 40px;
+        flex: 0 0 40px;
+      }
+      .skill-actions {
+        justify-content: center;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .skill-action {
+        flex: 1 1 calc(50% - 10px);
+        justify-content: center;
+        min-height: 42px;
+        padding: 9px 10px;
+        font-size: 0.82rem;
+      }
+      .topbar-inner, .footer-bar, .google-box, .section-head { align-items: stretch; }
+      .topbar-inner {
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px 12px;
+        border-radius: 24px;
+      }
+      .brand {
+        gap: 12px;
+      }
+      .brand-logo {
+        width: 46px;
+        height: 46px;
+      }
+      .brand-copy strong {
+        font-size: 1rem;
+        letter-spacing: 0.14em;
+      }
+      .brand-copy span {
+        font-size: 0.8rem;
+      }
+      .nav {
+        display: none;
+      }
+      .services, .contact-grid, .review-grid, .gallery-grid, .product-grid, .academy-grid, .pricing-grid { grid-template-columns: 1fr; gap: 12px; }
+      .service, .review, .gallery-item, .before-card, .contact-card, .google-box, .brand-strip, .creator-box, .booking-shell {
+        padding: 15px;
+        border-radius: 18px;
+      }
+      .section-title {
+        font-size: 1.62rem;
+        line-height: 1.18;
+      }
+      .section-subtitle {
+        font-size: 0.95rem;
+        line-height: 1.65;
+      }
+      .haircut-category,
+      .treatment-info {
+        padding: 18px;
+        border-radius: 22px;
+      }
+      .haircut-card {
+        min-height: auto;
+        padding: 14px;
+        border-radius: 16px;
+      }
+      .treatment-list {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+      .treatment-list li {
+        min-height: auto;
+        padding: 15px 62px 15px 14px;
+      }
+      .treatment-meta {
+        grid-template-columns: 1fr;
+      }
+      .treatment-meta span {
+        justify-content: flex-start;
+        text-align: right;
+      }
+      .haircut-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero {
+        padding-top: 10px;
+        min-height: auto;
+      }
+      .hero-copy {
+        width: min(calc(100% - 18px), 520px);
+        margin: 12px;
+        padding: 22px 20px 20px;
+        align-self: end;
+        justify-self: start;
+        border-radius: 24px;
+        background:
+          linear-gradient(180deg, rgba(8, 11, 16, 0.72), rgba(11, 15, 22, 0.5)),
+          linear-gradient(135deg, rgba(139,92,246,0.1), rgba(37,212,238,0.04), rgba(235,76,183,0.08));
+        box-shadow: 0 24px 54px rgba(0,0,0,0.34);
+        min-height: auto;
+        backdrop-filter: blur(16px);
+      }
+      .eyebrow {
+        margin-bottom: 12px;
+        font-size: 0.84rem;
+        padding: 9px 13px;
+      }
+      .hero h1 {
+        font-size: 2.55rem;
+        max-width: 8.4ch;
+        line-height: 1;
+      }
+      .hero p {
+        font-size: 1.04rem;
+        line-height: 1.75;
+        max-width: 100%;
+        margin-top: 14px;
+      }
+      #heroSubtitle {
+        padding: 13px 14px;
+        border-radius: 18px;
+      }
+      .hero-proof {
+        gap: 7px;
+      }
+      .hero-proof span {
+        font-size: 0.78rem;
+        padding: 7px 9px;
+      }
+      .hero-actions {
+        margin-top: 20px;
+        gap: 12px;
+        display: flex;
+        flex-wrap: wrap;
+      }
+      .hero-actions .btn {
+        min-width: 0;
+        flex: 1 1 140px;
+        padding: 14px 20px;
+        font-size: 0.95rem;
+      }
+      .trust-strip {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        max-width: 100%;
+      }
+      .process-grid {
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .process-grid::before {
+        top: 22px;
+        bottom: 22px;
+        right: 20px;
+        left: auto;
+        width: 2px;
+        height: auto;
+        background:
+          linear-gradient(180deg, transparent, rgba(37,212,238,0.55), rgba(255,122,223,0.5), rgba(255,242,122,0.3), transparent);
+      }
+      .process-grid::after {
+        top: 22px;
+        right: 14px;
+        left: auto;
+        width: 14px;
+        height: 62px;
+        animation: processLightRunMobile 4.2s ease-in-out infinite;
+      }
+      @keyframes processLightRunMobile {
+        0% { transform: translateY(0); opacity: 0; }
+        12% { opacity: 0.9; }
+        78% { opacity: 0.9; }
+        100% { transform: translateY(520px); opacity: 0; }
+      }
+      .process-step {
+        min-height: auto;
+        padding: 18px 72px 18px 18px;
+        animation-duration: 7s;
+      }
+      .process-step span {
+        position: absolute;
+        right: 15px;
+        top: 18px;
+        margin: 0;
+      }
+      .hero-media {
+        min-height: 58svh;
+        border-radius: 24px;
+      }
+      .media-stage {
+        min-height: 58svh;
+        aspect-ratio: unset;
+        cursor: pointer;
+        border-radius: 24px;
+      }
+      .media-stage::after {
+        background:
+          linear-gradient(180deg, rgba(8, 10, 15, 0.16) 0%, rgba(8, 10, 15, 0.32) 40%, rgba(8, 10, 15, 0.74) 100%);
+      }
+      .highlights {
+        margin-top: 14px;
+        gap: 8px;
+      }
+      .highlight {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
+      }
+      .highlight svg {
+        width: 20px;
+        height: 20px;
+      }
+      .hero-media-cta { display: none; }
+      .premium-brands-section {
+        grid-template-columns: repeat(4, minmax(170px, 1fr));
+        gap: 12px;
+        padding: 10px 0 4px;
+      }
+      .brand-showcase-card {
+        padding: 14px;
+        border-radius: 24px;
+      }
+      .brand-media-vault {
+        height: 132px;
+        border-radius: 20px;
+      }
+      .brand-wordmark {
+        min-height: 78px;
+        padding: 14px 10px;
+        border-radius: 18px;
+        font-size: 1rem;
+      }
+      .brand-badge-logo {
+        width: 48px;
+        height: 48px;
+        top: 12px;
+        left: 12px;
+      }
+      .brand-badge-mark {
+        width: 38px;
+        height: 38px;
+        top: 12px;
+        left: 12px;
+        font-size: 0.78rem;
+      }
+      .brand-showcase-card h3 {
+        font-size: 1rem;
+      }
+      .brand-showcase-card p {
+        font-size: 0.72rem;
+      }
+      .brand-action-link {
+        width: 100%;
+        font-size: 0.66rem;
+      }
+      .map-frame { min-height: 320px; }
+      .map-fallback-card {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .map-actions .btn {
+        width: 100%;
+      }
+      .booking-form-grid, .booking-summary { grid-template-columns: 1fr; }
+      .bottom-nav {
+        width: calc(100% - 14px);
+        gap: 6px;
+        padding: 8px 8px calc(8px + env(safe-area-inset-bottom, 0px));
+        border-radius: 22px;
+      }
+      .topbar {
+        padding-top: calc(8px + env(safe-area-inset-top, 0px));
+      }
+      .bottom-nav a {
+        font-size: 0.82rem;
+        padding: 10px 6px;
+        border-radius: 16px;
+      }
+      .fab {
+        width: 50px;
+        height: 50px;
+        left: 12px;
+      }
+      .fab svg {
+        width: 23px;
+        height: 23px;
+      }
+      .special-card {
+        padding: 16px 16px 15px;
+        border-radius: 22px;
+      }
+      .special-name {
+        font-size: 1.22rem;
+      }
+      .special-card .muted {
+        font-size: 0.84rem;
+      }
+      .special-card p {
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+      .section { padding: 18px 0; }
+    }
+    @media (max-width: 760px) {
+      .global-flow-canvas {
+        opacity: 0.16;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+      }
+      .topbar-inner {
+        background:
+          linear-gradient(180deg, rgba(8, 11, 16, 0.9), rgba(12, 16, 24, 0.78)),
+          rgba(8, 10, 14, 0.82);
+        backdrop-filter: blur(18px);
+        box-shadow: 0 14px 34px rgba(0,0,0,0.26);
+      }
+      .brand-copy span {
+        max-width: 18ch;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .skill-hero {
+        min-height: min(76svh, 640px);
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at 50% 18%, rgba(255,255,255,0.08), transparent 20%),
+          linear-gradient(180deg, rgba(6,8,13,0.96), rgba(10,13,19,0.84));
+      }
+      .skill-hero::before {
+        inset: -28px;
+      }
+      .waffels-logo-3d {
+        width: var(--logo-mobile-size, var(--logo-size, 72px));
+        height: var(--logo-mobile-size, var(--logo-size, 72px));
+        opacity: calc(var(--logo-opacity, 0.34) * 0.94);
+      }
+      .skill-flow-canvas {
+        opacity: 0.1;
+      }
+      .skill-title {
+        max-width: 11ch;
+        margin-inline: auto;
+      }
+      .skill-subtitle {
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .skill-chat {
+        box-shadow: 0 18px 46px rgba(0,0,0,0.28);
+      }
+      .skill-chat textarea,
+      input,
+      select,
+      textarea {
+        font-size: 16px;
+      }
+      .skill-actions {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .skill-action {
+        width: 100%;
+        border-radius: 16px;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.045)),
+          rgba(8,10,14,0.56);
+      }
+      .skill-action:nth-child(1) {
+        grid-column: 1 / -1;
+        min-height: 48px;
+        background:
+          linear-gradient(135deg, rgba(37,212,238,0.2), rgba(235,76,183,0.16)),
+          rgba(255,255,255,0.08);
+        border-color: rgba(37,212,238,0.26);
+      }
+      .hero {
+        gap: 12px;
+      }
+      .hero-copy {
+        order: 2;
+        margin: 0;
+        width: 100%;
+        justify-self: stretch;
+      }
+      .hero-media {
+        order: 1;
+        min-height: 46svh;
+        width: 100%;
+        box-shadow: 0 18px 42px rgba(0,0,0,0.28);
+      }
+      .media-stage {
+        min-height: 46svh;
+      }
+      .hero h1 {
+        max-width: 11ch;
+      }
+      .trust-strip {
+        display: none;
+      }
+      .section-head {
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .section-title {
+        max-width: 12ch;
+      }
+      .section-subtitle {
+        max-width: 34ch;
+      }
+      .services {
+        counter-reset: service;
+      }
+      .service {
+        position: relative;
+        padding: 18px 18px 18px 64px;
+        min-height: 116px;
+      }
+      .service::after {
+        counter-increment: service;
+        content: counter(service, decimal-leading-zero);
+        position: absolute;
+        top: 18px;
+        left: 18px;
+        width: 34px;
+        height: 34px;
+        display: grid;
+        place-items: center;
+        border-radius: 13px;
+        color: #dffcff;
+        font-size: 0.78rem;
+        font-weight: 800;
+        background: linear-gradient(135deg, rgba(37,212,238,0.22), rgba(235,76,183,0.18));
+        border: 1px solid rgba(255,255,255,0.12);
+      }
+      .haircut-grid {
+        gap: 10px;
+      }
+      .haircut-card {
+        border-radius: 18px;
+        background:
+          linear-gradient(180deg, rgba(255,255,255,0.1), rgba(255,255,255,0.045)),
+          rgba(7,10,15,0.68);
+      }
+      .treatment-meta {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .filter-bar {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 2px 0 10px;
+        margin-inline: -8px;
+        padding-inline: 8px;
+        scrollbar-width: none;
+      }
+      .filter-bar::-webkit-scrollbar {
+        display: none;
+      }
+      .filter {
+        flex: 0 0 auto;
+        padding: 11px 15px;
+        font-weight: 700;
+      }
+      .gallery-grid {
+        gap: 14px;
+      }
+      .cursor-trail-showcase {
+        margin: 12px 0 20px;
+        padding: 18px 10px;
+        border-radius: 22px;
+      }
+      .cursor-trail-head {
+        display: block;
+        padding: 0 8px;
+        margin-bottom: 12px;
+      }
+      .cursor-trail-title {
+        max-width: 11ch;
+      }
+      .cursor-trail-copy {
+        max-width: 32ch;
+        font-size: 0.94rem;
+      }
+      .cursor-trail-head .btn {
+        display: none;
+      }
+      .image-cursor-trail {
+        min-height: 430px;
+        border-radius: 22px;
+      }
+      .cursor-trail-center {
+        padding: 22px;
+      }
+      .cursor-trail-logo {
+        width: min(230px, 62vw);
+      }
+      .cursor-trail-center strong {
+        font-size: 2rem;
+      }
+      .cursor-trail-center span {
+        font-size: 0.95rem;
+      }
+      .cursor-trail-image {
+        width: 112px;
+        height: 144px;
+        border-radius: 18px;
+      }
+      .image-cursor-trail::before {
+        inset: 12px;
+        border-radius: 18px;
+      }
+      .gallery-item {
+        border-radius: 20px;
+        box-shadow: 0 16px 36px rgba(0,0,0,0.3);
+      }
+      .gallery-card {
+        aspect-ratio: 3 / 4;
+        border-radius: 20px;
+        margin-bottom: 0;
+      }
+      .gallery-card img,
+      .gallery img,
+      .gallery-item img {
+        border-radius: 18px;
+      }
+      .booking-shell {
+        padding: 14px;
+      }
+      .booking-form-title {
+        font-size: 1.35rem;
+      }
+      .booking-form-intro {
+        font-size: 0.94rem;
+      }
+      .booking-summary {
+        gap: 8px;
+      }
+      .calendar-box,
+      .booking-form {
+        border-radius: 18px;
+      }
+      .field label {
+        font-size: 0.86rem;
+      }
+      .bottom-nav {
+        grid-template-columns: 0.9fr 1fr 1.25fr 1fr;
+        width: calc(100% - 18px);
+        bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+        border-radius: 24px;
+      }
+      .bottom-nav a {
+        min-height: 46px;
+        display: grid;
+        place-items: center;
+        font-weight: 800;
+      }
+      .bottom-nav a[href="#booking"] {
+        color: #071016;
+        background: linear-gradient(135deg, #e8fbff, #f9e6ff);
+        border-color: rgba(255,255,255,0.4);
+      }
+      .fab {
+        display: none;
+      }
+    }
+    @media (max-width: 700px) {
+      .gallery-item img,
+      .before-media,
+      .before-card img {
+        height: 100%;
+      }
+    }
+    @media (max-width: 430px) {
+      .skill-title {
+        font-size: 1.96rem;
+      }
+      .skill-chat {
+        border-radius: 18px;
+      }
+      .skill-action {
+        min-width: 0;
+        padding-inline: 10px;
+      }
+      .bottom-nav a {
+        font-size: 0.78rem;
+        padding-inline: 4px;
+      }
+      .fab {
+        bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+      }
+    }
+    @media (hover: none) {
+      .global-flow-canvas {
+        display: none;
+      }
+      .waffels-logo-3d {
+        filter:
+          contrast(1.06)
+          saturate(1.18)
+          drop-shadow(0 12px 18px rgba(0,0,0,0.46));
+      }
+      .brand-showcase-card[data-glow]::before,
+      .brand-showcase-card[data-glow]::after {
+        opacity: 0.58;
+      }
+      .image-cursor-trail::after {
+        opacity: 0.52;
+        animation-duration: 13s;
+      }
+      .cursor-trail-logo {
+        animation-duration: 6.4s;
+      }
+      .gallery-item:hover,
+      .before-card:hover,
+      .product-card:hover,
+      .academy-card:hover,
+      .pricing-card:hover,
+      .service:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas class="global-flow-canvas" id="globalFlowCanvas" aria-hidden="true"></canvas>
+  <header class="topbar shell" id="top">
+    <div class="topbar-inner card">
+      <a class="brand" href="#top">
+        <img class="brand-logo" id="brandLogo" src="./assets/logo.png" alt="WAFFELS logo">
+        <div class="brand-copy">
+          <strong id="brandText">WAFFELS</strong>
+          <span id="brandSub">Dog Grooming</span>
+        </div>
+      </a>
+      <nav class="nav">
+        <a href="#top">בית</a>
+        <a href="#gallery">גלריה</a>
+        <a href="#booking">קביעת תור</a>
+        <a href="#reviews">ביקורות</a>
+        <a id="navWhatsapp" href="#" target="_blank" rel="noreferrer">וואטסאפ</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="skill-hero section" aria-label="WAFFELS AI experience">
+      <canvas class="skill-flow-canvas" id="skillFlowCanvas" aria-hidden="true"></canvas>
+      <div class="logo-3d-field" id="waffelsLogo3dField" aria-hidden="true"></div>
+      <div class="skill-hero-inner">
+        <div class="skill-badge">
+          <img class="skill-badge-logo" src="./assets/logo.png" alt="WAFFELS">
+        </div>
+        <h1 class="skill-title"><span>WAFFELS</span><span>המספרה של אורטל</span></h1>
+        <p class="skill-subtitle">
+          אורטל יוצרת לכל כלב חוויית טיפוח רגועה, נקייה ומדויקת בהוד השרון. ב-WAFFELS מקבלים יחס אישי, עבודה מקצועית ותוצאה שמרגישה בוטיקית מהכניסה ועד הרגע שיוצאים יפים ומטופחים.
+        </p>
+
+        <div class="skill-opening-video" aria-label="סרטון פתיחה של WAFFELS">
+          <video src="./assets/media/hero/hero-video-02.mp4" autoplay muted loop playsinline preload="metadata"></video>
+          <img class="skill-opening-photo one" src="./assets/media/hero/hero-extra-shuvi-2.jpeg" alt="עבודת טיפוח WAFFELS">
+          <img class="skill-opening-photo two" src="./assets/media/hero/hero-extra-ortal-bg.jpeg" alt="אורטל בעבודה במספרה">
+          <img class="skill-opening-photo three" src="./assets/media/hero/hero-extra-haircut.jpeg" alt="תספורת כלבים במספרה">
+          <img class="skill-opening-photo four" src="./assets/media/hero/hero-extra-nala.jpeg" alt="נלה במספרה">
+        </div>
+
+        <form class="skill-chat" id="waffelsAiForm">
+          <textarea id="waffelsAiPrompt" rows="1" placeholder="כתבו מה תרצו לעשות: לקבוע תור, לראות גלריה, לשאול על טיפול או לקבל המלצה..."></textarea>
+          <div class="ai-quiz" aria-label="שאלון AI לקביעת טיפול">
+            <div class="ai-question" data-ai-group="service">
+              <strong>מה הכלב צריך?</strong>
+              <div class="ai-options">
+                <button class="ai-chip" type="button" data-value="תספורת">תספורת</button>
+                <button class="ai-chip" type="button" data-value="דילול פרווה">דילול פרווה</button>
+                <button class="ai-chip" type="button" data-value="מריטה לשיער זיפי">מריטה</button>
+                <button class="ai-chip" type="button" data-value="טיפוח גור והרגלה למספרה">גור</button>
+                <button class="ai-chip" type="button" data-value="טיפול תומך באלופציה X">אלופציה X</button>
+              </div>
+            </div>
+            <div class="ai-question" data-ai-group="coat">
+              <strong>מצב הפרווה</strong>
+              <div class="ai-options">
+                <button class="ai-chip" type="button" data-value="פרווה רגילה">רגילה</button>
+                <button class="ai-chip" type="button" data-value="פרווה צפופה/כפולה">צפופה</button>
+                <button class="ai-chip" type="button" data-value="יש קשרים">יש קשרים</button>
+                <button class="ai-chip" type="button" data-value="נשירה מוגברת">נשירה</button>
+              </div>
+            </div>
+            <div class="ai-question" data-ai-group="dog">
+              <strong>גודל ואופי</strong>
+              <div class="ai-options">
+                <button class="ai-chip" type="button" data-value="כלב קטן">קטן</button>
+                <button class="ai-chip" type="button" data-value="כלב בינוני">בינוני</button>
+                <button class="ai-chip" type="button" data-value="כלב גדול">גדול</button>
+                <button class="ai-chip" type="button" data-value="רגוע במספרה">רגוע</button>
+                <button class="ai-chip" type="button" data-value="צריך סבלנות והרגלה">צריך סבלנות</button>
+              </div>
+            </div>
+          </div>
+          <div class="skill-chat-footer">
+            <button class="skill-icon-btn" type="button" aria-label="צירוף קובץ">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21.4 11.6-8.5 8.5a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/></svg>
+            </button>
+            <button class="skill-send" id="waffelsAiSend" type="submit" disabled aria-label="שליחה">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </button>
+          </div>
+        </form>
+
+        <div class="skill-actions" aria-label="פעולות מהירות">
+          <a class="skill-action" href="#booking"><span>01</span><span>קביעת תור</span></a>
+          <a class="skill-action" href="#gallery"><span>02</span><span>גלריה</span></a>
+          <a class="skill-action" href="#academy"><span>03</span><span>WAFFELS Academy</span></a>
+          <a class="skill-action" href="#reviews"><span>04</span><span>ביקורות</span></a>
+          <a class="skill-action" href="#map"><span>05</span><span>הגעה</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero section">
+      <div class="hero-copy card">
+        <span class="hero-glow-line" aria-hidden="true"></span>
+        <div class="eyebrow" id="heroBadge">WAFFELS</div>
+        <h1 id="heroTitle">המספרה הכי טובה באזור השרון</h1>
+        <p id="heroSubtitle">טיפוח כלבים מקצועי, אישי ונעים באווירה יוקרתית ובטוחה.</p>
+        <div class="hero-proof" aria-label="WAFFELS highlights">
+          <span>גימור בוטיק</span>
+          <span>יחס אישי</span>
+          <span>חוויה רגועה לכלב</span>
+        </div>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#booking" id="primaryCta">קביעת תור</a>
+          <a class="btn btn-secondary" href="#gallery" id="secondaryCta">גלריה</a>
+        </div>
+        <div class="trust-strip" aria-label="יתרונות WAFFELS">
+          <div class="trust-item">
+            <strong>בוטיק מקצועי</strong>
+            <span>טיפול רגוע ומדויק לכל כלב</span>
+          </div>
+          <div class="trust-item">
+            <strong>מוצרים מובילים</strong>
+            <span>עבודה עם מותגי טיפוח פרימיום</span>
+          </div>
+          <div class="trust-item">
+            <strong>הוד השרון</strong>
+            <span>חוויה אישית, נקייה ונגישה</span>
+          </div>
+        </div>
+        <div class="highlights" id="highlights"></div>
+      </div>
+      <div class="hero-media card">
+        <div class="media-stage" id="heroMediaStage"></div>
+        <button class="hero-media-cta" id="heroMediaExpand" type="button">פתח מדיה</button>
+        <div class="hero-media-note">
+          <strong>כל מה שהלקוח צריך במקום אחד</strong>
+          <div class="muted">להתרשם מהעבודות, להכיר את הסגנון של אורטל, ליצור קשר במהירות ולקבוע תור בביטחון ובנוחות.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gallery">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="galleryTitle">גלריית התמונות</h2>
+          <p class="section-subtitle" id="gallerySubtitle">עבודות אמיתיות מהמספרה, מסודרות לפי קטגוריות כדי לעזור ללקוח להתרשם בקלות.</p>
+        </div>
+      </div>
+      <div class="cursor-trail-showcase" aria-label="גלריית תמונות אינטראקטיבית">
+        <div class="cursor-trail-head">
+          <div>
+            <h3 class="cursor-trail-title">הגלריה שלנו</h3>
+            <p class="cursor-trail-copy">הזיזו את העכבר או החליקו בעדינות על האזור כדי לראות רגעים אמיתיים מהמספרה של אורטל.</p>
+          </div>
+          <a class="btn btn-secondary" href="#booking">לתיאום טיפול</a>
+        </div>
+        <div class="image-cursor-trail" id="imageCursorTrail">
+          <div class="cursor-trail-center">
+            <img class="cursor-trail-logo" src="./assets/logo.png" alt="WAFFELS">
+          </div>
+        </div>
+      </div>
+      <div class="filter-bar gallery-archive" id="galleryFilters" aria-hidden="true"></div>
+      <div class="gallery-grid gallery-archive" id="galleryGrid" aria-hidden="true"></div>
+    </section>
+
+    <section class="section" id="process">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">תהליך טיפוח מסודר ובטוח</h2>
+          <p class="section-subtitle">כל ביקור בנוי כמו חוויית בוטיק: רגוע, מדויק וברור ללקוח.</p>
+        </div>
+      </div>
+      <div class="process-grid">
+        <article class="process-step">
+          <span>1</span>
+          <strong>אבחון פרווה</strong>
+          <p>בודקים את מצב הפרווה, קשרים, רגישויות וסגנון שמתאים לכלב.</p>
+        </article>
+        <article class="process-step">
+          <span>2</span>
+          <strong>רחצה מקצועית</strong>
+          <p>שימוש במוצרים איכותיים והתאמה לסוג הפרווה והעור.</p>
+        </article>
+        <article class="process-step">
+          <span>3</span>
+          <strong>ייבוש והברשה</strong>
+          <p>עבודה רגועה שמכינה את הפרווה לתוצאה נקייה ואחידה.</p>
+        </article>
+        <article class="process-step">
+          <span>4</span>
+          <strong>תספורת וגימור</strong>
+          <p>גזירה, קווים וסיום אסתטי לפי מבנה הכלב והבקשה.</p>
+        </article>
+        <article class="process-step">
+          <span>5</span>
+          <strong>הנחיות לבית</strong>
+          <p>המלצות המשך כדי לשמור על פרווה נעימה ובריאה בין תורים.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="before-after">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="beforeAfterTitle">לפני ואחרי</h2>
+          <p class="section-subtitle" id="beforeAfterSubtitle">כל כרטיס מתחלף אוטומטית בין לפני לאחרי כל 3 שניות, כדי לראות את השינוי בצורה נקייה וברורה.</p>
+        </div>
+      </div>
+      <div class="before-grid" id="beforeGrid"></div>
+    </section>
+
+    <section class="section" id="haircut-types">
+      <div class="haircut-category" id="haircutTypes">
+        <h3>סוגי תספורות והתאמת טיפול</h3>
+        <p>אורטל מתאימה את סוג הטיפול למבנה הכלב, סוג הפרווה, מצב הפרווה והבקשה של הלקוח, כדי להגיע לתוצאה יפה, נוחה ובריאה לשגרה.</p>
+        <div class="haircut-grid">
+          <article class="haircut-card">
+            <strong>תספורת גזע</strong>
+            <span>תספורת מוקפדת לפי מאפייני הגזע, מבנה הגוף וסגנון העבודה המקצועי שמתאים לכלב.</span>
+          </article>
+          <article class="haircut-card">
+            <strong>תספורת ביתית</strong>
+            <span>תספורת פרקטית ונוחה לתחזוקה יומיומית, לפי בקשת הלקוח ואורח החיים של הכלב.</span>
+          </article>
+          <article class="haircut-card">
+            <strong>דילול פרווה מקצועי</strong>
+            <span>דילול עדין שמאוורר את הפרווה, מפחית עומס ונשירה ומבוצע עם חומרים מקצועיים ואיכותיים.</span>
+          </article>
+          <article class="haircut-card featured">
+            <strong>מריטה לשיער זיפי</strong>
+            <span>מריטה מקצועית לכלבים בעלי שיער זיפי. לאורטל יש ניסיון ותעודה בתחום, והטיפול מתבצע בסבלנות ובהתאמה מלאה לכלב.</span>
+          </article>
+          <article class="haircut-card featured">
+            <strong>טיפול תומך באלופציה X</strong>
+            <span>טיפוח עדין לכלבים עם נשירת שיער או “מחלת העור השחור”, בעיקר בגזעים בעלי פרווה צפופה וכפולה. הטיפול מתמקד בשמירה על עור נקי, פרווה מאוזנת ונוחות הכלב, לצד המלצה לאבחון ומעקב וטרינרי.</span>
+          </article>
+          <article class="haircut-card">
+            <strong>טיפוח ראשוני לגורים</strong>
+            <span>הרגלה עדינה ובטוחה למספרה, לרעש, למגע, לרחצה ולהברשה. הטיפול נבנה בקצב רגוע כדי ליצור חוויה חיובית וביטחון לקראת טיפולים עתידיים.</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="services">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="servicesTitle">שירות מקצועי ומותגים מובילים</h2>
+          <p class="section-subtitle" id="servicesSubtitle">טיפוח מוקפד, חוויית בוטיק ומוצרים מקצועיים ברמה בינלאומית.</p>
+        </div>
+      </div>
+      <div class="services" id="servicesGrid"></div>
+      <div class="special-wrap">
+        <div class="premium-brands-section" id="partnerBrands"></div>
+      </div>
+    </section>
+
+    <section class="section" id="booking">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="bookingTitle">קביעת תורים</h2>
+          <p class="section-subtitle" id="bookingSubtitle">בחירת תאריך, חלון זמן רצוי ושליחת בקשה מסודרת לוואטסאפ עם אפשרות לצירוף תמונת הכלב.</p>
+        </div>
+      </div>
+      <div class="booking-shell card">
+        <div class="booking-layout">
+          <div class="calendar-box">
+            <div class="calendar-head">
+              <button class="icon-btn" id="prevMonth" type="button">&#8249;</button>
+              <strong id="calendarTitle"></strong>
+              <button class="icon-btn" id="nextMonth" type="button">&#8250;</button>
+            </div>
+            <div class="weekday-row" id="weekdayRow"></div>
+            <div class="calendar-grid" id="calendarGrid"></div>
+            <div class="muted" style="margin-top:14px;" id="bookingRulesText"></div>
+            <div class="slots" id="slots"></div>
+            <div class="booking-logo-card" aria-hidden="true">
+              <img src="./assets/logo.png" alt="">
+            </div>
+          </div>
+          <form class="booking-form" id="bookingForm">
+            <h3 class="booking-form-title">השארת פרטים לקביעת תור</h3>
+            <p class="booking-form-intro">ממלאים פרטים, בוחרים יום ושעה, ושולחים בקשה מסודרת לאורטל. אחרי אישור, התור נשמר והשעה נחסמת אוטומטית.</p>
+            <div class="booking-note">התור אינו מאושר עד אישור מאורטל</div>
+            <div class="booking-summary">
+              <div class="summary-card">
+                <strong>זמינות מדויקת</strong>
+                <span>רק ימים ושעות פתוחים לבחירה</span>
+              </div>
+              <div class="summary-card">
+                <strong>אישור אישי</strong>
+                <span>כל בקשה נבדקת לפי שריון סופי</span>
+              </div>
+              <div class="summary-card">
+                <strong>תהליך פשוט</strong>
+                <span>פרטים, תמונה ויצירת קשר במקום אחד</span>
+              </div>
+            </div>
+            <div class="booking-form-grid">
+              <div class="field">
+                <label for="customerName">שם מלא</label>
+                <input id="customerName" placeholder="איך קוראים לך?" required>
+              </div>
+              <div class="field">
+                <label for="customerPhone">טלפון</label>
+                <input id="customerPhone" type="tel" inputmode="numeric" pattern="[0-9]*" placeholder="מספר נייד ליצירת קשר" required>
+              </div>
+              <div class="field">
+                <label for="dogName">שם הכלב</label>
+                <input id="dogName" placeholder="שם הכלב" required>
+              </div>
+              <div class="field">
+                <label for="dogPhoto">תמונת הכלב</label>
+              </div>
+              <div class="field">
+                <label for="dogBreed">סוג / גזע הכלב</label>
+                <input id="dogBreed" placeholder="פודל, שיצו, מלטז ועוד">
+              </div>
+              <div class="field">
+                <label for="dogAge">גיל הכלב</label>
+                <input id="dogAge" placeholder="לדוגמה: 3 שנים">
+              </div>
+              <div class="field">
+                <label for="serviceType">סוג השירות</label>
+                <select id="serviceType" required>
+                  <option value="">בחירת שירות</option>
+                  <option value="תספורת בוטיק">תספורת בוטיק</option>
+                  <option value="אמבטיה וטיפוח מלא">אמבטיה וטיפוח מלא</option>
+                  <option value="דילול פרווה מקצועי">דילול פרווה מקצועי</option>
+                  <option value="תספורת גזע">תספורת גזע</option>
+                  <option value="תספורת ביתית לפי בקשת הלקוח">תספורת ביתית לפי בקשת הלקוח</option>
+                  <option value="מריטה לשיער זיפי">מריטה לשיער זיפי</option>
+                  <option value="טיפול תומך באלופציה X">טיפול תומך באלופציה X</option>
+                  <option value="טיפוח ראשוני לגורים והרגלה למספרה">טיפוח ראשוני לגורים והרגלה למספרה</option>
+                  <option value="שיקום פרווה">שיקום פרווה</option>
+                  <option value="פתיחת קשרים">פתיחת קשרים</option>
+                  <option value="פודל / כלב קטן">פודל / כלב קטן</option>
+                  <option value="ייעוץ והתאמת טיפול">ייעוץ והתאמת טיפול</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="dogPhoto">תמונת הכלב</label>
+                <input id="dogPhoto" type="file" accept="image/*">
+                <div class="file-hint">מומלץ לצרף תמונה אחת ברורה. המערכת תקטין אותה אוטומטית כדי שהשליחה תהיה יציבה יותר.</div>
+                <div class="booking-photo-preview" id="bookingPhotoPreview">
+                  <img id="bookingPhotoPreviewImage" alt="תצוגה מקדימה של תמונת הכלב">
+                </div>
+              </div>
+              <div class="field full">
+                <label for="bookingNotes">הערות</label>
+                <textarea id="bookingNotes" placeholder="אופי הכלב, בקשות מיוחדות, גודל, גזע ועוד."></textarea>
+              </div>
+            </div>
+            <input id="selectedDate" type="hidden">
+            <input id="selectedSlot" type="hidden">
+            <button class="btn btn-primary" type="submit" style="width:100%;">שליחת בקשת תור</button>
+            <div class="booking-status" id="bookingStatus"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="academy">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="academyTitle">WAFFELS Academy</h2>
+          <p class="section-subtitle" id="academySubtitle"></p>
+        </div>
+      </div>
+      <p class="academy-intro" id="academyIntro"></p>
+      <div class="academy-section-label">למי זה מתאים?</div>
+      <div class="academy-mini-grid" id="academyAudienceGrid"></div>
+      <div class="academy-section-label">מה לומדים בקורס?</div>
+      <div class="academy-grid" id="academyGrid"></div>
+      <div class="academy-section-label">מה מקבלים?</div>
+      <div class="academy-mini-grid academy-benefits" id="academyBenefitsGrid"></div>
+      <div class="section-head" style="margin-top:20px;">
+        <div>
+          <h2 class="section-title" id="academyPricingTitle">תמחור</h2>
+        </div>
+      </div>
+      <div class="pricing-grid" id="academyPricingGrid"></div>
+      <div class="academy-cta-wrap">
+        <a class="btn btn-primary" id="academyWhatsapp" href="#" target="_blank" rel="noreferrer">פרטים והרשמה בוואטסאפ</a>
+      </div>
+    </section>
+
+    <section class="section" id="reviews">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="reviewsTitle">ביקורות גוגל</h2>
+          <p class="section-subtitle" id="reviewsSubtitle"></p>
+        </div>
+      </div>
+      <div class="google-box card">
+        <div>
+          <strong>אמון שמתחיל מהמלצות אמיתיות</strong>
+          <p class="muted" style="margin:8px 0 0;">לקוחות חדשים יכולים לראות בלחיצה אחת חוות דעת אמיתיות של בעלי כלבים שכבר ביקרו במספרה, ולהכיר את רמת השירות, היחס והתוצאה.</p>
+        </div>
+        <a class="btn btn-primary" id="googleReviewsButton" href="#" target="_blank" rel="noreferrer">לכל הביקורות בגוגל</a>
+      </div>
+      <div class="review-grid" id="reviewGrid"></div>
+    </section>
+
+    <section class="section" id="map">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="contactTitle">איך מגיעים</h2>
+          <p class="section-subtitle" id="contactSubtitle"></p>
+        </div>
+      </div>
+      <iframe class="map-frame card" id="mapFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen=""></iframe>
+      <div class="map-fallback-card" id="mapFallbackCard">
+        <div>
+          <strong>WAFFELS - הוד השרון</strong>
+          <div class="muted">אם המפה לא נטענת בדפדפן, אפשר לפתוח ניווט ישירות בגוגל מפות.</div>
+        </div>
+        <div class="map-actions">
+          <a class="btn btn-primary" id="mapOpenButton" href="#" target="_blank" rel="noreferrer">פתיחה בגוגל מפות</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer shell">
+    <div class="footer-bar card">
+      <div class="muted">WAFFELS</div>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <a class="creator-link" href="./admin.html" aria-label="כניסה למנהל">
+          <div class="creator-box">
+            <img src="./assets/itzik-romano-logo.png" alt="Itzik Romano Logo">
+            <div>
+              <strong>ITZIK ROMANO</strong>
+              <span>יוצר האתר והאפליקציה</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="mouse-glow" aria-hidden="true"></div>
+  <a class="fab" id="floatingWhatsapp" href="#" target="_blank" rel="noreferrer" aria-label="WhatsApp">
+    <svg viewBox="0 0 32 32" aria-hidden="true" style="width:24px;height:24px;display:block;fill:currentColor;">
+      <path d="M19.11 17.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.28-.47-2.43-1.5-.9-.8-1.5-1.8-1.68-2.1-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.18-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.52.08-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.45 1.06 2.86 1.2 3.06.15.2 2.08 3.18 5.04 4.45.7.3 1.26.48 1.7.61.71.22 1.35.19 1.86.11.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.08-.12-.28-.2-.58-.35Z"/>
+      <path d="M27.19 4.78A15.76 15.76 0 0 0 16.02.2C7.36.2.3 7.25.3 15.92c0 2.78.73 5.48 2.12 7.85L.2 31.8l8.23-2.16a15.65 15.65 0 0 0 7.49 1.9h.01c8.66 0 15.72-7.05 15.72-15.72 0-4.2-1.64-8.15-4.46-11.04Zm-11.27 24.1h-.01a13.1 13.1 0 0 1-6.68-1.83l-.48-.29-4.88 1.28 1.3-4.76-.31-.49a13.06 13.06 0 0 1-2.01-6.97c0-7.22 5.87-13.09 13.1-13.09 3.5 0 6.8 1.36 9.27 3.84a13.02 13.02 0 0 1 3.83 9.27c0 7.23-5.87 13.1-13.1 13.1Z"/>
+    </svg>
+  </a>
+  <nav class="bottom-nav card">
+    <a href="#top">בית</a>
+    <a href="#gallery">גלריה</a>
+    <a href="#booking">תור</a>
+    <a id="bottomWhatsapp" href="#" target="_blank" rel="noreferrer">קשר</a>
+  </nav>
+
+  <div class="media-modal" id="mediaModal" aria-hidden="true">
+    <div class="media-modal-panel">
+      <button class="media-modal-close" id="mediaModalClose" type="button">×</button>
+      <div id="mediaModalBody"></div>
+    </div>
+  </div>
+
+  <script src="./content.js"></script>
+  <script type="application/json" id="legacy-index-script">{
+  "disabled": true,
+  "reason": "legacy script removed after encoding corruption"
+}</script>
+  <script>
+    const FALLBACK_CONTENT = window.siteContent || {};
+    const apiBase = "/api";
+
+    const isObject = (value) => value && typeof value === "object" && !Array.isArray(value);
+    const deepMerge = (base, incoming) => {
+      if (Array.isArray(base) || Array.isArray(incoming)) {
+        return Array.isArray(incoming) ? incoming : (Array.isArray(base) ? base : []);
+      }
+      const result = { ...(isObject(base) ? base : {}) };
+      if (!isObject(incoming)) return result;
+      Object.entries(incoming).forEach(([key, value]) => {
+        if (Array.isArray(value)) {
+          result[key] = value;
+          return;
+        }
+        if (isObject(value)) {
+          result[key] = deepMerge(result[key], value);
+          return;
+        }
+        result[key] = value;
+      });
+      return result;
+    };
+
+    async function loadContentSafe() {
+      try {
+        const res = await fetch(apiBase + "/content", { cache: "no-store" });
+        if (!res.ok) throw new Error("fetch failed");
+        const data = await res.json();
+        if (data && data.content && Object.keys(data.content).length) {
+          return data.content;
+        }
+        return FALLBACK_CONTENT;
+      } catch (e) {
+        console.warn("fallback to local content", e);
+        return FALLBACK_CONTENT;
+      }
+    }
+
+    const escapeHtml = (value = "") => String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+    const safeUrl = (value = "") => String(value || "").trim();
+    const isTouchDevice = () => window.matchMedia("(hover: none), (pointer: coarse)").matches;
+    const isLargeDataImage = (value = "") => /^data:image\//i.test(String(value)) && String(value).length > 180000;
+    const optimizedMediaSrc = (value = "") => {
+      const src = safeUrl(value);
+      if (!src || isLargeDataImage(src)) return "";
+      const match = src.match(/^\.\/assets\/media\/(.+)\.(jpe?g|png)$/i);
+      if (!match) return src;
+      return `./assets/media/optimized/${match[1]}.webp`;
+    };
+    const applyImageQuality = (image, priority = "lazy") => {
+      if (!image) return;
+      image.loading = priority;
+      image.decoding = "async";
+      image.setAttribute("fetchpriority", priority === "eager" ? "high" : "low");
+    };
+
+    const heroFallbackMedia = [
+      { type: "video", src: "./assets/media/hero/hero-video-02.mp4" },
+      { type: "video", src: "./assets/media/hero/hero-video-01.mov" }
+    ];
+
+    function initSkillExperience(content) {
+      const heroCanvas = document.getElementById("skillFlowCanvas");
+      const globalCanvas = document.getElementById("globalFlowCanvas");
+      const prompt = document.getElementById("waffelsAiPrompt");
+      const send = document.getElementById("waffelsAiSend");
+      const form = document.getElementById("waffelsAiForm");
+      const aiChips = Array.from(document.querySelectorAll(".ai-chip"));
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      const setupLogo3dField = () => {
+        const field = document.getElementById("waffelsLogo3dField");
+        if (!field || field.dataset.ready === "true") return;
+        const hero = field.closest(".skill-hero");
+        field.dataset.ready = "true";
+        const logos = [
+          [8, 14, 138, 78, -18, 28, -14, 0.48, 9.2],
+          [24, 28, 88, -20, 24, -36, 11, 0.36, 7.6],
+          [43, 12, 116, 36, -12, 22, 7, 0.34, 8.8],
+          [64, 26, 146, 108, 22, -30, -10, 0.45, 10.5],
+          [83, 13, 98, -42, -24, 32, 16, 0.34, 7.8],
+          [14, 51, 104, 18, 20, -28, 9, 0.38, 9.8],
+          [35, 58, 162, 138, -28, 34, -18, 0.42, 11.2],
+          [77, 58, 132, 82, -16, 30, -9, 0.42, 10.2],
+          [18, 78, 128, 72, -22, 30, -12, 0.38, 9.4],
+          [70, 78, 156, 118, -24, 32, -16, 0.42, 10.8]
+        ].slice(0, isTouchDevice() ? 6 : 10);
+
+        field.innerHTML = logos.map((logo, index) => {
+          const [x, y, size, z, rx, ry, rz, opacity, speed] = logo;
+          const mobileSize = Math.max(54, Math.round(size * 0.72));
+          return `<img class="waffels-logo-3d" src="./assets/logo.png" alt="" loading="eager" decoding="async" style="--logo-x:${x}%;--logo-y:${y}%;--logo-size:${size}px;--logo-mobile-size:${mobileSize}px;--logo-z:${z}px;--logo-rx:${rx}deg;--logo-ry:${ry}deg;--logo-rz:${rz}deg;--logo-opacity:${opacity};--logo-speed:${speed}s;--logo-delay:${(index * -0.42).toFixed(2)}s;">`;
+        }).join("");
+
+        const logoEls = Array.from(field.querySelectorAll(".waffels-logo-3d"));
+        const logoMotion = logoEls.map((logo) => ({
+          logo,
+          x: 0,
+          y: 0,
+          z: 0,
+          rx: 0,
+          ry: 0,
+          vx: 0,
+          vy: 0,
+          vz: 0,
+          vrx: 0,
+          vry: 0,
+          tx: 0,
+          ty: 0,
+          tz: 0,
+          trx: 0,
+          try: 0
+        }));
+        let pointer = null;
+        let logoRaf = 0;
+        let logoDriftActive = false;
+        let logoFloatRaf = 0;
+        let logoStartedAt = performance.now();
+
+        const renderLogoMotion = (time = performance.now()) => {
+          const elapsed = (time - logoStartedAt) / 1000;
+          logoMotion.forEach((item, index) => {
+            const baseSpeed = Number(logos[index]?.[8] || 9);
+            const phase = elapsed / baseSpeed + index * 0.41;
+            const floatY = Math.sin(phase * Math.PI * 2) * 7;
+            const floatZ = Math.cos(phase * Math.PI * 2) * 28;
+            const floatRx = Math.sin(phase * Math.PI * 2 + 0.7) * 3.5;
+            const floatRy = Math.cos(phase * Math.PI * 2 + 0.4) * 4.5;
+            item.logo.style.transform =
+              `translate(-50%, -50%) translate3d(${(item.x).toFixed(2)}px, ${(item.y + floatY).toFixed(2)}px, ${(item.z + floatZ + Number(logos[index]?.[3] || 0)).toFixed(2)}px) ` +
+              `rotateX(${(Number(logos[index]?.[4] || 0) + item.rx + floatRx).toFixed(2)}deg) ` +
+              `rotateY(${(Number(logos[index]?.[5] || 0) + item.ry + floatRy).toFixed(2)}deg) ` +
+              `rotateZ(${Number(logos[index]?.[6] || 0)}deg)`;
+          });
+        };
+
+        const tickLogoFloat = (time) => {
+          renderLogoMotion(time);
+          logoFloatRaf = window.requestAnimationFrame(tickLogoFloat);
+        };
+        const startLogoFloat = () => {
+          if (!logoFloatRaf) logoFloatRaf = window.requestAnimationFrame(tickLogoFloat);
+        };
+        const stopLogoFloat = () => {
+          if (!logoFloatRaf) return;
+          cancelAnimationFrame(logoFloatRaf);
+          logoFloatRaf = 0;
+        };
+        const logoVisibilityObserver = "IntersectionObserver" in window
+          ? new IntersectionObserver((entries) => {
+              if (entries.some((entry) => entry.isIntersecting)) startLogoFloat();
+              else stopLogoFloat();
+            }, { rootMargin: "160px" })
+          : null;
+        logoVisibilityObserver?.observe(hero || field);
+        if (!logoVisibilityObserver) startLogoFloat();
+        window.addEventListener("pagehide", () => {
+          stopLogoFloat();
+          logoVisibilityObserver?.disconnect();
+        }, { once: true });
+
+        const resetLogoPush = () => {
+          pointer = null;
+          logoMotion.forEach((item) => {
+            item.tx = 0;
+            item.ty = 0;
+            item.tz = 0;
+            item.trx = 0;
+            item.try = 0;
+          });
+          startLogoDrift();
+        };
+
+        const updateLogoTargets = () => {
+          logoRaf = 0;
+          if (!pointer) {
+            resetLogoPush();
+            return;
+          }
+          const radius = Math.min(360, Math.max(190, window.innerWidth * 0.28));
+
+          logoMotion.forEach((item) => {
+            const rect = item.logo.getBoundingClientRect();
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const dx = centerX - pointer.x;
+            const dy = centerY - pointer.y;
+            const distance = Math.hypot(dx, dy);
+            const force = Math.pow(Math.max(0, 1 - distance / radius), 1.7);
+
+            if (force <= 0) {
+              item.tx = 0;
+              item.ty = 0;
+              item.tz = 0;
+              item.trx = 0;
+              item.try = 0;
+              return;
+            }
+
+            const angle = Math.atan2(dy, dx);
+            const push = 92 * force;
+            item.tx = Math.cos(angle) * push;
+            item.ty = Math.sin(angle) * push;
+            item.tz = 150 * force;
+            item.trx = -Math.sin(angle) * 16 * force;
+            item.try = Math.cos(angle) * 20 * force;
+          });
+          startLogoDrift();
+        };
+
+        function startLogoDrift() {
+          if (logoDriftActive) return;
+          logoDriftActive = true;
+          window.requestAnimationFrame(stepLogoDrift);
+        }
+
+        function stepLogoDrift() {
+          let moving = false;
+          logoMotion.forEach((item) => {
+            item.vx = (item.vx + (item.tx - item.x) * 0.035) * 0.9;
+            item.vy = (item.vy + (item.ty - item.y) * 0.035) * 0.9;
+            item.vz = (item.vz + (item.tz - item.z) * 0.032) * 0.9;
+            item.vrx = (item.vrx + (item.trx - item.rx) * 0.03) * 0.9;
+            item.vry = (item.vry + (item.try - item.ry) * 0.03) * 0.9;
+
+            item.x += item.vx;
+            item.y += item.vy;
+            item.z += item.vz;
+            item.rx += item.vrx;
+            item.ry += item.vry;
+
+            if (
+              Math.abs(item.x) > 0.1 || Math.abs(item.y) > 0.1 || Math.abs(item.z) > 0.1 ||
+              Math.abs(item.vx) > 0.1 || Math.abs(item.vy) > 0.1 || Math.abs(item.vz) > 0.1
+            ) {
+              moving = true;
+            }
+          });
+          renderLogoMotion();
+
+          if (moving) {
+            window.requestAnimationFrame(stepLogoDrift);
+          } else {
+            logoDriftActive = false;
+          }
+        }
+
+        const requestLogoPush = (point) => {
+          pointer = point;
+          if (!logoRaf) logoRaf = window.requestAnimationFrame(updateLogoTargets);
+        };
+
+        hero?.addEventListener("pointermove", (event) => {
+          requestLogoPush({ x: event.clientX, y: event.clientY });
+        }, { passive: true });
+        hero?.addEventListener("touchmove", (event) => {
+          const touch = event.touches && event.touches[0];
+          if (touch) requestLogoPush({ x: touch.clientX, y: touch.clientY });
+        }, { passive: true });
+        hero?.addEventListener("mouseleave", resetLogoPush);
+        hero?.addEventListener("pointerleave", resetLogoPush);
+        hero?.addEventListener("touchend", resetLogoPush);
+      };
+
+      setupLogo3dField();
+
+      if (prompt && send) {
+        const resizePrompt = () => {
+          prompt.style.height = "54px";
+          prompt.style.height = Math.min(prompt.scrollHeight, 150) + "px";
+          send.disabled = !prompt.value.trim();
+        };
+        prompt.addEventListener("input", resizePrompt);
+        resizePrompt();
+      }
+
+      if (prompt && send && aiChips.length) {
+        const buildAiPrompt = () => {
+          const selected = {};
+          aiChips.forEach((chip) => {
+            if (!chip.classList.contains("is-active")) return;
+            const group = chip.closest(".ai-question")?.dataset.aiGroup || "info";
+            selected[group] = selected[group] || [];
+            selected[group].push(chip.dataset.value || chip.textContent.trim());
+          });
+          const parts = [];
+          if (selected.service?.length) parts.push("סוג טיפול: " + selected.service.join(", "));
+          if (selected.coat?.length) parts.push("מצב הפרווה: " + selected.coat.join(", "));
+          if (selected.dog?.length) parts.push("גודל/אופי: " + selected.dog.join(", "));
+          if (!parts.length) return;
+          prompt.value = "שלום אורטל, אשמח להתייעץ ולקבוע טיפול ב-WAFFELS.\n" + parts.join("\n");
+          prompt.dispatchEvent(new Event("input", { bubbles: true }));
+          send.disabled = false;
+        };
+
+        aiChips.forEach((chip) => {
+          chip.addEventListener("click", () => {
+            const group = chip.closest(".ai-question");
+            const isMultiGroup = group?.dataset.aiGroup === "dog";
+            if (!isMultiGroup) {
+              group?.querySelectorAll(".ai-chip").forEach((item) => {
+                if (item !== chip) item.classList.remove("is-active");
+              });
+            }
+            chip.classList.toggle("is-active");
+            buildAiPrompt();
+          });
+        });
+      }
+
+      if (form && prompt) {
+        form.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const text = prompt.value.trim();
+          if (!text) return;
+          const phoneIntl = String((content?.business || {}).phoneIntl || "972528978102").replace(/[^\d]/g, "");
+          const message = "שלום אורטל, הגעתי דרך WAFFELS.\n" + text;
+          window.open("https://wa.me/" + phoneIntl + "?text=" + encodeURIComponent(message), "_blank", "noopener");
+        });
+      }
+
+      if (reduceMotion) return;
+
+      const setupFlowCanvas = (canvas, options = {}) => {
+        if (!canvas) return;
+        if (isTouchDevice() && options.disableOnTouch) {
+          canvas.remove();
+          return;
+        }
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
+
+        let animationFrame = 0;
+        let particles = [];
+        const mouse = { x: null, y: null, radius: options.mouseRadius || 190 };
+
+        const resizeCanvas = () => {
+          const rect = canvas.getBoundingClientRect();
+          const ratio = Math.min(window.devicePixelRatio || 1, isTouchDevice() ? 1.15 : 1.5);
+          canvas.width = Math.max(1, Math.floor(rect.width * ratio));
+          canvas.height = Math.max(1, Math.floor(rect.height * ratio));
+          ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+          particles = [];
+          const density = options.density || (isTouchDevice() ? 19000 : 14000);
+          const maxParticles = options.maxParticles || (isTouchDevice() ? 46 : 82);
+          const minParticles = options.minParticles || (isTouchDevice() ? 18 : 30);
+          const count = Math.min(maxParticles, Math.max(minParticles, Math.floor((rect.width * rect.height) / density)));
+          for (let i = 0; i < count; i++) {
+            particles.push({
+              x: Math.random() * rect.width,
+              y: Math.random() * rect.height,
+              vx: Math.random() * 0.42 - 0.21,
+              vy: Math.random() * 0.42 - 0.21,
+              size: Math.random() * 2 + 1
+            });
+          }
+        };
+
+        const draw = () => {
+          const rect = canvas.getBoundingClientRect();
+          ctx.clearRect(0, 0, rect.width, rect.height);
+          ctx.fillStyle = options.clearFill || "rgba(0,0,0,0.24)";
+          ctx.fillRect(0, 0, rect.width, rect.height);
+
+          particles.forEach((particle) => {
+            if (particle.x > rect.width || particle.x < 0) particle.vx *= -1;
+            if (particle.y > rect.height || particle.y < 0) particle.vy *= -1;
+
+            if (!options.passive && mouse.x !== null && mouse.y !== null) {
+              const dx = mouse.x - particle.x;
+              const dy = mouse.y - particle.y;
+              const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+              if (distance < mouse.radius + particle.size) {
+                const force = (mouse.radius - distance) / mouse.radius;
+                particle.x -= (dx / distance) * force * 4.2;
+                particle.y -= (dy / distance) * force * 4.2;
+              }
+            }
+
+            particle.x += particle.vx;
+            particle.y += particle.vy;
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fillStyle = options.particleColor || "rgba(210, 168, 255, 0.82)";
+            ctx.fill();
+          });
+
+          const connectStep = isTouchDevice() ? 2 : 1;
+          for (let a = 0; a < particles.length; a += connectStep) {
+            for (let b = a + 1; b < particles.length; b++) {
+              const dx = particles[a].x - particles[b].x;
+              const dy = particles[a].y - particles[b].y;
+              const distance = dx * dx + dy * dy;
+              const limit = options.lineLimit || 15000;
+              if (distance < limit) {
+                const opacity = Math.max(0, 1 - distance / limit);
+                ctx.strokeStyle = `rgba(200, 150, 255, ${opacity * (options.lineOpacity || 0.62)})`;
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(particles[a].x, particles[a].y);
+                ctx.lineTo(particles[b].x, particles[b].y);
+                ctx.stroke();
+              }
+            }
+          }
+
+          animationFrame = requestAnimationFrame(draw);
+        };
+
+        canvas.addEventListener("mousemove", (event) => {
+          const rect = canvas.getBoundingClientRect();
+          mouse.x = event.clientX - rect.left;
+          mouse.y = event.clientY - rect.top;
+        });
+        canvas.addEventListener("mouseleave", () => {
+          mouse.x = null;
+          mouse.y = null;
+        });
+        let canvasVisible = true;
+        const visibilityObserver = "IntersectionObserver" in window
+          ? new IntersectionObserver((entries) => {
+              canvasVisible = entries.some((entry) => entry.isIntersecting);
+              if (canvasVisible && !animationFrame) draw();
+              if (!canvasVisible && animationFrame) {
+                cancelAnimationFrame(animationFrame);
+                animationFrame = 0;
+              }
+            }, { rootMargin: "220px" })
+          : null;
+        visibilityObserver?.observe(canvas);
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
+        if (canvasVisible) draw();
+
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden && animationFrame) {
+            cancelAnimationFrame(animationFrame);
+            animationFrame = 0;
+          } else if (!document.hidden && canvasVisible && !animationFrame) {
+            draw();
+          }
+        });
+        window.addEventListener("pagehide", () => {
+          cancelAnimationFrame(animationFrame);
+          visibilityObserver?.disconnect();
+        }, { once: true });
+      };
+
+      setupFlowCanvas(heroCanvas);
+      globalCanvas?.remove();
+    }
+
+    function renderBrand(content) {
+      const business = content?.business || {};
+      const logo = document.getElementById("brandLogo");
+      const brandText = document.getElementById("brandText");
+      const brandSub = document.getElementById("brandSub");
+      const brandLink = document.querySelector(".brand");
+      if (logo) logo.src = business.logo || "./assets/logo.png";
+      if (brandText) brandText.textContent = business.brand || "WAFFELS";
+      if (brandSub) brandSub.textContent = business.city || "";
+      if (brandLink) {
+        brandLink.href = "#top";
+        brandLink.setAttribute("aria-label", "חזרה לראש הדף");
+        brandLink.addEventListener("click", (event) => {
+          event.preventDefault();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          history.replaceState(null, "", window.location.pathname + window.location.search);
+        });
+      }
+      document.title = business.brand || "WAFFELS";
+    }
+
+    function renderHero(content) {
+      const business = content?.business || {};
+      const heroBadge = document.getElementById("heroBadge");
+      const heroTitle = document.getElementById("heroTitle");
+      const heroSubtitle = document.getElementById("heroSubtitle");
+      const primaryCta = document.getElementById("primaryCta");
+      const secondaryCta = document.getElementById("secondaryCta");
+      const stage = document.getElementById("heroMediaStage");
+      const expand = document.getElementById("heroMediaExpand");
+
+      if (heroBadge) heroBadge.textContent = business.heroBadge || "";
+      if (heroTitle) heroTitle.textContent = business.heroTitle || "";
+      if (heroSubtitle) {
+        const fallbackSubtitle = "<strong>טיפוח שקט, נקי ומדויק לכלבים שצריכים יד טובה.</strong><br><span class=\"hero-accent\">אבחון פרווה, רחצה, תספורת וגימור</span> — בקצב רגוע ועם תשומת לב לפרטים הקטנים.";
+        const subtitle = String(business.heroSubtitle || "").trim();
+        heroSubtitle.innerHTML = subtitle
+          ? escapeHtml(subtitle).replace(/\n/g, "<br>")
+          : fallbackSubtitle;
+      }
+      if (primaryCta) primaryCta.textContent = business.primaryCta || "קביעת תור";
+      if (secondaryCta) secondaryCta.textContent = business.secondaryCta || "גלריה";
+
+      if (!stage) return;
+      stage.innerHTML = "";
+      const mediaItems = Array.isArray(business.heroMedia) && business.heroMedia.length
+        ? business.heroMedia
+        : heroFallbackMedia;
+
+      mediaItems.forEach((item, index) => {
+        const wrap = document.createElement("div");
+        wrap.className = "media-item" + (index === 0 ? " active" : "");
+        const normalized = typeof item === "string" ? { type: "image", src: item } : item;
+        if (normalized.type === "video") {
+          const video = document.createElement("video");
+          video.src = safeUrl(normalized.src || heroFallbackMedia[0].src);
+          video.muted = true;
+          video.defaultMuted = true;
+          video.autoplay = index === 0;
+          video.loop = true;
+          video.playsInline = true;
+          video.preload = index === 0 ? "metadata" : "none";
+          video.setAttribute("muted", "");
+          video.setAttribute("loop", "");
+          video.setAttribute("playsinline", "");
+          if (index === 0) video.setAttribute("autoplay", "");
+          wrap.appendChild(video);
+        } else {
+          const image = document.createElement("img");
+          image.src = optimizedMediaSrc(normalized.src || "") || safeUrl(normalized.src || "");
+          image.onerror = () => {
+            image.onerror = null;
+            image.src = safeUrl(normalized.src || "");
+          };
+          image.alt = "WAFFELS";
+          applyImageQuality(image, index === 0 ? "eager" : "lazy");
+          wrap.appendChild(image);
+        }
+        stage.appendChild(wrap);
+      });
+
+      if (expand) {
+        expand.style.display = mediaItems.length ? "" : "none";
+      }
+    }
+
+    function renderHighlights(content) {
+      const business = content?.business || {};
+      const highlights = document.getElementById("highlights");
+      if (!highlights) return;
+      const phoneIntl = String(business.phoneIntl || "").replace(/[^\d]/g, "");
+      const waTextLink = "https://wa.me/" + phoneIntl + "?text=" + encodeURIComponent(business.whatsappText || "");
+      const icons = {
+        maps: `<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <path fill="#1a73e8" d="M24 2.8c-8.3 0-15.1 6.4-15.1 14.4 0 10.8 15.1 28 15.1 28s15.1-17.2 15.1-28C39.1 9.2 32.3 2.8 24 2.8Z"/>
+          <path fill="#34a853" d="M24 2.8c-4.9 0-9.2 2.2-12 5.7l8.9 7.5L24 2.8Z"/>
+          <path fill="#fbbc04" d="m36 8.5-8.9 7.5L24 2.8c4.9 0 9.2 2.2 12 5.7Z"/>
+          <path fill="#ea4335" d="M24 45.2s15.1-17.2 15.1-28c0-3.2-1.1-6.2-3.1-8.7L24 45.2Z"/>
+          <path fill="#fff" d="M24 23.4a6.1 6.1 0 1 0 0-12.2 6.1 6.1 0 0 0 0 12.2Z"/>
+          <path fill="#1a73e8" d="M24 20.2a2.9 2.9 0 1 0 0-5.8 2.9 2.9 0 0 0 0 5.8Z"/>
+        </svg>`,
+        instagram: `<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <defs><radialGradient id="instagramGradient" cx="30%" cy="108%" r="130%"><stop offset="0" stop-color="#fdf497"/><stop offset=".2" stop-color="#fdf497"/><stop offset=".43" stop-color="#fd5949"/><stop offset=".67" stop-color="#d6249f"/><stop offset="1" stop-color="#285aeb"/></radialGradient></defs>
+          <rect width="38" height="38" x="5" y="5" rx="11" fill="url(#instagramGradient)"/>
+          <path fill="#fff" d="M24 15.4a8.6 8.6 0 1 0 0 17.2 8.6 8.6 0 0 0 0-17.2Zm0 14.1a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11Z"/>
+          <circle cx="33.2" cy="14.8" r="2" fill="#fff"/>
+        </svg>`,
+        tiktok: `<svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+          <path fill="#25f4ee" d="M28.2 6h5.1c.4 3.1 2.1 5.8 5.6 7.2v5.4c-2.1 0-4.1-.6-5.8-1.7v13.8c0 6.2-4.8 10.7-10.9 10.7-5.6 0-10.3-3.8-10.3-9.6 0-6.6 5.7-10.4 12.2-9.5v5.7c-3.4-.8-6.1.8-6.1 3.6 0 2.5 2 4.1 4.5 4.1 2.7 0 4.8-1.7 4.8-5.4V6h.9Z"/>
+          <path fill="#fe2c55" d="M30.6 6h4.7c.4 2.8 2 5 4.8 6.5v5.4a13 13 0 0 1-6.5-2.1v14.1c0 6.6-4.5 11.5-11 11.5-4.3 0-8-2.1-9.8-5.5a10 10 0 0 0 8.4 4.1c6.4 0 10.9-4.9 10.9-11.5V14.4a13 13 0 0 0 6.5 2.1v-1.6c-3.1-1.3-5-4.7-5.3-8.9h-2.7Z"/>
+          <path fill="#fff" d="M27.1 6h5.2c.4 4.2 2.5 7.6 6.6 8.9v5.4c-2.5 0-4.8-.7-6.8-2.1v12.1c0 6.6-4.5 11.5-11 11.5-5.7 0-10.5-3.8-10.5-9.8 0-6.8 5.9-10.9 12.7-10v5.7c-3.6-.8-6.4.9-6.4 3.9 0 2.6 2.1 4.3 4.8 4.3 2.8 0 5.1-1.8 5.1-5.7V6h.3Z"/>
+        </svg>`,
+        whatsapp: `<svg viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+          <path fill="currentColor" d="M19.11 17.34c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.66.15-.2.3-.76.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.28-.47-2.43-1.5-.9-.8-1.5-1.8-1.68-2.1-.17-.3-.02-.46.13-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.66-1.6-.9-2.18-.24-.58-.48-.5-.66-.5h-.56c-.2 0-.52.08-.8.37-.27.3-1.04 1.02-1.04 2.48 0 1.45 1.06 2.86 1.2 3.06.15.2 2.08 3.18 5.04 4.45.7.3 1.26.48 1.7.61.71.22 1.35.19 1.86.11.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.08-.12-.28-.2-.58-.35Z"/>
+          <path fill="currentColor" d="M27.19 4.78A15.76 15.76 0 0 0 16.02.2C7.36.2.3 7.25.3 15.92c0 2.78.73 5.48 2.12 7.85L.2 31.8l8.23-2.16a15.65 15.65 0 0 0 7.49 1.9h.01c8.66 0 15.72-7.05 15.72-15.72 0-4.2-1.64-8.15-4.46-11.04Zm-11.27 24.1h-.01a13.1 13.1 0 0 1-6.68-1.83l-.48-.29-4.88 1.28 1.3-4.76-.31-.49a13.06 13.06 0 0 1-2.01-6.97c0-7.22 5.87-13.09 13.1-13.09 3.5 0 6.8 1.36 9.27 3.84a13.02 13.02 0 0 1 3.83 9.27c0 7.23-5.87 13.1-13.1 13.1Z"/>
+        </svg>`
+      };
+      const items = [
+        { key: "maps", label: "Google Maps", href: business.googleReviews || "#" },
+        { key: "instagram", label: "Instagram", href: business.instagram || "#" },
+        { key: "tiktok", label: "TikTok", href: business.tiktok || "#" },
+        { key: "whatsapp", label: "WhatsApp", href: waTextLink }
+      ];
+      highlights.innerHTML = items.map((item) =>
+        `<a class="highlight ${escapeHtml(item.key)}" href="${escapeHtml(item.href)}" target="_blank" rel="noreferrer" aria-label="${escapeHtml(item.label)}" title="${escapeHtml(item.label)}">${icons[item.key]}</a>`
+      ).join("");
+      const navWhatsapp = document.getElementById("navWhatsapp");
+      const floatingWhatsapp = document.getElementById("floatingWhatsapp");
+      const bottomWhatsapp = document.getElementById("bottomWhatsapp");
+      [navWhatsapp, floatingWhatsapp, bottomWhatsapp].forEach((node) => {
+        if (node) node.href = waTextLink;
+      });
+    }
+
+    function renderServices(content) {
+      const servicesGrid = document.getElementById("servicesGrid");
+      const baseServices = Array.isArray(content?.services) ? content.services : [];
+      const duplicatedHaircutTitles = new Set([
+        "דילול פרווה מקצועי",
+        "תספורת גזע או תספורת ביתית",
+        "מריטה לשיער זיפי",
+        "טיפול תומך באלופציה X",
+        "טיפול מלא מהתחלה ועד גימור"
+      ]);
+      const services = baseServices.filter((item) => !duplicatedHaircutTitles.has(String(item?.title || "").trim()));
+      if (!servicesGrid) return;
+      servicesGrid.innerHTML = services.map((item) =>
+        `<article class="service card"><h3>${escapeHtml(item.title || "")}</h3><p class="muted">${escapeHtml(item.description || "")}</p></article>`
+      ).join("");
+
+      const productLinks = {
+        special: "https://www.specialone.it",
+        hydra: "https://www.hydrabypetsociety.com/",
+        igroom: "https://www.igroom.com/",
+        chris: "https://chrischristensen.com/"
+      };
+      const brandLogos = {
+        special: "https://logo.clearbit.com/specialone.it",
+        hydra: "https://logo.clearbit.com/hydrabypetsociety.com",
+        igroom: "https://logo.clearbit.com/igroom.com",
+        chris: "https://logo.clearbit.com/chrischristensen.com"
+      };
+      const brandLogoBackups = {
+        special: "https://www.google.com/s2/favicons?domain=specialone.it&sz=128",
+        hydra: "https://www.google.com/s2/favicons?domain=hydrabypetsociety.com&sz=128",
+        igroom: "https://www.google.com/s2/favicons?domain=igroom.com&sz=128",
+        chris: "https://www.google.com/s2/favicons?domain=chrischristensen.com&sz=128"
+      };
+      const productUrlFor = (item = {}, fallbackKey = "") => {
+        const rawUrl = safeUrl(item.url || "");
+        if (rawUrl && rawUrl !== "#") return rawUrl;
+        const text = String((item.style || "") + " " + (item.name || "") + " " + fallbackKey).toLowerCase();
+        if (text.includes("special")) return productLinks.special;
+        if (text.includes("hydra")) return productLinks.hydra;
+        if (text.includes("igroom")) return productLinks.igroom;
+        if (text.includes("chris")) return productLinks.chris;
+        return "#";
+      };
+
+      const partnerBrands = document.getElementById("partnerBrands");
+      if (!partnerBrands) return;
+      const special = content?.specialOne || {};
+      const specialCard = {
+        name: special.title || "Special One",
+        note: special.description || "סדרת הטיפוח המובילה בעולם לעיצוב, נפח והזנה עמוקה של הפרווה. המוצרים מבוססים על תמציות טבעיות וטכנולוגיית הגנה מתקדמת.",
+        style: "special",
+        url: productUrlFor(special, "special"),
+        logoSrc: special.logoSrc || brandLogos.special,
+        imageSrc: special.imageSrc || brandLogos.special,
+        tags: ["נוסחה היפואלרגנית", "פרודוקט פרימיום", "PH מאוזן 5.5"]
+      };
+      const fallbackPartners = [
+        {
+          name: "Hydra Luxury Care",
+          note: "חומרי טיפוח יוקרתיים המיוצרים בסטנדרטים המחמירים ביותר. מעניקים ברק קריסטלי, רכות יוצאת דופן וניחוח שנשאר לאורך ימים.",
+          style: "hydra",
+          logoSrc: brandLogos.hydra,
+          imageSrc: brandLogos.hydra,
+          tags: ["רמת סלון מקצועית", "תמציות שיבולת שועל", "ריכוז גבוה"],
+          url: productLinks.hydra
+        },
+        {
+          name: "iGroom",
+          note: "קוסמטיקה מתקדמת למספרות כלבים.",
+          style: "igroom",
+          logoSrc: brandLogos.igroom,
+          imageSrc: brandLogos.igroom,
+          tags: ["גימור מקצועי", "ברק ורכות", "מספרות פרימיום"],
+          url: productLinks.igroom
+        },
+        {
+          name: "Chris Christensen",
+          note: "מותג פרימיום לגימור ותצוגה.",
+          style: "chris",
+          logoSrc: brandLogos.chris,
+          imageSrc: brandLogos.chris,
+          tags: ["Show Grooming", "גימור מדויק", "מותג בינלאומי"],
+          url: productLinks.chris
+        }
+      ];
+      const partners = [specialCard, ...(Array.isArray(content?.partnerBrands) && content.partnerBrands.length ? content.partnerBrands : fallbackPartners)]
+        .slice(0, 4);
+      const tagsFor = (item) => Array.isArray(item.tags) && item.tags.length
+        ? item.tags
+        : [item.style === "hydra" ? "רמת סלון מקצועית" : "פרימיום", "מותג מוביל", "מותאם לפרווה"];
+      const glowClassFor = (item = {}) => {
+        const text = String((item.style || "") + " " + (item.name || "")).toLowerCase();
+        if (text.includes("hydra")) return "glow-blue";
+        if (text.includes("igroom")) return "glow-green";
+        if (text.includes("chris")) return "glow-orange";
+        return "glow-purple";
+      };
+      const brandKeyFor = (item = {}) => {
+        const text = String((item.style || "") + " " + (item.name || "")).toLowerCase();
+        if (text.includes("hydra")) return "hydra";
+        if (text.includes("igroom")) return "igroom";
+        if (text.includes("chris")) return "chris";
+        return "special";
+      };
+      const badgeTextFor = (item = {}) => {
+        const key = brandKeyFor(item);
+        if (key === "special") return "S1";
+        if (key === "hydra") return "HY";
+        if (key === "igroom") return "IG";
+        return "CC";
+      };
+      const fallbackImage = (secondary = "./assets/logo.png") =>
+        `this.onerror=function(){this.onerror=null;this.src='./assets/logo.png';};this.src='${escapeHtml(secondary)}';`;
+      partnerBrands.innerHTML = partners.map((item) => {
+        const url = productUrlFor(item);
+        const brandKey = brandKeyFor(item);
+        return `<article class="brand-showcase-card ${escapeHtml(item.style || "")} ${glowClassFor(item)}" data-glow>
+          <div class="brand-glow-inner" data-glow></div>
+          <span class="brand-badge-mark" aria-hidden="true">${escapeHtml(badgeTextFor(item))}</span>
+          <div class="brand-media-vault">
+            <div class="brand-wordmark ${escapeHtml(brandKey)}" aria-label="${escapeHtml(item.name || "Brand")}">${escapeHtml(item.name || "")}</div>
+          </div>
+          <h3>${escapeHtml(item.name || "")}</h3>
+          <div class="ingredient-tags">
+            ${tagsFor(item).map((tag) => `<span class="tag-spec">${escapeHtml(tag)}</span>`).join("")}
+          </div>
+          <p>${escapeHtml(item.note || item.description || "")}</p>
+          <a href="${escapeHtml(url)}" target="_blank" rel="noreferrer" class="brand-action-link">
+            ביקור באתר הרשמי <span aria-hidden="true">→</span>
+          </a>
+        </article>`;
+      }).join("");
+      initGlowCards();
+    }
+
+    let glowCardsReady = false;
+    function initGlowCards() {
+      if (glowCardsReady) return;
+      glowCardsReady = true;
+      let glowPointerRaf = 0;
+      let glowPointer = { x: 0, y: 0 };
+      const syncGlowPointer = () => {
+        glowPointerRaf = 0;
+        const x = Number(glowPointer.x || 0);
+        const y = Number(glowPointer.y || 0);
+        const xp = window.innerWidth ? x / window.innerWidth : 0;
+        const yp = window.innerHeight ? y / window.innerHeight : 0;
+        document.querySelectorAll(".brand-showcase-card[data-glow]").forEach((node) => {
+          node.style.setProperty("--x", x.toFixed(2));
+          node.style.setProperty("--xp", xp.toFixed(2));
+          node.style.setProperty("--y", y.toFixed(2));
+          node.style.setProperty("--yp", yp.toFixed(2));
+        });
+      };
+      document.addEventListener("pointermove", (event) => {
+        glowPointer = { x: event.clientX, y: event.clientY };
+        if (!glowPointerRaf) glowPointerRaf = requestAnimationFrame(syncGlowPointer);
+      }, { passive: true });
+    }
+
+    let beforeAfterSyncTimer = null;
+
+    function renderBeforeAfter(beforeAfterItems = []) {
+      const beforeGrid = document.getElementById("beforeGrid");
+      if (!beforeGrid) return;
+      if (beforeAfterSyncTimer) {
+        clearInterval(beforeAfterSyncTimer);
+        beforeAfterSyncTimer = null;
+      }
+      beforeGrid.innerHTML = "";
+      beforeAfterItems.forEach((item) => {
+        const article = document.createElement("article");
+        article.className = "before-card card";
+        const beforeOriginal = safeUrl(item.beforeSrc || "");
+        const afterOriginal = safeUrl(item.afterSrc || "");
+        article.innerHTML =
+          `<div class="before-media before-after-card">
+            <span class="before-state">${escapeHtml(item.beforeLabel || "לפני")}</span>
+            <img class="before-image active" data-before-img src="${escapeHtml(optimizedMediaSrc(beforeOriginal) || beforeOriginal)}" alt="${escapeHtml(item.title || "לפני ואחרי")} לפני" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${escapeHtml(beforeOriginal)}';">
+            <img class="after-image" data-after-img src="${escapeHtml(optimizedMediaSrc(afterOriginal) || afterOriginal)}" alt="${escapeHtml(item.title || "לפני ואחרי")} אחרי" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${escapeHtml(afterOriginal)}';">
+          </div>`;
+        beforeGrid.appendChild(article);
+        const media = article.querySelector(".before-media");
+        const images = [...article.querySelectorAll("img")];
+        const markLoaded = () => {
+          if (images.every((image) => image.complete && image.naturalWidth > 0)) {
+            media?.classList.add("is-loaded");
+          }
+        };
+        images.forEach((image) => {
+          image.addEventListener("load", markLoaded, { once: true });
+          image.addEventListener("error", markLoaded, { once: true });
+        });
+        markLoaded();
+        article.addEventListener("mouseleave", () => syncBeforeAfterCards());
+      });
+
+      let state = 0;
+      const syncBeforeAfterCards = () => {
+        [...beforeGrid.querySelectorAll(".before-card")].forEach((card) => {
+          if (card.matches(":hover")) return;
+          const beforeImg = card.querySelector("[data-before-img]");
+          const afterImg = card.querySelector("[data-after-img]");
+          const label = card.querySelector(".before-state");
+          if (!beforeImg || !afterImg) return;
+          beforeImg.classList.toggle("active", !state);
+          afterImg.classList.toggle("active", Boolean(state));
+          if (label) label.textContent = state ? "אחרי" : "לפני";
+        });
+      };
+
+      syncBeforeAfterCards();
+      beforeAfterSyncTimer = setInterval(() => {
+        if (!beforeGrid.closest(".is-in-view")) return;
+        state = state ? 0 : 1;
+        syncBeforeAfterCards();
+      }, 4200);
+    }
+
+    function renderGallery(galleryItems = []) {
+      const galleryGrid = document.getElementById("galleryGrid");
+      const galleryFilters = document.getElementById("galleryFilters");
+      if (!galleryGrid || !galleryFilters) return;
+      const categories = ["הכל", ...new Set(galleryItems.map((item) => item.category || "גלריה"))];
+      let activeCategory = "הכל";
+
+      const draw = () => {
+        galleryGrid.innerHTML = galleryItems
+          .filter((item) => !isLargeDataImage(item.src || ""))
+          .filter((item) => activeCategory === "הכל" || (item.category || "גלריה") === activeCategory)
+          .map((item) => {
+            const original = safeUrl(item.src || "");
+            return `
+            <article class="gallery-item card">
+              <div class="gallery-card">
+                <img src="${escapeHtml(optimizedMediaSrc(original) || original)}" alt="${escapeHtml(item.title || "תמונה")}" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${escapeHtml(original)}';">
+              </div>
+              <h3>${escapeHtml(item.title || "תמונה")}</h3>
+              <div class="muted">${escapeHtml(item.category || "גלריה")}</div>
+            </article>
+          `;
+          }).join("");
+      };
+
+      galleryFilters.innerHTML = "";
+      categories.forEach((category) => {
+        const button = document.createElement("button");
+        button.className = "filter" + (category === activeCategory ? " active" : "");
+        button.type = "button";
+        button.textContent = category;
+        button.addEventListener("click", () => {
+          activeCategory = category;
+          [...galleryFilters.children].forEach((child) => child.classList.remove("active"));
+          button.classList.add("active");
+          draw();
+        });
+        galleryFilters.appendChild(button);
+      });
+      draw();
+      renderImageCursorTrail(galleryItems.filter((item) => !isLargeDataImage(item.src || "")));
+    }
+
+    let cursorTrailCleanup = null;
+
+    function renderImageCursorTrail(galleryItems = []) {
+      const container = document.getElementById("imageCursorTrail");
+      if (!container) return;
+      if (cursorTrailCleanup) {
+        cursorTrailCleanup();
+        cursorTrailCleanup = null;
+      }
+
+      container.querySelectorAll(".cursor-trail-image").forEach((image) => image.remove());
+      const items = galleryItems.filter((item) => item && item.src).slice(0, 10);
+      items.forEach((item, index) => {
+        const image = document.createElement("img");
+        image.className = "cursor-trail-image";
+        image.dataset.status = "inactive";
+        image.alt = item.title || `WAFFELS ${index + 1}`;
+        const original = safeUrl(item.src || "");
+        image.src = optimizedMediaSrc(original) || original;
+        image.onerror = () => {
+          image.onerror = null;
+          image.src = original;
+        };
+        applyImageQuality(image);
+        image.style.setProperty("--trail-rotate", `${(index % 2 === 0 ? -1 : 1) * (4 + (index % 3) * 2)}deg`);
+        container.appendChild(image);
+      });
+
+      const images = Array.from(container.querySelectorAll(".cursor-trail-image"));
+      if (!images.length) return;
+
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let globalIndex = 0;
+      let currentZIndex = 1;
+      let last = { x: 0, y: 0 };
+      const maxNumberOfImages = isTouchDevice() ? 3 : 5;
+      const distance = isTouchDevice() ? 16 : 24;
+
+      const deactivate = (image) => {
+        image.dataset.status = "inactive";
+      };
+
+      const activate = (image, x, y) => {
+        const rect = container.getBoundingClientRect();
+        const relativeX = x - rect.left;
+        const relativeY = y - rect.top;
+        image.style.left = `${relativeX}px`;
+        image.style.top = `${relativeY}px`;
+
+        if (currentZIndex > 40) currentZIndex = 1;
+        image.style.zIndex = String(currentZIndex);
+        currentZIndex += 1;
+        image.dataset.status = "active";
+
+        window.setTimeout(() => {
+          if (image.dataset.status === "active") {
+            image.dataset.status = "inactive";
+          }
+        }, 1600);
+        last = { x, y };
+      };
+
+      const distanceFromLast = (x, y) => Math.hypot(x - last.x, y - last.y);
+
+      const handleMove = (event) => {
+        if (reduceMotion) return;
+        const point = event.touches ? event.touches[0] : event;
+        if (!point) return;
+        const threshold = Math.max(14, window.innerWidth / distance);
+        if (distanceFromLast(point.clientX, point.clientY) <= threshold) return;
+
+        const lead = images[globalIndex % images.length];
+        const tailIndex = (globalIndex - maxNumberOfImages + images.length * 10) % images.length;
+        const tail = images[tailIndex];
+        activate(lead, point.clientX, point.clientY);
+        if (tail && tail !== lead) deactivate(tail);
+        globalIndex += 1;
+      };
+
+      const handleLeave = () => {
+        images.forEach(deactivate);
+      };
+
+      container.addEventListener("mousemove", handleMove);
+      container.addEventListener("touchmove", handleMove, { passive: true });
+      container.addEventListener("mouseleave", handleLeave);
+
+      cursorTrailCleanup = () => {
+        container.removeEventListener("mousemove", handleMove);
+        container.removeEventListener("touchmove", handleMove);
+        container.removeEventListener("mouseleave", handleLeave);
+      };
+    }
+
+    function renderAcademy(content) {
+      const academy = content?.academy || {};
+      const isBrokenText = (value = "") => /[׳ֳ�]|ן¿|ג€|ג„|ג€¢|ג‚/.test(String(value || ""));
+      const fallbackAcademy = {
+        title: "WAFFELS Academy",
+        subtitle: "מסלול פרימיום לטיפוח כלבים — מקצוע, ביטחון וחשיבה עסקית מהשטח.",
+        intro: "WAFFELS Academy נבנתה למי שרוצה להיכנס לעולם טיפוח הכלבים בצורה חכמה ומסודרת: לא רק ללמוד להחזיק מכונה ומספריים, אלא להבין תהליך עבודה, סטנדרט שירות, התנהלות מול לקוחות ובניית ביטחון מקצועי אמיתי.",
+        pricingTitle: "השקעה מקצועית",
+        audience: [
+          {
+            title: "מי שרוצה מקצוע אמיתי",
+            text: "מסלול שמחבר בין אהבה לכלבים לבין יכולת עבודה מסודרת, בטוחה ורווחית."
+          },
+          {
+            title: "מתחילים שרוצים סדר",
+            text: "למי שלא רוצה ללמוד במקרה, אלא לקבל שיטה ברורה מהבסיס ועד עבודה עצמאית."
+          },
+          {
+            title: "מי שחושב עסקית",
+            text: "למי שרוצה להבין גם שירות, תמחור, לקוחות וחוויית מספרה ברמה גבוהה."
+          }
+        ],
+        syllabus: [
+          {
+            title: "מסלול טיפוח כלבים פרימיום",
+            description: "מסלול מעשי וממוקד שמלמד איך לעבוד נכון, לחשוב מקצועית ולהעניק ללקוח חוויה ברמה גבוהה.",
+            bullets: [
+              "היכרות עם סוגי פרווה",
+              "רחצה, ייבוש והברשה מקצועית",
+              "עבודה נכונה עם ציוד מספרה מתקדם",
+              "הכנה מקצועית לתספורת",
+              "עקרונות גזירה, קווים וגימור נקי",
+              "ניהול כלב רגוע ובטוח בזמן טיפול",
+              "שירות, תקשורת ותיאום ציפיות מול לקוחות",
+              "בניית סטנדרט עבודה אישי ומקצועי",
+              "טיפים אמיתיים מהעבודה במספרה פעילה"
+            ]
+          }
+        ],
+        benefits: [
+          "ליווי אישי",
+          "תרגול מעשי",
+          "חשיבה עסקית",
+          "סטנדרט עבודה גבוה"
+        ],
+        pricing: [
+          {
+            label: "מחיר הקורס",
+            value: "15,900 ₪",
+            deposit: "בתיאום אישי",
+            location: "WAFFELS — הוד השרון",
+            note: "מסלול עומק מקצועי עם יחס אישי, עבודה מעשית וידע שמגיע מתוך מספרה פעילה. מספר המקומות מוגבל כדי לשמור על איכות הלמידה."
+          }
+        ]
+      };
+      const hasCleanSyllabus = Array.isArray(academy.syllabus)
+        && academy.syllabus.length
+        && !academy.syllabus.some((item) => isBrokenText(item.title) || isBrokenText(item.description));
+      const hasCleanPricing = Array.isArray(academy.pricing)
+        && academy.pricing.length
+        && !academy.pricing.some((item) => isBrokenText(item.label) || isBrokenText(item.value) || isBrokenText(item.note));
+      const hasCleanAudience = Array.isArray(academy.audience)
+        && academy.audience.length
+        && !academy.audience.some((item) => isBrokenText(item.title) || isBrokenText(item.text));
+      const hasCleanBenefits = Array.isArray(academy.benefits)
+        && academy.benefits.length
+        && !academy.benefits.some((item) => isBrokenText(item));
+      const audience = hasCleanAudience ? academy.audience : fallbackAcademy.audience;
+      const syllabus = hasCleanSyllabus ? academy.syllabus : fallbackAcademy.syllabus;
+      const benefits = hasCleanBenefits ? academy.benefits : fallbackAcademy.benefits;
+      const pricing = hasCleanPricing ? academy.pricing : fallbackAcademy.pricing;
+      const academyTitle = document.getElementById("academyTitle");
+      const academySubtitle = document.getElementById("academySubtitle");
+      const academyIntro = document.getElementById("academyIntro");
+      const academyAudienceGrid = document.getElementById("academyAudienceGrid");
+      const academyBenefitsGrid = document.getElementById("academyBenefitsGrid");
+      const academyPricingTitle = document.getElementById("academyPricingTitle");
+      const academyWhatsapp = document.getElementById("academyWhatsapp");
+      const title = academy.title && !isBrokenText(academy.title) ? academy.title : fallbackAcademy.title;
+      const subtitle = academy.subtitle && !isBrokenText(academy.subtitle) ? academy.subtitle : fallbackAcademy.subtitle;
+      const intro = academy.intro && !isBrokenText(academy.intro) ? academy.intro : fallbackAcademy.intro;
+      const pricingTitle = academy.pricingTitle && !isBrokenText(academy.pricingTitle) ? academy.pricingTitle : fallbackAcademy.pricingTitle;
+      if (academyTitle) academyTitle.textContent = title;
+      if (academySubtitle) academySubtitle.textContent = subtitle;
+      if (academyIntro) academyIntro.textContent = intro;
+      if (academyPricingTitle) academyPricingTitle.textContent = pricingTitle;
+
+      if (academyAudienceGrid) {
+        academyAudienceGrid.innerHTML = audience.map((item) =>
+          `<article class="academy-mini-card"><strong>${escapeHtml(item.title || "")}</strong><p>${escapeHtml(item.text || "")}</p></article>`
+        ).join("");
+      }
+
+      const academyGrid = document.getElementById("academyGrid");
+      if (academyGrid) {
+        academyGrid.innerHTML = syllabus.map((item) => {
+          const bullets = Array.isArray(item.bullets) && item.bullets.length
+            ? `<ul class="academy-list">${item.bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`).join("")}</ul>`
+            : "";
+          return `<article class="academy-card card"><h3>${escapeHtml(item.title || "")}</h3><p class="muted">${escapeHtml(item.description || "")}</p>${bullets}</article>`;
+        }).join("");
+      }
+
+      if (academyBenefitsGrid) {
+        academyBenefitsGrid.innerHTML = benefits.map((item) =>
+          `<article class="academy-mini-card"><strong>${escapeHtml(item)}</strong><span>כלי ברור ומעשי להמשך הדרך.</span></article>`
+        ).join("");
+      }
+
+      const academyPricingGrid = document.getElementById("academyPricingGrid");
+      if (academyPricingGrid) {
+        academyPricingGrid.innerHTML = pricing.map((item) => {
+          const deposit = item.deposit ? `<div class="academy-price-line"><span>מקדמה לשריון מקום</span><strong>${escapeHtml(item.deposit)}</strong></div>` : "";
+          const location = item.location ? `<div class="academy-price-line"><span>מיקום</span><strong>${escapeHtml(item.location)}</strong></div>` : "";
+          const note = item.note ? `<p class="academy-price-note">${escapeHtml(item.note)}</p>` : "";
+          return `<article class="pricing-card card"><h3>${escapeHtml(item.label || "מחיר הקורס")}</h3><div class="pricing-value">${escapeHtml(item.value || "")}</div><div class="academy-price-lines">${deposit}${location}</div>${note}</article>`;
+        }).join("");
+      }
+
+      if (academyWhatsapp) {
+        const academyWhatsappText = `שלום אורטל, אשמח לקבל פרטים על קורס טיפוח הכלבים של WAFFELS Academy.
+שם:
+יש לי ניסיון קודם בתחום: כן / לא
+אשמח לדעת מועד פתיחה קרוב, מה כולל מסלול הפרימיום ואפשרויות תשלום לקורס בעלות 15,900 ש"ח.
+תודה רבה.`;
+        const academyWhatsappUrl = "https://wa.me/972528978102?text=" + encodeURIComponent(academyWhatsappText);
+        academyWhatsapp.href = academyWhatsappUrl;
+        academyWhatsapp.textContent = "לקבלת פרטים על הקורס";
+      }
+    }
+
+    function renderReviews(content) {
+      const reviewGrid = document.getElementById("reviewGrid");
+      if (!reviewGrid) return;
+      const reviews = Array.isArray(content?.reviews) ? content.reviews : [];
+      reviewGrid.innerHTML = reviews.map((item) =>
+        `<article class="review card"><h3>${escapeHtml(item.author || "")}</h3><p class="muted">${escapeHtml(item.text || "")}</p></article>`
+      ).join("");
+      const business = content?.business || {};
+      const googleButton = document.getElementById("googleReviewsButton");
+      if (googleButton) googleButton.href = safeUrl(business.googleReviews || "#");
+    }
+
+    function renderMap(content) {
+      const mapFrame = document.getElementById("mapFrame");
+      if (!mapFrame) return;
+      const business = content?.business || {};
+      const mapSource = String(business.mapsEmbed || "");
+      const match = mapSource.match(/src="([^"]+)"/i);
+      const src = match ? match[1] : mapSource;
+      const mapsLink = safeUrl(business.googleReviews || "https://www.google.com/maps/search/?api=1&query=WAFFELS%20%D7%94%D7%95%D7%93%20%D7%94%D7%A9%D7%A8%D7%95%D7%9F");
+      const mapOpenButton = document.getElementById("mapOpenButton");
+      const mapFallbackCard = document.getElementById("mapFallbackCard");
+      if (mapOpenButton) mapOpenButton.href = mapsLink;
+      if (mapFallbackCard) mapFallbackCard.style.display = "flex";
+      let fallback = document.getElementById("mapFallback");
+      if (!fallback) {
+        fallback = document.createElement("div");
+        fallback.id = "mapFallback";
+        fallback.className = "map-frame card";
+        fallback.style.display = "none";
+        fallback.style.placeItems = "center";
+        fallback.style.padding = "24px";
+        fallback.textContent = "המפה לא זמינה כרגע";
+        mapFrame.insertAdjacentElement("afterend", fallback);
+      }
+      if (src) {
+        mapFrame.src = src;
+        mapFrame.style.display = "";
+        fallback.style.display = "none";
+        mapFrame.addEventListener("error", () => {
+          fallback.style.display = "grid";
+        }, { once: true });
+      } else {
+        mapFrame.removeAttribute("src");
+        mapFrame.style.display = "none";
+        fallback.style.display = "grid";
+      }
+    }
+
+    function renderBooking(content) {
+      const sections = content?.sections || {};
+      const bookingTitle = document.getElementById("bookingTitle");
+      const bookingSubtitle = document.getElementById("bookingSubtitle");
+      if (bookingTitle) bookingTitle.textContent = sections.bookingTitle || "רוצה לקבוע תור?";
+      if (bookingSubtitle) bookingSubtitle.textContent = sections.bookingSubtitle || "השאירו פרטים ואורטל תחזור אליכם עם מועד מתאים.";
+
+      const form = document.getElementById("bookingForm");
+      const phoneInput = document.getElementById("customerPhone");
+      const status = document.getElementById("bookingStatus");
+      if (!form || !phoneInput || !status) return;
+
+      const cleanForm = form.cloneNode(true);
+      form.parentNode.replaceChild(cleanForm, form);
+      const phone = document.getElementById("customerPhone");
+      const customerName = document.getElementById("customerName");
+      const dogName = document.getElementById("dogName");
+      const dogBreed = document.getElementById("dogBreed");
+      const dogAge = document.getElementById("dogAge");
+      const serviceType = document.getElementById("serviceType");
+      const notes = document.getElementById("bookingNotes");
+      const selectedDate = document.getElementById("selectedDate");
+      const selectedSlot = document.getElementById("selectedSlot");
+      const weekdayRow = document.getElementById("weekdayRow");
+      const calendarGrid = document.getElementById("calendarGrid");
+      const calendarTitle = document.getElementById("calendarTitle");
+      const bookingRulesText = document.getElementById("bookingRulesText");
+      const slots = document.getElementById("slots");
+      const prevMonth = document.getElementById("prevMonth");
+      const nextMonth = document.getElementById("nextMonth");
+      const submitButton = cleanForm.querySelector('button[type="submit"]');
+      if (submitButton) submitButton.textContent = "שליחת בקשה לתור בוואטסאפ";
+      if (phone) {
+        phone.setAttribute("type", "tel");
+        phone.setAttribute("inputmode", "numeric");
+        phone.setAttribute("pattern", "[0-9]*");
+      }
+
+      const bookingRules = content.bookingRules || {};
+      const weekDayLabels = ["א", "ב", "ג", "ד", "ה", "ו", "ש"];
+      const workDayNames = bookingRules.workDays || ["ראשון", "שני", "רביעי", "חמישי"];
+      const slotLabels = bookingRules.slotLabels || ["09:00", "11:00", "13:00", "14:00"];
+      const durationHours = Number(bookingRules.durationHours || 2);
+      const workWeekdays = Array.isArray(bookingRules.workDays) && bookingRules.workDays.length
+        ? bookingRules.workDays.map((label) => ({ "ראשון": 0, "שני": 1, "שלישי": 2, "רביעי": 3, "חמישי": 4, "שישי": 5, "שבת": 6 }[label])).filter((value) => Number.isInteger(value))
+        : [0, 1, 3, 4];
+      let calendarDate = new Date();
+      calendarDate.setDate(1);
+
+      const setStatus = (message, type = "info") => {
+        status.textContent = message;
+        status.className = "booking-status " + type;
+      };
+
+      const setPhoneError = (message = "") => {
+        phone.classList.toggle("input-error", Boolean(message));
+      };
+
+      phone.addEventListener("input", (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, "").slice(0, 10);
+        if (e.target.value.length === 10) setPhoneError("");
+      });
+      phone.addEventListener("beforeinput", (e) => {
+        if (e.data && /[^0-9]/.test(e.data)) e.preventDefault();
+      });
+
+      const formatIsoDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        return `${year}-${month}-${day}`;
+      };
+
+      const formatCalendarDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const hours = String(date.getHours()).padStart(2, "0");
+        const minutes = String(date.getMinutes()).padStart(2, "0");
+        const seconds = String(date.getSeconds()).padStart(2, "0");
+        return `${year}${month}${day}T${hours}${minutes}${seconds}`;
+      };
+
+      const buildAppointmentDates = (dateText, slotText) => {
+        const [year, month, day] = dateText.split("-").map(Number);
+        const [hours, minutes] = slotText.split(":").map(Number);
+        const start = new Date(year, month - 1, day, hours, minutes, 0);
+        const end = new Date(start.getTime() + durationHours * 60 * 60 * 1000);
+        return { start, end };
+      };
+
+      const renderSlots = () => {
+        if (!slots || !selectedDate || !selectedSlot) return;
+        slots.innerHTML = "";
+        if (!selectedDate.value) {
+          const empty = document.createElement("div");
+          empty.className = "muted";
+          empty.textContent = "בחרו יום כדי לראות שעות זמינות.";
+          slots.appendChild(empty);
+          return;
+        }
+
+        slotLabels.forEach((slotLabel) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "slot" + (selectedSlot.value === slotLabel ? " selected" : "");
+          button.textContent = slotLabel;
+          button.addEventListener("click", () => {
+            selectedSlot.value = slotLabel;
+            renderSlots();
+            setStatus(`נבחרה שעה ${slotLabel}. אפשר להשלים את הטופס ולשלוח בקשה.`, "info");
+          });
+          slots.appendChild(button);
+        });
+      };
+
+      const renderCalendar = () => {
+        if (!calendarGrid || !calendarTitle || !selectedDate || !selectedSlot) return;
+        calendarGrid.innerHTML = "";
+        selectedSlot.value = "";
+        renderSlots();
+
+        const year = calendarDate.getFullYear();
+        const month = calendarDate.getMonth();
+        calendarTitle.textContent = new Intl.DateTimeFormat("he-IL", { month: "long", year: "numeric" }).format(calendarDate);
+
+        const firstDay = new Date(year, month, 1);
+        const startOffset = firstDay.getDay();
+        const totalDays = new Date(year, month + 1, 0).getDate();
+
+        for (let index = 0; index < startOffset; index += 1) {
+          calendarGrid.appendChild(document.createElement("div"));
+        }
+
+        for (let day = 1; day <= totalDays; day += 1) {
+          const date = new Date(year, month, day);
+          const iso = formatIsoDate(date);
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "day";
+          button.textContent = String(day);
+
+          const isPast = date < new Date(new Date().setHours(0, 0, 0, 0));
+          const isOpenDay = workWeekdays.includes(date.getDay());
+          if (isPast || !isOpenDay) {
+            button.classList.add("disabled");
+            button.disabled = true;
+          } else {
+            if (selectedDate.value === iso) button.classList.add("selected");
+            button.addEventListener("click", () => {
+              selectedDate.value = iso;
+              selectedSlot.value = "";
+              renderCalendar();
+              setStatus("היום נבחר. עכשיו בחרו שעה.", "info");
+            });
+          }
+
+          calendarGrid.appendChild(button);
+        }
+      };
+
+      if (weekdayRow) {
+        weekdayRow.innerHTML = "";
+        weekDayLabels.forEach((label) => {
+          const cell = document.createElement("div");
+          cell.textContent = label;
+          weekdayRow.appendChild(cell);
+        });
+      }
+
+      if (bookingRulesText) {
+        bookingRulesText.textContent = `ימי עבודה: ${workDayNames.join(" | ")} | שעות: ${slotLabels.join(" | ")} | משך טיפול משוער: ${durationHours} שעות`;
+      }
+
+      if (prevMonth) {
+        prevMonth.addEventListener("click", () => {
+          calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() - 1, 1);
+          renderCalendar();
+        });
+      }
+
+      if (nextMonth) {
+        nextMonth.addEventListener("click", () => {
+          calendarDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + 1, 1);
+          renderCalendar();
+        });
+      }
+
+      renderCalendar();
+      setStatus("התור אינו מאושר עד אישור מאורטל", "info");
+
+      cleanForm.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const digits = phone.value.replace(/[^0-9]/g, "").slice(0, 10);
+        phone.value = digits;
+        if (!customerName.value.trim() || !dogName.value.trim() || !serviceType.value.trim()) {
+          setStatus("כדי שנוכל לתאם לך תור, נא להשלים את כל הפרטים המסומנים.", "error");
+          return;
+        }
+        if (digits.length !== 10) {
+          setPhoneError("error");
+          setStatus("נא להזין מספר טלפון תקין", "error");
+          return;
+        }
+        if (!selectedDate?.value || !selectedSlot?.value) {
+          setStatus("נא לבחור יום ושעה לפני שליחת הבקשה.", "error");
+          return;
+        }
+        const phoneIntl = String((content.business || {}).phoneIntl || "972528978102").replace(/[^\d]/g, "");
+        const { start, end } = buildAppointmentDates(selectedDate.value, selectedSlot.value);
+        const locationText = [
+          (content.business && content.business.brand) || "WAFFELS",
+          (content.business && content.business.city) || ""
+        ].filter(Boolean).join(", ");
+        const message =
+          "שלום אורטל, אשמח לקבוע תור ב-WAFFELS.\n" +
+          "שם: " + customerName.value.trim() + "\n" +
+          "טלפון: " + digits + "\n" +
+          "שם הכלב: " + dogName.value.trim() + "\n" +
+          "גזע: " + (dogBreed?.value.trim() || "לא צוין") + "\n" +
+          "גיל: " + (dogAge?.value.trim() || "לא צוין") + "\n" +
+          "סוג שירות: " + serviceType.value.trim() + "\n" +
+          "תאריך: " + selectedDate.value + "\n" +
+          "שעה: " + selectedSlot.value + "\n" +
+          "הערות: " + (notes.value.trim() || "ללא");
+        const calendarUrl =
+          "https://calendar.google.com/calendar/render?action=TEMPLATE" +
+          "&text=" + encodeURIComponent("תור WAFFELS") +
+          "&ctz=" + encodeURIComponent("Asia/Jerusalem") +
+          "&dates=" + encodeURIComponent(`${formatCalendarDate(start)}/${formatCalendarDate(end)}`) +
+          "&details=" + encodeURIComponent(
+            "שם: " + customerName.value.trim() + "\n" +
+            "טלפון: " + digits + "\n" +
+            "כלב: " + dogName.value.trim() + "\n" +
+            "שירות: " + serviceType.value.trim() + "\n" +
+            "תאריך ושעה: " + selectedDate.value + " " + selectedSlot.value + "\n" +
+            "מיקום: " + locationText + "\n" +
+            "הערות: " + (notes.value.trim() || "ללא")
+          ) +
+          "&location=" + encodeURIComponent(locationText);
+        window.open("https://wa.me/" + phoneIntl + "?text=" + encodeURIComponent(message), "_blank", "noopener");
+        window.open(calendarUrl, "_blank", "noopener");
+        setStatus("הבקשה נשלחה בהצלחה\nהתור אינו מאושר עד אישור מאורטל", "success");
+      });
+    }
+
+    function renderSections(content) {
+      const sections = content?.sections || {};
+      const setText = (id, fallback = "") => {
+        const el = document.getElementById(id);
+        if (el && sections[id]) el.textContent = sections[id];
+        else if (el && fallback && !el.textContent.trim()) el.textContent = fallback;
+      };
+      setText("servicesTitle");
+      setText("servicesSubtitle");
+      setText("beforeAfterTitle");
+      setText("beforeAfterSubtitle");
+      setText("galleryTitle");
+      setText("gallerySubtitle");
+      setText("reviewsTitle");
+      setText("reviewsSubtitle");
+      setText("contactTitle");
+      setText("contactSubtitle");
+    }
+
+    function renderAll(content) {
+      const safeContent = content || {};
+      renderBrand(safeContent);
+      renderSections(safeContent);
+      renderHero(safeContent);
+      renderHighlights(safeContent);
+      renderServices(safeContent);
+      renderBeforeAfter(Array.isArray(safeContent.beforeAfterItems) ? safeContent.beforeAfterItems : []);
+      renderGallery(Array.isArray(safeContent.galleryItems) ? safeContent.galleryItems : []);
+      renderAcademy(safeContent);
+      renderReviews(safeContent);
+      renderMap(safeContent);
+      renderBooking(safeContent);
+    }
+
+    async function safeCall(name, fn) {
+      try {
+        await fn();
+      } catch (error) {
+        console.error("RENDER FAILED:", name, error);
+      }
+    }
+
+    function renderAllSafe(content) {
+      const safeContent = content || {};
+      safeCall("renderBrand", () => renderBrand(safeContent));
+      safeCall("renderSections", () => renderSections(safeContent));
+      safeCall("renderHero", () => renderHero(safeContent));
+      safeCall("renderHighlights", () => renderHighlights(safeContent));
+      safeCall("renderServices", () => renderServices(safeContent));
+      safeCall("renderBeforeAfter", () => renderBeforeAfter(Array.isArray(safeContent.beforeAfterItems) ? safeContent.beforeAfterItems : []));
+      safeCall("renderGallery", () => renderGallery(Array.isArray(safeContent.galleryItems) ? safeContent.galleryItems : []));
+      safeCall("renderAcademy", () => renderAcademy(safeContent));
+      safeCall("renderReviews", () => renderReviews(safeContent));
+      safeCall("renderMap", () => renderMap(safeContent));
+      safeCall("renderBooking", () => renderBooking(safeContent));
+    }
+
+    function initViewportAnimationBudget() {
+      const targets = Array.from(document.querySelectorAll([
+        ".skill-hero",
+        "#process",
+        "#services",
+        "#treatmentInfo",
+        "#before-after",
+        "#gallery"
+      ].join(",")));
+      if (!targets.length) return;
+      if (!("IntersectionObserver" in window)) {
+        targets.forEach((target) => target.classList.add("is-in-view"));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-in-view", entry.isIntersecting);
+        });
+      }, { rootMargin: "180px 0px 180px 0px", threshold: 0.01 });
+      targets.forEach((target) => observer.observe(target));
+      window.addEventListener("pagehide", () => observer.disconnect(), { once: true });
+    }
+
+    (async function boot() {
+      try {
+        const content = await loadContentSafe();
+        document.body.classList.add("site-loaded");
+        renderAllSafe(content || FALLBACK_CONTENT || {});
+        initViewportAnimationBudget();
+        initSkillExperience(content || FALLBACK_CONTENT || {});
+        const openTarget = new URLSearchParams(window.location.search).get("open");
+        if (openTarget && openTarget !== "gallery") {
+          const targetId = decodeURIComponent(String(openTarget));
+          window.setTimeout(() => {
+            const target = document.getElementById(targetId);
+            if (target) {
+              target.scrollIntoView({ block: "start" });
+            }
+          }, 350);
+        }
+      } catch (error) {
+        console.error("BOOT FAILED:", error);
+        document.body.innerHTML = `
+          <main style="min-height:100vh;display:grid;place-items:center;background:#090b11;color:white;font-family:Arial;padding:30px;text-align:center;">
+            <div>
+              <h1>WAFFELS</h1>
+              <p>האתר נטען, אך יש שגיאת JavaScript שצריך לתקן.</p>
+              <p style="opacity:.75">פתח Console כדי לראות את השגיאה.</p>
+            </div>
+          </main>
+        `;
+      }
+    })();
+  </script>
+</body>
+</html>
+
+
+
+

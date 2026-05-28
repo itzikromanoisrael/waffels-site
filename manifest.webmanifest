@@ -1,0 +1,23 @@
+{
+  "name": "WAFFELS",
+  "short_name": "WAFFELS",
+  "description": "מספרת הכלבים של אורטל - קביעת תורים, גלריה, ביקורות ויצירת קשר במקום אחד.",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+  "orientation": "portrait",
+  "background_color": "#111318",
+  "theme_color": "#111318",
+  "categories": ["lifestyle", "business", "beauty"],
+  "icons": [
+    {
+      "src": "./assets/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

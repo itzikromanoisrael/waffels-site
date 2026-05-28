@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>אישור תור | WAFFELS</title>
+  <style>
+    :root {
+      --bg: #fff8f9;
+      --bg-soft: #fff0f6;
+      --card: rgba(255, 255, 255, 0.9);
+      --line: rgba(123, 56, 94, 0.12);
+      --text: #3c2433;
+      --muted: #806171;
+      --pink: #e85aa8;
+      --pink-deep: #d63f93;
+      --success: #1d8f61;
+      --warning: #9d5f21;
+      --error: #c0395a;
+      --shadow: 0 28px 60px rgba(128, 64, 98, 0.14);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(232, 90, 168, 0.16), transparent 26%),
+        radial-gradient(circle at top left, rgba(255, 214, 230, 0.72), transparent 28%),
+        linear-gradient(180deg, #fffafc 0%, #fff2f7 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .card {
+      width: min(100%, 880px);
+      padding: 30px;
+      border-radius: 32px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(18px) saturate(160%);
+      box-shadow: var(--shadow);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(232, 90, 168, 0.1);
+      color: var(--pink-deep);
+      font-size: 0.86rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 4vw, 2.9rem);
+      line-height: 1.1;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 58ch;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 22px;
+      margin-top: 24px;
+    }
+
+    .panel {
+      padding: 20px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(123, 56, 94, 0.08);
+    }
+
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 1.08rem;
+    }
+
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .chip {
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(123, 56, 94, 0.08);
+    }
+
+    .chip strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.88rem;
+      color: var(--muted);
+    }
+
+    .chip span {
+      display: block;
+      line-height: 1.65;
+      font-weight: 600;
+    }
+
+    .notes {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid rgba(123, 56, 94, 0.08);
+      white-space: pre-wrap;
+      line-height: 1.8;
+    }
+
+    .photo-box {
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid rgba(123, 56, 94, 0.08);
+      background: rgba(255, 255, 255, 0.8);
+      min-height: 240px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo-box img {
+      width: 100%;
+      height: 100%;
+      max-height: 420px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .photo-empty {
+      color: var(--muted);
+      padding: 32px;
+      text-align: center;
+      line-height: 1.8;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.92rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(123, 56, 94, 0.14);
+      background: rgba(255, 255, 255, 0.86);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: rgba(232, 90, 168, 0.45);
+      box-shadow: 0 0 0 4px rgba(232, 90, 168, 0.12);
+    }
+
+    .status {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      display: none;
+      line-height: 1.7;
+      font-weight: 600;
+    }
+
+    .status.show { display: block; }
+    .status.success { background: rgba(29, 143, 97, 0.12); color: var(--success); }
+    .status.error { background: rgba(192, 57, 90, 0.1); color: var(--error); }
+    .status.info { background: rgba(232, 90, 168, 0.08); color: var(--pink-deep); }
+    .status.warning { background: rgba(157, 95, 33, 0.12); color: var(--warning); }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      border: 1px solid rgba(123, 56, 94, 0.12);
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 24px rgba(128, 64, 98, 0.12);
+    }
+
+    .btn-primary {
+      border: 0;
+      color: #fff;
+      background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+      box-shadow: 0 18px 30px rgba(232, 90, 168, 0.24);
+    }
+
+    .btn[disabled] {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    @media (max-width: 760px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .meta {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="eyebrow">אישור תור לאורטל בלבד</div>
+    <h1>בדיקת בקשת תור</h1>
+    <p class="lead" id="introText">המערכת טוענת את פרטי הלקוח והכלב, כדי שאפשר יהיה לאשר את הבקשה בצורה מסודרת, לייצר קישור מקדמה ולשמור את השעה באופן בטוח.</p>
+
+    <div class="layout">
+      <section class="panel">
+        <h2>פרטי הבקשה</h2>
+        <div class="meta" id="metaGrid"></div>
+        <div class="notes" id="notesBox">אין הערות מיוחדות.</div>
+      </section>
+
+      <section class="panel">
+        <h2>תמונת הכלב</h2>
+        <div class="photo-box" id="photoBox">
+          <div class="photo-empty">לא צורפה תמונה לבקשה הזו.</div>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel" style="margin-top: 22px;">
+      <h2>אישור והמשך</h2>
+      <label for="approvalCode">קוד האישור של אורטל</label>
+      <input id="approvalCode" type="password" autocomplete="current-password" placeholder="מזינים את הקוד כדי לאשר את התור">
+
+      <div class="status info show" id="statusBox">אם התור יאושר, הלקוח יעבור לסטטוס ממתין למקדמה ורק אחרי תשלום המקדמה השעה תישמר סופית.</div>
+
+      <div class="actions">
+        <button class="btn btn-primary" id="approveButton" type="button">אישור תור ושליחת מקדמה</button>
+        <a class="btn" id="sendPaymentButton" href="#" target="_blank" rel="noreferrer" hidden>שליחת קישור מקדמה ללקוח</a>
+        <a class="btn" id="openPaymentButton" href="#" target="_blank" rel="noreferrer" hidden>פתיחת קישור המקדמה</a>
+        <a class="btn" href="./admin.html">חזרה למסך הניהול</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const token = String(params.get("token") || "").trim();
+    const metaGrid = document.getElementById("metaGrid");
+    const notesBox = document.getElementById("notesBox");
+    const photoBox = document.getElementById("photoBox");
+    const statusBox = document.getElementById("statusBox");
+    const introText = document.getElementById("introText");
+    const approvalCodeInput = document.getElementById("approvalCode");
+    const approveButton = document.getElementById("approveButton");
+    const sendPaymentButton = document.getElementById("sendPaymentButton");
+    const openPaymentButton = document.getElementById("openPaymentButton");
+
+    let booking = null;
+
+    const setStatus = (message, type = "info") => {
+      statusBox.textContent = message;
+      statusBox.className = "status show " + type;
+    };
+
+    const escapeHtml = (value) => String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/\"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+
+    const renderMeta = () => {
+      if (!booking) return;
+
+      const rows = [
+        ["שם לקוח", booking.fullName || booking.name || "לא צוין"],
+        ["טלפון", booking.phone || "לא צוין"],
+        ["שם הכלב", booking.dogName || booking.dog || "לא צוין"],
+        ["גזע / סוג", booking.dogBreed || "לא צוין"],
+        ["גיל", booking.dogAge || "לא צוין"],
+        ["שירות", booking.serviceType || "לא צוין"],
+        ["תאריך", booking.preferredDate || booking.date || "לא צוין"],
+        ["שעה", booking.preferredSlot || booking.slot || "לא צוין"],
+        ["סטטוס", booking.status || "pending"]
+      ];
+
+      metaGrid.innerHTML = rows.map(([label, value]) => (
+        "<div class='chip'><strong>" + escapeHtml(label) + "</strong><span>" + escapeHtml(value) + "</span></div>"
+      )).join("");
+
+      notesBox.textContent = booking.notes || "אין הערות מיוחדות.";
+
+      const photo = booking.dogPhotoDataUrl || booking.photoDataUrl || "";
+      if (photo) {
+        photoBox.innerHTML = "<img alt='תמונת הכלב' src='" + escapeHtml(photo) + "'>";
+      } else {
+        photoBox.innerHTML = "<div class='photo-empty'>לא צורפה תמונה לבקשה הזו.</div>";
+      }
+    };
+
+    const revealPaymentActions = (paymentUrl, paymentWhatsappUrl) => {
+      if (!paymentUrl) return;
+      openPaymentButton.href = paymentUrl;
+      openPaymentButton.hidden = false;
+      if (paymentWhatsappUrl) {
+        sendPaymentButton.href = paymentWhatsappUrl;
+        sendPaymentButton.hidden = false;
+      }
+    };
+
+    const loadBooking = async () => {
+      if (!token) {
+        setStatus("חסר טוקן אישור בקישור, ולכן אי אפשר לטעון את הבקשה.", "error");
+        approveButton.disabled = true;
+        return;
+      }
+
+      setStatus("טוען את פרטי הבקשה…", "info");
+
+      try {
+        const response = await fetch("./api/bookings/by-token?token=" + encodeURIComponent(token), {
+          cache: "no-store"
+        });
+        const json = await response.json().catch(() => ({}));
+        if (!response.ok || !json.booking) {
+          throw new Error(json.error || "booking-not-found");
+        }
+
+        booking = json.booking;
+        renderMeta();
+
+        if (booking.status === "confirmed") {
+          introText.textContent = "התור הזה כבר אושר סופית והמקדמה התקבלה. השעה שמורה ולא נדרש אישור נוסף.";
+          approveButton.disabled = true;
+          setStatus("התור כבר מאושר סופית.", "success");
+          revealPaymentActions(booking.paymentUrl || "", "");
+          return;
+        }
+
+        if (booking.status === "approved_waiting_deposit") {
+          introText.textContent = "הבקשה כבר אושרה, וכעת ממתינה לתשלום המקדמה כדי לשריין את השעה באופן סופי.";
+          approveButton.disabled = true;
+          setStatus("הבקשה כבר אושרה וממתינה למקדמה.", "warning");
+          const paymentResponse = await fetch("./api/bookings/" + encodeURIComponent(booking.id) + "/payment-link", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token })
+          });
+          const paymentJson = await paymentResponse.json().catch(() => ({}));
+          if (paymentResponse.ok) {
+            revealPaymentActions(paymentJson.paymentUrl || "", paymentJson.paymentWhatsappUrl || "");
+          }
+          return;
+        }
+
+        setStatus("הבקשה נטענה בהצלחה. אפשר לאשר את התור ולשלוח ללקוח קישור מקדמה.", "info");
+      } catch (error) {
+        approveButton.disabled = true;
+        setStatus("לא הצלחנו לטעון את הבקשה הזו. כדאי לבדוק שהקישור תקין או לחזור למסך הניהול.", "error");
+      }
+    };
+
+    approveButton.addEventListener("click", async () => {
+      if (!booking || !token) return;
+
+      const approvalCode = String(approvalCodeInput.value || "").trim();
+      if (!approvalCode) {
+        setStatus("צריך להזין את קוד האישור של אורטל לפני שממשיכים.", "error");
+        approvalCodeInput.focus();
+        return;
+      }
+
+      approveButton.disabled = true;
+      setStatus("מאשר את התור ומכין קישור מקדמה…", "info");
+
+      try {
+        const response = await fetch("./api/bookings/approve-by-token", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token, approvalCode })
+        });
+        const json = await response.json().catch(() => ({}));
+
+        if (response.status === 403) {
+          throw new Error("invalid-approval-code");
+        }
+        if (response.status === 409) {
+          throw new Error("slot-already-approved");
+        }
+        if (!response.ok) {
+          throw new Error(json.error || "approve-failed");
+        }
+
+        booking = json.booking || booking;
+        renderMeta();
+        revealPaymentActions(json.paymentUrl || "", json.paymentWhatsappUrl || "");
+        setStatus("התור אושר בהצלחה. עכשיו אפשר לפתוח או לשלוח ללקוח את קישור המקדמה.", "success");
+        introText.textContent = "הבקשה אושרה ועברה לסטטוס ממתין למקדמה. רק אחרי תשלום המקדמה השעה תישמר סופית.";
+      } catch (error) {
+        if (error.message === "invalid-approval-code") {
+          setStatus("קוד האישור שהוזן אינו תקין.", "error");
+        } else if (error.message === "slot-already-approved") {
+          setStatus("השעה הזו כבר אושרה לבקשה אחרת ולכן אי אפשר לאשר גם את הבקשה הזו.", "error");
+        } else {
+          setStatus("לא הצלחנו לאשר את התור כרגע. אפשר לנסות שוב בעוד רגע או לחזור למסך הניהול.", "error");
+        }
+      } finally {
+        approveButton.disabled = booking && booking.status === "approved_waiting_deposit";
+      }
+    });
+
+    loadBooking();
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "waffels-site",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node ./backend/server.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:reload": "pm2 reload ecosystem.config.js",
+    "pm2:logs": "pm2 logs waffels-site",
+    "security:hash-password": "node ./scripts/hash-admin-password.js"
+  }
+}
