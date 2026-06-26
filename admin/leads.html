@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'">
+  <meta name="robots" content="noindex,nofollow">
+  <title>CRM לידים | Waffel's Dog Grooming</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --surface: #ffffff;
+      --ink: #211a15;
+      --muted: #786d62;
+      --line: #e6ddd2;
+      --gold: #b8892d;
+      --gold-soft: #fff4dc;
+      --green: #18794e;
+      --blue: #2362a8;
+      --danger: #9d2626;
+      --radius: 8px;
+      --shadow: 0 12px 30px rgba(31, 26, 22, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+    }
+
+    a { color: inherit; }
+    button, input { font: inherit; }
+
+    .shell {
+      width: min(1400px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(26px, 4vw, 40px);
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .actions,
+    .button-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    button,
+    .whatsapp-link {
+      border: 0;
+      border-radius: var(--radius);
+      padding: 9px 12px;
+      cursor: pointer;
+      background: var(--ink);
+      color: #fff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 36px;
+      white-space: nowrap;
+    }
+
+    button.secondary,
+    .whatsapp-link {
+      background: var(--surface);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    button.hot { background: #a73424; }
+    button.warm { background: #b8892d; }
+    button.cold { background: #526070; }
+    button.status-action { background: #2e5d87; }
+    button.archive { background: #5b4034; }
+    button:disabled { opacity: 0.55; cursor: wait; }
+
+    .panel,
+    .card,
+    .login {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(120px, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .card {
+      padding: 14px;
+      min-height: 86px;
+    }
+
+    .card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .card strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .login {
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+      max-width: 420px;
+      margin-top: 18px;
+    }
+
+    .login input {
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .status {
+      min-height: 24px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status.error { color: var(--danger); }
+
+    .panel { overflow: hidden; }
+
+    .summary {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--line);
+      background: var(--gold-soft);
+    }
+
+    .count {
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 1280px;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      text-align: right;
+      vertical-align: top;
+      font-size: 14px;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    th {
+      background: #fffaf1;
+      color: #4c3b22;
+      font-weight: 800;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .pill.hot { color: #a73424; background: #fff0ec; }
+    .pill.warm { color: #8b641c; background: #fff4dc; }
+    .pill.cold { color: #526070; background: #eef1f4; }
+    .pill.status { color: var(--blue); background: #edf5ff; }
+
+    .lead-actions {
+      display: grid;
+      gap: 8px;
+      min-width: 330px;
+    }
+
+    .lead-actions button,
+    .lead-actions .whatsapp-link {
+      font-size: 12px;
+      padding: 7px 9px;
+      min-height: 32px;
+    }
+
+    .next-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .next-actions button {
+      background: #f9f4ec;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .empty {
+      padding: 30px 18px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 1100px) {
+      .dashboard { grid-template-columns: repeat(4, minmax(130px, 1fr)); }
+    }
+
+    @media (max-width: 680px) {
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .actions { width: 100%; }
+      .dashboard { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      button { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="topbar">
+      <div>
+        <h1>CRM לידים</h1>
+        <p class="subtitle">Waffel's Dog Grooming - ניהול פניות, סטטוס, חום ליד ופעולה הבאה</p>
+      </div>
+      <div class="actions">
+        <button class="secondary" id="refreshButton" type="button">רענון</button>
+        <a href="/admin.html"><button class="secondary" type="button">חזרה לניהול</button></a>
+      </div>
+    </div>
+
+    <section class="panel login hidden" id="loginPanel" aria-label="כניסת מנהל">
+      <label for="passwordInput">סיסמת מנהל</label>
+      <input id="passwordInput" type="password" autocomplete="current-password">
+      <button id="loginButton" type="button">כניסה</button>
+      <div class="status" id="loginStatus"></div>
+    </section>
+
+    <section id="crmContent">
+      <section class="dashboard" id="dashboardCards" aria-label="סיכום לידים"></section>
+
+      <section class="panel" id="leadsPanel">
+        <div class="summary">
+          <div>טבלת פניות</div>
+          <div class="count" id="leadCount">0 לידים</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>נוצר</th>
+                <th>לקוח</th>
+                <th>טלפון</th>
+                <th>כלב</th>
+                <th>שירות</th>
+                <th>סטטוס</th>
+                <th>חום</th>
+                <th>פעולה הבאה</th>
+                <th>הערות</th>
+                <th>פעולות</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody"></tbody>
+          </table>
+        </div>
+        <div class="empty hidden" id="emptyState">אין עדיין לידים שמורים.</div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const apiBase = "/api";
+    const adminTokenStorageKey = "waffels-admin-auth-v1-token";
+    const token = () => sessionStorage.getItem(adminTokenStorageKey) || "";
+
+    const crmContent = document.getElementById("crmContent");
+    const leadsPanel = document.getElementById("leadsPanel");
+    const loginPanel = document.getElementById("loginPanel");
+    const loginStatus = document.getElementById("loginStatus");
+    const tableBody = document.getElementById("leadsTableBody");
+    const emptyState = document.getElementById("emptyState");
+    const leadCount = document.getElementById("leadCount");
+    const dashboardCards = document.getElementById("dashboardCards");
+
+    const statusLabels = {
+      new: "חדש",
+      waiting_for_photo: "ממתין לתמונה",
+      waiting_for_ortal: "ממתין לאורטל",
+      price_sent: "נשלח מחיר",
+      booked: "נקבע תור",
+      completed: "בוצע",
+      archived: "ארכיון"
+    };
+
+    const temperatureLabels = {
+      hot: "חם",
+      warm: "בינוני",
+      cold: "קר"
+    };
+
+    const nextActionLabels = [
+      "לבקש תמונה",
+      "להציע תור",
+      "אורטל צריכה לבדוק",
+      "לשלוח מחיר",
+      "לחזור מחר",
+      "לסגור כלא רלוונטי"
+    ];
+
+    function escapeHtml(value) {
+      return String(value || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    }
+
+    function formatDate(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return value;
+      return new Intl.DateTimeFormat("he-IL", {
+        dateStyle: "short",
+        timeStyle: "short"
+      }).format(date);
+    }
+
+    async function apiFetch(path, options = {}) {
+      const headers = new Headers(options.headers || {});
+      if (token()) headers.set("X-Admin-Session", token());
+      return fetch(apiBase + path, { ...options, headers });
+    }
+
+    function leadPhoneDigits(lead) {
+      return String(lead.phone || "").replace(/[^\d]/g, "");
+    }
+
+    function buildWhatsappUrl(lead) {
+      const phone = leadPhoneDigits(lead);
+      const dogName = lead.dog_name || "הכלב";
+      const text = `היי, כאן אורטל מוופל׳ס 🐾 קיבלתי את הפרטים לגבי ${dogName}. כדי לתת מענה מדויק, אפשר לשלוח תמונה עדכנית של הכלב?`;
+      return `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+    }
+
+    function dashboardCount(leads, predicate) {
+      return leads.filter(predicate).length;
+    }
+
+    function renderDashboard(leads) {
+      const cards = [
+        ["Total leads", leads.length],
+        ["Hot leads", dashboardCount(leads, (lead) => lead.temperature === "hot")],
+        ["Warm leads", dashboardCount(leads, (lead) => lead.temperature === "warm")],
+        ["Cold leads", dashboardCount(leads, (lead) => lead.temperature === "cold")],
+        ["Waiting for photo", dashboardCount(leads, (lead) => lead.status === "waiting_for_photo")],
+        ["Waiting for Ortal", dashboardCount(leads, (lead) => lead.status === "waiting_for_ortal")],
+        ["Booked", dashboardCount(leads, (lead) => lead.status === "booked")],
+        ["Completed", dashboardCount(leads, (lead) => lead.status === "completed")]
+      ];
+      dashboardCards.innerHTML = cards.map(([label, value]) => `
+        <article class="card">
+          <span>${escapeHtml(label)}</span>
+          <strong>${escapeHtml(value)}</strong>
+        </article>
+      `).join("");
+    }
+
+    function renderActionButtons(lead) {
+      const id = escapeHtml(lead.id);
+      const phone = leadPhoneDigits(lead);
+      const whatsapp = phone
+        ? `<a class="whatsapp-link" href="${escapeHtml(buildWhatsappUrl(lead))}" target="_blank" rel="noreferrer">וואטסאפ</a>`
+        : "";
+      return `
+        <div class="lead-actions" data-lead-id="${id}">
+          <div class="button-row">
+            <button class="hot" data-temperature="hot" type="button">חם</button>
+            <button class="warm" data-temperature="warm" type="button">בינוני</button>
+            <button class="cold" data-temperature="cold" type="button">קר</button>
+            ${whatsapp}
+          </div>
+          <div class="button-row">
+            <button class="status-action" data-status="waiting_for_photo" type="button">ממתין לתמונה</button>
+            <button class="status-action" data-status="waiting_for_ortal" type="button">ממתין לאורטל</button>
+            <button class="status-action" data-status="price_sent" type="button">נשלח מחיר</button>
+            <button class="status-action" data-status="booked" type="button">נקבע תור</button>
+            <button class="status-action" data-status="completed" type="button">בוצע</button>
+            <button class="archive" data-archive="true" type="button">ארכיון</button>
+          </div>
+          <div class="next-actions">
+            ${nextActionLabels.map((label) => `<button data-next-action="${escapeHtml(label)}" type="button">${escapeHtml(label)}</button>`).join("")}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderLeads(items) {
+      const leads = Array.isArray(items) ? items.slice().reverse() : [];
+      leadCount.textContent = leads.length === 1 ? "ליד אחד" : `${leads.length} לידים`;
+      emptyState.classList.toggle("hidden", leads.length > 0);
+      renderDashboard(leads);
+      tableBody.innerHTML = leads.map((lead) => `
+        <tr>
+          <td>${escapeHtml(formatDate(lead.createdAt))}</td>
+          <td>${escapeHtml(lead.customer_name || "לא נמסר")}</td>
+          <td><a href="tel:${escapeHtml(lead.phone)}">${escapeHtml(lead.phone)}</a></td>
+          <td><strong>${escapeHtml(lead.dog_name)}</strong><br><span class="muted">${escapeHtml(lead.breed)}</span></td>
+          <td>${escapeHtml(lead.service_requested)}</td>
+          <td><span class="pill status">${escapeHtml(statusLabels[lead.status] || lead.status || "חדש")}</span></td>
+          <td><span class="pill ${escapeHtml(lead.temperature || "warm")}">${escapeHtml(temperatureLabels[lead.temperature] || "בינוני")}</span></td>
+          <td>${escapeHtml(lead.next_action || "")}</td>
+          <td>${escapeHtml(lead.notes).replace(/\n/g, "<br>")}<br><small>מקור: ${escapeHtml(lead.source)}</small></td>
+          <td>${renderActionButtons(lead)}</td>
+        </tr>
+      `).join("");
+    }
+
+    async function updateLead(id, patch) {
+      const response = await apiFetch(`/leads/${encodeURIComponent(id)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patch)
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "update-failed");
+      await loadLeads();
+    }
+
+    async function archiveLead(id) {
+      const response = await apiFetch(`/leads/${encodeURIComponent(id)}/archive`, { method: "PATCH" });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "archive-failed");
+      await loadLeads();
+    }
+
+    async function loadLeads() {
+      const response = await apiFetch("/leads");
+      const data = await response.json().catch(() => ({}));
+      if (response.status === 401) {
+        loginPanel.classList.remove("hidden");
+        crmContent.classList.add("hidden");
+        loginStatus.textContent = "יש להתחבר כדי לצפות בלידים.";
+        return;
+      }
+      if (!response.ok) throw new Error(data.error || "load-failed");
+      loginPanel.classList.add("hidden");
+      crmContent.classList.remove("hidden");
+      renderLeads(data.items || []);
+    }
+
+    async function login() {
+      const password = document.getElementById("passwordInput").value.trim();
+      if (!password) {
+        loginStatus.textContent = "יש להזין סיסמה.";
+        loginStatus.className = "status error";
+        return;
+      }
+
+      loginStatus.textContent = "בודק...";
+      loginStatus.className = "status";
+      const response = await fetch(apiBase + "/admin/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password })
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok || !data.token) {
+        loginStatus.textContent = data.error === "admin-password-not-configured"
+          ? "סיסמת מנהל לא מוגדרת בשרת."
+          : "הכניסה נכשלה.";
+        loginStatus.className = "status error";
+        return;
+      }
+      sessionStorage.setItem(adminTokenStorageKey, data.token);
+      await loadLeads();
+    }
+
+    document.getElementById("refreshButton").addEventListener("click", () => {
+      loadLeads().catch((error) => {
+        emptyState.classList.remove("hidden");
+        emptyState.textContent = "לא ניתן לטעון לידים כרגע.";
+        console.error(error);
+      });
+    });
+
+    tableBody.addEventListener("click", (event) => {
+      const button = event.target.closest("button");
+      if (!button) return;
+      const actionWrap = button.closest("[data-lead-id]");
+      if (!actionWrap) return;
+      const leadId = actionWrap.dataset.leadId;
+      button.disabled = true;
+      const work = button.dataset.temperature
+        ? updateLead(leadId, { temperature: button.dataset.temperature })
+        : button.dataset.status
+          ? updateLead(leadId, { status: button.dataset.status })
+          : button.dataset.nextAction
+            ? updateLead(leadId, { next_action: button.dataset.nextAction })
+            : button.dataset.archive
+              ? archiveLead(leadId)
+              : Promise.resolve();
+      work.catch((error) => {
+        button.disabled = false;
+        console.error(error);
+        alert("העדכון נכשל. נסה שוב.");
+      });
+    });
+
+    document.getElementById("loginButton").addEventListener("click", () => login().catch(console.error));
+    document.getElementById("passwordInput").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") login().catch(console.error);
+    });
+
+    loadLeads().catch((error) => {
+      emptyState.classList.remove("hidden");
+      emptyState.textContent = "לא ניתן לטעון לידים כרגע.";
+      console.error(error);
+    });
+  </script>
+</body>
+</html>

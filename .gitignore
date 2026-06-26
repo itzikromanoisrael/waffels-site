@@ -3,8 +3,12 @@ node_modules/
 .env.local
 backend/.env.local
 backend/data/bookings.json
+backend/data/leads.json
 backend/data/bookings.*.json
 backend/data/*.local.json
 backend/data/*.backup
+backend/data/baileys-auth/
 *.log
 .tmp-edge-*/
+
+.vercel
