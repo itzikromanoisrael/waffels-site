@@ -5,6 +5,7 @@ const path = require("path");
 const crypto = require("crypto");
 const QRCode = require("qrcode");
 const qrcodeTerminal = require("qrcode-terminal");
+const chatBrain = require("./chat-brain");
 
 const ROOT_DIR = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(__dirname, "data");
@@ -894,7 +895,7 @@ function getSecurityHeaders() {
     "media-src 'self' data: blob: https:",
     "style-src 'self' 'unsafe-inline'",
     "script-src 'self' 'unsafe-inline'",
-    "connect-src 'self' https://api.stripe.com https://www.googleapis.com https://oauth2.googleapis.com",
+    "connect-src 'self' http://127.0.0.1:3001 http://localhost:3001 https://api.stripe.com https://www.googleapis.com https://oauth2.googleapis.com",
     "frame-src https://www.google.com https://maps.google.com https://www.google.com/maps/ https://checkout.stripe.com",
     "font-src 'self' data:",
     "manifest-src 'self'",
@@ -3025,6 +3026,47 @@ async function handleApi(request, response, pathname, searchParams) {
 
   if (request.method === "GET" && pathname === "/api/admin/session") {
     return sendJson(request, response, 200, { ok: true, authenticated: isValidAdminSession(request) });
+  }
+
+  if (request.method === "POST" && pathname === "/api/chat") {
+    try {
+      const body = await readJsonBody(request);
+      const result = chatBrain.buildChatResponse({
+        message: sanitizeMultiline(body.message || "", 2000),
+        state: body.state && typeof body.state === "object" ? body.state : {}
+      });
+      const stateAfterPatch = {
+        ...(body.state && typeof body.state === "object" ? body.state : {}),
+        ...(result.state_patch || {})
+      };
+      const specialContext = ["appointment", "human_handoff"].includes(stateAfterPatch.conversation_stage);
+      const leadReady = Boolean(
+        stateAfterPatch.phone
+        && stateAfterPatch.service_requested
+        && (stateAfterPatch.dog_name || stateAfterPatch.breed || specialContext)
+      );
+      return sendJson(request, response, 200, {
+        reply: sanitizeMultiline(result.reply || "", 1800) || "כרגע המענה החכם לא מוגדר, אבל אפשר להשאיר פרטים ואורטל תחזור אליך.",
+        state_patch: result.state_patch || {},
+        intent: result.intent || "other",
+        confidence: result.confidence || "low",
+        lead_ready: leadReady,
+        should_save_lead: Boolean(result.should_save_lead && leadReady),
+        escalate_to_ortal: Boolean(result.escalate_to_ortal),
+        next_question: sanitizeMultiline(result.next_question || "", 400)
+      });
+    } catch (error) {
+      return sendJson(request, response, 500, {
+        reply: "כרגע המענה החכם לא מוגדר, אבל אפשר להשאיר פרטים ואורטל תחזור אליך.",
+        state_patch: {},
+        intent: "other",
+        lead_ready: false,
+        should_save_lead: false,
+        escalate_to_ortal: true,
+        next_question: "",
+        error: "chat-failed"
+      });
+    }
   }
 
   if (request.method === "POST" && pathname === "/api/conversation/message") {

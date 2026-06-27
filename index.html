@@ -13,7 +13,7 @@
   </script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' https://api.stripe.com https://www.googleapis.com https://oauth2.googleapis.com; frame-src https://www.google.com https://maps.google.com https://checkout.stripe.com; font-src 'self' data:; manifest-src 'self'; worker-src 'self' blob:">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; img-src 'self' data: blob: https:; media-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self' http://127.0.0.1:3001 http://localhost:3001 https://api.stripe.com https://www.googleapis.com https://oauth2.googleapis.com; frame-src https://www.google.com https://maps.google.com https://checkout.stripe.com; font-src 'self' data:; manifest-src 'self'; worker-src 'self' blob:">
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta name="theme-color" content="#111318">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -3508,6 +3508,309 @@
         transform: none;
       }
     }
+    .ortal-chat-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: auto;
+      min-width: 146px;
+      height: 48px;
+      padding: 0 16px;
+      border: 1px solid rgba(14, 20, 26, 0.12);
+      border-radius: 999px;
+      cursor: pointer;
+      font: 800 0.88rem/1 system-ui, sans-serif;
+      letter-spacing: 0;
+      gap: 8px;
+      color: #10151a;
+      background: #fffdf8;
+      box-shadow: 0 16px 36px rgba(11, 18, 24, 0.18);
+    }
+    .fab.ortal-chat-toggle {
+      display: inline-flex;
+    }
+    .ortal-chat-panel {
+      position: fixed;
+      left: 16px;
+      bottom: calc(132px + env(safe-area-inset-bottom, 0px));
+      z-index: 90;
+      width: min(380px, calc(100vw - 24px));
+      height: min(560px, calc(100dvh - 96px));
+      max-height: calc(100dvh - 96px);
+      display: none;
+      grid-template-rows: auto 1fr auto auto;
+      overflow: hidden;
+      direction: rtl;
+      color: #15191d;
+      border-radius: 20px;
+      border: 1px solid rgba(17, 24, 30, 0.1);
+      background: #fffdf8;
+      box-shadow: 0 28px 70px rgba(12, 18, 24, 0.22);
+    }
+    .ortal-chat-panel.is-open {
+      display: grid;
+    }
+    .ortal-chat-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 64px;
+      padding: 11px 14px;
+      border-bottom: 1px solid rgba(14, 20, 26, 0.08);
+      background: linear-gradient(180deg, #ffffff, #fffaf0);
+    }
+    .ortal-chat-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .ortal-chat-avatar {
+      width: 38px;
+      height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      color: #10151a;
+      background: #eaf8ff;
+      border: 1px solid rgba(73, 165, 205, 0.24);
+      font-size: 1.1rem;
+      box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.7);
+    }
+    .ortal-chat-title {
+      display: grid;
+      gap: 3px;
+      text-align: right;
+    }
+    .ortal-chat-title strong {
+      color: #10151a;
+      font-size: 0.98rem;
+      font-weight: 900;
+    }
+    .ortal-chat-title span {
+      color: #66717a;
+      font-size: 0.78rem;
+    }
+    .ortal-chat-close {
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(15, 23, 31, 0.1);
+      border-radius: 50%;
+      color: #15191d;
+      background: #ffffff;
+      cursor: pointer;
+      font-size: 1.25rem;
+      line-height: 1;
+    }
+    .ortal-chat-welcome {
+      display: grid;
+      align-content: center;
+      gap: 16px;
+      padding: 22px;
+      background: linear-gradient(180deg, #fffdf8, #f6fbff);
+      text-align: right;
+    }
+    .ortal-chat-welcome[hidden] {
+      display: none;
+    }
+    .ortal-chat-welcome h3 {
+      margin: 0;
+      color: #10151a;
+      font-size: 1.08rem;
+      line-height: 1.35;
+    }
+    .ortal-chat-welcome p {
+      margin: 0;
+      color: #3f4850;
+      font-size: 0.95rem;
+      line-height: 1.65;
+    }
+    .ortal-chat-start {
+      justify-self: start;
+      min-width: 116px;
+      height: 42px;
+      border: 0;
+      border-radius: 999px;
+      color: #ffffff;
+      background: #111820;
+      cursor: pointer;
+      font: 800 0.92rem/1 system-ui, sans-serif;
+      box-shadow: 0 12px 26px rgba(17, 24, 32, 0.18);
+    }
+    .ortal-chat-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow-y: auto;
+      padding: 14px;
+      background: #fbfaf6;
+      scroll-behavior: smooth;
+    }
+    .ortal-chat-messages[hidden] {
+      display: none;
+    }
+    .ortal-chat-msg {
+      max-width: 84%;
+      padding: 11px 13px;
+      border-radius: 16px;
+      font-size: 0.92rem;
+      line-height: 1.45;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: #15191d;
+      box-shadow: 0 8px 18px rgba(15, 23, 31, 0.06);
+      animation: messageIn 0.22s ease-out both;
+    }
+    .ortal-chat-msg.bot {
+      align-self: flex-start;
+      background: #ffffff;
+      border: 1px solid rgba(14, 20, 26, 0.09);
+      border-bottom-left-radius: 6px;
+    }
+    .ortal-chat-msg[data-typing="true"] {
+      color: #66717a;
+      font-size: 0.86rem;
+      box-shadow: none;
+    }
+    .ortal-chat-msg.user {
+      align-self: flex-end;
+      color: #10151a;
+      background: #e9f7ff;
+      border: 1px solid rgba(73, 165, 205, 0.16);
+      border-bottom-right-radius: 6px;
+    }
+    .ortal-chat-msg a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 8px;
+      padding: 9px 12px;
+      border-radius: 999px;
+      color: #10151a;
+      background: #e9f7ff;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 10px 24px rgba(73, 165, 205, 0.14);
+    }
+    .ortal-chat-action {
+      align-self: flex-end;
+      min-height: 40px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 999px;
+      color: #ffffff;
+      background: #111820;
+      cursor: pointer;
+      font: 800 0.88rem/1 system-ui, sans-serif;
+      box-shadow: 0 12px 24px rgba(17, 24, 32, 0.14);
+    }
+    .ortal-chat-trust {
+      padding: 9px 14px 0;
+      color: #66717a;
+      background: #fffdf8;
+      border-top: 1px solid rgba(14, 20, 26, 0.08);
+      font-size: 0.74rem;
+      line-height: 1.35;
+      text-align: right;
+    }
+    .ortal-chat-form {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      padding: 9px 12px 12px;
+      background: #fffdf8;
+    }
+    .ortal-chat-form[hidden] {
+      display: none;
+    }
+    .ortal-chat-form input {
+      min-width: 0;
+      height: 42px;
+      border: 1px solid rgba(15, 23, 31, 0.12);
+      border-radius: 999px;
+      padding: 0 14px;
+      color: #15191d;
+      background: #ffffff;
+      font: 0.92rem system-ui, sans-serif;
+    }
+    .ortal-chat-form input::placeholder {
+      color: #8a949c;
+    }
+    .ortal-chat-form input:disabled {
+      opacity: 0.68;
+      cursor: wait;
+    }
+    .ortal-chat-form button {
+      min-width: 72px;
+      height: 42px;
+      border: 0;
+      padding: 0 16px;
+      border-radius: 999px;
+      color: #ffffff;
+      background: #111820;
+      cursor: pointer;
+      font-weight: 900;
+    }
+    .ortal-chat-form button:disabled {
+      cursor: wait;
+      opacity: 0.58;
+      box-shadow: none;
+    }
+    .ortal-chat-toggle:focus-visible,
+    .ortal-chat-close:focus-visible,
+    .ortal-chat-start:focus-visible,
+    .ortal-chat-action:focus-visible,
+    .ortal-chat-form button:focus-visible,
+    .ortal-chat-form input:focus-visible {
+      outline: 2px solid rgba(255,255,255,0.9);
+      outline-offset: 3px;
+    }
+    @media (max-width: 720px) {
+      .ortal-chat-toggle {
+        min-width: 132px;
+        height: 46px;
+        padding: 0 14px;
+        font-size: 0.82rem;
+      }
+      .ortal-chat-panel {
+        left: 12px;
+        right: 12px;
+        top: calc(76px + env(safe-area-inset-top, 0px));
+        bottom: calc(74px + env(safe-area-inset-bottom, 0px));
+        width: auto;
+        height: auto;
+        max-height: none;
+        border-radius: 18px;
+      }
+      .ortal-chat-head {
+        min-height: 58px;
+        padding: 9px 12px;
+      }
+      .ortal-chat-avatar {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+      }
+      .ortal-chat-title strong {
+        font-size: 0.9rem;
+      }
+      .ortal-chat-title span {
+        font-size: 0.72rem;
+      }
+      .ortal-chat-messages {
+        padding: 12px;
+      }
+      .ortal-chat-form {
+        padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+      }
+    }
+    @keyframes messageIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
@@ -3961,6 +4264,30 @@
     <a id="bottomWhatsapp" href="#" target="_blank" rel="noreferrer">קשר</a>
   </nav>
 
+  <button class="fab ortal-chat-toggle" id="ortalChatToggle" type="button" aria-controls="ortalChatPanel" aria-expanded="false">דברו עם וופל׳ס 🐾</button>
+  <section class="ortal-chat-panel" id="ortalChatPanel" aria-hidden="true" aria-label="Waffel's Assistant">
+    <div class="ortal-chat-head">
+      <div class="ortal-chat-brand">
+        <div class="ortal-chat-avatar" aria-hidden="true">🐾</div>
+        <div class="ortal-chat-title">
+          <strong>Waffel's Assistant</strong>
+          <span>מענה ראשוני | אורטל חוזרת אישית</span>
+        </div>
+      </div>
+      <button class="ortal-chat-close" id="ortalChatClose" type="button" aria-label="סגירת הצ'אט">×</button>
+    </div>
+    <div class="ortal-chat-welcome" id="ortalChatWelcome">
+      <h3>היי, הגעת לוופל׳ס 🐾</h3>
+      <p>כאן אפשר להשאיר פרטים בצורה מסודרת, כדי שאורטל תוכל לבדוק את הכלב ולחזור עם מענה מדויק.</p>
+      <button class="ortal-chat-start" id="ortalChatStart" type="button">להתחיל</button>
+    </div>
+    <div class="ortal-chat-messages" id="ortalChatMessages" role="log" aria-live="polite" hidden></div>
+    <div class="ortal-chat-trust" id="ortalChatTrust" hidden>הפרטים נשמרים כדי שאורטל תוכל לחזור עם מענה מדויק.</div>
+    <form class="ortal-chat-form" id="ortalChatForm" hidden>
+      <input id="ortalChatInput" name="message" autocomplete="off" placeholder="לכתוב כאן..." aria-label="הודעה לוופל׳ס">
+      <button type="submit" aria-label="שליחה">שליחה</button>
+    </form>
+  </section>
   <div class="media-modal" id="mediaModal" aria-hidden="true">
     <div class="media-modal-panel">
       <button class="media-modal-close" id="mediaModalClose" type="button">×</button>
@@ -5459,6 +5786,1246 @@
           </main>
         `;
       }
+    })();
+  </script>
+  <script>
+    (function initOrtalChatWidget() {
+      const panel = document.getElementById("ortalChatPanel");
+      const toggle = document.getElementById("ortalChatToggle");
+      const close = document.getElementById("ortalChatClose");
+      const form = document.getElementById("ortalChatForm");
+      const input = document.getElementById("ortalChatInput");
+      const messages = document.getElementById("ortalChatMessages");
+      const welcome = document.getElementById("ortalChatWelcome");
+      const startButton = document.getElementById("ortalChatStart");
+      const trust = document.getElementById("ortalChatTrust");
+      if (!panel || !toggle || !close || !form || !input || !messages || !welcome || !startButton || !trust) return;
+
+      const storageKey = "waffels_ortal_lead_chat";
+      const chatDebug = new URLSearchParams(window.location.search).get("chat_debug") === "1"
+        && /^(127\.0\.0\.1|localhost)$/.test(window.location.hostname);
+      const sendButton = form.querySelector('button[type="submit"]');
+      let isChatSending = false;
+      let isBotTyping = false;
+      let botMessageQueue = Promise.resolve();
+      let state = loadState();
+
+      const serviceHelpText = "אפשר לכתוב לי פשוט מה רצית לברר — טיפול, מחיר, תור או שאלה על הפרווה.";
+      const serviceLabels = {
+        haircut: "טיפול טיפוח מלא / תספורת ועיצוב",
+        bath: "טיפול טיפוח מלא",
+        deshedding: "טיפול פרווה / דילול נשירה",
+        matting: "טיפול בקשרים לפי מצב הפרווה",
+        sanitary: "סידור אזורים עדינים",
+        boarding: "פנסיון",
+        other: "שאלה אחרת"
+      };
+      const serviceFlows = {
+        haircut: ["breed", "has_matting", "last_grooming", "style_preference", "behavior_notes", "is_returning_customer", "preferred_date", "customer_name", "phone", "summary"],
+        bath: ["breed", "coat_condition", "behavior_notes", "is_returning_customer", "preferred_date", "customer_name", "phone", "summary"],
+        deshedding: ["breed", "coat_condition", "medical_notes", "behavior_notes", "is_returning_customer", "preferred_date", "customer_name", "phone", "summary"],
+        matting: ["breed", "coat_condition", "has_matting", "behavior_notes", "medical_notes", "preferred_date", "customer_name", "phone", "summary"],
+        sanitary: ["breed", "behavior_notes", "medical_notes", "is_returning_customer", "preferred_date", "customer_name", "phone", "summary"],
+        boarding: ["breed", "behavior_notes", "medical_notes", "preferred_date", "customer_name", "phone", "summary"],
+        other: ["breed", "notes", "behavior_notes", "preferred_date", "customer_name", "phone", "summary"]
+      };
+      const fieldQuestions = {
+        dog_name: "איך קוראים לכלב?",
+        breed: "ומה הגזע או הגודל שלו? אם לא בטוחים, אפשר לכתוב בערך.",
+        coat_condition: "איך הפרווה נראית כרגע? מסודרת, עם נשירה, דחוסה, או שיש משהו שאורטל צריכה לשים לב אליו?",
+        has_matting: "הפרווה כרגע מסורקת ונפתחת בקלות, או שיש קשרים/אזורים דחוסים שצריך לשים לב אליהם?",
+        last_grooming: "מתי הוא הסתפר או עבר טיפול מלא לאחרונה?",
+        style_preference: "יש כיוון למראה שרציתם? קצר ופרקטי, לשמור אורך, או מראה יותר מעוגל וטבעי?",
+        behavior_notes: "איך הוא מרגיש בדרך כלל בטיפול? רגוע, קצת חושש, או שיש משהו שאורטל צריכה לדעת מראש?",
+        medical_notes: "יש משהו רגיש שחשוב שאורטל תדע לפני שמדברים על טיפול? אם אין, אפשר פשוט לכתוב שאין.",
+        is_returning_customer: "הייתם כבר אצל אורטל בעבר?",
+        preferred_date: "יש יום או זמן שנוח לך שאורטל תחזור אליך או תבדוק אפשרות לתור?",
+        customer_name: "ואיך קוראים לך?",
+        phone: "מה מספר הטלפון שאורטל תוכל לחזור אליו?",
+        notes: "ספרו לי בכמה מילים מה חשוב שאורטל תדע, ואסכם לה את זה מסודר."
+      };
+
+      function formatChatText(kind, text) {
+        return escapeChatHtml(text || "").replace(/\n/g, "<br>");
+      }
+
+      function setMessageText(item, kind, text) {
+        item.innerHTML = formatChatText(kind, text);
+      }
+
+      function appendMessage(kind, text) {
+        if (kind === "bot") {
+          botMessageQueue = botMessageQueue.then(() => typeBotMessage(text));
+          return botMessageQueue;
+        }
+        const item = document.createElement("div");
+        item.className = "ortal-chat-msg " + kind;
+        setMessageText(item, kind, text);
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight;
+        return item;
+      }
+
+      function appendActionButton(label, value) {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "ortal-chat-action";
+        button.textContent = label;
+        button.addEventListener("click", () => {
+          input.value = value;
+          form.requestSubmit();
+        });
+        messages.appendChild(button);
+        messages.scrollTop = messages.scrollHeight;
+        return button;
+      }
+
+      function sleep(ms) {
+        return new Promise((resolve) => window.setTimeout(resolve, ms));
+      }
+
+      function setChatBusy(isBusy) {
+        isBotTyping = isBusy;
+        input.disabled = isBusy;
+        if (sendButton) sendButton.disabled = isBusy;
+      }
+
+      function showTypingIndicator() {
+        const item = document.createElement("div");
+        item.className = "ortal-chat-msg bot";
+        item.setAttribute("data-typing", "true");
+        item.textContent = "העוזר של וופל׳ס מקליד...";
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight;
+        return item;
+      }
+
+      function removeTypingIndicator(item) {
+        if (item && item.parentNode) item.parentNode.removeChild(item);
+      }
+
+      async function typeBotMessage(text) {
+        setChatBusy(true);
+        const typing = showTypingIndicator();
+        await sleep(2000);
+        removeTypingIndicator(typing);
+
+        const item = document.createElement("div");
+        item.className = "ortal-chat-msg bot";
+        messages.appendChild(item);
+        const rawText = String(text || "");
+        let visible = "";
+        for (const char of rawText) {
+          visible += char;
+          item.innerHTML = formatChatText("bot", visible);
+          messages.scrollTop = messages.scrollHeight;
+          const punctuationPause = /[.,?!:؟،؛״]/.test(char) ? 90 : 0;
+          await sleep(22 + punctuationPause);
+        }
+        setChatBusy(false);
+        window.setTimeout(() => input.focus(), 20);
+        return item;
+      }
+
+      function escapeChatHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function loadState() {
+        try {
+          const parsed = JSON.parse(localStorage.getItem(storageKey) || "{}");
+          if (parsed && typeof parsed === "object") {
+            return normalizeChatState(parsed);
+          }
+        } catch (_error) {
+          localStorage.removeItem(storageKey);
+        }
+        return normalizeChatState({});
+      }
+
+      function saveState() {
+        localStorage.setItem(storageKey, JSON.stringify(state));
+      }
+
+      function normalizeChatState(inputState) {
+        const defaultLead = {
+          customer_name: "",
+          customer_city: "",
+          phone: "",
+          dog_name: "",
+          breed: "",
+          service_requested: "",
+          notes: "",
+          source: "website_chat_widget",
+          coat_type: "",
+          coat_type_key: "",
+          coat_condition: "",
+          has_matting: "",
+          last_grooming: "",
+          style_preference: "",
+          behavior_notes: "",
+          medical_notes: "",
+          is_returning_customer: "",
+          preferred_date: "",
+          appointment_question: "",
+          status: "",
+          temperature: "",
+          next_action: "",
+          last_intent: "",
+          last_bot_question: "",
+          escalation_required: false,
+          escalation_reason: ""
+        };
+        return {
+          stage: inputState.stage || "intro",
+          serviceKey: inputState.serviceKey || "",
+          flow: Array.isArray(inputState.flow) ? inputState.flow : [],
+          flowIndex: Number.isInteger(inputState.flowIndex) ? inputState.flowIndex : 0,
+          awaitingConfirmation: Boolean(inputState.awaitingConfirmation),
+          saved: Boolean(inputState.saved),
+          lead: inputState.lead && typeof inputState.lead === "object" ? { ...defaultLead, ...inputState.lead } : defaultLead
+        };
+      }
+
+      function resetChatState() {
+        state = normalizeChatState({});
+        saveState();
+      }
+
+      function showConversation() {
+        welcome.hidden = true;
+        messages.hidden = false;
+        trust.hidden = false;
+        form.hidden = false;
+      }
+
+      function startConversation() {
+        showConversation();
+        if (!messages.dataset.started) {
+          resetChatState();
+          appendMessage("bot", "היי, הגעת לוופל׳ס 🐾 איך אפשר לעזור?");
+          messages.dataset.started = "true";
+        }
+        window.setTimeout(() => input.focus(), 50);
+      }
+
+      function normalizeText(value) {
+        return String(value || "").trim().toLowerCase();
+      }
+
+      function detectService(message) {
+        const text = normalizeText(message);
+        if (/תספורת|גזירה|לספר|קיצור|גילוח|לגלח/.test(text)) return "haircut";
+        if (/מקלחת|רחצה|שטיפה|לרחוץ|אמבטיה/.test(text)) return "bath";
+        if (/דילול|נשירה|דה שדינג|deshedding|דה-שדינג/.test(text)) return "deshedding";
+        if (/קשרים|קשר|ראסטות|פרווה סבוכה|סבוך/.test(text)) return "matting";
+        if (/עיניים|טוסיק|היגיינ|סניטרי|פנים|ישבן/.test(text)) return "sanitary";
+        if (/פנסיון|שמירה|אירוח|לינה/.test(text)) return "boarding";
+        if (/אחר|שאלה|לא בטוח|לא יודעת|לא יודע/.test(text)) return "other";
+        return "";
+      }
+
+      function isPriceQuestion(message) {
+        return /מחיר|כמה עולה|עלות|כמה זה|הצעת מחיר|עולה/.test(normalizeText(message));
+      }
+
+      function isAppointmentQuestion(message) {
+        return /מתי יש(?: לה)? תורים|מתי יש(?: לה)? תורים פנויים|יש תור היום|אפשר להגיע עכשיו|(?:רוצה|רוצה לקבוע|מעוניין|מעוניינת|צריך|צריכה)\s+תור|(?:רוצה|מעוניין|מעוניינת|צריך|צריכה)?\s*להגיע היום|לקבוע תור|אפשר תור|מתי אפשר להגיע|זמינות|תורים השבוע|יש תורים השבוע|תורים פנויים|תור פנוי|יש תורים/.test(normalizeText(message));
+      }
+
+      function isFrustrationMessage(message) {
+        return /שאלתי שאלה|אתה לא מתוכנת טוב|לא ענית לי|מה אתה לא מבין|מה זה משנה|אתה חופר|חופר|זה לא מה ששאלתי|אתה בוט|אין לך תשובה|לא ענית|לא מבין|מתוכנת/.test(normalizeText(message));
+      }
+
+      function isSmallTalkMessage(message) {
+        const clean = normalizeText(message).replace(/[?!.,…]+/g, " ").replace(/\s+/g, " ").trim();
+        if (!clean) return false;
+        if (/טיפול|מחיר|תור|תורים|זמינות|מקלחת|תספורת|פודל|כלב|כלבה|גזע|פרווה|קשרים|פנסיון|גילוח|לגלח/.test(clean)) return false;
+        return /^(היי|שלום|אהלן|בוקר טוב|ערב טוב|צהריים טובים|מה נשמע|מה שלומך|מה קורה|שלומי טוב|הכל בסדר|הכול בסדר|בסדר|סבבה|מעולה|תודה|תודה רבה)(\s+(היי|שלום|אהלן|בוקר טוב|ערב טוב|מה נשמע|מה שלומך|מה קורה|שלומי טוב|הכל בסדר|הכול בסדר|בסדר|סבבה|מעולה|תודה|תודה רבה))*$/.test(clean) ||
+          /^(היי|שלום|אהלן).*(מה שלומך|מה נשמע|שלומי טוב|הכל בסדר|הכול בסדר)$/.test(clean) ||
+          /^(שלומי טוב|מעולה|סבבה).*(מה שלומך|מה נשמע)$/.test(clean);
+      }
+
+      function smallTalkReply(message) {
+        return "היי, הכול טוב תודה 🙂 איך אפשר לעזור עם הכלב?";
+      }
+
+      function availabilityReply() {
+        const shortCoatLine = state.lead.coat_type === "short_smooth"
+          ? "\n\nבגלל שמדובר בפרווה קצרה, זה טיפול טיפוח מלא לפרווה קצרה ולא תספורת כמו אצל פודל או שיצו."
+          : "";
+        return `אני אבדוק ביומן ואורטל תחזור אליך עם האפשרויות המתאימות.${shortCoatLine}\n\n${appointmentNextQuestion()}`;
+      }
+
+      function sameDayAvailabilityReply() {
+        const shortCoatLine = state.lead.coat_type === "short_smooth"
+          ? "\n\nבגלל שמדובר בפרווה קצרה, זה טיפול טיפוח מלא לפרווה קצרה ולא תספורת כמו אצל פודל או שיצו."
+          : "";
+        return `אני מבין שחשוב לך לבדוק אפשרות להיום. אני לא רוצה להבטיח תור בלי בדיקה ביומן ובסוג הטיפול. אורטל עובדת א׳–ה׳ 09:00–16:00, ותור אחרון מתחיל ב־14:00. טיפול בדרך כלל לוקח סביב שעתיים, תלוי בכלב ובמצב הפרווה.${shortCoatLine}\n\nכדי שאורטל תוכל לבדוק לך נכון, אשמח לקבל שם הכלב, מצב הפרווה וטלפון לחזרה.`;
+      }
+
+      function isSameDayAppointmentRequest(message) {
+        return /היום|עכשיו|מיידי|מיידית|דחוף|בהקדם/.test(normalizeText(message));
+      }
+
+      function isNearAppointmentRequest(message) {
+        return /היום|מחר|השבוע|בקרוב|בהקדם|דחוף|עכשיו|מיידי|מיידית/.test(normalizeText(message));
+      }
+
+      function appointmentNextQuestion() {
+        if (!state.lead.phone && state.lead.breed) return "כדי שאורטל תוכל לבדוק נכון, אשמח לקבל שם הכלב, מצב הפרווה וטלפון לחזרה.";
+        if (!state.lead.phone) return "כדי שאורטל תוכל לבדוק נכון, אשמח לקבל שם הכלב, גזע, מצב הפרווה וטלפון לחזרה.";
+        if (!state.lead.dog_name || !state.lead.breed) return "כדי שאורטל תוכל לבדוק נכון, אשמח לקבל שם הכלב, גזע ומצב הפרווה.";
+        if (!state.lead.preferred_date && !state.lead.appointment_question) return "איזה יום או טווח שעות נוח לך שאורטל תבדוק?";
+        return "מעולה, יש לי את הפרטים כדי לסכם לאורטל.";
+      }
+
+      function classifyLeadForCrm(message) {
+        const text = normalizeText(message);
+        const wantsAppointment = isAppointmentQuestion(message) || /לקבוע|תור|זמינות|להגיע/.test(text);
+        const wantsPrice = isPriceQuestion(message);
+        const hasPhone = Boolean(state.lead.phone);
+        const hasDogContext = Boolean(state.lead.dog_name || state.lead.breed || state.lead.coat_type);
+        const hasService = Boolean(state.lead.service_requested);
+        const needsPhoto = /קשרים|קשר|פרווה דחוסה|מוזנח|תמונה|פודל|דודל|האסקי|סמויד|פומרניאן|גילוח|לגלח/.test(text)
+          || state.lead.coat_type === "double_coat";
+
+        if (wantsAppointment) {
+          state.lead.status = isNearAppointmentRequest(message) || (hasPhone && hasDogContext && hasService) ? "waiting_for_ortal" : "new";
+          state.lead.next_action = isNearAppointmentRequest(message) || (hasPhone && hasDogContext && hasService)
+            ? "בדיקת זמינות ביומן וחזרה ללקוח"
+            : "להשלים פרטי תור: טיפול, כלב, מועד רצוי וטלפון";
+        } else if (state.lead.escalation_required) {
+          state.lead.status = "waiting_for_ortal";
+          state.lead.next_action = "אורטל צריכה לבדוק אישית לפני תשובה ללקוח";
+        } else if (needsPhoto && (wantsPrice || hasService)) {
+          state.lead.status = "waiting_for_photo";
+          state.lead.next_action = "לבקש תמונה עדכנית כדי לדייק טיפול/מחיר";
+        } else if (wantsPrice) {
+          state.lead.status = "price_sent";
+          state.lead.next_action = "להמשיך סגירה לתור אחרי שאלת מחיר";
+        } else if (hasPhone && hasDogContext && hasService) {
+          state.lead.status = "waiting_for_ortal";
+          state.lead.next_action = "לחזור ללקוח עם התאמת טיפול ותור";
+        }
+
+        if (isNearAppointmentRequest(message) || (hasPhone && wantsAppointment)) {
+          state.lead.temperature = "hot";
+        } else if (wantsPrice || hasService || hasDogContext) {
+          state.lead.temperature = "warm";
+        } else if (isSmallTalkMessage(message)) {
+          state.lead.temperature = "cold";
+        }
+      }
+
+      function frustrationReply() {
+        if (state.lead.last_intent === "appointment_question" || state.lead.appointment_question) {
+          return "אתה צודק, סליחה. שאלת שאלה ישירה ולא עניתי מספיק מדויק.\n\nאני אבדוק ביומן ואורטל תחזור אליך עם האפשרויות המתאימות.\n\nמה מספר הטלפון לחזרה?";
+        }
+        return "אתה צודק, סליחה. שאלת שאלה ישירה ולא עניתי מספיק מדויק. אשמח לדייק: מה רצית לדעת?";
+      }
+
+      function extractCustomerName(message) {
+        const value = String(message || "").trim();
+        if (isFrustrationMessage(value)) return "";
+        const patterns = [
+          /(?:שמי|שמי:)\s+([א-תA-Za-z'-]{2,30})/i,
+          /(?:אני|קוראים לי)\s+([א-תA-Za-z'-]{2,30})$/i,
+          /אני רוצה לקבוע,\s*([א-תA-Za-z'-]{2,30})/i
+        ];
+        for (const pattern of patterns) {
+          const match = value.match(pattern);
+          if (match) return match[1].trim();
+        }
+        return "";
+      }
+
+      function getPriceReply() {
+        const coatType = state.lead.coat_type || detectCoatTypeFromBreed(state.lead.breed || "");
+        const hasDogContext = Boolean((state.lead.breed && state.lead.breed !== "לא ידוע") || (coatType && coatType !== "unknown"));
+        if (!hasDogContext) {
+          if (!state.lead.service_requested) {
+            return "בשמחה. לפני שאני מדבר על מחיר, כדי לא להטעות אותך צריך להבין באיזה כלב מדובר ומה הטיפול שרצית. איזה גזע או גודל הכלב, ומה היית רוצה לעשות?";
+          }
+          return "בשמחה. לפני שאני מדבר על מחיר, כדי לא להטעות אותך צריך להבין באיזה כלב מדובר. איזה גזע או גודל הכלב?";
+        }
+        if (coatType === "curly") {
+          return "בפודל המחיר תלוי בעיקר בגודל שלו, מצב הפרווה, האם יש קשרים, ומתי היה הטיפול האחרון. הטיפול אצל אורטל כולל מקלחת עם חומרים איכותיים, ייבוש מלא, סירוק, עבודה לפי מצב הפרווה, תספורת/עיצוב, אוזניים וציפורניים. כדי שאורטל תוכל לתת הערכה מדויקת, אפשר לדעת אם מדובר בטוי/ננסי/בינוני ומתי הוא הסתפר בפעם האחרונה?";
+        }
+        if (coatType === "short_smooth") {
+          return "בגלל שמדובר בפרווה קצרה, זה לא טיפול של תספורת כמו אצל פודל או שיצו. אצל אורטל הטיפול מתמקד במקלחת עם חומרים איכותיים, ייבוש, אוזניים, ציפורניים, ניקוי וסידור לפי הצורך והברשה שמתאימה לפרווה קצרה.\n\nכדי לדייק, יש רגישות בעור, ריח חזק, נשירה או משהו בהתנהגות בטיפול שחשוב שאורטל תדע?";
+        }
+        if (coatType === "double_coat" || coatType === "dense_shedding") {
+          return "בגזעים עם פרווה כפולה צריך להיזהר מגילוח. אצל אורטל בודקים טיפול נכון יותר כמו מקלחת, ייבוש יסודי, סירוק והוצאת פרווה מתה. במקרה כזה אורטל צריכה לראות את הפרווה ולקבל החלטה מקצועית.";
+        }
+        return "המחיר תלוי בגודל הכלב, סוג הפרווה, מצב הפרווה ומה נכון לעשות בטיפול. כדי שאורטל תוכל לתת הערכה מדויקת, צריך להבין קודם באיזה כלב מדובר.";
+      }
+
+      function detectCoatTypeFromBreed(value) {
+        const text = normalizeText(value).replace(/[״"׳']/g, "");
+        if (/פיט\s*בול|פיטבול|אמסטף|סטאפורדשייר|סטאף|בוקסר|דוברמן|פינצר|פינצ׳ר|ביגל|בולדוג צרפתי|ציוואווה קצר|צ׳יוואווה קצר|דלמטי|ויסלה/.test(text)) return "short_smooth";
+        if (/פודל|טוי פודל|פודל ננסי|בישון|מלטיפו|קאבפו|קוקאפו|לברדודל|גולדנדודל|דודל/.test(text)) return "curly";
+        if (/שיצו|שי צו|שיצו|מלטז|מלטזי|יורקשייר|יורקי|לאסה|פקינז|קינג צארלס|קינג צ׳ארלס/.test(text)) return "long_silky";
+        if (/האסקי|האסקי סיבירי|סמויד|פומרניאן|פומרניין|אקיטה|רועה גרמני|בורדר קולי|גולדן|קולי|צאו צאו|צ׳או צ׳או|ניופאונדלנד|קורגי/.test(text)) return "double_coat";
+        if (/שנאוצר|גק ראסל זיפי|ג׳ק ראסל זיפי|פוקס טרייר|איירדייל|סקוטיש טרייר/.test(text)) return "wire";
+        if (/לברדור/.test(text)) return "dense_shedding";
+        return "unknown";
+      }
+
+      function coatTypeLabel(coatType) {
+        return {
+          short_smooth: "פרווה קצרה",
+          curly: "פרווה מתולתלת",
+          long_silky: "פרווה ארוכה",
+          double_coat: "פרווה כפולה",
+          wire: "פרווה זיפית",
+          dense_shedding: "פרווה צפופה עם נשירה",
+          unknown: "סוג פרווה לא ודאי"
+        }[coatType] || "סוג פרווה לא ודאי";
+      }
+
+      function inferBreedFromMessage(message) {
+        const knownBreeds = [
+          "פיטבול", "פיט בול", "אמסטף", "סטאף", "סטאפורדשייר", "בוקסר", "דוברמן", "פינצ׳ר", "ביגל", "בולדוג צרפתי", "דלמטי", "ויסלה",
+          "פודל", "טוי פודל", "פודל ננסי", "בישון", "מלטיפו", "קאבפו", "קוקאפו", "לברדודל", "גולדנדודל", "דודל",
+          "שיצו", "שי צו", "מלטז", "מלטזי", "יורקשייר", "יורקי", "לאסה אפסו", "פקינז", "קינג צ׳ארלס",
+          "האסקי", "האסקי סיבירי", "סמויד", "פומרניאן", "פומרניין", "אקיטה", "רועה גרמני", "בורדר קולי", "גולדן", "קורגי", "לברדור",
+          "שנאוצר", "ג׳ק ראסל זיפי", "פוקס טרייר", "איירדייל", "סקוטיש טרייר"
+        ];
+        const text = normalizeText(message);
+        return knownBreeds.find((breed) => text.includes(normalizeText(breed))) || "";
+      }
+
+      function rememberBreedFromMessage(message) {
+        const inferredBreed = inferBreedFromMessage(message);
+        if (!inferredBreed) return "";
+        state.lead.breed = inferredBreed;
+        state.lead.coat_type = detectCoatTypeFromBreed(inferredBreed);
+        addNoteLine("סוג פרווה", coatTypeLabel(state.lead.coat_type));
+        return inferredBreed;
+      }
+
+      function rememberDetailsFromMessage(message) {
+        const text = normalizeText(message);
+        if (/אין קשרים|בלי קשרים|לא יש קשרים/.test(text)) {
+          state.lead.has_matting = "אין קשרים שצוינו";
+          addNoteLine("קשרים", state.lead.has_matting);
+          return;
+        }
+        if (/קשרים|קשר|ראסטות|סבוך|דחוס/.test(text)) {
+          state.lead.has_matting = state.lead.has_matting || "יש קשרים/אזורים דחוסים";
+          addNoteLine("קשרים", state.lead.has_matting);
+        }
+        if (/^אין$|^לא$|אין בעיה/.test(text) && currentField() === "has_matting") {
+          state.lead.has_matting = "אין קשרים שצוינו";
+          addNoteLine("קשרים", state.lead.has_matting);
+        }
+        if (/טוי|ננסי|בינוני|קטן|גדול/.test(text) && !state.lead.coat_condition) {
+          addNoteLine("גודל משוער", message);
+        }
+      }
+
+      function rememberServiceFromPriceMessage(message) {
+        const text = normalizeText(message);
+        if (state.lead.coat_type === "curly" || /פודל|מלטיפו|קאבפו|קוקאפו|דודל/.test(text)) {
+          state.lead.service_requested = "טיפול טיפוח מלא לפודל / תספורת ועיצוב";
+          state.serviceKey = "haircut";
+          state.stage = "collecting";
+          state.flow = ["dog_name", "breed", "last_grooming", "has_matting", "style_preference", "preferred_date", "customer_name", "phone", "summary"];
+          state.flowIndex = state.lead.breed ? 2 : 1;
+          return;
+        }
+        const serviceKey = detectService(message);
+        if (serviceKey) {
+          state.serviceKey = serviceKey;
+          state.lead.service_requested = serviceLabels[serviceKey] || serviceLabels.other;
+          state.stage = "collecting";
+          state.flow = state.lead.breed
+            ? ["dog_name", ...flowForCoatType(state.lead.coat_type || detectCoatTypeFromBreed(state.lead.breed))]
+            : ["dog_name", ...(serviceFlows[serviceKey] || serviceFlows.other)];
+          state.flowIndex = 0;
+        }
+      }
+
+      function treatmentIncludedReply() {
+        const dogName = state.lead.dog_name || "הכלב";
+        const breed = state.lead.breed || "";
+        const coatType = state.lead.coat_type || detectCoatTypeFromBreed(breed);
+        if (coatType === "short_smooth") {
+          return `הטיפול כולל מקלחת עם חומרים איכותיים, ייבוש, אוזניים, ציפורניים, ניקוי וסידור לפי הצורך, והברשה שמתאימה לפרווה קצרה. אם יש רגישות עור, ריח או נשירה - אורטל מתאימה את הטיפול לפי זה.`;
+        }
+        if (coatType === "curly") {
+          return "הטיפול כולל מקלחת, ייבוש מלא, סירוק, עבודה על קשרים לפי מצב הפרווה, תספורת/עיצוב, אוזניים וציפורניים. בפודל חשוב לראות את מצב הפרווה כדי לדעת אם אפשר לשמור אורך או שצריך לקצר.";
+        }
+        if (coatType === "double_coat" || coatType === "dense_shedding") {
+          return `${dogName} עם פרווה שדורשת ייבוש וסירוק יסודיים. הטיפול מתמקד במקלחת, ייבוש מלא, הברשה והוצאת פרווה מתה לפי הצורך, בלי להתייחס לזה כתספורת רגילה.`;
+        }
+        if (coatType === "long_silky") {
+          return "הטיפול כולל מקלחת, ייבוש, סירוק, בדיקת קשרים, עיצוב או קיצור לפי הרצון, אוזניים וציפורניים. חשוב להבין אם רוצים לשמור אורך או ללכת על מראה פרקטי יותר.";
+        }
+        return "הטיפול מותאם לגזע, מצב הפרווה והאופי של הכלב. בדרך כלל אורטל בודקת מקלחת, ייבוש, סירוק/סידור, אוזניים וציפורניים לפי הצורך. תמונה עדכנית תעזור לה לדייק.";
+      }
+
+      function servicesOverviewReply() {
+        return "בוופל׳ס הטיפול הוא טיפול טיפוח מלא שמותאם לכלב ולסוג הפרווה שלו. לפי הצורך הוא יכול לכלול מקלחת עם חומרים איכותיים, ייבוש, סירוק או הברשה, עבודה לפי מצב הפרווה, אוזניים, ציפורניים וסידור אזורים עדינים. תספורת או עיצוב רלוונטיים רק כשזה מתאים לגזע ולפרווה.\n\nכדי לכוון אותך נכון, איזה כלב יש לך ומה רצית לבדוק עבורו?";
+      }
+
+      function isTreatmentIncludedQuestion(message) {
+        return /מה כלול|מה כולל|כלול|מה יש בטיפול|כולל הטיפול|מה עושים בטיפול|איזה סוג טיפולים|איזה טיפולים|סוגי טיפולים|שירותים|מה אתם עושים|מה יש לכם/.test(normalizeText(message));
+      }
+
+      function isServicesOverviewQuestion(message) {
+        return /איזה סוג טיפולים|איזה טיפולים|סוגי טיפולים|שירותים|מה אתם עושים|מה יש לכם/.test(normalizeText(message));
+      }
+
+      function isAffirmative(message) {
+        return /^(כן|כן תודה|מאשר|מאשרת|לאשר|אישור|אפשר|שלח|שלחי|סבבה|יאללה|מאושר)$/i.test(String(message || "").trim());
+      }
+
+      function isNegative(message) {
+        return /^(לא|רגע|לבטל|ביטול|לא לאשר|אל תשלח|אל תשלחי|חכה|חכי)$/i.test(String(message || "").trim());
+      }
+
+      function isSkip(message) {
+        return /^(אין|לא|דלג|דילוג|לא יודע|לא יודעת|לא בטוח|לא בטוחה)$/i.test(String(message || "").trim());
+      }
+
+      function hasValidPhone(value) {
+        const digits = String(value || "").replace(/[^\d]/g, "");
+        return digits.length >= 9 && digits.length <= 15;
+      }
+
+      function detectSensitiveCase(message, serviceKey) {
+        const text = normalizeText(message);
+        const reasons = [];
+        if (/פצע|דימום|דם|דלקת|כאב|כואב|גירוי|עור אדום|בעיה רפואית|וטרינר|פריחה|טפיל|פרעוש|קרציה/.test(text)) reasons.push("עניין רפואי או רגיש");
+        if (/נושך|נשך|תוקפ|אגרסיב|מסוכן|לא נותן לגעת/.test(text)) reasons.push("כלב שעלול להיות תוקפני או רגיש מאוד");
+        if (/קשרים קשים|מלא קשרים|ראסטות|סבוך מאוד|פרווה סבוכה/.test(text)) reasons.push("קשרים קשים בפרווה");
+        if (serviceKey === "boarding") reasons.push("בקשת פנסיון דורשת בדיקה אישית של אורטל");
+        if (/גילוח כפול|לגלח פומרניאן|לגלח שפיץ|לגלח האסקי|לגלח סמוייד|double coat|פרווה כפולה/.test(text)) reasons.push("בקשת גילוח לכלב בעל פרווה כפולה");
+        if (/כועס|כועסת|לא מרוצה|אכזבה|התלונ|גרוע|חוצפה/.test(text)) reasons.push("לקוח כועס או תלונה");
+        if (/החזר|זיכוי|ביטול|לבטל תור|קנס|כסף חזרה/.test(text)) reasons.push("בקשת החזר, ביטול או זיכוי");
+        return [...new Set(reasons)];
+      }
+
+      function markSensitive(reasons) {
+        if (!reasons.length) return;
+        state.lead.escalation_required = true;
+        state.lead.escalation_reason = reasons.join(", ");
+      }
+
+      function coatIntroForBreed(breed, coatType) {
+        const dogName = state.lead.dog_name || "הכלב";
+        if (coatType === "short_smooth") {
+          return `${dogName} הוא ${breed}, אז מדובר בפרווה קצרה ולא בתספורת כמו אצל פודל או שיצו. אצל אורטל הטיפול מתמקד במקלחת עם חומרים איכותיים, ייבוש, אוזניים, ציפורניים, ניקוי וסידור לפי הצורך והברשה שמתאימה לפרווה קצרה.`;
+        }
+        if (coatType === "curly") {
+          return `${breed} דורש טיפול מדויק יותר כי הפרווה מתולתלת וצפופה. חשוב להבין מתי הייתה תספורת אחרונה ואם יש קשרים כדי לדעת אם אפשר לשמור אורך.`;
+        }
+        if (coatType === "long_silky") {
+          return `ל${breed} יש פרווה שיכולה לפתח קשרים, לכן חשוב להבין אם רוצים לשמור אורך או לעשות טיפול פרקטי וקצר יותר.`;
+        }
+        if (coatType === "double_coat") {
+          return `${breed} הוא כלב עם פרווה כפולה, ולכן בדרך כלל לא מתייחסים אליו כתספורת רגילה. אצל אורטל בודקים טיפול נכון יותר כמו מקלחת, ייבוש יסודי, סירוק והוצאת פרווה מתה.`;
+        }
+        if (coatType === "wire") {
+          return `${breed} יכול להיות עם פרווה זיפית, ולכן כדאי להבין אם רוצים לשמור את המראה הטבעי או לעשות סידור פרקטי יותר.`;
+        }
+        if (coatType === "dense_shedding") {
+          return `${breed} נוטה לנשירה ופרווה צפופה, ולכן הטיפול מתמקד במקלחת, ייבוש יסודי והברשה שמתאימה להוצאת פרווה מתה.`;
+        }
+        return "תמונה עדכנית תעזור לאורטל להבין את סוג הפרווה ואת הטיפול הכי נכון.";
+      }
+
+      function flowForCoatType(coatType) {
+        if (coatType === "short_smooth") return ["medical_notes", "behavior_notes", "is_returning_customer", "preferred_date", "phone", "summary"];
+        if (coatType === "curly") return ["last_grooming", "has_matting", "style_preference", "preferred_date", "customer_name", "phone", "summary"];
+        if (coatType === "long_silky") return ["has_matting", "style_preference", "preferred_date", "customer_name", "phone", "summary"];
+        if (coatType === "double_coat") return ["coat_condition", "behavior_notes", "preferred_date", "customer_name", "phone", "summary"];
+        if (coatType === "wire") return ["style_preference", "preferred_date", "customer_name", "phone", "summary"];
+        if (coatType === "dense_shedding") return ["coat_condition", "behavior_notes", "preferred_date", "customer_name", "phone", "summary"];
+        return ["coat_condition", "behavior_notes", "preferred_date", "customer_name", "phone", "summary"];
+      }
+
+      function applyBreedIntelligence(breed) {
+        const cleanBreed = String(breed || "").trim();
+        if (!cleanBreed) return;
+        const coatType = detectCoatTypeFromBreed(cleanBreed);
+        state.lead.breed = cleanBreed;
+        state.lead.coat_type = coatType;
+        addNoteLine("סוג פרווה", coatTypeLabel(coatType));
+        if (coatType === "short_smooth") {
+          state.lead.service_requested = "טיפול טיפוח מלא לפרווה קצרה";
+        }
+        state.flow = flowForCoatType(coatType);
+        state.flowIndex = 0;
+        if (coatType === "double_coat" && /גילוח|לגלח/.test(normalizeText(state.lead.service_requested))) {
+          markSensitive(["בקשת גילוח לכלב בעל פרווה כפולה"]);
+        }
+        saveState();
+        appendMessage("bot", coatIntroForBreed(cleanBreed, coatType));
+      }
+
+      function currentField() {
+        return state.flow[state.flowIndex] || "summary";
+      }
+
+      function fieldHasValue(field) {
+        if (field === "summary") return false;
+        const value = state.lead[field];
+        return typeof value === "string" ? Boolean(value.trim()) : Boolean(value);
+      }
+
+      function skipAnsweredFields() {
+        while (state.flow[state.flowIndex] && state.flow[state.flowIndex] !== "summary" && fieldHasValue(state.flow[state.flowIndex])) {
+          state.flowIndex += 1;
+        }
+        saveState();
+      }
+
+      function askField(field) {
+        skipAnsweredFields();
+        field = currentField();
+        if (field === "summary") {
+          if (hasRequiredLeadFields()) {
+            showSummary();
+          } else {
+            askMissingRequiredField();
+          }
+          return;
+        }
+        appendMessage("bot", fieldQuestions[field] || "אפשר עוד פרט קטן כדי שאורטל תוכל לדייק?");
+      }
+
+      function askCurrentField() {
+        askField(currentField());
+      }
+
+      function moveToNextField() {
+        state.flowIndex += 1;
+        skipAnsweredFields();
+        saveState();
+        askCurrentField();
+      }
+
+      function startServiceFlow(serviceKey) {
+        state.serviceKey = serviceKey || "other";
+        state.lead.service_requested = serviceLabels[state.serviceKey] || serviceLabels.other;
+        state.flow = state.lead.breed
+          ? ["dog_name", ...flowForCoatType(state.lead.coat_type || detectCoatTypeFromBreed(state.lead.breed))]
+          : ["dog_name", ...(serviceFlows[state.serviceKey] || serviceFlows.other)];
+        state.flowIndex = 0;
+        state.stage = "collecting";
+        markSensitive(detectSensitiveCase(state.lead.service_requested, state.serviceKey));
+        skipAnsweredFields();
+        saveState();
+        const serviceIntro = state.serviceKey === "boarding"
+          ? "הבנתי. לגבי פנסיון, אורטל צריכה לבדוק אישית התאמה וזמינות לפני תשובה סופית."
+          : "מעולה, הבנתי. אשאל בעדינות עוד כמה פרטים כדי שאורטל תראה את התמונה כמו שצריך.";
+        appendMessage("bot", serviceIntro);
+        askCurrentField();
+      }
+
+      function addNoteLine(label, value) {
+        if (!value || isSkip(value)) return;
+        const line = `${label}: ${value}`;
+        state.lead.notes = [state.lead.notes, line].filter(Boolean).join("\n");
+      }
+
+      function captureField(field, message) {
+        const value = String(message || "").trim();
+        if (field === "phone") {
+          state.lead.phone = value;
+          return;
+        }
+        if (field === "customer_name") {
+          const extractedName = extractCustomerName(value);
+          state.lead.customer_name = extractedName;
+          return;
+        }
+        if (field === "dog_name") {
+          state.lead.dog_name = value;
+          return;
+        }
+        if (field === "breed") {
+          state.lead.breed = isSkip(value) ? "" : value;
+          return;
+        }
+        if (field === "medical_notes" && /^(לא|אין|לא נראה לי|לא הכלב|הכלב טוב|כלב טוב)/.test(normalizeText(value))) {
+          state.lead.medical_notes = "";
+          return;
+        }
+        if (field === "notes") {
+          state.lead.notes = isSkip(value) ? state.lead.notes : [state.lead.notes, value].filter(Boolean).join("\n");
+          return;
+        }
+        state.lead[field] = isSkip(value) ? "" : value;
+        const labels = {
+          coat_condition: "מצב פרווה",
+          has_matting: "קשרים",
+          last_grooming: "תספורת אחרונה",
+          style_preference: "העדפת מראה",
+          behavior_notes: "התנהגות בטיפול",
+          medical_notes: "מידע רפואי/רגיש",
+          is_returning_customer: "לקוח חוזר",
+          preferred_date: "זמן מועדף"
+        };
+        addNoteLine(labels[field] || field, state.lead[field]);
+      }
+
+      function buildSummaryText() {
+        const lead = state.lead;
+        const valueOr = (value, fallback) => {
+          const clean = String(value || "").trim();
+          return clean || fallback;
+        };
+        if (isAppointmentLeadContext()) {
+          const appointmentNotes = [
+            lead.preferred_date || lead.appointment_question ? `מועד/שאלה: ${lead.preferred_date || lead.appointment_question}` : "",
+            lead.coat_condition ? `מצב פרווה: ${lead.coat_condition}` : "",
+            lead.behavior_notes ? `התנהגות: ${lead.behavior_notes}` : "",
+            lead.medical_notes ? `רגישות: ${lead.medical_notes}` : "",
+            lead.notes ? lead.notes : ""
+          ].filter(Boolean).join("\n") || "לא נמסרו הערות נוספות";
+          return "מעולה, אעביר לאורטל:\n\n" +
+            `בקשה: בדיקת תור\n` +
+            `גזע: ${valueOr(lead.breed, "לא נמסר")}\n` +
+            `סוג טיפול: ${valueOr(lead.service_requested, "לא נמסר")}\n` +
+            `טלפון: ${valueOr(lead.phone, "לא נמסר")}\n` +
+            `הערות: ${appointmentNotes}\n\n` +
+            "לאשר שליחה?";
+        }
+        const serviceDisplay = lead.coat_type === "short_smooth"
+          ? "טיפול טיפוח מלא לפרווה קצרה - מקלחת עם חומרים איכותיים, ייבוש, אוזניים, ציפורניים, ניקוי וסידור לפי הצורך והברשה לפרווה קצרה."
+          : lead.service_requested;
+        const rows = [
+          ["שם לקוח", valueOr(lead.customer_name, "לא נמסר")],
+          ["טלפון", valueOr(lead.phone, "לא נמסר")],
+          ["שם הכלב", valueOr(lead.dog_name, "לא נמסר")],
+          ["גזע", valueOr(lead.breed, "לא נמסר")],
+          ["סוג טיפול", valueOr(serviceDisplay, "לא נמסר")],
+          ["סוג פרווה", valueOr(coatTypeLabel(lead.coat_type), "לא ידוע")],
+          ["התנהגות", valueOr(lead.behavior_notes, "לא צוינה בעיה מיוחדת")],
+          ["רגישות רפואית", valueOr(lead.medical_notes, "לא צוינה")],
+          ["לקוח חדש/חוזר", valueOr(lead.is_returning_customer, "לא ידוע")],
+          ["מועד/שאלה לגבי תור", valueOr(lead.preferred_date || lead.appointment_question, "לא צוין")]
+        ];
+        return "מעולה, אסכם לאורטל את הפרטים:\n\n" +
+          rows.map((row) => `${row[0]}: ${row[1]}`).join("\n") +
+          "\n\nלאשר שליחה לאורטל?";
+      }
+
+      function showSummary() {
+        if (!hasRequiredLeadFields()) {
+          state.awaitingConfirmation = false;
+          state.stage = "collecting";
+          saveState();
+          askMissingRequiredField();
+          return;
+        }
+        state.stage = "confirm";
+        state.awaitingConfirmation = true;
+        saveState();
+        appendMessage("bot", buildSummaryText()).then(() => {
+          if (state.awaitingConfirmation) appendActionButton("שליחה לאורטל", "מאשר");
+        });
+      }
+
+      function hasRequiredLeadFields() {
+        if (isAppointmentLeadContext()) {
+          return Boolean(state.lead.phone && state.lead.service_requested && (state.lead.breed || state.lead.dog_name));
+        }
+        return Boolean(state.lead.phone && state.lead.dog_name && state.lead.service_requested);
+      }
+
+      function isAppointmentLeadContext() {
+        return Boolean(
+          state.lead.appointment_question
+          || ["appointment_question", "human_handoff", "frustration"].includes(state.lead.last_intent)
+          || ["appointment", "human_handoff"].includes(state.stage)
+          || /תור|זמינות/.test(normalizeText(state.lead.preferred_date || ""))
+        );
+      }
+
+      function askMissingRequiredField() {
+        if (!state.lead.service_requested) {
+          appendMessage("bot", isAppointmentLeadContext()
+            ? "כדי שאורטל תוכל לבדוק נכון, אשמח לדעת איזה טיפול צריך ומה הגזע או הגודל של הכלב."
+            : "עוד לא בחרנו כיוון טיפול. מה רלוונטי לכלב שלך?");
+          return;
+        }
+        if (!state.lead.dog_name && !isAppointmentLeadContext()) {
+          appendMessage("bot", "כדי שאורטל תדע על מי מדובר, איך קוראים לכלב?");
+          return;
+        }
+        if (!state.lead.breed && isAppointmentLeadContext()) {
+          appendMessage("bot", "מה הגזע שלו, או הגודל בערך אם לא בטוחים?");
+          return;
+        }
+        if (!state.lead.phone) {
+          appendMessage("bot", "מעולה, ומה מספר הטלפון שאורטל תוכל לחזור אליו?");
+          return;
+        }
+        appendMessage("bot", "יש עוד פרט קטן שחשוב שאורטל תדע?");
+      }
+
+      function moveFlowToPhone() {
+        state.stage = "collecting";
+        state.flow = ["phone", "summary"];
+        state.flowIndex = 0;
+        saveState();
+      }
+
+      function buildLeadPayload() {
+        const notes = [
+          state.lead.notes || "",
+          state.lead.coat_type_key === "short_smooth" ? "פירוט טיפול לפרווה קצרה: מקלחת עם חומרים איכותיים, ייבוש, אוזניים, ציפורניים, ניקוי וסידור לפי הצורך והברשה לפרווה קצרה." : "",
+          state.lead.coat_condition ? `מצב פרווה: ${state.lead.coat_condition}` : "",
+          state.lead.has_matting ? `קשרים: ${state.lead.has_matting}` : "",
+          state.lead.last_grooming ? `טיפול אחרון: ${state.lead.last_grooming}` : "",
+          state.lead.style_preference ? `העדפת מראה: ${state.lead.style_preference}` : "",
+          state.lead.behavior_notes ? `התנהגות: ${state.lead.behavior_notes}` : "",
+          state.lead.medical_notes ? `רגישות רפואית: ${state.lead.medical_notes}` : "",
+          state.lead.is_returning_customer ? `לקוח חדש/חוזר: ${state.lead.is_returning_customer}` : "",
+          state.lead.preferred_date || state.lead.appointment_question ? `מועד/שאלה לגבי תור: ${state.lead.preferred_date || state.lead.appointment_question}` : "",
+          state.lead.escalation_required ? `נדרשת בדיקה של אורטל: ${state.lead.escalation_reason || "מקרה רגיש / לא ודאי"}` : ""
+        ].filter(Boolean).join("\n");
+        const payload = {
+          customer_name: state.lead.customer_name || "",
+          phone: state.lead.phone || "",
+          dog_name: state.lead.dog_name || (isAppointmentLeadContext() ? "לא נמסר עדיין" : ""),
+          breed: state.lead.breed || "",
+          service_requested: state.lead.service_requested || "",
+          notes,
+          source: "website_chat"
+        };
+        if (state.lead.status) payload.status = state.lead.status;
+        if (state.lead.temperature) payload.temperature = state.lead.temperature;
+        if (state.lead.next_action) payload.next_action = state.lead.next_action;
+        return payload;
+      }
+
+      async function saveLead() {
+        const payload = buildLeadPayload();
+        const leadsEndpoint = (window.location.protocol === "file:" || window.location.port === "3000")
+          ? "http://127.0.0.1:3001/api/leads"
+          : "/api/leads";
+        const response = await fetch(leadsEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        const responseText = await response.text();
+        let data = {};
+        try {
+          data = responseText ? JSON.parse(responseText) : {};
+        } catch (_error) {
+          data = {};
+        }
+        if (!response.ok || !data.ok) {
+          console.error("Lead save failed", {
+            status: response.status,
+            responseText,
+            payload
+          });
+          throw new Error(data.error || "lead-save-failed");
+        }
+        state.saved = true;
+        state.awaitingConfirmation = false;
+        state.stage = "saved";
+        saveState();
+      }
+
+      function getChatBrainState() {
+        return {
+          customer_name: state.lead.customer_name || "",
+          customer_city: state.lead.customer_city || "",
+          phone: state.lead.phone || "",
+          dog_name: state.lead.dog_name || "",
+          breed: state.lead.breed || "",
+          coat_type: state.lead.coat_type || "",
+          coat_type_key: state.lead.coat_type_key || "",
+          coat_condition: state.lead.coat_condition || "",
+          service_requested: state.lead.service_requested || "",
+          medical_notes: state.lead.medical_notes || "",
+          behavior_notes: state.lead.behavior_notes || "",
+          preferred_date: state.lead.preferred_date || state.lead.appointment_question || "",
+          is_returning_customer: state.lead.is_returning_customer || "",
+          notes: state.lead.notes || "",
+          status: state.lead.status || "",
+          temperature: state.lead.temperature || "",
+          next_action: state.lead.next_action || "",
+          conversation_stage: state.stage || "",
+          last_intent: state.lead.last_intent || "",
+          last_bot_question: state.lead.last_bot_question || "",
+          summary_presented: Boolean(state.awaitingConfirmation)
+        };
+      }
+
+      function applyChatStatePatch(patch) {
+        if (!patch || typeof patch !== "object") return;
+        const leadFields = [
+          "customer_name",
+          "customer_city",
+          "phone",
+          "dog_name",
+          "breed",
+          "coat_type",
+          "coat_type_key",
+          "coat_condition",
+          "service_requested",
+          "medical_notes",
+          "behavior_notes",
+          "is_returning_customer",
+          "notes",
+          "status",
+          "temperature",
+          "next_action",
+          "last_intent",
+          "last_bot_question"
+        ];
+        leadFields.forEach((field) => {
+          if (Object.prototype.hasOwnProperty.call(patch, field)) {
+            state.lead[field] = patch[field] || "";
+          }
+        });
+        if (Object.prototype.hasOwnProperty.call(patch, "preferred_date")) {
+          state.lead.preferred_date = patch.preferred_date || "";
+          state.lead.appointment_question = patch.preferred_date || state.lead.appointment_question || "";
+        }
+        if (Object.prototype.hasOwnProperty.call(patch, "conversation_stage")) {
+          state.stage = patch.conversation_stage || state.stage;
+        }
+        if (Object.prototype.hasOwnProperty.call(patch, "summary_presented")) {
+          state.awaitingConfirmation = Boolean(patch.summary_presented);
+        }
+        saveState();
+      }
+
+      async function askChatBrain(message) {
+        const endpoint = (window.location.protocol === "file:" || window.location.port === "3000")
+          ? "http://127.0.0.1:3001/api/chat"
+          : "/api/chat";
+        const sessionId = localStorage.getItem(storageKey + "_session") || (window.crypto && window.crypto.randomUUID ? window.crypto.randomUUID() : String(Date.now()));
+        localStorage.setItem(storageKey + "_session", sessionId);
+        const stateBefore = getChatBrainState();
+        if (chatDebug) {
+          console.log("[Waffel's chat debug] request", { message, state_before: stateBefore, endpoint });
+        }
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            session_id: sessionId,
+            message,
+            state: stateBefore
+          })
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.error || "chat-brain-failed");
+        if (chatDebug) {
+          console.log("[Waffel's chat debug] response", {
+            api_response: data,
+            state_patch: data.state_patch || {},
+            next_question: data.next_question || "",
+            fallback_used: false
+          });
+        }
+        return data;
+      }
+
+      function appendThinkingMessage() {
+        const item = document.createElement("div");
+        item.className = "ortal-chat-msg bot";
+        item.innerHTML = '<span class="ai-thinking" aria-label="ממתינה לתשובה"><span class="ai-thinking-star" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.16 6.18 6.34 1.34-4.28 4.86.68 6.62L12 18.84 6.1 21.5l.68-6.62-4.28-4.86 6.34-1.34L12 2.5Z"/></svg></span><span class="ai-thinking-dots" aria-hidden="true">...</span></span>';
+        messages.appendChild(item);
+        messages.scrollTop = messages.scrollHeight;
+        return item;
+      }
+
+      function openChat() {
+        panel.classList.add("is-open");
+        panel.setAttribute("aria-hidden", "false");
+        toggle.setAttribute("aria-expanded", "true");
+        if (messages.dataset.started) {
+          showConversation();
+          window.setTimeout(() => input.focus(), 50);
+        } else {
+          welcome.hidden = false;
+          messages.hidden = true;
+          trust.hidden = true;
+          form.hidden = true;
+        }
+      }
+
+      function closeChat() {
+        panel.classList.remove("is-open");
+        panel.setAttribute("aria-hidden", "true");
+        toggle.setAttribute("aria-expanded", "false");
+      }
+
+      toggle.addEventListener("click", () => {
+        if (panel.classList.contains("is-open")) {
+          closeChat();
+        } else {
+          openChat();
+        }
+      });
+      close.addEventListener("click", closeChat);
+      startButton.addEventListener("click", startConversation);
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const message = input.value.trim();
+        if (!message || isChatSending || isBotTyping) return;
+        isChatSending = true;
+        input.value = "";
+        appendMessage("user", message);
+
+        try {
+          const brainResult = await askChatBrain(message);
+          applyChatStatePatch(brainResult.state_patch || {});
+          if (chatDebug) {
+            console.log("[Waffel's chat debug] state applied", {
+              state_after: getChatBrainState(),
+              next_question: brainResult.next_question || "",
+              fallback_used: false
+            });
+          }
+          if (brainResult.escalate_to_ortal) {
+            state.lead.escalation_required = true;
+            state.lead.escalation_reason = state.lead.escalation_reason || "מקרה שדורש בדיקה אישית של אורטל";
+          }
+          if (brainResult.lead_ready && !brainResult.should_save_lead) {
+            state.awaitingConfirmation = true;
+            state.stage = "awaiting_confirmation";
+          }
+          saveState();
+
+          if (brainResult.should_save_lead) {
+            if (!hasRequiredLeadFields()) {
+              throw new Error("lead-required-fields-missing");
+            }
+            await saveLead();
+          }
+
+          await appendMessage("bot", brainResult.reply || "כרגע המענה החכם לא מוגדר, אבל אפשר להשאיר פרטים ואורטל תחזור אליך.");
+          if (brainResult.lead_ready && !brainResult.should_save_lead && state.awaitingConfirmation) {
+            appendActionButton("שליחה לאורטל", "מאשר");
+          }
+          isChatSending = false;
+          if (!isBotTyping) {
+            input.disabled = false;
+            if (sendButton) sendButton.disabled = false;
+            input.focus();
+          }
+          return;
+        } catch (error) {
+          console.warn("Chat brain unavailable.", error);
+          if (chatDebug) {
+            console.log("[Waffel's chat debug] API failure", {
+              message,
+              state_before: getChatBrainState(),
+              fallback_used: true,
+              error: String(error && error.message ? error.message : error)
+            });
+          }
+          await appendMessage("bot", "יש תקלה זמנית במענה. אפשר להשאיר טלפון ואורטל תחזור אליך.");
+          isChatSending = false;
+          if (!isBotTyping) {
+            input.disabled = false;
+            if (sendButton) sendButton.disabled = false;
+            input.focus();
+          }
+          return;
+        }
+
+        try {
+          if (isSmallTalkMessage(message)) {
+            state.stage = "intro";
+            saveState();
+            appendMessage("bot", smallTalkReply(message));
+            return;
+          }
+
+          if (state.stage === "intro") {
+            state.stage = "service";
+            saveState();
+          }
+
+          rememberBreedFromMessage(message);
+          rememberDetailsFromMessage(message);
+
+          if (isAppointmentQuestion(message)) {
+            state.lead.appointment_question = message;
+            if (isNearAppointmentRequest(message) || /ראשון|שני|שלישי|רביעי|חמישי|שישי|בוקר|צהריים|ערב|\d{1,2}[./-]\d{1,2}/.test(normalizeText(message))) {
+              state.lead.preferred_date = message;
+            }
+            if (!state.lead.service_requested) {
+              const requestedService = detectService(message);
+              if (state.lead.coat_type === "short_smooth") {
+                state.lead.service_requested = "טיפול טיפוח מלא לפרווה קצרה";
+              } else if (state.lead.coat_type === "curly") {
+                state.lead.service_requested = "טיפול טיפוח מלא לפודל / תספורת ועיצוב";
+              } else if (state.lead.coat_type === "long_silky") {
+                state.lead.service_requested = "טיפול טיפוח מלא לפרווה ארוכה / תספורת ועיצוב";
+              } else if (state.lead.coat_type === "double_coat" || state.lead.coat_type === "dense_shedding") {
+                state.lead.service_requested = "טיפול פרווה כפולה / הוצאת פרווה מתה";
+              } else if (requestedService) {
+                state.lead.service_requested = serviceLabels[requestedService] || "טיפול טיפוח";
+              }
+            }
+            classifyLeadForCrm(message);
+            state.stage = "collecting";
+            appendMessage("bot", isSameDayAppointmentRequest(message) ? sameDayAvailabilityReply() : availabilityReply());
+            saveState();
+            return;
+          }
+
+          if (isFrustrationMessage(message)) {
+            markSensitive(["לקוח מתוסכל או מרגיש שלא קיבל תשובה"]);
+            moveFlowToPhone();
+            appendMessage("bot", frustrationReply());
+            return;
+          }
+
+          if (hasValidPhone(message)) {
+            state.lead.phone = message;
+            classifyLeadForCrm(message);
+            saveState();
+            if (hasRequiredLeadFields()) {
+              showSummary();
+            } else if (!state.lead.dog_name) {
+              state.flow = ["dog_name", "summary"];
+              state.flowIndex = 0;
+              state.stage = "collecting";
+              saveState();
+              appendMessage("bot", "תודה. כדי שאורטל תדע על מי מדובר, איך קוראים לכלב?");
+            } else if (!state.lead.service_requested) {
+              state.flow = ["summary"];
+              state.flowIndex = 0;
+              state.stage = "collecting";
+              state.lead.service_requested = state.lead.coat_type === "short_smooth" ? "טיפול טיפוח מלא לפרווה קצרה" : "טיפול טיפוח";
+              saveState();
+              showSummary();
+            }
+            return;
+          }
+
+          if (isTreatmentIncludedQuestion(message)) {
+            state.awaitingConfirmation = false;
+            state.stage = state.stage === "saved" ? "saved" : "collecting";
+            saveState();
+            appendMessage("bot", isServicesOverviewQuestion(message) ? servicesOverviewReply() : treatmentIncludedReply());
+            if (state.stage === "service") appendMessage("bot", "כדי שאורטל תוכל לדייק, איזה גזע הכלב ומה היית רוצה לבדוק?");
+            else if (state.stage !== "saved" && hasRequiredLeadFields()) showSummary();
+            return;
+          }
+
+          if (isPriceQuestion(message)) {
+            rememberServiceFromPriceMessage(message);
+            classifyLeadForCrm(message);
+            appendMessage("bot", getPriceReply());
+            if (state.lead.coat_type === "curly") {
+              addNoteLine("שאלת מחיר", "לקוח שאל על מחיר לטיפול טיפוח מלא לפודל / תספורת ועיצוב");
+            } else if (state.lead.coat_type === "double_coat" && /גילוח|לגלח/.test(normalizeText(message))) {
+              markSensitive(["בקשת גילוח לכלב בעל פרווה כפולה"]);
+            }
+            classifyLeadForCrm(message);
+            saveState();
+            return;
+          }
+
+          const sensitiveReasons = detectSensitiveCase(message, state.serviceKey);
+          markSensitive(sensitiveReasons);
+
+          if (state.stage === "saved") {
+            appendMessage("bot", "הפרטים כבר נשמרו. אורטל תבדוק אותם ותחזור אליך בהקדם עם מענה מדויק ומקצועי 🐾");
+            return;
+          }
+
+          if (state.awaitingConfirmation) {
+            if (isAffirmative(message)) {
+              await saveLead();
+              appendMessage("bot", "תודה רבה, הפרטים נשמרו. אורטל תבדוק את הפרטים ותחזור אליך בהקדם עם מענה מדויק ומקצועי 🐾");
+              return;
+            }
+            if (isNegative(message)) {
+              state.awaitingConfirmation = false;
+              state.stage = "collecting";
+              saveState();
+              appendMessage("bot", "אין בעיה. מה תרצה לתקן או להוסיף לפני שאשלח לאורטל?");
+              return;
+            }
+            state.lead.notes = [state.lead.notes, `תוספת לפני אישור: ${message}`].filter(Boolean).join("\n");
+            saveState();
+            showSummary();
+            return;
+          }
+
+          if (state.stage === "service") {
+            const serviceKey = detectService(message);
+            if (!serviceKey) {
+              const breedPrompt = state.lead.breed ? `הבנתי שמדובר ב${state.lead.breed}. איזה טיפול תרצה לבדוק בשביל${state.lead.dog_name ? " " + state.lead.dog_name : "ו"}?` : `בשמחה. מה היית רוצה שנעשה בשבילו?\n${serviceHelpText}`;
+              appendMessage("bot", breedPrompt);
+              return;
+            }
+            const inferredBreed = inferBreedFromMessage(message);
+            if (inferredBreed) {
+              state.lead.breed = inferredBreed;
+              state.lead.coat_type = detectCoatTypeFromBreed(inferredBreed);
+              if (state.lead.coat_type === "double_coat" && /גילוח|לגלח/.test(normalizeText(message))) {
+                markSensitive(["בקשת גילוח לכלב בעל פרווה כפולה"]);
+                appendMessage("bot", `${inferredBreed} הוא כלב עם פרווה כפולה, ולכן לא מתייחסים לזה כגילוח רגיל. אורטל צריכה לבדוק את זה אישית כדי לבחור טיפול נכון ולא לפגוע בפרווה.`);
+              }
+            }
+            startServiceFlow(serviceKey);
+            return;
+          }
+
+          const field = currentField();
+          if (field === "phone" && !hasValidPhone(message)) {
+            appendMessage("bot", "אפשר מספר טלפון מלא לחזרה? זה חשוב כדי שאורטל תוכל לחזור אליך.");
+            return;
+          }
+
+          captureField(field, message);
+          classifyLeadForCrm(message);
+          if (sensitiveReasons.length && field !== "medical_notes") {
+            appendMessage("bot", "תודה שציינת. זה מקרה שאורטל צריכה לבדוק אישית, אז אסמן לה את זה בפרטים.");
+          }
+          if (field === "breed" && state.lead.breed) {
+            applyBreedIntelligence(state.lead.breed);
+            askCurrentField();
+            return;
+          }
+          moveToNextField();
+        } catch (_error) {
+          appendMessage("bot", "יש תקלה זמנית בשמירת הפרטים. אפשר לנסות שוב בעוד רגע, או להשאיר פנייה דרך טופס התור באתר.");
+        } finally {
+          isChatSending = false;
+          if (!isBotTyping) {
+            input.disabled = false;
+            if (sendButton) sendButton.disabled = false;
+            input.focus();
+          }
+        }
+      });
+
+      input.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+        event.preventDefault();
+        form.requestSubmit();
+      });
+
+      window.addEventListener("pageshow", () => {
+        if (state.saved) resetChatState();
+      });
     })();
   </script>
 </body>
