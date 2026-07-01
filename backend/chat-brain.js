@@ -100,7 +100,7 @@ function detectAppointment(message) {
 }
 
 function detectPrice(message) {
-  return /(כמה עולה|מחיר|עלות|כמה יעלה|הצעת מחיר)/.test(normalizeHebrewText(message));
+  return /(כמה עולה|כמה זה עולה|כמה זה יעלה|מחיר|עלות|כמה יעלה|הצעת מחיר)/.test(normalizeHebrewText(message));
 }
 
 function detectDurationQuestion(message) {
@@ -117,7 +117,7 @@ function detectDoubleCoatShaveWarning(message, coatTypeKey = "") {
 }
 
 function detectGroomingInfo(message) {
-  return /(פרטים|מה כולל|מה כלול|טיפול|מקלחת|תספורת|סידור|טיפוח|פרווה|קשרים|לא ראה מקלחת|לא הסתפר|לא טופל)/.test(normalizeHebrewText(message));
+  return /(פרטים|מה כולל|מה כלול|טיפול|מקלחת|תספורת|סידור|טיפוח|פרווה|קשרים|נשירה|נושר|לא ראה מקלחת|לא הסתפר|לא טופל)/.test(normalizeHebrewText(message));
 }
 
 function isConfirmation(message) {
@@ -141,7 +141,7 @@ function extractCustomerName(message) {
     /השם שלי\s+([א-ת]{2,12})/,
     /אני\s+([א-ת]{2,12})(?:\s|$)/
   ];
-  const blocked = /^(שאלה|תור|מחיר|כלב|כלבה|בוט|מישהו|אורטל|טיפול|מקלחת|תספורת|מכפר|מהוד|מרעננה|מהרצליה|עם|רוצה|צריך|צריכה|מעוניין|יש|לי)$/;
+  const blocked = /^(שאלה|תור|מחיר|כלב|כלבה|בוט|מישהו|אורטל|טיפול|מקלחת|תספורת|מכפר|מהוד|מרעננה|מהרצליה|עם|רוצה|צריך|צריכה|מעוניין|יש|לי|לא|יודע|יודעת)$/;
   for (const pattern of patterns) {
     const match = text.match(pattern);
     if (match && match[1] && !blocked.test(match[1])) return match[1];
@@ -451,6 +451,29 @@ function buildReply({ message, stateBefore, stateAfter, intent, confidence }) {
     return { reply: question ? `${intro}\n\n${question.text}` : intro, nextQuestionKey: question?.key || "" };
   }
   if (intent === "grooming_info") {
+    if (stateAfter.coat_condition === "יש קשרים או פרווה דחוסה") {
+      const question = !stateAfter.breed
+        ? { key: "breed", text: "איזה גזע הכלב?" }
+        : !stateAfter.dog_name
+          ? { key: "dog_name", text: "איך קוראים לכלב?" }
+          : null;
+      const breedIntro = stateAfter.coat_type_key === "curly"
+        ? `ב${stateAfter.breed} עם קשרים חשוב לבדוק עד כמה הפרווה דחוסה והאם הקשרים מושכים את העור. אורטל תתאים את העבודה למצב הפרווה ולא תבטיח פתיחת קשרים לפני שתראה את הכלב.`
+        : "כשיש הרבה קשרים חשוב לא למשוך או לגזור אותם בבית, במיוחד אם הם קרובים לעור. אורטל צריכה להבין את סוג הפרווה ואת רמת הדחיסות כדי להחליט על טיפול בטוח ונעים ככל האפשר.";
+      return {
+        reply: question ? `${breedIntro}\n\n${question.text}` : breedIntro,
+        nextQuestionKey: question?.key || ""
+      };
+    }
+    if (stateAfter.coat_type_key === "double_coat" && /נשיר/.test(message)) {
+      const question = stateAfter.dog_name ? null : { key: "dog_name", text: "איך קוראים לכלב?" };
+      const base = `ל${stateAfter.breed || "כלב עם פרווה כפולה"} נשירה יכולה להיות משמעותית, והטיפול המתאים מתמקד במקלחת, ייבוש יסודי, הברשה והוצאת פרווה מתה — לא בגילוח. אורטל תבדוק את מצב הפרווה ותתאים את העבודה לכלב.`;
+      return { reply: question ? `${base}\n\n${question.text}` : base, nextQuestionKey: question?.key || "" };
+    }
+    if (stateAfter.coat_type_key === "long_silky" && /פרטים/.test(message)) {
+      const base = `ב${stateAfter.breed || "כלב עם פרווה ארוכה"} הטיפול יכול לכלול מקלחת, ייבוש מלא, סירוק, עבודה לפי מצב הפרווה, תספורת או סידור, אוזניים וציפורניים. לפני שמדייקים חשוב להבין אם הפרווה מסורקת או שיש קשרים.`;
+      return { reply: `${base}\n\nאיך הפרווה נראית כרגע?`, nextQuestionKey: "coat_condition" };
+    }
     const question = avoidRepeat(nextQuestionForState(stateAfter, intent), stateAfter);
     if (stateAfter.coat_type_key === "short_smooth" && /מקלחת/.test(message) && /נשיר/.test(message)) {
       const base = `${stateAfter.breed || "הכלב"} הוא כלב עם פרווה קצרה, אז זה לא טיפול של תספורת. אצל אורטל הטיפול מתמקד במקלחת עם חומרים איכותיים, ייבוש, הברשה שמתאימה לפרווה קצרה, עזרה עם נשירה, אוזניים וציפורניים לפי הצורך.`;
@@ -483,6 +506,18 @@ function buildReply({ message, stateBefore, stateAfter, intent, confidence }) {
       if (!stateBefore.phone && stateAfter.phone && !stateAfter.dog_name) {
         return { reply: "מעולה, רשמתי את הטלפון. איך קוראים לכלב?", nextQuestionKey: "dog_name" };
       }
+    }
+    if (!stateBefore.last_bot_question && stateAfter.dog_name && stateAfter.breed && !stateAfter.phone) {
+      return {
+        reply: `נעים להכיר את ${stateAfter.dog_name} 🙂 מה רצית לברר עבור ${stateAfter.dog_name} — טיפול, מחיר או תור?`,
+        nextQuestionKey: "service_requested"
+      };
+    }
+    if (!stateBefore.last_bot_question && stateAfter.breed && !stateAfter.dog_name && !stateAfter.phone) {
+      return {
+        reply: `רשמתי שמדובר ב${stateAfter.breed}. מה רצית לברר — טיפול, מחיר או תור?`,
+        nextQuestionKey: "service_requested"
+      };
     }
     const question = avoidRepeat(nextQuestionForState(stateAfter, intent), stateAfter);
     return { reply: question ? `מעולה.\n${question.text}` : "מעולה, רשמתי.", nextQuestionKey: question?.key || "" };
