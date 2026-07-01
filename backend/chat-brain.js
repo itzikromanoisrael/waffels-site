@@ -103,6 +103,19 @@ function detectPrice(message) {
   return /(כמה עולה|מחיר|עלות|כמה יעלה|הצעת מחיר)/.test(normalizeHebrewText(message));
 }
 
+function detectDurationQuestion(message) {
+  return /(כמה זמן.*(?:טיפול|תספורת|מקלחת)|(?:טיפול|תספורת|מקלחת).*כמה זמן|כמה זמן זה לוקח)/.test(normalizeHebrewText(message));
+}
+
+function detectServiceIncludesQuestion(message) {
+  return /(מה כולל הטיפול|מה כלול בטיפול|איזה טיפול עושים|מה עושים בטיפול)/.test(normalizeHebrewText(message));
+}
+
+function detectDoubleCoatShaveWarning(message, coatTypeKey = "") {
+  const text = normalizeHebrewText(message);
+  return coatTypeKey === "double_coat" && /(גילוח|לגלח|קצר ממש|לעשות קצר|לגלח אותו קצר|לגלח אותה קצר)/.test(text);
+}
+
 function detectGroomingInfo(message) {
   return /(פרטים|מה כולל|מה כלול|טיפול|מקלחת|תספורת|סידור|טיפוח|פרווה|קשרים|לא ראה מקלחת|לא הסתפר|לא טופל)/.test(normalizeHebrewText(message));
 }
@@ -128,7 +141,7 @@ function extractCustomerName(message) {
     /השם שלי\s+([א-ת]{2,12})/,
     /אני\s+([א-ת]{2,12})(?:\s|$)/
   ];
-  const blocked = /^(שאלה|תור|מחיר|כלב|כלבה|בוט|מישהו|אורטל|טיפול|מקלחת|תספורת|עם|רוצה|צריך|מעוניין)$/;
+  const blocked = /^(שאלה|תור|מחיר|כלב|כלבה|בוט|מישהו|אורטל|טיפול|מקלחת|תספורת|מכפר|מהוד|מרעננה|מהרצליה|עם|רוצה|צריך|צריכה|מעוניין|יש|לי)$/;
   for (const pattern of patterns) {
     const match = text.match(pattern);
     if (match && match[1] && !blocked.test(match[1])) return match[1];
@@ -164,6 +177,17 @@ function extractDogNameOnly(message, state = {}) {
   const text = normalizeHebrewText(message);
   const blocked = /^(שאלה|תור|מחיר|בוט|מישהו|אורטל|טיפול|מקלחת|תספורת|מה|למה|איך)$/;
   const patterns = [
+    /לכלב קוראים\s+([א-ת]{2,16})/,
+    /לכלבה קוראים\s+([א-ת]{2,16})/,
+    /קוראים לכלב\s+([א-ת]{2,16})/,
+    /קוראים לכלבה\s+([א-ת]{2,16})/,
+    /השם שלו\s+([א-ת]{2,16})/,
+    /השם שלה\s+([א-ת]{2,16})/,
+    /שמו\s+([א-ת]{2,16})/,
+    /שמה\s+([א-ת]{2,16})/,
+    /כלב בשם\s+([א-ת]{2,16})/,
+    /כלבה בשם\s+([א-ת]{2,16})/,
+    /בשם\s+([א-ת]{2,16})/,
     /קוראים לו\s+([א-ת]{2,16})/,
     /קוראים לה\s+([א-ת]{2,16})/,
     /שם הכלב\s+([א-ת]{2,16})/,
@@ -176,6 +200,17 @@ function extractDogNameOnly(message, state = {}) {
   }
   const askedForDogName = ["dog_name", "dog_name_and_breed", "dog_name_and_phone"].includes(state.last_bot_question);
   if (askedForDogName && /^[א-ת]{2,16}$/.test(text) && !blocked.test(text)) return text;
+  return "";
+}
+
+function extractPreferredDate(message) {
+  const text = normalizeHebrewText(message);
+  if (/ל?שבוע הבא/.test(text)) return "שבוע הבא";
+  const day = text.match(/ביום\s+(ראשון|שני|שלישי|רביעי|חמישי)/);
+  if (day) return `ביום ${day[1]}`;
+  if (/מחר/.test(text)) return "מחר";
+  if (/היום/.test(text)) return "היום";
+  if (/השבוע/.test(text)) return "השבוע";
   return "";
 }
 
@@ -214,6 +249,11 @@ function extractFactsFromMessage(message, inputState = {}) {
   }
   const phone = extractIsraeliPhone(text);
   if (phone) facts.phone = phone;
+  const preferredDate = extractPreferredDate(text);
+  if (preferredDate) {
+    facts.preferred_date = preferredDate;
+    facts.notes = appendNote(facts.notes || state.notes, `מועד מועדף: ${preferredDate}`);
+  }
   const combo = extractDogNameAndBreed(text);
   if (combo) {
     facts.dog_name = combo.dog_name;
@@ -237,17 +277,25 @@ function extractFactsFromMessage(message, inputState = {}) {
     facts.coat_condition = coatCondition;
     facts.notes = appendNote(facts.notes || state.notes, coatCondition);
   }
+  if (/מקלחת/.test(text) && /נשיר/.test(text)) {
+    facts.notes = appendNote(facts.notes || state.notes, "מקלחת ונשירה");
+  }
   return facts;
 }
 
-function classifyIntent(message, facts = {}) {
+function classifyIntent(message, facts = {}, state = {}) {
   if (isConfirmation(message)) return { intent: "confirm_send", confidence: "high" };
   if (detectHumanHandoff(message)) return { intent: "human_handoff", confidence: "high" };
+  if (detectDoubleCoatShaveWarning(message, facts.coat_type_key || state.coat_type_key)) return { intent: "double_coat_warning", confidence: "high" };
   if (detectFrustration(message)) return { intent: "frustration", confidence: "high" };
   if (detectAppointment(message)) return { intent: "appointment_question", confidence: "high" };
   if (detectPrice(message)) return { intent: "price_question", confidence: "high" };
+  if (detectDurationQuestion(message)) return { intent: "duration_question", confidence: "high" };
+  if (detectServiceIncludesQuestion(message)) return { intent: "service_includes_question", confidence: "high" };
   if (detectGroomingInfo(message)) return { intent: "grooming_info", confidence: "high" };
-  if (facts.phone || facts.dog_name || facts.breed || facts.customer_name || facts.customer_city) return { intent: "provide_detail", confidence: "high" };
+  if (facts.phone || facts.dog_name || facts.breed || facts.customer_name || facts.customer_city || facts.preferred_date || facts.coat_condition) {
+    return { intent: "provide_detail", confidence: "high" };
+  }
   if (detectSmallTalk(message)) return { intent: "small_talk", confidence: "medium" };
   return { intent: "unknown", confidence: isGibberish(message) ? "low" : "low" };
 }
@@ -271,6 +319,20 @@ function buildShortCoatReply() {
 
 function buildDoubleCoatReply() {
   return "בגזעים עם פרווה כפולה צריך להיזהר מגילוח. אצל אורטל בודקים טיפול נכון יותר כמו מקלחת, ייבוש יסודי, סירוק והוצאת פרווה מתה. במקרה כזה אורטל צריכה לראות את הפרווה ולקבל החלטה מקצועית.";
+}
+
+function buildYorkshirePriceReply(state) {
+  const question = nextQuestionForState(state, "price_question");
+  const base = "בגלל שמדובר ביורקשייר שלא הסתפר הרבה זמן, המחיר תלוי בעיקר במצב הפרווה, האם יש קשרים, גודל הכלב וכמה עבודה נדרשת בסירוק/פתיחת קשרים לפני הטיפול.\n\nאצל אורטל הטיפול כולל מקלחת, ייבוש, סירוק ועבודה לפי מצב הפרווה, תספורת/סידור, אוזניים וציפורניים.";
+  return { reply: question ? `${base}\n\nכדי שאורטל תוכל לתת הערכה מדויקת, ${question.text}` : base, nextQuestionKey: question?.key || "" };
+}
+
+function buildDoubleCoatWarningReply(state) {
+  const question = state.phone ? "לאשר שאעביר את הפרטים לאורטל?" : "כדי שאורטל תחזור אליך אישית, מה מספר הטלפון לחזרה?";
+  return {
+    reply: `בגזעים עם פרווה כפולה כמו האסקי צריך להיזהר מאוד מגילוח, כי זה עלול לפגוע באיכות הפרווה וביכולת שלה להגן על הכלב. אצל אורטל לא מאשרים גילוח כזה אוטומטית.\n\nהכיוון הנכון הוא בדרך כלל מקלחת, ייבוש יסודי, סירוק והוצאת פרווה מתה — אבל אורטל צריכה לראות את מצב הפרווה לפני החלטה מקצועית.\n\n${question}`,
+    nextQuestionKey: state.phone ? "confirm" : "phone"
+  };
 }
 
 function buildCleanSummary(state) {
@@ -307,12 +369,29 @@ function nextQuestionForState(state, intent) {
 
 function avoidRepeat(question, state) {
   if (!question) return null;
+  if (question.key === "dog_name_and_phone" && state.dog_name) {
+    return state.phone ? null : { key: "phone", text: "מה מספר הטלפון לחזרה?" };
+  }
   if (question.key === "dog_name" && state.dog_name) return null;
   if (question.key === "breed" && state.breed) return null;
+  if (question.key === "phone" && state.phone) return null;
   if (state.last_bot_question !== question.key) return question;
   if (question.key === "phone") return { key: "phone", text: "המספר לא נקלט אצלי. אפשר לכתוב מספר טלפון מלא לחזרה?" };
   if (question.key === "dog_name") return { key: "clarify_dog_name", text: "רק לוודא שהבנתי נכון — איך קוראים לכלב?" };
   if (question.key === "breed") return { key: "clarify_breed", text: "רק לוודא שהבנתי נכון — מה הגזע?" };
+  return null;
+}
+
+function buildContextualClarification(state) {
+  if (state.last_bot_question === "phone") {
+    return { reply: "לא הצלחתי לזהות מספר טלפון. אפשר לכתוב מספר נייד לחזרה?", nextQuestionKey: "phone" };
+  }
+  if (["dog_name", "clarify_dog_name"].includes(state.last_bot_question)) {
+    return { reply: "לא הצלחתי להבין את שם הכלב. אפשר לכתוב רק את השם שלו?", nextQuestionKey: "dog_name" };
+  }
+  if (state.last_bot_question === "dog_name_and_phone") {
+    return { reply: "לא הצלחתי לזהות שם כלב או טלפון. אפשר לכתוב את שם הכלב ומספר נייד לחזרה?", nextQuestionKey: "dog_name_and_phone" };
+  }
   return null;
 }
 
@@ -338,16 +417,33 @@ function buildReply({ message, stateBefore, stateAfter, intent, confidence }) {
     };
   }
   if (intent === "small_talk") return { reply: "היי, הכול טוב תודה 🙂 איך אפשר לעזור עם הכלב?", nextQuestionKey: "" };
+  if (intent === "double_coat_warning") return buildDoubleCoatWarningReply(stateAfter);
   if (intent === "appointment_question") {
     const question = avoidRepeat(nextQuestionForState(stateAfter, intent), stateAfter);
+    if (stateAfter.customer_name && stateAfter.dog_name && stateAfter.breed && stateAfter.preferred_date) {
+      const base = `היי ${stateAfter.customer_name}, בשמחה. אני לא מבטיח תור בלי בדיקה ביומן של אורטל, אבל רשמתי שמדובר ב${stateAfter.dog_name}, ${stateAfter.breed}, ושנוח לכם לבדוק ל${stateAfter.preferred_date}.`;
+      return { reply: question ? `${base}\n\n${question.text}` : base, nextQuestionKey: question?.key || "" };
+    }
     const base = "אין לי אפשרות להבטיח תור בלי בדיקה ביומן של אורטל, אבל אפשר להשאיר לה פרטים והיא תחזור אליך עם האפשרויות המתאימות.";
     return { reply: question ? `${base}\n\n${question.text}` : base, nextQuestionKey: question?.key || "" };
   }
   if (intent === "price_question") {
+    if (stateAfter.breed === "יורקשייר") return buildYorkshirePriceReply(stateAfter);
     if (stateAfter.coat_type_key === "curly") return { reply: buildPoodlePriceReply(), nextQuestionKey: "" };
     if (stateAfter.coat_type_key === "short_smooth") return { reply: buildShortCoatReply(), nextQuestionKey: "" };
     if (stateAfter.coat_type_key === "double_coat") return { reply: buildDoubleCoatReply(), nextQuestionKey: "" };
-    return { reply: "כדי לתת הערכה מדויקת ולא להטעות אותך, המחיר תלוי בגזע, גודל הכלב ומצב הפרווה. איזה גזע הכלב?", nextQuestionKey: "breed" };
+    if (!stateAfter.breed) return { reply: "כדי לתת הערכה מדויקת ולא להטעות אותך, המחיר תלוי בגזע, גודל הכלב ומצב הפרווה. איזה גזע הכלב?", nextQuestionKey: "breed" };
+    return { reply: "כדי לתת הערכה מדויקת ולא להטעות אותך, המחיר תלוי בגודל הכלב, מצב הפרווה וסוג הטיפול הנדרש.", nextQuestionKey: "" };
+  }
+  if (intent === "duration_question") {
+    const question = stateAfter.breed ? null : { key: "breed", text: "איזה גזע הכלב?" };
+    const base = "טיפול אצל אורטל בדרך כלל לוקח סביב שעתיים, אבל זה משתנה לפי גודל הכלב, סוג הפרווה, מצב הפרווה, קשרים והתנהגות בזמן הטיפול.\n\nבפודל/יורקשייר/שיצו עם פרווה ארוכה או קשרים זה יכול לקחת יותר. בפרווה קצרה לרוב זה פשוט יותר.";
+    return { reply: question ? `${base}\n\n${question.text}` : base, nextQuestionKey: question?.key || "" };
+  }
+  if (intent === "service_includes_question") {
+    const question = stateAfter.breed ? null : { key: "breed", text: "איזה גזע הכלב?" };
+    const base = "הטיפול אצל אורטל מותאם לכלב ולסוג הפרווה. בדרך כלל הוא יכול לכלול מקלחת עם חומרים איכותיים, ייבוש מלא, סירוק/הברשה, עבודה לפי מצב הפרווה, אוזניים, ציפורניים וסידור אזורים עדינים.\n\nבכלבים שמתאימים לתספורת כמו פודל, יורקשייר, שיצו ומלטיפו — הטיפול יכול לכלול גם תספורת ועיצוב. בכלבים עם פרווה קצרה או פרווה כפולה הטיפול שונה ולא תמיד מדובר בתספורת.";
+    return { reply: question ? `${base}\n\n${question.text}` : base, nextQuestionKey: question?.key || "" };
   }
   if (intent === "grooming_info" && stateAfter.breed === "יורקשייר") {
     const question = avoidRepeat(nextQuestionForState(stateAfter, intent), stateAfter);
@@ -356,6 +452,13 @@ function buildReply({ message, stateBefore, stateAfter, intent, confidence }) {
   }
   if (intent === "grooming_info") {
     const question = avoidRepeat(nextQuestionForState(stateAfter, intent), stateAfter);
+    if (stateAfter.coat_type_key === "short_smooth" && /מקלחת/.test(message) && /נשיר/.test(message)) {
+      const base = `${stateAfter.breed || "הכלב"} הוא כלב עם פרווה קצרה, אז זה לא טיפול של תספורת. אצל אורטל הטיפול מתמקד במקלחת עם חומרים איכותיים, ייבוש, הברשה שמתאימה לפרווה קצרה, עזרה עם נשירה, אוזניים וציפורניים לפי הצורך.`;
+      return {
+        reply: question ? `${base}\n\nכדי שאורטל תוכל לדייק את הטיפול, ${question.text}` : base,
+        nextQuestionKey: question?.key || ""
+      };
+    }
     const base = "הטיפול אצל אורטל מותאם לגזע, מצב הפרווה והאופי של הכלב.";
     return { reply: question ? `${base}\n\n${question.text}` : base, nextQuestionKey: question?.key || "" };
   }
@@ -365,7 +468,22 @@ function buildReply({ message, stateBefore, stateAfter, intent, confidence }) {
     return { reply: question ? `מבין לגמרי. ${question.text}` : "מבין לגמרי. אעביר את הפנייה לאורטל.", nextQuestionKey: question?.key || "" };
   }
   if (intent === "provide_detail") {
-    if (stateAfter.phone && stateAfter.dog_name && stateAfter.breed) return { reply: buildCleanSummary(stateAfter), nextQuestionKey: "confirm" };
+    const hasEnoughForSummary = Boolean(
+      stateAfter.phone && stateAfter.dog_name
+      && (stateAfter.breed || stateAfter.service_requested || ["appointment", "human_handoff"].includes(stateAfter.conversation_stage))
+    );
+    if (hasEnoughForSummary) return { reply: buildCleanSummary(stateAfter), nextQuestionKey: "confirm" };
+    if (stateBefore.last_bot_question === "dog_name_and_phone") {
+      if (!stateBefore.dog_name && stateAfter.dog_name && !stateAfter.phone) {
+        return {
+          reply: `מעולה, ${stateAfter.dog_name}. מה מספר הטלפון שאורטל תוכל לחזור אליו?`,
+          nextQuestionKey: "phone"
+        };
+      }
+      if (!stateBefore.phone && stateAfter.phone && !stateAfter.dog_name) {
+        return { reply: "מעולה, רשמתי את הטלפון. איך קוראים לכלב?", nextQuestionKey: "dog_name" };
+      }
+    }
     const question = avoidRepeat(nextQuestionForState(stateAfter, intent), stateAfter);
     return { reply: question ? `מעולה.\n${question.text}` : "מעולה, רשמתי.", nextQuestionKey: question?.key || "" };
   }
@@ -377,9 +495,29 @@ function buildChatResponse({ message, state = {} }) {
   const facts = extractFactsFromMessage(message, stateBefore);
   const classification = classifyIntent(message, facts, stateBefore);
   if (classification.confidence === "low") {
+    const contextualReply = buildContextualClarification(stateBefore);
+    if (contextualReply) {
+      return {
+        reply: contextualReply.reply,
+        state_patch: {},
+        intent: "unknown",
+        confidence: "low",
+        lead_ready: false,
+        should_save_lead: false,
+        escalate_to_ortal: Boolean(stateBefore.escalate_to_ortal),
+        next_question: contextualReply.nextQuestionKey
+      };
+    }
     return { reply: "לא הצלחתי להבין את ההודעה. אפשר לכתוב לי שוב בקצרה מה רצית לברר — תור, מחיר או טיפול לכלב?", state_patch: {}, intent: "unknown", confidence: "low", lead_ready: false, should_save_lead: false, escalate_to_ortal: false, next_question: "" };
   }
   const stateAfter = mergeState(stateBefore, facts);
+  if (classification.intent === "double_coat_warning") {
+    stateAfter.status = "waiting_for_ortal";
+    stateAfter.temperature = "hot";
+    stateAfter.next_action = "בדיקה מקצועית של פרווה כפולה וחזרה ללקוח";
+    stateAfter.escalate_to_ortal = true;
+    stateAfter.service_requested = "טיפול פרווה כפולה / הוצאת פרווה מתה";
+  }
   if (classification.intent === "appointment_question") {
     stateAfter.conversation_stage = "appointment";
     stateAfter.status = "waiting_for_ortal";
