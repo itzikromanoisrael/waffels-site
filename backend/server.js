@@ -6,6 +6,8 @@ const crypto = require("crypto");
 const QRCode = require("qrcode");
 const qrcodeTerminal = require("qrcode-terminal");
 const chatBrain = require("./chat-brain");
+const aiChatBrain = require("./ai-chat-brain");
+const chatGuardrails = require("./chat-guardrails");
 
 const ROOT_DIR = path.resolve(__dirname, "..");
 const DATA_DIR = path.join(__dirname, "data");
@@ -3031,12 +3033,25 @@ async function handleApi(request, response, pathname, searchParams) {
   if (request.method === "POST" && pathname === "/api/chat") {
     try {
       const body = await readJsonBody(request);
-      const result = chatBrain.buildChatResponse({
-        message: sanitizeMultiline(body.message || "", 2000),
-        state: body.state && typeof body.state === "object" ? body.state : {}
-      });
+      const message = sanitizeMultiline(body.message || "", 2000);
+      const inputState = body.state && typeof body.state === "object" && !Array.isArray(body.state) ? body.state : {};
+      let result = null;
+      if (config.openAiApiKey) {
+        const aiResult = await aiChatBrain.buildAIChatResponse({
+          message,
+          state: inputState,
+          apiKey: config.openAiApiKey,
+          model: config.openAiModel
+        });
+        if (aiResult) {
+          result = chatGuardrails.applyChatGuardrails({ result: aiResult, message, state: inputState });
+        }
+      }
+      if (!result) {
+        result = chatBrain.buildChatResponse({ message, state: inputState });
+      }
       const stateAfterPatch = {
-        ...(body.state && typeof body.state === "object" ? body.state : {}),
+        ...inputState,
         ...(result.state_patch || {})
       };
       const specialContext = ["appointment", "human_handoff"].includes(stateAfterPatch.conversation_stage);
@@ -3045,15 +3060,17 @@ async function handleApi(request, response, pathname, searchParams) {
         && stateAfterPatch.service_requested
         && (stateAfterPatch.dog_name || stateAfterPatch.breed || specialContext)
       );
+      const explicitConfirmation = /^(כן|מאשר|מאשרת|שלח|אפשר לשלוח)[.!?]?$/.test(message);
       return sendJson(request, response, 200, {
         reply: sanitizeMultiline(result.reply || "", 1800) || "כרגע המענה החכם לא מוגדר, אבל אפשר להשאיר פרטים ואורטל תחזור אליך.",
         state_patch: result.state_patch || {},
         intent: result.intent || "other",
         confidence: result.confidence || "low",
         lead_ready: leadReady,
-        should_save_lead: Boolean(result.should_save_lead && leadReady),
+        should_save_lead: Boolean(result.should_save_lead && leadReady && explicitConfirmation),
         escalate_to_ortal: Boolean(result.escalate_to_ortal),
-        next_question: sanitizeMultiline(result.next_question || "", 400)
+        next_question: sanitizeMultiline(result.next_question || "", 400),
+        notes: sanitizeMultiline(result.notes || "", 800)
       });
     } catch (error) {
       return sendJson(request, response, 500, {
