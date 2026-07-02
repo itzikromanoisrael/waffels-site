@@ -121,6 +121,9 @@
     .circular-gallery.is-grabbing { cursor: grabbing; }
     .circular-gallery canvas { width: 100%; height: 100%; display: block; }
     .circular-gallery:focus-visible { outline: 2px solid #9bd4e7; outline-offset: -4px; }
+    .gallery-controls { position: absolute; z-index: 2; right: 18px; bottom: 18px; left: 18px; display: flex; direction: ltr; justify-content: space-between; pointer-events: none; }
+    .gallery-control { width: 48px; height: 48px; padding: 0; border: 1px solid rgba(255,255,255,.34); border-radius: 50%; background: rgba(17,20,22,.82); color: #fff; font-size: 24px; line-height: 1; box-shadow: 0 8px 24px rgba(0,0,0,.24); pointer-events: auto; backdrop-filter: blur(8px); }
+    .gallery-control:hover, .gallery-control:focus-visible { background: #fff; color: var(--ink); }
     .contact { position: relative; overflow: hidden; background: var(--soft); }
     .shapegrid-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; opacity: .14; }
     .contact-layout { position: relative; z-index: 1; display: grid; grid-template-columns: .8fr 1.2fr; gap: 52px; align-items: start; }
@@ -179,6 +182,8 @@
       section { padding: 58px 0; }
       .service-grid, .form-grid { grid-template-columns: 1fr; }
       .circular-gallery-shell { height: 460px; }
+      .gallery-controls { right: 12px; bottom: 12px; left: 12px; }
+      .gallery-control { width: 44px; height: 44px; }
       .coat-row { grid-template-columns: 1fr; gap: 5px; }
       .coat-media { min-height: 440px; gap: 7px; }
       .lead-form { padding: 18px; }
@@ -296,6 +301,10 @@
               {"image":"./assets/media/optimized/gallery/gallery-08.webp","text":"טיפוח מקצועי"}
             ]'
           ></div>
+          <div class="gallery-controls" aria-label="ניווט בגלריה">
+            <button class="gallery-control" type="button" data-gallery-action="previous" aria-label="התמונה הקודמת" title="התמונה הקודמת">←</button>
+            <button class="gallery-control" type="button" data-gallery-action="next" aria-label="התמונה הבאה" title="התמונה הבאה">→</button>
+          </div>
         </div>
       </div>
     </section>

@@ -212,15 +212,25 @@ class CircularGallery {
 
   pointerDown = event => {
     this.isDown = true;
+    this.dragAxis = null;
     this.scroll.position = this.scroll.current;
     this.startX = event.touches ? event.touches[0].clientX : event.clientX;
+    this.startY = event.touches ? event.touches[0].clientY : event.clientY;
     this.container.classList.add("is-grabbing");
   };
 
   pointerMove = event => {
     if (!this.isDown) return;
-    const x = event.touches ? event.touches[0].clientX : event.clientX;
-    this.scroll.target = this.scroll.position + (this.startX - x) * (this.options.scrollSpeed * 0.025);
+    const point = event.touches ? event.touches[0] : event;
+    const deltaX = point.clientX - this.startX;
+    const deltaY = point.clientY - this.startY;
+    if (!this.dragAxis && Math.max(Math.abs(deltaX), Math.abs(deltaY)) > 6) {
+      this.dragAxis = Math.abs(deltaX) > Math.abs(deltaY) ? "horizontal" : "vertical";
+    }
+    if (this.dragAxis !== "horizontal") return;
+    if (event.cancelable) event.preventDefault();
+    const sensitivity = window.innerWidth <= 520 ? 0.018 : 0.025;
+    this.scroll.target = this.scroll.position - deltaX * (this.options.scrollSpeed * sensitivity);
   };
 
   pointerUp = () => {
@@ -228,6 +238,13 @@ class CircularGallery {
     this.isDown = false;
     this.container.classList.remove("is-grabbing");
     this.snap();
+  };
+
+  step = direction => {
+    const width = this.medias?.[0]?.width;
+    if (!width) return;
+    const currentItem = Math.round(this.scroll.target / width);
+    this.scroll.target = (currentItem + direction) * width;
   };
 
   wheel = event => {
@@ -251,10 +268,12 @@ class CircularGallery {
     this.container.addEventListener("mousemove", this.pointerMove);
     window.addEventListener("mouseup", this.pointerUp);
     this.container.addEventListener("touchstart", this.pointerDown, { passive: true });
-    this.container.addEventListener("touchmove", this.pointerMove, { passive: true });
+    this.container.addEventListener("touchmove", this.pointerMove, { passive: false });
     this.container.addEventListener("touchend", this.pointerUp);
     this.container.addEventListener("wheel", this.wheel, { passive: false });
     this.container.addEventListener("keydown", this.keydown);
+    this.container.parentElement?.querySelector('[data-gallery-action="previous"]')?.addEventListener("click", () => this.step(-1));
+    this.container.parentElement?.querySelector('[data-gallery-action="next"]')?.addEventListener("click", () => this.step(1));
   }
 
   update = () => {
