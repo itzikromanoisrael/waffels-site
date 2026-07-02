@@ -3524,10 +3524,13 @@ async function handleApi(request, response, pathname, searchParams) {
   return false;
 }
 
-function serveStatic(_request, response, pathname) {
-  const staticPathname = pathname === "/admin/leads" || pathname === "/admin/leads/"
-    ? "/admin/leads.html"
+function serveStatic(_request, response, pathname, searchParams = new URLSearchParams()) {
+  const publicPathname = (pathname === "/" || pathname === "/index.html") && searchParams.get("chat_test") !== "1"
+    ? "/landing.html"
     : pathname;
+  const staticPathname = publicPathname === "/admin/leads" || publicPathname === "/admin/leads/"
+    ? "/admin/leads.html"
+    : publicPathname;
   const targetPath = staticPathname === "/"
     ? path.join(ROOT_DIR, "index.html")
     : path.join(ROOT_DIR, decodeURIComponent(staticPathname.replace(/^\/+/, "")));
@@ -3578,7 +3581,7 @@ const server = http.createServer(async (request, response) => {
     }
     const handled = await handleApi(request, response, url.pathname, url.searchParams);
     if (handled !== false) return;
-    serveStatic(request, response, url.pathname);
+    serveStatic(request, response, url.pathname, url.searchParams);
   } catch (error) {
     sendJson(request, response, 500, { error: "server-error", detail: String(error.message || error) });
   }

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="וופל׳ס מספרת כלבים בוטיק בהוד השרון. טיפוח מקצועי, רגוע ומותאם לסוג הפרווה ולאופי הכלב.">
+  <meta name="robots" content="index,follow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'">
+  <title>וופל׳ס | מספרת כלבים בוטיק בהוד השרון</title>
+  <style>
+    :root {
+      --ink: #17191a;
+      --muted: #62696d;
+      --paper: #ffffff;
+      --soft: #f6f7f5;
+      --blue: #dff3fa;
+      --blue-strong: #2e7189;
+      --mint: #dcece4;
+      --line: #dfe4e5;
+      --danger: #9c3131;
+      --success: #256b49;
+      --radius: 8px;
+      --shadow: 0 16px 40px rgba(16, 24, 28, .09);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); background: var(--paper); }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; }
+    button, input, textarea, select { font: inherit; }
+    button, .button {
+      border: 0;
+      border-radius: var(--radius);
+      min-height: 48px;
+      padding: 12px 18px;
+      background: var(--ink);
+      color: #fff;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 750;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .6; cursor: wait; }
+    .button.light { background: #fff; color: var(--ink); }
+    .button.outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.7); }
+    .container { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    .site-header {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,.96);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+    .header-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 850; }
+    .brand img { width: 44px; height: 44px; object-fit: contain; }
+    .brand span { display: grid; line-height: 1.05; }
+    .brand small { color: var(--muted); font-size: 11px; margin-top: 4px; }
+    .header-nav { display: flex; align-items: center; gap: 20px; }
+    .header-nav a { text-decoration: none; font-size: 14px; font-weight: 650; }
+    .header-nav .button { min-height: 40px; padding: 8px 14px; }
+    .hero {
+      position: relative;
+      height: min(680px, calc(100svh - 140px));
+      min-height: 520px;
+      color: #fff;
+      overflow: hidden;
+      background: #30383d;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(11,17,20,.15), rgba(11,17,20,.82));
+      z-index: 1;
+    }
+    .hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 42% 43%; }
+    .hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; max-width: 680px; }
+    .eyebrow { font-size: 14px; font-weight: 800; margin-bottom: 14px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(38px, 7vw, 76px); line-height: 1.02; letter-spacing: 0; margin-bottom: 20px; }
+    .hero p { font-size: clamp(18px, 2.2vw, 23px); line-height: 1.65; max-width: 640px; margin-bottom: 28px; }
+    .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .trust-strip { background: var(--blue); border-bottom: 1px solid #c7e4ee; }
+    .trust-inner { padding: 28px 0; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
+    .trust-inner p { margin: 0; line-height: 1.7; font-size: 17px; max-width: 820px; }
+    .trust-mark { font-weight: 850; white-space: nowrap; }
+    section { padding: 76px 0; }
+    .section-heading { max-width: 700px; margin-bottom: 34px; }
+    h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1.12; letter-spacing: 0; margin-bottom: 12px; }
+    .section-heading p, .lead { color: var(--muted); font-size: 17px; line-height: 1.7; }
+    .services { background: var(--soft); }
+    .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .service-item { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; min-height: 150px; }
+    .service-item strong { display: block; font-size: 18px; margin-bottom: 9px; }
+    .service-item p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .coat-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: 44px; align-items: center; }
+    .coat-media { display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1fr 1fr; gap: 10px; min-height: 560px; }
+    .coat-image { width: 100%; height: 100%; min-height: 0; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .coat-image:first-child { grid-row: 1 / 3; }
+    .coat-list { display: grid; gap: 0; border-top: 1px solid var(--line); }
+    .coat-row { padding: 17px 0; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .coat-row strong { color: var(--blue-strong); }
+    .safety-note { margin-top: 22px; padding: 17px; background: var(--mint); border-right: 4px solid #5f9779; line-height: 1.65; }
+    .process { background: var(--ink); color: #fff; }
+    .process .section-heading p { color: #c5cbce; }
+    .steps { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: #464b4e; border: 1px solid #464b4e; }
+    .step { background: var(--ink); padding: 24px 18px; min-height: 170px; }
+    .step span { display: block; color: #9bd4e7; font-size: 24px; font-weight: 850; margin-bottom: 18px; }
+    .step p { color: #d9dddf; line-height: 1.55; margin: 0; }
+    .appointment-note { margin: 26px 0 0; padding-top: 22px; border-top: 1px solid #505659; color: #fff; font-weight: 700; }
+    .gallery-section { overflow: hidden; background: #111416; color: #fff; }
+    .gallery-section .section-heading p { color: #c8ced1; }
+    .circular-gallery-shell { position: relative; height: 600px; margin-inline: calc(50% - 50vw); }
+    .circular-gallery { width: 100%; height: 100%; overflow: hidden; cursor: grab; touch-action: pan-y; }
+    .circular-gallery.is-grabbing { cursor: grabbing; }
+    .circular-gallery canvas { width: 100%; height: 100%; display: block; }
+    .circular-gallery:focus-visible { outline: 2px solid #9bd4e7; outline-offset: -4px; }
+    .contact { position: relative; overflow: hidden; background: var(--soft); }
+    .shapegrid-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; opacity: .14; }
+    .contact-layout { position: relative; z-index: 1; display: grid; grid-template-columns: .8fr 1.2fr; gap: 52px; align-items: start; }
+    .contact-copy { position: sticky; top: 100px; }
+    .contact-copy .button { margin-top: 10px; }
+    .lead-form { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; box-shadow: var(--shadow); }
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    label { display: grid; gap: 7px; color: #444b4e; font-size: 14px; font-weight: 650; }
+    input, textarea, select { width: 100%; border: 1px solid #cfd6d8; border-radius: var(--radius); background: #fff; color: var(--ink); padding: 12px 13px; min-height: 46px; }
+    input:focus, textarea:focus, select:focus { outline: 3px solid rgba(87,162,190,.2); border-color: var(--blue-strong); }
+    textarea { min-height: 105px; resize: vertical; }
+    .full { grid-column: 1 / -1; }
+    .form-status { min-height: 24px; margin-top: 13px; font-weight: 700; }
+    .form-status.success { color: var(--success); }
+    .form-status.error { color: var(--danger); }
+    footer { background: #101213; color: #d8dcde; padding: 30px 0; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; align-items: center; }
+    .footer-inner a { color: #fff; }
+    .whatsapp-float { position: fixed; left: 18px; bottom: 18px; z-index: 30; background: #121515; box-shadow: 0 10px 30px rgba(0,0,0,.24); }
+    .whatsapp-dialog { width: min(560px, calc(100vw - 24px)); max-height: min(760px, calc(100dvh - 24px)); padding: 0; border: 0; border-radius: var(--radius); color: var(--ink); box-shadow: 0 24px 70px rgba(0,0,0,.3); }
+    .whatsapp-dialog::backdrop { background: rgba(15,18,19,.66); backdrop-filter: blur(3px); }
+    .whatsapp-dialog-inner { position: relative; padding: 30px; overflow-y: auto; max-height: min(760px, calc(100dvh - 24px)); }
+    .dialog-close { position: absolute; top: 14px; left: 14px; width: 38px; height: 38px; padding: 0; border-radius: 50%; background: var(--soft); color: var(--ink); font-size: 24px; line-height: 1; }
+    .whatsapp-dialog h2 { padding-left: 42px; margin-bottom: 8px; font-size: 28px; }
+    .whatsapp-dialog h3 { margin: 24px 0 8px; font-size: 18px; }
+    .whatsapp-dialog p { margin: 0 0 12px; color: var(--muted); line-height: 1.65; }
+    .whatsapp-dialog ol { margin: 10px 0 18px; padding-right: 24px; color: var(--muted); line-height: 1.75; }
+    .whatsapp-dialog .hours { padding: 14px 16px; margin: 18px 0; background: var(--soft); border-right: 4px solid var(--blue-strong); }
+    .whatsapp-dialog .hours p { margin: 3px 0; color: var(--ink); }
+    .dialog-actions { display: flex; gap: 10px; margin-top: 24px; }
+    .dialog-actions .button { flex: 1; }
+    @media (max-width: 820px) {
+      .header-nav a:not(.button) { display: none; }
+      .hero { height: calc(100svh - 125px); min-height: 540px; }
+      .hero::before { background: linear-gradient(0deg, rgba(10,15,17,.85), rgba(10,15,17,.18)); }
+      .hero-image { object-position: 44% center; }
+      .hero-content { justify-content: flex-end; padding-bottom: 46px; }
+      .trust-inner, .coat-layout, .contact-layout { grid-template-columns: 1fr; }
+      .coat-media { min-height: 500px; }
+      .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .steps { grid-template-columns: 1fr; }
+      .step { min-height: 0; display: grid; grid-template-columns: 42px 1fr; gap: 10px; align-items: start; }
+      .step span { margin: 0; }
+      .circular-gallery-shell { height: 520px; }
+      .contact-copy { position: static; }
+    }
+    @media (max-width: 520px) {
+      .container { width: min(100% - 22px, 1120px); }
+      .site-header { height: 66px; }
+      .brand small { display: none; }
+      .header-nav .button { font-size: 13px; padding: 8px 10px; }
+      .hero { min-height: 560px; }
+      h1 { font-size: 40px; }
+      .hero p { font-size: 17px; }
+      .hero-actions .button { width: 100%; }
+      section { padding: 58px 0; }
+      .service-grid, .form-grid { grid-template-columns: 1fr; }
+      .circular-gallery-shell { height: 460px; }
+      .coat-row { grid-template-columns: 1fr; gap: 5px; }
+      .coat-media { min-height: 440px; gap: 7px; }
+      .lead-form { padding: 18px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+      .whatsapp-float { left: 11px; right: 11px; bottom: 11px; }
+      .whatsapp-dialog-inner { padding: 24px 18px 20px; }
+      .whatsapp-dialog h2 { font-size: 24px; }
+      .dialog-actions { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#top" aria-label="וופל׳ס - ראש הדף">
+        <img src="./assets/logo.png" alt="לוגו וופל׳ס">
+        <span>WAFFEL'S<small>Dog Grooming · הוד השרון</small></span>
+      </a>
+      <nav class="header-nav" aria-label="ניווט ראשי">
+        <a href="#services">טיפולים</a>
+        <a href="#process">איך זה עובד</a>
+        <a href="#gallery">עבודות</a>
+        <a class="button" href="#contact">השאירו פרטים</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <img class="hero-image" src="./assets/media/optimized/hero/hero-ortal-background.webp" alt="אורטל מטפחת כלב במספרת וופל׳ס">
+      <div class="container hero-content">
+        <div class="eyebrow">אורטל · טיפול טיפוח מקצועי לכלבים</div>
+        <h1 id="hero-title">וופל׳ס — מספרת כלבים בוטיק בהוד השרון</h1>
+        <p>טיפוח מקצועי, רגוע ומותאם אישית לכל כלב — לפי סוג הפרווה, מצב הפרווה והאופי שלו.</p>
+        <div class="hero-actions">
+          <a class="button light whatsapp-link" href="#" target="_blank" rel="noreferrer">שלחו וואטסאפ לאורטל</a>
+          <a class="button outline" href="#contact">השאירו פרטים לחזרה</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="trust-strip">
+      <div class="container trust-inner">
+        <p>אצל אורטל כל טיפול מותאם לכלב עצמו — לא לפי תפריט קבוע. אנחנו בודקים את סוג הפרווה, מצב הקשרים, הרגישות וההתנהגות כדי לתת טיפול נכון ובטוח.</p>
+        <span class="trust-mark">יחס אישי · עבודה מקצועית</span>
+      </div>
+    </div>
+
+    <section class="services" id="services">
+      <div class="container">
+        <div class="section-heading"><h2>טיפול שמתאים לכלב, לא רק למראה</h2><p>כל תהליך מתחיל בהבנת הפרווה והצרכים של הכלב. כך אפשר לעבוד בצורה רגועה, מדויקת ובטוחה יותר.</p></div>
+        <div class="service-grid">
+          <article class="service-item"><strong>טיפול טיפוח מלא</strong><p>רחצה, ייבוש, סירוק, אוזניים וציפורניים בהתאם לצורך.</p></article>
+          <article class="service-item"><strong>תספורת ועיצוב</strong><p>לגזעים וסוגי פרווה שמתאימים לתספורת, לפי מצב הפרווה.</p></article>
+          <article class="service-item"><strong>טיפול לפרווה קצרה</strong><p>מקלחת, ייבוש והברשה מתאימה. לא טיפול של תספורת.</p></article>
+          <article class="service-item"><strong>טיפול לפרווה כפולה</strong><p>ייבוש יסודי, סירוק והוצאת פרווה מתה לפי בדיקה מקצועית.</p></article>
+          <article class="service-item"><strong>קשרים וסידור פרווה</strong><p>בדיקת דחיסות הפרווה והתאמת עבודה בטוחה ככל האפשר.</p></article>
+          <article class="service-item"><strong>אזורים עדינים</strong><p>אוזניים, ציפורניים וסידור אזורים עדינים בהתאם לכלב.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container coat-layout">
+        <div class="coat-media" aria-label="כלבים עם סוגי פרווה שונים לאחר טיפול בוופל׳ס">
+          <img class="coat-image" src="./assets/media/optimized/before-after/poodle-after.webp" alt="פודל לאחר טיפול טיפוח בוופל׳ס" loading="lazy">
+          <img class="coat-image" src="./assets/media/optimized/before-after/leo-after.webp" alt="כלב עם פרווה מתולתלת לאחר תספורת ועיצוב" loading="lazy">
+          <img class="coat-image" src="./assets/media/optimized/before-after/pomeranian-after.webp" alt="פומרניאן עם פרווה כפולה לאחר טיפול מקצועי" loading="lazy">
+        </div>
+        <div>
+          <div class="section-heading"><h2>לכל פרווה יש דרך טיפול אחרת</h2><p>הגזע נותן כיוון, אבל אורטל בודקת גם את מצב הפרווה בפועל ואת הנוחות של הכלב.</p></div>
+          <div class="coat-list">
+            <div class="coat-row"><strong>פרווה מתולתלת</strong><span>פודל, מלטיפו ודודל</span></div>
+            <div class="coat-row"><strong>פרווה ארוכה ומשיית</strong><span>יורקשייר, שיצו ומלטז</span></div>
+            <div class="coat-row"><strong>פרווה קצרה</strong><span>פיטבול, דוברמן וביגל</span></div>
+            <div class="coat-row"><strong>פרווה כפולה</strong><span>האסקי, סמויד, גולדן ופומרניאן</span></div>
+          </div>
+          <div class="safety-note">בגזעים עם פרווה כפולה לא מאשרים גילוח אוטומטית — אורטל בודקת מקצועית מה נכון לכלב.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="process" id="process">
+      <div class="container">
+        <div class="section-heading"><h2>פשוט, מסודר ואישי</h2><p>בלי הבטחות אוטומטיות ובלי לנחש. אורטל עוברת על הפרטים וחוזרת אליכם.</p></div>
+        <div class="steps">
+          <div class="step"><span>01</span><p>שולחים פרטים או הודעת WhatsApp.</p></div>
+          <div class="step"><span>02</span><p>מצרפים תמונה עדכנית של הכלב והפרווה, אם אפשר.</p></div>
+          <div class="step"><span>03</span><p>אורטל בודקת את סוג הטיפול והזמינות.</p></div>
+          <div class="step"><span>04</span><p>מקבלים חזרה אישית עם האפשרויות המתאימות.</p></div>
+          <div class="step"><span>05</span><p>מגיעים לטיפול רגוע ומקצועי.</p></div>
+        </div>
+        <p class="appointment-note">תורים אינם נקבעים אוטומטית באתר. אורטל בודקת את הפרטים והזמינות וחוזרת אישית עם האפשרויות המתאימות.</p>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="gallery">
+      <div class="container">
+        <div class="section-heading"><h2>עבודות של וופל׳ס</h2><p>תוצאות אמיתיות מהמספרה, בהתאמה לפרווה ולכלב.</p></div>
+        <div class="circular-gallery-shell">
+          <div
+            class="circular-gallery"
+            id="circularGallery"
+            tabindex="0"
+            role="region"
+            aria-label="גלריית עבודות של וופל׳ס. ניתן לנווט באמצעות מקשי החצים."
+            data-items='[
+              {"image":"./assets/media/optimized/gallery/gallery-01.webp","text":"טיפוח לפרווה כפולה"},
+              {"image":"./assets/media/gallery/gallery-collie.JPG","text":"טיפוח לפרווה ארוכה"},
+              {"image":"./assets/media/optimized/before-after/lola-after.webp","text":"תספורת ועיצוב"},
+              {"image":"./assets/media/optimized/gallery/gallery-04.webp","text":"גימור מדויק"},
+              {"image":"./assets/media/optimized/gallery/gallery-05.webp","text":"טיפול אישי"},
+              {"image":"./assets/media/optimized/gallery/gallery-06.webp","text":"עיצוב הפרווה"},
+              {"image":"./assets/media/optimized/gallery/gallery-07.webp","text":"אחרי טיפול בוופל׳ס"},
+              {"image":"./assets/media/optimized/gallery/gallery-08.webp","text":"טיפוח מקצועי"}
+            ]'
+          ></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <canvas class="shapegrid-canvas" id="contactShapeGrid" aria-hidden="true"></canvas>
+      <div class="container contact-layout">
+        <div class="contact-copy">
+          <div class="section-heading"><h2>ספרו לנו על הכלב</h2><p>השאירו פרטים קצרים. אורטל תבדוק מה הטיפול המתאים ומה האפשרויות הקרובות ותחזור אליכם אישית.</p></div>
+          <a class="button whatsapp-link" href="#" target="_blank" rel="noreferrer">מעדיפים WhatsApp? כתבו לאורטל</a>
+        </div>
+        <form class="lead-form" id="landingLeadForm" novalidate>
+          <div class="form-grid">
+            <label>שם לקוח<input name="customer_name" autocomplete="name"></label>
+            <label>טלפון<input name="phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
+            <label>שם הכלב<input name="dog_name" required></label>
+            <label>גזע<input name="breed"></label>
+            <label class="full">מה תרצו לבדוק?
+              <select name="service_requested" required>
+                <option value="">בחירת נושא</option>
+                <option>טיפול טיפוח מלא</option>
+                <option>תספורת ועיצוב לגזע מתאים</option>
+                <option>טיפול לפרווה קצרה</option>
+                <option>טיפול לפרווה כפולה / הוצאת פרווה מתה</option>
+                <option>קשרים וסידור פרווה</option>
+                <option>אוזניים, ציפורניים ואזורים עדינים</option>
+                <option>בדיקת תור</option>
+                <option>שאלה אחרת</option>
+              </select>
+            </label>
+            <label class="full">מועד מועדף<input name="preferred_date" placeholder="למשל: בשבוע הבא או ביום רביעי"></label>
+            <label class="full">הערות / מצב הפרווה<textarea name="notes" placeholder="קשרים, נשירה, רגישות, התנהגות או כל דבר שחשוב לאורטל לדעת"></textarea></label>
+            <button class="full" type="submit">שליחה לאורטל</button>
+          </div>
+          <div class="form-status" id="landingFormStatus" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <strong>WAFFEL'S · וופל׳ס מספרת כלבים</strong>
+      <span>הוד השרון · <a href="tel:0528978102">052-897-8102</a></span>
+    </div>
+  </footer>
+
+  <a class="button whatsapp-float whatsapp-link" href="#" target="_blank" rel="noreferrer">WhatsApp לאורטל</a>
+
+  <dialog class="whatsapp-dialog" id="whatsappInfoDialog" aria-labelledby="whatsappDialogTitle">
+    <div class="whatsapp-dialog-inner">
+      <button class="dialog-close" id="closeWhatsappDialog" type="button" aria-label="סגירת החלון" title="סגירה">×</button>
+      <h2 id="whatsappDialogTitle">לפני שפונים לאורטל 🐾</h2>
+
+      <div class="hours">
+        <strong>שעות פעילות המספרה</strong>
+        <p>א׳–ה׳: 09:00–18:00</p>
+        <p>ו׳: 09:00–13:00</p>
+      </div>
+
+      <p>מענה ב־WhatsApp בשעות הפעילות, עד 48 שעות עבודה.</p>
+      <p><strong>הוד השרון · 052-897-8102</strong></p>
+
+      <div class="dialog-actions">
+        <a class="button" id="continueToWhatsapp" href="#" target="_blank" rel="noreferrer">המשך ל־WhatsApp</a>
+        <button class="button secondary" id="cancelWhatsappDialog" type="button">חזרה לאתר</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    (function initLandingPage() {
+      function initShapeGrid(canvas, options = {}) {
+        const ctx = canvas.getContext("2d");
+        const speed = options.speed ?? 0.5;
+        const squareSize = options.squareSize ?? 40;
+        const borderColor = options.borderColor ?? "#2F293A";
+        const hoverFillColor = options.hoverFillColor ?? "#222222";
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let width = 0;
+        let height = 0;
+        let offset = 0;
+        let hoveredCell = null;
+        let animationFrame = 0;
+
+        function resize() {
+          const rect = canvas.getBoundingClientRect();
+          const scale = Math.min(window.devicePixelRatio || 1, 2);
+          width = Math.max(1, Math.round(rect.width));
+          height = Math.max(1, Math.round(rect.height));
+          canvas.width = Math.round(width * scale);
+          canvas.height = Math.round(height * scale);
+          ctx.setTransform(scale, 0, 0, scale, 0, 0);
+        }
+
+        function draw() {
+          ctx.clearRect(0, 0, width, height);
+          const normalizedOffset = ((offset % squareSize) + squareSize) % squareSize;
+          const columns = Math.ceil(width / squareSize) + 2;
+          const rows = Math.ceil(height / squareSize) + 2;
+
+          for (let column = -2; column < columns; column += 1) {
+            for (let row = -2; row < rows; row += 1) {
+              const x = column * squareSize + normalizedOffset;
+              const y = row * squareSize + normalizedOffset;
+              if (hoveredCell && hoveredCell.column === column && hoveredCell.row === row) {
+                ctx.fillStyle = hoverFillColor;
+                ctx.fillRect(x, y, squareSize, squareSize);
+              }
+              ctx.strokeStyle = borderColor;
+              ctx.lineWidth = 1;
+              ctx.strokeRect(x, y, squareSize, squareSize);
+            }
+          }
+        }
+
+        function animate() {
+          if (!reduceMotion) offset -= Math.max(speed, 0.1);
+          draw();
+          animationFrame = window.requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener("mousemove", (event) => {
+          const rect = canvas.getBoundingClientRect();
+          const normalizedOffset = ((offset % squareSize) + squareSize) % squareSize;
+          hoveredCell = {
+            column: Math.floor((event.clientX - rect.left - normalizedOffset) / squareSize),
+            row: Math.floor((event.clientY - rect.top - normalizedOffset) / squareSize)
+          };
+        });
+        canvas.addEventListener("mouseleave", () => { hoveredCell = null; });
+        window.addEventListener("resize", resize, { passive: true });
+        resize();
+        animate();
+
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            window.cancelAnimationFrame(animationFrame);
+          } else {
+            window.cancelAnimationFrame(animationFrame);
+            animate();
+          }
+        });
+      }
+
+      initShapeGrid(document.getElementById("contactShapeGrid"), {
+        speed: 0.5,
+        squareSize: 40,
+        borderColor: "#2F293A",
+        hoverFillColor: "#222222"
+      });
+
+      const whatsappPhone = "972528978102";
+      const whatsappMessage = "שלום, הגענו דרך האתר ונשמח לקבל פרטים 🐾";
+      const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
+      const whatsappDialog = document.getElementById("whatsappInfoDialog");
+      const continueToWhatsapp = document.getElementById("continueToWhatsapp");
+      continueToWhatsapp.href = whatsappUrl;
+      document.querySelectorAll(".whatsapp-link").forEach((link) => {
+        link.removeAttribute("target");
+        link.addEventListener("click", (event) => {
+          event.preventDefault();
+          whatsappDialog.showModal();
+        });
+      });
+      document.getElementById("closeWhatsappDialog").addEventListener("click", () => whatsappDialog.close());
+      document.getElementById("cancelWhatsappDialog").addEventListener("click", () => whatsappDialog.close());
+      whatsappDialog.addEventListener("click", (event) => {
+        if (event.target === whatsappDialog) whatsappDialog.close();
+      });
+
+      const form = document.getElementById("landingLeadForm");
+      const status = document.getElementById("landingFormStatus");
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      function setStatus(message, type = "") {
+        status.textContent = message;
+        status.className = `form-status ${type}`.trim();
+      }
+
+      function isUrgent(values) {
+        const text = `${values.service_requested} ${values.preferred_date} ${values.notes}`;
+        return /(היום|דחוף|בהקדם|עכשיו|אורטל|מישהו|נציג|אדם)/.test(text);
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (!form.reportValidity()) return;
+        const data = new FormData(form);
+        const values = Object.fromEntries(data.entries());
+        const urgent = isUrgent(values);
+        const notes = [
+          values.preferred_date ? `מועד מועדף: ${values.preferred_date}` : "",
+          values.notes || ""
+        ].filter(Boolean).join("\n");
+        const payload = {
+          customer_name: String(values.customer_name || "").trim(),
+          phone: String(values.phone || "").trim(),
+          dog_name: String(values.dog_name || "").trim(),
+          breed: String(values.breed || "").trim(),
+          service_requested: String(values.service_requested || "").trim(),
+          notes,
+          source: "website_landing",
+          status: "waiting_for_ortal",
+          temperature: urgent ? "hot" : "warm",
+          next_action: urgent ? "חזרה דחופה של אורטל" : "חזרה ללקוח לאחר בדיקת הפרטים"
+        };
+        submitButton.disabled = true;
+        setStatus("שולח את הפרטים לאורטל...");
+        try {
+          const response = await fetch("/api/leads", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          const result = await response.json().catch(() => ({}));
+          if (!response.ok || !result.ok) throw new Error(result.error || "lead-save-failed");
+          form.reset();
+          setStatus("תודה, הפרטים הועברו לאורטל 🐾 היא תחזור אליך אישית עם האפשרויות המתאימות.", "success");
+        } catch (error) {
+          console.error("Landing lead save failed", error);
+          setStatus("לא הצלחנו לשמור את הפרטים כרגע. אפשר לפנות לאורטל ב־WhatsApp.", "error");
+        } finally {
+          submitButton.disabled = false;
+        }
+      });
+    })();
+  </script>
+  <script type="module" src="./circular-gallery.js"></script>
+</body>
+</html>
