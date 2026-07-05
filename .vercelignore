@@ -1,0 +1,9 @@
+node_modules
+.git
+.vercel
+*.log
+*.err.log
+*.out.log
+backend/auth_info_baileys
+backend/data/*.bak
+backend/data/uploads/tmp
