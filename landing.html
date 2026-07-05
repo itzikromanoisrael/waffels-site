@@ -64,6 +64,8 @@
     .header-nav { display: flex; align-items: center; gap: 20px; }
     .header-nav a { text-decoration: none; font-size: 14px; font-weight: 650; }
     .header-nav .button { min-height: 40px; padding: 8px 14px; }
+    .header-nav .academy-button { border-color: var(--blue-strong); background: var(--blue); color: var(--ink); }
+    .academy-short { display: none; }
     .hero {
       position: relative;
       height: min(680px, calc(100svh - 140px));
@@ -114,15 +116,20 @@
     .step span { display: block; color: #9bd4e7; font-size: 24px; font-weight: 850; margin-bottom: 18px; }
     .step p { color: #d9dddf; line-height: 1.55; margin: 0; }
     .appointment-note { margin: 26px 0 0; padding-top: 22px; border-top: 1px solid #505659; color: #fff; font-weight: 700; }
-    .gallery-section { overflow: hidden; background: #111416; color: #fff; }
+    .gallery-section { position: relative; z-index: 0; overflow: hidden; background: #111416; color: #fff; isolation: isolate; }
     .gallery-section .section-heading p { color: #c8ced1; }
-    .circular-gallery-shell { position: relative; height: 600px; margin-inline: calc(50% - 50vw); }
-    .circular-gallery { width: 100%; height: 100%; overflow: hidden; cursor: grab; touch-action: pan-y; }
-    .circular-gallery.is-grabbing { cursor: grabbing; }
-    .circular-gallery canvas { width: 100%; height: 100%; display: block; }
-    .circular-gallery:focus-visible { outline: 2px solid #9bd4e7; outline-offset: -4px; }
-    .gallery-controls { position: absolute; z-index: 2; right: 18px; bottom: 18px; left: 18px; display: flex; direction: ltr; justify-content: space-between; pointer-events: none; }
-    .gallery-control { width: 48px; height: 48px; padding: 0; border: 1px solid rgba(255,255,255,.34); border-radius: 50%; background: rgba(17,20,22,.82); color: #fff; font-size: 24px; line-height: 1; box-shadow: 0 8px 24px rgba(0,0,0,.24); pointer-events: auto; backdrop-filter: blur(8px); }
+    .work-gallery-shell { position: relative; z-index: 0; min-height: 610px; margin-inline: calc(50% - 50vw); padding: 8px 18px 80px; overflow: hidden; isolation: isolate; }
+    .work-gallery { position: relative; width: min(72vw, 410px); aspect-ratio: 5 / 7; margin: 0 auto; touch-action: pan-y; }
+    .work-card { position: absolute; inset: 0; overflow: hidden; margin: 0; border: 1px solid rgba(255,255,255,.13); border-radius: 8px; background: #24282a; box-shadow: 0 22px 55px rgba(0,0,0,.36); transform-origin: center bottom; transition: transform .5s ease, opacity .35s ease, box-shadow .2s ease; user-select: none; touch-action: pan-y; }
+    .work-card:not([data-stack-index="0"]) { pointer-events: none; }
+    .work-card[data-stack-index="0"] { cursor: grab; }
+    .work-card.is-dragging { cursor: grabbing; transition: none; box-shadow: 0 30px 70px rgba(0,0,0,.5); }
+    .work-card.is-leaving { transition: transform .28s ease, opacity .28s ease; opacity: 0; }
+    .work-card img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .work-card[data-stack-index="0"]:hover img { transform: scale(1.025); }
+    .work-card figcaption { position: absolute; right: 0; bottom: 0; left: 0; padding: 38px 18px 16px; color: #fff; font-weight: 750; background: linear-gradient(transparent, rgba(0,0,0,.72)); pointer-events: none; user-select: none; }
+    .gallery-controls { position: absolute; right: 0; bottom: 12px; left: 0; display: flex; direction: ltr; justify-content: center; gap: 10px; }
+    .gallery-control { width: 48px; height: 48px; padding: 0; border: 1px solid rgba(255,255,255,.34); border-radius: 50%; background: #202426; color: #fff; font-size: 24px; line-height: 1; box-shadow: 0 8px 24px rgba(0,0,0,.24); }
     .gallery-control:hover, .gallery-control:focus-visible { background: #fff; color: var(--ink); }
     .contact { position: relative; overflow: hidden; background: var(--soft); }
     .shapegrid-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; opacity: .14; }
@@ -167,7 +174,8 @@
       .steps { grid-template-columns: 1fr; }
       .step { min-height: 0; display: grid; grid-template-columns: 42px 1fr; gap: 10px; align-items: start; }
       .step span { margin: 0; }
-      .circular-gallery-shell { height: 520px; }
+      .work-gallery-shell { min-height: 570px; }
+      .work-gallery { width: min(68vw, 360px); }
       .contact-copy { position: static; }
     }
     @media (max-width: 520px) {
@@ -175,14 +183,17 @@
       .site-header { height: 66px; }
       .brand small { display: none; }
       .header-nav .button { font-size: 13px; padding: 8px 10px; }
+      .header-nav { gap: 7px; }
+      .academy-long { display: none; }
+      .academy-short { display: inline; }
       .hero { min-height: 560px; }
       h1 { font-size: 40px; }
       .hero p { font-size: 17px; }
       .hero-actions .button { width: 100%; }
       section { padding: 58px 0; }
       .service-grid, .form-grid { grid-template-columns: 1fr; }
-      .circular-gallery-shell { height: 460px; }
-      .gallery-controls { right: 12px; bottom: 12px; left: 12px; }
+      .work-gallery-shell { min-height: 510px; padding-right: 11px; padding-left: 11px; }
+      .work-gallery { width: min(76vw, 300px); }
       .gallery-control { width: 44px; height: 44px; }
       .coat-row { grid-template-columns: 1fr; gap: 5px; }
       .coat-media { min-height: 440px; gap: 7px; }
@@ -206,6 +217,7 @@
         <a href="#services">טיפולים</a>
         <a href="#process">איך זה עובד</a>
         <a href="#gallery">עבודות</a>
+        <a class="button academy-button" href="./academy-cilabos/index.html"><span class="academy-long">Waffel's Academy</span><span class="academy-short">אקדמיה</span></a>
         <a class="button" href="#contact">השאירו פרטים</a>
       </nav>
     </div>
@@ -283,27 +295,28 @@
     <section class="gallery-section" id="gallery">
       <div class="container">
         <div class="section-heading"><h2>עבודות של וופל׳ס</h2><p>תוצאות אמיתיות מהמספרה, בהתאמה לפרווה ולכלב.</p></div>
-        <div class="circular-gallery-shell">
-          <div
-            class="circular-gallery"
-            id="circularGallery"
-            tabindex="0"
-            role="region"
-            aria-label="גלריית עבודות של וופל׳ס. ניתן לנווט באמצעות מקשי החצים."
-            data-items='[
-              {"image":"./assets/media/optimized/gallery/gallery-01.webp","text":"טיפוח לפרווה כפולה"},
-              {"image":"./assets/media/gallery/gallery-collie.JPG","text":"טיפוח לפרווה ארוכה"},
-              {"image":"./assets/media/optimized/before-after/lola-after.webp","text":"תספורת ועיצוב"},
-              {"image":"./assets/media/optimized/gallery/gallery-04.webp","text":"גימור מדויק"},
-              {"image":"./assets/media/optimized/gallery/gallery-05.webp","text":"טיפול אישי"},
-              {"image":"./assets/media/optimized/gallery/gallery-06.webp","text":"עיצוב הפרווה"},
-              {"image":"./assets/media/optimized/gallery/gallery-07.webp","text":"אחרי טיפול בוופל׳ס"},
-              {"image":"./assets/media/optimized/gallery/gallery-08.webp","text":"טיפוח מקצועי"}
-            ]'
-          ></div>
+        <div class="work-gallery-shell">
+          <div class="work-gallery" id="workGallery" tabindex="0" role="region" aria-label="גלריית עבודות של וופל׳ס. גררו את התמונה העליונה כדי לעבור לעבודה הבאה.">
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-01.webp" alt="טיפוח מקצועי לכלב בוופל׳ס" loading="eager"><figcaption>טיפוח מותאם לפרווה</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-02.webp" alt="עבודת טיפוח של וופל׳ס" loading="lazy"><figcaption>גימור מדויק</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-04.webp" alt="כלב לאחר טיפול בוופל׳ס" loading="lazy"><figcaption>אחרי טיפול בוופל׳ס</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-05.webp" alt="תספורת ועיצוב לכלב" loading="lazy"><figcaption>תספורת ועיצוב</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-06.webp" alt="טיפוח פרווה מקצועי" loading="lazy"><figcaption>עבודה לפי מצב הפרווה</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-07.webp" alt="עיצוב פרווה בוופל׳ס" loading="lazy"><figcaption>עיצוב הפרווה</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-08.webp" alt="כלב מטופח בוופל׳ס" loading="lazy"><figcaption>טיפול אישי ורגוע</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-09.webp" alt="עבודת מספרת כלבים וופל׳ס" loading="lazy"><figcaption>תוצאה נקייה ומוקפדת</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-10.webp" alt="טיפוח מקצועי במספרת וופל׳ס" loading="lazy"><figcaption>טיפוח מקצועי</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-11.webp" alt="כלב לאחר סירוק ועיצוב" loading="lazy"><figcaption>סירוק ועיצוב</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-12.webp" alt="תוצאה של טיפול פרווה" loading="lazy"><figcaption>טיפול מלא לפרווה</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-13.webp" alt="עבודת טיפוח עדינה" loading="lazy"><figcaption>טיפוח עדין ומדויק</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-14.webp" alt="כלב לאחר גימור במספרה" loading="lazy"><figcaption>גימור מוקפד</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-15.webp" alt="תספורת מקצועית לכלב" loading="lazy"><figcaption>תספורת מקצועית</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-16.webp" alt="עבודת עיצוב לכלב" loading="lazy"><figcaption>התאמה אישית לכלב</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/gallery/gallery-collie.JPG" alt="טיפוח מקצועי לפרווה ארוכה" loading="lazy"><figcaption>טיפוח לפרווה ארוכה</figcaption></figure>
+          </div>
           <div class="gallery-controls" aria-label="ניווט בגלריה">
-            <button class="gallery-control" type="button" data-gallery-action="previous" aria-label="התמונה הקודמת" title="התמונה הקודמת">←</button>
-            <button class="gallery-control" type="button" data-gallery-action="next" aria-label="התמונה הבאה" title="התמונה הבאה">→</button>
+            <button class="gallery-control" type="button" data-gallery-action="previous" aria-label="העבודה הקודמת" title="העבודה הקודמת">←</button>
+            <button class="gallery-control" type="button" data-gallery-action="next" aria-label="העבודה הבאה" title="העבודה הבאה">→</button>
           </div>
         </div>
       </div>
@@ -533,6 +546,89 @@
       });
     })();
   </script>
-  <script type="module" src="./circular-gallery.js"></script>
+  <script>
+    (() => {
+      const gallery = document.getElementById('workGallery');
+      if (!gallery) return;
+      const minDragDistance = 50;
+      let isAnimating = false;
+      let drag = null;
+
+      const cards = () => [...gallery.querySelectorAll('.work-card')];
+      const positionCards = () => {
+        cards().forEach((card, index) => {
+          card.dataset.stackIndex = String(index);
+          card.style.zIndex = String(50 - index);
+          card.style.opacity = index > 5 ? '0' : String(1 - index * .1);
+          card.style.visibility = index > 5 ? 'hidden' : 'visible';
+          card.style.transform = index === 0
+            ? 'translate3d(0, 0, 0) rotate(0deg) scale(1)'
+            : `translate3d(${-12 * index}px, ${-8 * index}px, 0) rotate(${-2 - 3 * index}deg) scale(${1 - Math.min(index, 5) * .018})`;
+        });
+      };
+
+      const moveTopCard = (direction = 1) => {
+        if (isAnimating) return;
+        const topCard = cards()[0];
+        if (!topCard) return;
+        isAnimating = true;
+        topCard.classList.remove('is-dragging');
+        topCard.classList.add('is-leaving');
+        topCard.style.transform = `translate3d(${direction * 520}px, -25px, 0) rotate(${direction * 14}deg) scale(1.04)`;
+        window.setTimeout(() => {
+          topCard.classList.remove('is-leaving');
+          gallery.appendChild(topCard);
+          positionCards();
+          window.setTimeout(() => { isAnimating = false; }, 220);
+        }, 280);
+      };
+
+      gallery.addEventListener('pointerdown', (event) => {
+        if (isAnimating) return;
+        const topCard = cards()[0];
+        if (!topCard || !topCard.contains(event.target)) return;
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, card: topCard, axis: null };
+        topCard.setPointerCapture(event.pointerId);
+      });
+
+      gallery.addEventListener('pointermove', (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const dx = event.clientX - drag.x;
+        const dy = event.clientY - drag.y;
+        if (!drag.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
+          drag.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+          if (drag.axis === 'horizontal') drag.card.classList.add('is-dragging');
+        }
+        if (drag.axis !== 'horizontal') return;
+        drag.card.style.transform = `translate3d(${dx}px, ${dy * .12}px, 0) rotate(${dx / 18}deg) scale(1.04)`;
+      });
+
+      const finishDrag = (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const dx = event.clientX - drag.x;
+        const dy = event.clientY - drag.y;
+        const isHorizontalDrag = drag.axis === 'horizontal';
+        const draggedCard = drag.card;
+        drag = null;
+        draggedCard.classList.remove('is-dragging');
+        if (isHorizontalDrag && Math.abs(dx) >= minDragDistance) moveTopCard(dx < 0 ? -1 : 1);
+        else positionCards();
+      };
+      gallery.addEventListener('pointerup', finishDrag);
+      gallery.addEventListener('pointercancel', finishDrag);
+
+      document.querySelectorAll('[data-gallery-action]').forEach((button) => {
+        button.addEventListener('click', () => moveTopCard(button.dataset.galleryAction === 'next' ? -1 : 1));
+      });
+
+      gallery.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        moveTopCard(event.key === 'ArrowLeft' ? -1 : 1);
+      });
+
+      positionCards();
+    })();
+  </script>
 </body>
 </html>
