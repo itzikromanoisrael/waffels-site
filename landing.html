@@ -96,11 +96,21 @@
     .section-heading { max-width: 700px; margin-bottom: 34px; }
     h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1.12; letter-spacing: 0; margin-bottom: 12px; }
     .section-heading p, .lead { color: var(--muted); font-size: 17px; line-height: 1.7; }
-    .services { background: var(--soft); }
+    .services { position: relative; overflow: hidden; isolation: isolate; background: var(--soft); }
+    .services-dots { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+    .services > .container { position: relative; z-index: 1; }
     .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
     .service-item { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; min-height: 150px; }
     .service-item strong { display: block; font-size: 18px; margin-bottom: 9px; }
     .service-item p { margin: 0; color: var(--muted); line-height: 1.6; }
+    .ortal-showcase { margin-top: 54px; overflow: hidden; }
+    .ortal-stage { position: relative; height: 590px; margin-inline: calc(50% - 50vw); overflow: hidden; touch-action: pan-y; }
+    .ortal-card { position: absolute; top: 50%; left: 50%; width: min(32vw, 380px); aspect-ratio: 4 / 5; margin: 0; overflow: hidden; border-radius: 18px; background: #dfe4e5; box-shadow: 0 22px 55px rgba(20,30,34,.18); transition: transform .65s cubic-bezier(.2,.75,.2,1), opacity .55s ease, filter .55s ease; cursor: pointer; }
+    .ortal-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .ortal-card[data-offset="0"] { cursor: grab; }
+    .ortal-card[data-offset="0"]:active { cursor: grabbing; }
+    .ortal-card.is-dragging { transition: none; cursor: grabbing; }
+    .ortal-note { margin: 0 auto; max-width: 650px; color: var(--muted); text-align: center; line-height: 1.7; }
     .coat-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: 44px; align-items: center; }
     .coat-media { display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1fr 1fr; gap: 10px; min-height: 560px; }
     .coat-image { width: 100%; height: 100%; min-height: 0; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
@@ -171,6 +181,8 @@
       .trust-inner, .coat-layout, .contact-layout { grid-template-columns: 1fr; }
       .coat-media { min-height: 500px; }
       .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ortal-stage { height: 540px; }
+      .ortal-card { width: min(48vw, 340px); }
       .steps { grid-template-columns: 1fr; }
       .step { min-height: 0; display: grid; grid-template-columns: 42px 1fr; gap: 10px; align-items: start; }
       .step span { margin: 0; }
@@ -192,6 +204,9 @@
       .hero-actions .button { width: 100%; }
       section { padding: 58px 0; }
       .service-grid, .form-grid { grid-template-columns: 1fr; }
+      .ortal-showcase { margin-top: 38px; }
+      .ortal-stage { height: 470px; }
+      .ortal-card { width: min(68vw, 290px); border-radius: 14px; }
       .work-gallery-shell { min-height: 510px; padding-right: 11px; padding-left: 11px; }
       .work-gallery { width: min(76vw, 300px); }
       .gallery-control { width: 44px; height: 44px; }
@@ -245,6 +260,7 @@
     </div>
 
     <section class="services" id="services">
+      <canvas class="services-dots" id="servicesDots" aria-hidden="true"></canvas>
       <div class="container">
         <div class="section-heading"><h2>טיפול שמתאים לכלב, לא רק למראה</h2><p>כל תהליך מתחיל בהבנת הפרווה והצרכים של הכלב. כך אפשר לעבוד בצורה רגועה, מדויקת ובטוחה יותר.</p></div>
         <div class="service-grid">
@@ -254,6 +270,16 @@
           <article class="service-item"><strong>טיפול לפרווה כפולה</strong><p>ייבוש יסודי, סירוק והוצאת פרווה מתה לפי בדיקה מקצועית.</p></article>
           <article class="service-item"><strong>קשרים וסידור פרווה</strong><p>בדיקת דחיסות הפרווה והתאמת עבודה בטוחה ככל האפשר.</p></article>
           <article class="service-item"><strong>אזורים עדינים</strong><p>אוזניים, ציפורניים וסידור אזורים עדינים בהתאם לכלב.</p></article>
+        </div>
+        <div class="ortal-showcase" aria-label="אורטל מטפלת בכלבים במספרה">
+          <div class="ortal-stage" id="ortalShowcase" tabindex="0" role="region" aria-label="תמונות מהעבודה המקצועית במספרה. השתמשו בחצים או החליקו לצדדים.">
+            <figure class="ortal-card"><img src="./assets/media/ortal/ortal-working-01.jpeg" alt="אורטל מטפחת כלב בעדינות" loading="lazy"></figure>
+            <figure class="ortal-card"><img src="./assets/media/ortal/ortal-working-02.jpeg" alt="אורטל מעצבת את פרוותו של כלב" loading="lazy"></figure>
+            <figure class="ortal-card"><img src="./assets/media/ortal/ortal-working-03.jpeg" alt="אורטל במהלך טיפול מקצועי בכלב" loading="lazy"></figure>
+            <figure class="ortal-card"><img src="./assets/media/ortal/ortal-working-04.jpg" alt="אורטל עובדת עם כלבים במספרה" loading="lazy"></figure>
+            <figure class="ortal-card"><img src="./assets/media/ortal/ortal-working-05.jpeg" alt="אורטל מטפלת בנלה ברוגע ובדיוק" loading="lazy"></figure>
+          </div>
+          <p class="ortal-note">כל טיפול נעשה בסבלנות, בהתאמה לסוג הפרווה ולתחושה של הכלב.</p>
         </div>
       </div>
     </section>
@@ -300,7 +326,7 @@
             <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-01.webp" alt="טיפוח מקצועי לכלב בוופל׳ס" loading="eager"><figcaption>טיפוח מותאם לפרווה</figcaption></figure>
             <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-02.webp" alt="עבודת טיפוח של וופל׳ס" loading="lazy"><figcaption>גימור מדויק</figcaption></figure>
             <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-04.webp" alt="כלב לאחר טיפול בוופל׳ס" loading="lazy"><figcaption>אחרי טיפול בוופל׳ס</figcaption></figure>
-            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-05.webp" alt="תספורת ועיצוב לכלב" loading="lazy"><figcaption>תספורת ועיצוב</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-05-shovi.jpeg" alt="שובי לאחר תספורת ועיצוב" loading="lazy"><figcaption>תספורת ועיצוב</figcaption></figure>
             <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-06.webp" alt="טיפוח פרווה מקצועי" loading="lazy"><figcaption>עבודה לפי מצב הפרווה</figcaption></figure>
             <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-07.webp" alt="עיצוב פרווה בוופל׳ס" loading="lazy"><figcaption>עיצוב הפרווה</figcaption></figure>
             <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-08.webp" alt="כלב מטופח בוופל׳ס" loading="lazy"><figcaption>טיפול אישי ורגוע</figcaption></figure>
@@ -312,6 +338,9 @@
             <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-14.webp" alt="כלב לאחר גימור במספרה" loading="lazy"><figcaption>גימור מוקפד</figcaption></figure>
             <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-15.webp" alt="תספורת מקצועית לכלב" loading="lazy"><figcaption>תספורת מקצועית</figcaption></figure>
             <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-16.webp" alt="עבודת עיצוב לכלב" loading="lazy"><figcaption>התאמה אישית לכלב</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-collie-2026.jpeg" alt="כלב קולי לאחר טיפוח מקצועי" loading="lazy"><figcaption>טיפוח מותאם לפרווה</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-yorkie-2026.jpeg" alt="כלב יורקשייר לאחר תספורת ועיצוב" loading="lazy"><figcaption>גימור ועיצוב מוקפד</figcaption></figure>
+            <figure class="work-card"><img src="./assets/media/optimized/gallery/gallery-westie-2026.jpg" alt="כלב ווסטי במהלך טיפול במספרה" loading="lazy"><figcaption>תספורת מקצועית</figcaption></figure>
             <figure class="work-card"><img src="./assets/media/gallery/gallery-collie.JPG" alt="טיפוח מקצועי לפרווה ארוכה" loading="lazy"><figcaption>טיפוח לפרווה ארוכה</figcaption></figure>
           </div>
           <div class="gallery-controls" aria-label="ניווט בגלריה">
@@ -544,6 +573,164 @@
           submitButton.disabled = false;
         }
       });
+    })();
+  </script>
+  <script>
+    (() => {
+      const canvas = document.getElementById('servicesDots');
+      const section = document.getElementById('services');
+      if (!canvas || !section) return;
+      const context = canvas.getContext('2d');
+      const pointer = { x: -1000, y: -1000, active: false };
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let width = 0;
+      let height = 0;
+      let pixelRatio = 1;
+      let isVisible = true;
+
+      const resize = () => {
+        const bounds = section.getBoundingClientRect();
+        width = bounds.width;
+        height = bounds.height;
+        pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(width * pixelRatio);
+        canvas.height = Math.round(height * pixelRatio);
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        if (reduceMotion) draw(0);
+      };
+
+      const draw = (time) => {
+        context.clearRect(0, 0, width, height);
+        const spacing = width < 560 ? 30 : 38;
+        const radius = 145;
+        for (let y = spacing / 2; y < height; y += spacing) {
+          for (let x = spacing / 2; x < width; x += spacing) {
+            const dx = x - pointer.x;
+            const dy = y - pointer.y;
+            const distance = Math.hypot(dx, dy);
+            const influence = pointer.active ? Math.max(0, 1 - distance / radius) : 0;
+            const safeDistance = distance || 1;
+            const drift = reduceMotion ? 0 : Math.sin(time * .0015 + x * .025 + y * .018) * .7;
+            const offset = influence * 16;
+            const drawX = x + (dx / safeDistance) * offset + drift;
+            const drawY = y + (dy / safeDistance) * offset + drift;
+            const dotSize = 1.35 + influence * 2.9;
+            context.beginPath();
+            context.arc(drawX, drawY, dotSize, 0, Math.PI * 2);
+            context.fillStyle = `rgba(46,113,137,${.3 + influence * .58})`;
+            context.fill();
+          }
+        }
+        if (isVisible && !reduceMotion) window.requestAnimationFrame(draw);
+      };
+
+      section.addEventListener('pointermove', (event) => {
+        const bounds = section.getBoundingClientRect();
+        pointer.x = event.clientX - bounds.left;
+        pointer.y = event.clientY - bounds.top;
+        pointer.active = true;
+        if (reduceMotion) draw(0);
+      });
+      section.addEventListener('pointerleave', () => {
+        pointer.active = false;
+        if (reduceMotion) draw(0);
+      });
+
+      new ResizeObserver(resize).observe(section);
+      new IntersectionObserver(([entry]) => {
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        if (isVisible && !wasVisible && !reduceMotion) window.requestAnimationFrame(draw);
+      }).observe(section);
+      resize();
+      if (!reduceMotion) window.requestAnimationFrame(draw);
+    })();
+  </script>
+  <script>
+    (() => {
+      const stage = document.getElementById('ortalShowcase');
+      if (!stage) return;
+      const cards = [...stage.querySelectorAll('.ortal-card')];
+      let active = 0;
+      let pointerStart = null;
+      let didDrag = false;
+
+      const render = () => {
+        const spacing = Math.min(window.innerWidth * .27, 310);
+        cards.forEach((card, index) => {
+          let offset = index - active;
+          if (offset > cards.length / 2) offset -= cards.length;
+          if (offset < -cards.length / 2) offset += cards.length;
+          const distance = Math.abs(offset);
+          const scale = distance === 0 ? 1 : distance === 1 ? .82 : .66;
+          card.dataset.offset = String(offset);
+          card.style.zIndex = String(10 - distance);
+          card.style.opacity = distance > 2 ? '0' : distance === 2 ? '.42' : distance === 1 ? '.76' : '1';
+          card.style.filter = distance === 0 ? 'none' : `saturate(${distance === 1 ? .82 : .62}) brightness(${distance === 1 ? .9 : .82})`;
+          card.style.pointerEvents = distance > 2 ? 'none' : 'auto';
+          card.style.transform = `translate(-50%, -50%) translateX(${offset * spacing}px) scale(${scale})`;
+          card.setAttribute('aria-hidden', distance > 2 ? 'true' : 'false');
+        });
+      };
+
+      const move = (step) => {
+        active = (active + step + cards.length) % cards.length;
+        render();
+      };
+
+      cards.forEach((card, index) => card.addEventListener('click', () => {
+        if (didDrag) { didDrag = false; return; }
+        if (index === active) { move(1); return; }
+        const forward = (index - active + cards.length) % cards.length;
+        move(forward <= cards.length / 2 ? forward : forward - cards.length);
+      }));
+
+      stage.addEventListener('pointerdown', (event) => {
+        const activeCard = cards[active];
+        if (!activeCard.contains(event.target)) return;
+        didDrag = false;
+        pointerStart = { id: event.pointerId, x: event.clientX, y: event.clientY, axis: null, card: activeCard };
+        activeCard.setPointerCapture(event.pointerId);
+      });
+      stage.addEventListener('pointermove', (event) => {
+        if (!pointerStart || pointerStart.id !== event.pointerId) return;
+        const dx = event.clientX - pointerStart.x;
+        const dy = event.clientY - pointerStart.y;
+        if (!pointerStart.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
+          pointerStart.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+          if (pointerStart.axis === 'horizontal') {
+            didDrag = true;
+            pointerStart.card.classList.add('is-dragging');
+          }
+        }
+        if (pointerStart.axis !== 'horizontal') return;
+        pointerStart.card.style.transform = `translate(-50%, -50%) translateX(${dx}px) rotate(${dx / 28}deg) scale(1.02)`;
+      });
+      stage.addEventListener('pointerup', (event) => {
+        if (!pointerStart || pointerStart.id !== event.pointerId) return;
+        const distance = event.clientX - pointerStart.x;
+        const wasHorizontal = pointerStart.axis === 'horizontal';
+        pointerStart.card.classList.remove('is-dragging');
+        pointerStart = null;
+        if (wasHorizontal && Math.abs(distance) > 45) move(distance < 0 ? 1 : -1);
+        else render();
+        window.setTimeout(() => { didDrag = false; }, 0);
+      });
+      stage.addEventListener('pointercancel', () => {
+        if (pointerStart) pointerStart.card.classList.remove('is-dragging');
+        pointerStart = null;
+        didDrag = false;
+        render();
+      });
+      stage.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        move(event.key === 'ArrowLeft' ? 1 : -1);
+      });
+      window.addEventListener('resize', render);
+      render();
     })();
   </script>
   <script>
