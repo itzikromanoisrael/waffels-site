@@ -28,6 +28,7 @@ const CONTENT_TYPES = {
   ".mp4": "video/mp4",
   ".mov": "video/quicktime",
   ".webmanifest": "application/manifest+json; charset=utf-8",
+  ".xml": "application/xml; charset=utf-8",
   ".txt": "text/plain; charset=utf-8"
 };
 
@@ -58,7 +59,7 @@ const defaults = {
   slotCapacity: 1,
   depositAmountIls: 150,
   depositWindowMinutes: 15,
-  workWeekdays: [0, 1, 3, 4],
+  workWeekdays: [0, 1, 2, 3, 4],
   slotLabels: ["09:00", "11:00", "13:00", "14:00"],
   bookingRateLimitWindowMs: 15 * 60 * 1000,
   bookingRateLimitMax: 8,
@@ -1428,6 +1429,17 @@ function serveStatic(_request, response, pathname) {
     return;
   }
   if (!fs.existsSync(normalized) || fs.statSync(normalized).isDirectory()) {
+    const notFoundPath = path.join(ROOT_DIR, "404.html");
+    if (fs.existsSync(notFoundPath)) {
+      response.writeHead(404, {
+        ...getSecurityHeaders(),
+        "Content-Type": CONTENT_TYPES[".html"],
+        "Cache-Control": "no-cache",
+        ...getCorsHeaders(_request)
+      });
+      fs.createReadStream(notFoundPath).pipe(response);
+      return;
+    }
     sendText(_request, response, 404, "Not found");
     return;
   }

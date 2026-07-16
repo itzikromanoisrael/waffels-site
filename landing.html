@@ -3,10 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="וופל׳ס מספרת כלבים בוטיק בהוד השרון. טיפוח מקצועי, רגוע ומותאם לסוג הפרווה ולאופי הכלב.">
+  <meta name="description" content="Waffel’s Dog Grooming — וופל׳ס מספרת כלבים בהוד השרון. טיפול טיפוח פרימיום מלא, התמחות בפודלים ופרוות מתולתלות, עבודה רגועה ומותאמת לכלב.">
   <meta name="robots" content="index,follow">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'">
-  <title>וופל׳ס | מספרת כלבים בוטיק בהוד השרון</title>
+  <link rel="canonical" href="https://waffelsgrooming.com/">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Waffel’s Dog Grooming — וופל׳ס מספרת כלבים בהוד השרון">
+  <meta property="og:description" content="טיפול טיפוח פרימיום מלא לכלבים בהוד השרון, עם התמחות בפודלים, פרוות מתולתלות והתאמה רגועה למצב הפרווה.">
+  <meta property="og:url" content="https://waffelsgrooming.com/">
+  <meta property="og:image" content="https://waffelsgrooming.com/assets/media/optimized/hero/hero-ortal-background.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Waffel’s Dog Grooming — וופל׳ס מספרת כלבים">
+  <meta name="twitter:description" content="מספרת כלבים פרימיום בהוד השרון. טיפול מלא, מקצועי ורגוע לפי סוג הפרווה ומצב הכלב.">
+  <meta name="twitter:image" content="https://waffelsgrooming.com/assets/media/optimized/hero/hero-ortal-background.webp">
+  <title>Waffel’s Dog Grooming — וופל׳ס מספרת כלבים בהוד השרון</title>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Waffel’s Dog Grooming — וופל׳ס מספרת כלבים",
+      "description": "מספרת כלבים בהוד השרון לטיפול טיפוח פרימיום מלא, בהתאמה לסוג הפרווה ולמצב הכלב.",
+      "url": "https://waffelsgrooming.com/",
+      "telephone": "+972528978102",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "הוד השרון",
+        "addressCountry": "IL"
+      },
+      "areaServed": "הוד השרון",
+      "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "09:00", "closes": "16:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday", "opens": "09:00", "closes": "16:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday", "opens": "09:00", "closes": "16:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "09:00", "closes": "16:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "09:00", "closes": "16:00" }
+      ],
+      "priceRange": "₪₪"
+    }
+  </script>
   <style>
     :root {
       --ink: #17191a;
@@ -23,11 +58,14 @@
       --shadow: 0 16px 40px rgba(16, 24, 28, .09);
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); background: var(--paper); }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); background: var(--paper); overflow-x: hidden; }
     img { display: block; max-width: 100%; }
     a { color: inherit; }
     button, input, textarea, select { font: inherit; }
+    :focus-visible { outline: 3px solid rgba(46,113,137,.5); outline-offset: 3px; }
+    .skip-link { position: fixed; top: 10px; right: 10px; z-index: 1000; transform: translateY(-140%); background: var(--ink); color: #fff; padding: 12px 16px; border-radius: var(--radius); text-decoration: none; font-weight: 800; }
+    .skip-link:focus { transform: translateY(0); }
     button, .button {
       border: 0;
       border-radius: var(--radius);
@@ -153,7 +191,7 @@
     input:focus, textarea:focus, select:focus { outline: 3px solid rgba(87,162,190,.2); border-color: var(--blue-strong); }
     textarea { min-height: 105px; resize: vertical; }
     .full { grid-column: 1 / -1; }
-    .form-status { min-height: 24px; margin-top: 13px; font-weight: 700; }
+    .form-status { min-height: 24px; margin-top: 13px; font-weight: 700; line-height: 1.55; }
     .form-status.success { color: var(--success); }
     .form-status.error { color: var(--danger); }
     footer { background: #101213; color: #d8dcde; padding: 30px 0; }
@@ -191,6 +229,7 @@
       .contact-copy { position: static; }
     }
     @media (max-width: 520px) {
+      body { padding-bottom: 72px; }
       .container { width: min(100% - 22px, 1120px); }
       .site-header { height: 66px; }
       .brand small { display: none; }
@@ -219,12 +258,17 @@
       .whatsapp-dialog h2 { font-size: 24px; }
       .dialog-actions { flex-direction: column; }
     }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      .shapegrid-canvas, .services-dots { opacity: .08; }
+    }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">דלגו לתוכן המרכזי</a>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#top" aria-label="וופל׳ס - ראש הדף">
+      <a class="brand" href="#main-content" aria-label="וופל׳ס - ראש הדף">
         <img src="./assets/logo.png" alt="לוגו וופל׳ס">
         <span>WAFFEL'S<small>Dog Grooming · הוד השרון</small></span>
       </a>
@@ -238,13 +282,13 @@
     </div>
   </header>
 
-  <main id="top">
+  <main id="main-content">
     <section class="hero" aria-labelledby="hero-title">
-      <img class="hero-image" src="./assets/media/optimized/hero/hero-ortal-background.webp" alt="אורטל מטפחת כלב במספרת וופל׳ס">
+      <img class="hero-image" src="./assets/media/optimized/hero/hero-ortal-background.webp" alt="אורטל מטפחת כלב במספרת וופל׳ס בהוד השרון" width="1600" height="1000" fetchpriority="high" loading="eager" decoding="async">
       <div class="container hero-content">
-        <div class="eyebrow">אורטל · טיפול טיפוח מקצועי לכלבים</div>
-        <h1 id="hero-title">וופל׳ס — מספרת כלבים בוטיק בהוד השרון</h1>
-        <p>טיפוח מקצועי, רגוע ומותאם אישית לכל כלב — לפי סוג הפרווה, מצב הפרווה והאופי שלו.</p>
+        <div class="eyebrow">Waffel’s Dog Grooming · וופל׳ס מספרת כלבים</div>
+        <h1 id="hero-title">טיפול טיפוח פרימיום לכלבים בהוד השרון</h1>
+        <p>טיפול מלא, רגוע ומותאם אישית — עם התמחות בפודלים, פרוות מתולתלות וכלבים שצריכים יד מקצועית וסבלנית.</p>
         <div class="hero-actions">
           <a class="button light whatsapp-link" href="#" target="_blank" rel="noreferrer">שלחו וואטסאפ לאורטל</a>
           <a class="button outline" href="#contact">השאירו פרטים לחזרה</a>
@@ -254,8 +298,8 @@
 
     <div class="trust-strip">
       <div class="container trust-inner">
-        <p>אצל אורטל כל טיפול מותאם לכלב עצמו — לא לפי תפריט קבוע. אנחנו בודקים את סוג הפרווה, מצב הקשרים, הרגישות וההתנהגות כדי לתת טיפול נכון ובטוח.</p>
-        <span class="trust-mark">יחס אישי · עבודה מקצועית</span>
+        <p>אצל אורטל הטיפול אינו “רק מקלחת” או “רק תספורת”. זהו תהליך טיפוח מלא לפי הצורך: רחצה, מוצרים איכותיים המותאמים לפרווה, ייבוש, סירוק, טיפול בקשרים, אוזניים, ציפורניים, אזורים סניטריים ותספורת או עיצוב כאשר סוג הפרווה מתאים.</p>
+        <span class="trust-mark">ראשון–חמישי · 09:00–16:00</span>
       </div>
     </div>
 
@@ -264,12 +308,12 @@
       <div class="container">
         <div class="section-heading"><h2>טיפול שמתאים לכלב, לא רק למראה</h2><p>כל תהליך מתחיל בהבנת הפרווה והצרכים של הכלב. כך אפשר לעבוד בצורה רגועה, מדויקת ובטוחה יותר.</p></div>
         <div class="service-grid">
-          <article class="service-item"><strong>טיפול טיפוח מלא</strong><p>רחצה, ייבוש, סירוק, אוזניים וציפורניים בהתאם לצורך.</p></article>
-          <article class="service-item"><strong>תספורת ועיצוב</strong><p>לגזעים וסוגי פרווה שמתאימים לתספורת, לפי מצב הפרווה.</p></article>
-          <article class="service-item"><strong>טיפול לפרווה קצרה</strong><p>מקלחת, ייבוש והברשה מתאימה. לא טיפול של תספורת.</p></article>
-          <article class="service-item"><strong>טיפול לפרווה כפולה</strong><p>ייבוש יסודי, סירוק והוצאת פרווה מתה לפי בדיקה מקצועית.</p></article>
-          <article class="service-item"><strong>קשרים וסידור פרווה</strong><p>בדיקת דחיסות הפרווה והתאמת עבודה בטוחה ככל האפשר.</p></article>
-          <article class="service-item"><strong>אזורים עדינים</strong><p>אוזניים, ציפורניים וסידור אזורים עדינים בהתאם לכלב.</p></article>
+          <article class="service-item"><strong>טיפול טיפוח פרימיום מלא</strong><p>רחצה, ייבוש, סירוק, טיפול בקשרים, אוזניים, ציפורניים ואזורים סניטריים לפי הצורך.</p></article>
+          <article class="service-item"><strong>פודלים ופרווה מתולתלת</strong><p>התמחות בעבודה מדויקת עם פודלים, מלטיפו ודודל — לפי מצב הפרווה והסגנון שמתאים לכלב.</p></article>
+          <article class="service-item"><strong>תספורת ועיצוב כשזה מתאים</strong><p>תספורת או עיצוב מתבצעים רק כאשר סוג הפרווה והמצב בפועל מאפשרים עבודה נכונה ובטוחה.</p></article>
+          <article class="service-item"><strong>פרווה כפולה בלי הבטחות גילוח</strong><p>בגזעים כמו האסקי, סמויד ופומרניאן מבצעים בדיקה מקצועית ומציעים דילול והוצאת פרווה מתה לפי הצורך.</p></article>
+          <article class="service-item"><strong>קשרים וסידור פרווה</strong><p>בדיקת דחיסות הפרווה, מיקום הקשרים ורגישות העור לפני החלטה על דרך הטיפול.</p></article>
+          <article class="service-item"><strong>טיפול רגוע ומותאם</strong><p>הטיפול הממוצע נמשך כשעתיים, בהתאם לכלב, מצב הפרווה ורמת שיתוף הפעולה.</p></article>
         </div>
         <div class="ortal-showcase" aria-label="אורטל מטפלת בכלבים במספרה">
           <div class="ortal-stage" id="ortalShowcase" tabindex="0" role="region" aria-label="תמונות מהעבודה המקצועית במספרה. השתמשו בחצים או החליקו לצדדים.">
@@ -299,7 +343,7 @@
             <div class="coat-row"><strong>פרווה קצרה</strong><span>פיטבול, דוברמן וביגל</span></div>
             <div class="coat-row"><strong>פרווה כפולה</strong><span>האסקי, סמויד, גולדן ופומרניאן</span></div>
           </div>
-          <div class="safety-note">בגזעים עם פרווה כפולה לא מאשרים גילוח אוטומטית — אורטל בודקת מקצועית מה נכון לכלב.</div>
+          <div class="safety-note">בגזעים עם פרווה כפולה לא מבטיחים גילוח. אורטל בודקת מקצועית מה נכון לכלב, ולעיתים הטיפול הנכון הוא דילול, ייבוש והוצאת פרווה מתה.</div>
         </div>
       </div>
     </section>
@@ -314,7 +358,7 @@
           <div class="step"><span>04</span><p>מקבלים חזרה אישית עם האפשרויות המתאימות.</p></div>
           <div class="step"><span>05</span><p>מגיעים לטיפול רגוע ומקצועי.</p></div>
         </div>
-        <p class="appointment-note">תורים אינם נקבעים אוטומטית באתר. אורטל בודקת את הפרטים והזמינות וחוזרת אישית עם האפשרויות המתאימות.</p>
+        <p class="appointment-note">שעות הפעילות: ראשון–חמישי, 09:00–16:00. תחילת הטיפול האחרון בשעה 14:00. תורים אינם נקבעים אוטומטית באתר — אורטל בודקת את הפרטים והזמינות וחוזרת אישית.</p>
       </div>
     </section>
 
@@ -360,12 +404,12 @@
         </div>
         <form class="lead-form" id="landingLeadForm" novalidate>
           <div class="form-grid">
-            <label>שם לקוח<input name="customer_name" autocomplete="name"></label>
-            <label>טלפון<input name="phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
-            <label>שם הכלב<input name="dog_name" required></label>
-            <label>גזע<input name="breed"></label>
-            <label class="full">מה תרצו לבדוק?
-              <select name="service_requested" required>
+            <label for="customerName">שם לקוח<input id="customerName" name="customer_name" autocomplete="name"></label>
+            <label for="phone">טלפון<input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="050-1234567"></label>
+            <label for="dogName">שם הכלב<input id="dogName" name="dog_name" required></label>
+            <label for="breed">גזע<input id="breed" name="breed"></label>
+            <label class="full" for="serviceRequested">מה תרצו לבדוק?
+              <select id="serviceRequested" name="service_requested" required>
                 <option value="">בחירת נושא</option>
                 <option>טיפול טיפוח מלא</option>
                 <option>תספורת ועיצוב לגזע מתאים</option>
@@ -377,11 +421,12 @@
                 <option>שאלה אחרת</option>
               </select>
             </label>
-            <label class="full">מועד מועדף<input name="preferred_date" placeholder="למשל: בשבוע הבא או ביום רביעי"></label>
-            <label class="full">הערות / מצב הפרווה<textarea name="notes" placeholder="קשרים, נשירה, רגישות, התנהגות או כל דבר שחשוב לאורטל לדעת"></textarea></label>
-            <button class="full" type="submit">שליחה לאורטל</button>
+            <label class="full" for="preferredDate">מועד מועדף<input id="preferredDate" name="preferred_date" placeholder="למשל: בשבוע הבא או ביום רביעי"></label>
+            <label class="full" for="notes">מצב הפרווה והערות<textarea id="notes" name="notes" placeholder="קשרים, נשירה, רגישות, התנהגות או כל דבר שחשוב לאורטל לדעת"></textarea></label>
+            <button class="full" type="submit">מעבר ל־WhatsApp עם הפרטים</button>
           </div>
-          <div class="form-status" id="landingFormStatus" aria-live="polite"></div>
+          <div class="form-status" id="landingFormStatus" aria-live="polite" aria-atomic="true"></div>
+          <p><a id="leadWhatsappFallback" class="whatsapp-direct-fallback" href="https://wa.me/972528978102?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%94%D7%92%D7%A2%D7%A0%D7%95%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%A0%D7%A9%D7%9E%D7%97%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%98%D7%99%D7%A4%D7%95%D7%9C%20%D7%9C%D7%9B%D7%9C%D7%91%20%F0%9F%90%BE" target="_blank" rel="noreferrer">אם הטופס לא נפתח, לחצו כאן לשליחת WhatsApp ישיר</a></p>
         </form>
       </div>
     </section>
@@ -403,11 +448,11 @@
 
       <div class="hours">
         <strong>שעות פעילות המספרה</strong>
-        <p>א׳–ה׳: 09:00–18:00</p>
-        <p>ו׳: 09:00–13:00</p>
+        <p>ראשון–חמישי: 09:00–16:00</p>
+        <p>תחילת הטיפול האחרון: 14:00</p>
       </div>
 
-      <p>מענה ב־WhatsApp בשעות הפעילות, עד 48 שעות עבודה.</p>
+      <p>הודעת WhatsApp אינה מאשרת תור. אורטל בודקת את הפרטים והזמינות וחוזרת אישית.</p>
       <p><strong>הוד השרון · 052-897-8102</strong></p>
 
       <div class="dialog-actions">
@@ -431,6 +476,8 @@
         let offset = 0;
         let hoveredCell = null;
         let animationFrame = 0;
+        let isVisible = false;
+        let isRunning = false;
 
         function resize() {
           const rect = canvas.getBoundingClientRect();
@@ -466,7 +513,19 @@
         function animate() {
           if (!reduceMotion) offset -= Math.max(speed, 0.1);
           draw();
+          if (!reduceMotion && isVisible) animationFrame = window.requestAnimationFrame(animate);
+        }
+
+        function start() {
+          if (reduceMotion || isRunning || !isVisible) return;
+          isRunning = true;
+          window.cancelAnimationFrame(animationFrame);
           animationFrame = window.requestAnimationFrame(animate);
+        }
+
+        function stop() {
+          isRunning = false;
+          window.cancelAnimationFrame(animationFrame);
         }
 
         canvas.addEventListener("mousemove", (event) => {
@@ -480,15 +539,17 @@
         canvas.addEventListener("mouseleave", () => { hoveredCell = null; });
         window.addEventListener("resize", resize, { passive: true });
         resize();
-        animate();
+        if (reduceMotion) draw();
+
+        new IntersectionObserver(([entry]) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) start();
+          else stop();
+        }).observe(canvas);
 
         document.addEventListener("visibilitychange", () => {
-          if (document.hidden) {
-            window.cancelAnimationFrame(animationFrame);
-          } else {
-            window.cancelAnimationFrame(animationFrame);
-            animate();
-          }
+          if (document.hidden) stop();
+          else start();
         });
       }
 
@@ -504,12 +565,16 @@
       const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
       const whatsappDialog = document.getElementById("whatsappInfoDialog");
       const continueToWhatsapp = document.getElementById("continueToWhatsapp");
+      let lastFocusedElement = null;
       continueToWhatsapp.href = whatsappUrl;
       document.querySelectorAll(".whatsapp-link").forEach((link) => {
         link.removeAttribute("target");
+        link.href = whatsappUrl;
         link.addEventListener("click", (event) => {
           event.preventDefault();
+          lastFocusedElement = document.activeElement;
           whatsappDialog.showModal();
+          continueToWhatsapp.focus();
         });
       });
       document.getElementById("closeWhatsappDialog").addEventListener("click", () => whatsappDialog.close());
@@ -517,61 +582,83 @@
       whatsappDialog.addEventListener("click", (event) => {
         if (event.target === whatsappDialog) whatsappDialog.close();
       });
+      whatsappDialog.addEventListener("close", () => {
+        if (lastFocusedElement && typeof lastFocusedElement.focus === "function") lastFocusedElement.focus();
+      });
 
       const form = document.getElementById("landingLeadForm");
       const status = document.getElementById("landingFormStatus");
       const submitButton = form.querySelector('button[type="submit"]');
+      const leadFallback = document.getElementById("leadWhatsappFallback");
 
       function setStatus(message, type = "") {
         status.textContent = message;
         status.className = `form-status ${type}`.trim();
       }
 
-      function isUrgent(values) {
-        const text = `${values.service_requested} ${values.preferred_date} ${values.notes}`;
-        return /(היום|דחוף|בהקדם|עכשיו|אורטל|מישהו|נציג|אדם)/.test(text);
+      function normalizeIsraeliPhone(value) {
+        const cleaned = String(value || "").replace(/[^\d+]/g, "");
+        let digits = cleaned;
+        if (digits.startsWith("+972")) digits = `0${digits.slice(4)}`;
+        else if (digits.startsWith("972")) digits = `0${digits.slice(3)}`;
+        if (!/^0(?:5\d|[23489])\d{7}$/.test(digits)) return null;
+        return digits;
       }
 
-      form.addEventListener("submit", async (event) => {
+      function buildLeadWhatsappMessage(values, normalizedPhone) {
+        const line = (label, value) => `${label}: ${value || "לא נמסר"}`;
+        return [
+          "שלום אורטל, הגעתי דרך האתר של Waffel’s Dog Grooming 🐾",
+          "",
+          "אשמח שתבדקי התאמה וזמינות לטיפול. אני מבין/ה שזה לא אישור תור ולא מחיר סופי.",
+          "",
+          line("שם הלקוח", values.customer_name),
+          line("מספר טלפון", normalizedPhone),
+          line("שם הכלב", values.dog_name),
+          line("גזע", values.breed),
+          line("סוג הטיפול", values.service_requested),
+          line("מועד מועדף", values.preferred_date),
+          line("מצב הפרווה והערות", values.notes)
+        ].join("\n");
+      }
+
+      function whatsappLeadUrl(message) {
+        return `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
+      }
+
+      function openWhatsapp(message) {
+        const url = whatsappLeadUrl(message);
+        leadFallback.href = url;
+        window.location.href = url;
+      }
+
+      form.addEventListener("submit", (event) => {
         event.preventDefault();
         if (!form.reportValidity()) return;
         const data = new FormData(form);
-        const values = Object.fromEntries(data.entries());
-        const urgent = isUrgent(values);
-        const notes = [
-          values.preferred_date ? `מועד מועדף: ${values.preferred_date}` : "",
-          values.notes || ""
-        ].filter(Boolean).join("\n");
-        const payload = {
-          customer_name: String(values.customer_name || "").trim(),
-          phone: String(values.phone || "").trim(),
-          dog_name: String(values.dog_name || "").trim(),
-          breed: String(values.breed || "").trim(),
-          service_requested: String(values.service_requested || "").trim(),
-          notes,
-          source: "website_landing",
-          status: "waiting_for_ortal",
-          temperature: urgent ? "hot" : "warm",
-          next_action: urgent ? "חזרה דחופה של אורטל" : "חזרה ללקוח לאחר בדיקת הפרטים"
+        const values = {
+          customer_name: String(data.get("customer_name") || "").trim(),
+          phone: String(data.get("phone") || "").trim(),
+          dog_name: String(data.get("dog_name") || "").trim(),
+          breed: String(data.get("breed") || "").trim(),
+          service_requested: String(data.get("service_requested") || "").trim(),
+          preferred_date: String(data.get("preferred_date") || "").trim(),
+          notes: String(data.get("notes") || "").trim()
         };
-        submitButton.disabled = true;
-        setStatus("שולח את הפרטים לאורטל...");
-        try {
-          const response = await fetch("/api/leads", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-          const result = await response.json().catch(() => ({}));
-          if (!response.ok || !result.ok) throw new Error(result.error || "lead-save-failed");
-          form.reset();
-          setStatus("תודה, הפרטים הועברו לאורטל 🐾 היא תחזור אליך אישית עם האפשרויות המתאימות.", "success");
-        } catch (error) {
-          console.error("Landing lead save failed", error);
-          setStatus("לא הצלחנו לשמור את הפרטים כרגע. אפשר לפנות לאורטל ב־WhatsApp.", "error");
-        } finally {
-          submitButton.disabled = false;
+        const normalizedPhone = normalizeIsraeliPhone(values.phone);
+        if (!normalizedPhone) {
+          setStatus("נראה שמספר הטלפון לא תקין. כתבו מספר ישראלי מלא, למשל 050-1234567.", "error");
+          form.elements.phone.focus();
+          return;
         }
+        const message = buildLeadWhatsappMessage(values, normalizedPhone);
+        leadFallback.href = whatsappLeadUrl(message);
+        submitButton.disabled = true;
+        setStatus("מעבירים אותך ל־WhatsApp עם כל הפרטים שמילאת. שים/י לב: זה לא אישור תור — אורטל תבדוק זמינות ותחזור אישית.", "success");
+        window.setTimeout(() => {
+          submitButton.disabled = false;
+          openWhatsapp(message);
+        }, 900);
       });
     })();
   </script>
@@ -587,6 +674,8 @@
       let height = 0;
       let pixelRatio = 1;
       let isVisible = true;
+      let frameId = 0;
+      let isRunning = false;
 
       const resize = () => {
         const bounds = section.getBoundingClientRect();
@@ -623,7 +712,19 @@
             context.fill();
           }
         }
-        if (isVisible && !reduceMotion) window.requestAnimationFrame(draw);
+        if (isVisible && !reduceMotion) frameId = window.requestAnimationFrame(draw);
+      };
+
+      const start = () => {
+        if (reduceMotion || isRunning || !isVisible) return;
+        isRunning = true;
+        window.cancelAnimationFrame(frameId);
+        frameId = window.requestAnimationFrame(draw);
+      };
+
+      const stop = () => {
+        isRunning = false;
+        window.cancelAnimationFrame(frameId);
       };
 
       section.addEventListener('pointermove', (event) => {
@@ -642,10 +743,16 @@
       new IntersectionObserver(([entry]) => {
         const wasVisible = isVisible;
         isVisible = entry.isIntersecting;
-        if (isVisible && !wasVisible && !reduceMotion) window.requestAnimationFrame(draw);
+        if (isVisible && !wasVisible) start();
+        if (!isVisible) stop();
       }).observe(section);
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stop();
+        else start();
+      });
       resize();
-      if (!reduceMotion) window.requestAnimationFrame(draw);
+      if (reduceMotion) draw(0);
+      else start();
     })();
   </script>
   <script>
