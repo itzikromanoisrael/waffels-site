@@ -171,7 +171,12 @@
     .photo-spread-kicker { margin: 0 0 8px; text-align: center; color: #9bd4e7; font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
     .photo-spread-title { margin: 0 auto 24px; max-width: 720px; text-align: center; font-size: clamp(28px, 4vw, 50px); line-height: 1.14; }
     .photo-spread-stage { position: relative; height: 255px; margin: 0 auto; outline: none; touch-action: pan-y; }
-    .photo-spread-card { --spread-x: 0px; --spread-y: 0px; --spread-rotation: 0deg; --card-size: clamp(150px, 17vw, 220px); position: absolute; top: 18px; left: 50%; width: var(--card-size); height: var(--card-size); overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 26px; background: #24282a; box-shadow: 0 24px 70px rgba(0,0,0,.36); opacity: 0; transform: translateX(-50%) translate3d(0, 0, 0) rotate(0deg) scale(.96); transition: transform .85s cubic-bezier(.2,.75,.2,1), opacity .45s ease, box-shadow .25s ease; cursor: grab; user-select: none; -webkit-user-drag: none; }
+    .photo-spread-card { --spread-x: 0px; --spread-y: 0px; --spread-rotation: 0deg; --spread-order: 0; --card-size: clamp(150px, 17vw, 220px); position: absolute; top: 18px; left: 50%; width: var(--card-size); height: var(--card-size); overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 26px; background: #24282a; box-shadow: 0 24px 70px rgba(0,0,0,.36); opacity: 1; transform: translateX(-50%) translate3d(var(--spread-x), var(--spread-y), 0) rotate(var(--spread-rotation)) scale(1); transition: transform .85s cubic-bezier(.2,.75,.2,1), opacity .45s ease, box-shadow .25s ease; cursor: grab; user-select: none; -webkit-user-drag: none; }
+    .photo-spread-card:nth-child(1) { --spread-x: -320px; --spread-y: 16px; --spread-rotation: -3.5deg; --spread-order: 0; z-index: 48; }
+    .photo-spread-card:nth-child(2) { --spread-x: -160px; --spread-y: 74px; --spread-rotation: 2.5deg; --spread-order: 1; z-index: 49; }
+    .photo-spread-card:nth-child(3) { --spread-x: 0px; --spread-y: 2px; --spread-rotation: -1deg; --spread-order: 2; z-index: 52; }
+    .photo-spread-card:nth-child(4) { --spread-x: 160px; --spread-y: 74px; --spread-rotation: 3.2deg; --spread-order: 3; z-index: 49; }
+    .photo-spread-card:nth-child(5) { --spread-x: 320px; --spread-y: 16px; --spread-rotation: -2.8deg; --spread-order: 4; z-index: 48; }
     .photo-spread.is-ready .photo-spread-card { opacity: 1; transform: translateX(-50%) translate3d(var(--spread-x), var(--spread-y), 0) rotate(var(--spread-rotation)) scale(1); transition-delay: calc(var(--spread-order) * 80ms); }
     .photo-spread-card:hover, .photo-spread-card:focus-visible, .photo-spread-card.is-dragging { z-index: 90 !important; box-shadow: 0 32px 90px rgba(0,0,0,.48); transform: translateX(-50%) translate3d(var(--spread-x), calc(var(--spread-y) - 10px), 0) rotate(var(--spread-hover-rotation, var(--spread-rotation))) scale(1.06); }
     .photo-spread-card.is-dragging { transition: none; cursor: grabbing; }
@@ -239,6 +244,10 @@
       .work-gallery { width: min(68vw, 360px); }
       .photo-spread { min-height: 395px; }
       .photo-spread-stage { height: 235px; }
+      .photo-spread-card:nth-child(1) { --spread-x: -224px; --spread-y: 16px; }
+      .photo-spread-card:nth-child(2) { --spread-x: -112px; --spread-y: 70px; }
+      .photo-spread-card:nth-child(4) { --spread-x: 112px; --spread-y: 70px; }
+      .photo-spread-card:nth-child(5) { --spread-x: 224px; --spread-y: 16px; }
       .contact-copy { position: static; }
     }
     @media (max-width: 520px) {
@@ -264,6 +273,11 @@
       .photo-spread { min-height: 350px; margin-bottom: 28px; }
       .photo-spread-stage { height: 205px; }
       .photo-spread-card { --card-size: clamp(112px, 34vw, 142px); border-radius: 18px; }
+      .photo-spread-card:nth-child(1) { --spread-x: -120px; --spread-y: 12px; --spread-rotation: -5deg; }
+      .photo-spread-card:nth-child(2) { --spread-x: -58px; --spread-y: 66px; --spread-rotation: 4deg; }
+      .photo-spread-card:nth-child(3) { --spread-x: 0px; --spread-y: 0; }
+      .photo-spread-card:nth-child(4) { --spread-x: 58px; --spread-y: 66px; --spread-rotation: 4.8deg; }
+      .photo-spread-card:nth-child(5) { --spread-x: 120px; --spread-y: 12px; --spread-rotation: -4deg; }
       .gallery-control { width: 44px; height: 44px; }
       .coat-row { grid-template-columns: 1fr; gap: 5px; }
       .coat-media { min-height: 440px; gap: 7px; }
@@ -381,8 +395,8 @@
     <section class="gallery-section" id="gallery">
       <div class="container">
         <div class="section-heading"><h2>עבודות של וופל׳ס</h2><p>תוצאות אמיתיות מהמספרה, בהתאמה לפרווה ולכלב.</p></div>
-        <div class="photo-spread" id="photoSpreadGallery" aria-label="תמונות נבחרות מעבודות וופל׳ס">
-          <p class="photo-spread-kicker">Waffel’s visual stories</p>
+        <div class="photo-spread is-ready" id="photoSpreadGallery" aria-label="תמונות נבחרות מעבודות וופל׳ס">
+          <p class="photo-spread-kicker">אפקט גלריה חדש · Waffel’s visual stories</p>
           <h3 class="photo-spread-title">רגעים קטנים מהטיפול — לפני שהכלב חוזר הביתה מסודר ונינוח</h3>
           <div class="photo-spread-stage" tabindex="0" role="region" aria-label="גלריית תמונות נפתחת. אפשר לגרור תמונה או להשתמש בחצים במקלדת.">
             <figure class="photo-spread-card"><img src="./assets/media/fast/poodle-after.webp" alt="פודל לאחר טיפול טיפוח פרימיום בוופל׳ס" loading="lazy" decoding="async" width="220" height="220"></figure>
