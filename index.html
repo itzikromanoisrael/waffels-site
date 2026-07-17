@@ -166,6 +166,17 @@
     .appointment-note { margin: 26px 0 0; padding-top: 22px; border-top: 1px solid #505659; color: #fff; font-weight: 700; }
     .gallery-section { position: relative; z-index: 0; overflow: hidden; background: #111416; color: #fff; isolation: isolate; }
     .gallery-section .section-heading p { color: #c8ced1; }
+    .photo-spread { position: relative; min-height: 430px; margin: 8px 0 44px; padding: 24px 0 32px; overflow: hidden; }
+    .photo-spread::before { content: ""; position: absolute; inset: 110px -20vw 40px; z-index: -1; opacity: .16; background-image: linear-gradient(to right, rgba(255,255,255,.34) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.34) 1px, transparent 1px); background-size: 44px 44px; mask-image: radial-gradient(ellipse 72% 48% at 50% 32%, #000 55%, transparent 110%); }
+    .photo-spread-kicker { margin: 0 0 8px; text-align: center; color: #9bd4e7; font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .photo-spread-title { margin: 0 auto 24px; max-width: 720px; text-align: center; font-size: clamp(28px, 4vw, 50px); line-height: 1.14; }
+    .photo-spread-stage { position: relative; height: 255px; margin: 0 auto; outline: none; touch-action: pan-y; }
+    .photo-spread-card { --spread-x: 0px; --spread-y: 0px; --spread-rotation: 0deg; --card-size: clamp(150px, 17vw, 220px); position: absolute; top: 18px; left: 50%; width: var(--card-size); height: var(--card-size); overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 26px; background: #24282a; box-shadow: 0 24px 70px rgba(0,0,0,.36); opacity: 0; transform: translateX(-50%) translate3d(0, 0, 0) rotate(0deg) scale(.96); transition: transform .85s cubic-bezier(.2,.75,.2,1), opacity .45s ease, box-shadow .25s ease; cursor: grab; user-select: none; -webkit-user-drag: none; }
+    .photo-spread.is-ready .photo-spread-card { opacity: 1; transform: translateX(-50%) translate3d(var(--spread-x), var(--spread-y), 0) rotate(var(--spread-rotation)) scale(1); transition-delay: calc(var(--spread-order) * 80ms); }
+    .photo-spread-card:hover, .photo-spread-card:focus-visible, .photo-spread-card.is-dragging { z-index: 90 !important; box-shadow: 0 32px 90px rgba(0,0,0,.48); transform: translateX(-50%) translate3d(var(--spread-x), calc(var(--spread-y) - 10px), 0) rotate(var(--spread-hover-rotation, var(--spread-rotation))) scale(1.06); }
+    .photo-spread-card.is-dragging { transition: none; cursor: grabbing; }
+    .photo-spread-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .photo-spread-actions { display: flex; justify-content: center; margin-top: 8px; }
     .work-gallery-shell { position: relative; z-index: 0; min-height: 610px; margin-inline: calc(50% - 50vw); padding: 8px 18px 80px; overflow: hidden; isolation: isolate; }
     .work-gallery { position: relative; width: min(72vw, 410px); aspect-ratio: 5 / 7; margin: 0 auto; touch-action: pan-y; }
     .work-card { position: absolute; inset: 0; overflow: hidden; margin: 0; border: 1px solid rgba(255,255,255,.13); border-radius: 8px; background: #24282a; box-shadow: 0 22px 55px rgba(0,0,0,.36); transform-origin: center bottom; transition: transform .5s ease, opacity .35s ease, box-shadow .2s ease; user-select: none; touch-action: pan-y; }
@@ -226,6 +237,8 @@
       .step span { margin: 0; }
       .work-gallery-shell { min-height: 570px; }
       .work-gallery { width: min(68vw, 360px); }
+      .photo-spread { min-height: 395px; }
+      .photo-spread-stage { height: 235px; }
       .contact-copy { position: static; }
     }
     @media (max-width: 520px) {
@@ -248,6 +261,9 @@
       .ortal-card { width: min(68vw, 290px); border-radius: 14px; }
       .work-gallery-shell { min-height: 510px; padding-right: 11px; padding-left: 11px; }
       .work-gallery { width: min(76vw, 300px); }
+      .photo-spread { min-height: 350px; margin-bottom: 28px; }
+      .photo-spread-stage { height: 205px; }
+      .photo-spread-card { --card-size: clamp(112px, 34vw, 142px); border-radius: 18px; }
       .gallery-control { width: 44px; height: 44px; }
       .coat-row { grid-template-columns: 1fr; gap: 5px; }
       .coat-media { min-height: 440px; gap: 7px; }
@@ -365,6 +381,20 @@
     <section class="gallery-section" id="gallery">
       <div class="container">
         <div class="section-heading"><h2>עבודות של וופל׳ס</h2><p>תוצאות אמיתיות מהמספרה, בהתאמה לפרווה ולכלב.</p></div>
+        <div class="photo-spread" id="photoSpreadGallery" aria-label="תמונות נבחרות מעבודות וופל׳ס">
+          <p class="photo-spread-kicker">Waffel’s visual stories</p>
+          <h3 class="photo-spread-title">רגעים קטנים מהטיפול — לפני שהכלב חוזר הביתה מסודר ונינוח</h3>
+          <div class="photo-spread-stage" tabindex="0" role="region" aria-label="גלריית תמונות נפתחת. אפשר לגרור תמונה או להשתמש בחצים במקלדת.">
+            <figure class="photo-spread-card"><img src="./assets/media/fast/poodle-after.webp" alt="פודל לאחר טיפול טיפוח פרימיום בוופל׳ס" loading="lazy" decoding="async" width="220" height="220"></figure>
+            <figure class="photo-spread-card"><img src="./assets/media/fast/gallery-05-shovi.webp" alt="שובי לאחר תספורת ועיצוב במספרת וופל׳ס" loading="lazy" decoding="async" width="220" height="220"></figure>
+            <figure class="photo-spread-card"><img src="./assets/media/fast/ortal-working-03.webp" alt="אורטל במהלך טיפול מקצועי ורגוע לכלב" loading="lazy" decoding="async" width="220" height="220"></figure>
+            <figure class="photo-spread-card"><img src="./assets/media/fast/gallery-collie-2026.webp" alt="כלב קולי לאחר טיפוח מקצועי והתאמה לפרווה" loading="lazy" decoding="async" width="220" height="220"></figure>
+            <figure class="photo-spread-card"><img src="./assets/media/fast/pomeranian-after.webp" alt="פומרניאן עם פרווה כפולה לאחר טיפול והוצאת פרווה מתה" loading="lazy" decoding="async" width="220" height="220"></figure>
+          </div>
+          <div class="photo-spread-actions">
+            <a class="button light" href="#contact">רוצה טיפול כזה לכלב שלך?</a>
+          </div>
+        </div>
         <div class="work-gallery-shell">
           <div class="work-gallery" id="workGallery" tabindex="0" role="region" aria-label="גלריית עבודות של וופל׳ס. גררו את התמונה העליונה כדי לעבור לעבודה הבאה.">
             <figure class="work-card"><img src="./assets/media/fast/gallery-01.webp" alt="טיפוח מקצועי לכלב בוופל׳ס" loading="lazy" decoding="async"><figcaption>טיפוח מותאם לפרווה</figcaption></figure>
@@ -837,6 +867,101 @@
       });
       window.addEventListener('resize', render);
       render();
+    })();
+  </script>
+  <script>
+    (() => {
+      const gallery = document.getElementById('photoSpreadGallery');
+      if (!gallery) return;
+      const stage = gallery.querySelector('.photo-spread-stage');
+      const cards = [...gallery.querySelectorAll('.photo-spread-card')];
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let drag = null;
+      let activeOffset = 0;
+
+      const layoutForWidth = () => {
+        const width = window.innerWidth;
+        const compact = width < 560;
+        const tablet = width < 900;
+        const spacing = compact ? 64 : tablet ? 118 : 160;
+        const yOffsets = compact ? [18, 34, 6, 28, 46] : [16, 34, 8, 24, 44];
+        const rotations = [-3.5, -1.7, 1.2, 2.5, -2.2];
+        const center = (cards.length - 1) / 2;
+        cards.forEach((card, index) => {
+          const order = Math.abs(index - center);
+          const x = (index - center + activeOffset) * spacing;
+          card.style.setProperty('--spread-x', `${x}px`);
+          card.style.setProperty('--spread-y', `${yOffsets[index] || 0}px`);
+          card.style.setProperty('--spread-rotation', `${rotations[index] || 0}deg`);
+          card.style.setProperty('--spread-hover-rotation', `${(rotations[index] || 0) * .5}deg`);
+          card.style.setProperty('--spread-order', String(index));
+          card.style.zIndex = String(60 - order * 6);
+          card.tabIndex = 0;
+        });
+      };
+
+      const reveal = () => {
+        layoutForWidth();
+        if (reduceMotion) {
+          gallery.classList.add('is-ready');
+          return;
+        }
+        window.setTimeout(() => gallery.classList.add('is-ready'), 180);
+      };
+
+      const observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        reveal();
+        observer.disconnect();
+      }, { threshold: 0.22 });
+
+      cards.forEach((card) => {
+        card.addEventListener('pointerdown', (event) => {
+          if (event.pointerType === 'mouse' && event.button !== 0) return;
+          drag = {
+            id: event.pointerId,
+            startX: event.clientX,
+            startY: event.clientY,
+            baseX: parseFloat(getComputedStyle(card).getPropertyValue('--spread-x')) || 0,
+            baseY: parseFloat(getComputedStyle(card).getPropertyValue('--spread-y')) || 0,
+            card
+          };
+          card.classList.add('is-dragging');
+          card.setPointerCapture(event.pointerId);
+        });
+
+        card.addEventListener('pointermove', (event) => {
+          if (!drag || drag.id !== event.pointerId || drag.card !== card) return;
+          const dx = event.clientX - drag.startX;
+          const dy = event.clientY - drag.startY;
+          if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 12) return;
+          card.style.setProperty('--spread-x', `${drag.baseX + dx}px`);
+          card.style.setProperty('--spread-y', `${drag.baseY + dy * .35}px`);
+        });
+
+        const finishDrag = (event) => {
+          if (!drag || drag.id !== event.pointerId || drag.card !== card) return;
+          card.classList.remove('is-dragging');
+          drag = null;
+          layoutForWidth();
+        };
+
+        card.addEventListener('pointerup', finishDrag);
+        card.addEventListener('pointercancel', finishDrag);
+      });
+
+      stage.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        if (event.key === 'Home') activeOffset = 0;
+        else if (event.key === 'End') activeOffset = 0;
+        else activeOffset = Math.max(-.7, Math.min(.7, activeOffset + (event.key === 'ArrowLeft' ? .18 : -.18)));
+        layoutForWidth();
+      });
+
+      window.addEventListener('resize', layoutForWidth, { passive: true });
+      observer.observe(gallery);
+      layoutForWidth();
     })();
   </script>
   <script>
