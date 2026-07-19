@@ -195,6 +195,27 @@
     .work-card img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .75s cubic-bezier(.16, 1, .3, 1); pointer-events: none; user-select: none; -webkit-user-drag: none; }
     .work-card[data-stack-index="0"]:hover img { transform: scale(1.018); }
     .work-card figcaption { position: absolute; right: 0; bottom: 0; left: 0; padding: 38px 18px 16px; color: #fff; font-weight: 750; background: linear-gradient(transparent, rgba(0,0,0,.72)); pointer-events: none; user-select: none; }
+    .impact-gallery { position: relative; margin-top: 10px; padding: clamp(18px, 3vw, 34px); overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 34px; background: radial-gradient(circle at 18% 8%, rgba(155,212,231,.22), transparent 34%), radial-gradient(circle at 92% 16%, rgba(211,147,88,.18), transparent 28%), linear-gradient(135deg, #171c1f, #0b0e10 76%); box-shadow: 0 32px 90px rgba(0,0,0,.36); }
+    .impact-gallery::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .16; background-image: linear-gradient(to right, rgba(255,255,255,.24) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.18) 1px, transparent 1px); background-size: 52px 52px; mask-image: radial-gradient(ellipse 70% 55% at 50% 35%, #000 52%, transparent 105%); }
+    .impact-stage { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr); gap: clamp(18px, 3vw, 34px); align-items: stretch; }
+    .impact-feature { position: relative; min-height: 560px; margin: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 28px; background: #24282a; box-shadow: 0 28px 72px rgba(0,0,0,.44); transform: translateZ(0); }
+    .impact-feature img { width: 100%; height: 100%; display: block; object-fit: cover; transform: scale(1.01); transition: opacity .28s ease, transform .85s cubic-bezier(.16, 1, .3, 1), filter .45s ease; }
+    .impact-feature.is-changing img { opacity: .34; filter: blur(2px); transform: scale(1.07); }
+    .impact-feature::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.04), transparent 38%, rgba(0,0,0,.72)); }
+    .impact-caption { position: absolute; right: 0; bottom: 0; left: 0; z-index: 1; padding: clamp(18px, 3vw, 32px); }
+    .impact-count { display: inline-flex; margin-bottom: 10px; padding: 6px 10px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(13,17,19,.58); color: #cfeaf3; font-size: 13px; font-weight: 850; backdrop-filter: blur(10px); }
+    .impact-caption h3 { max-width: 700px; margin: 0; font-size: clamp(30px, 5vw, 64px); line-height: .98; letter-spacing: -.02em; }
+    .impact-panel { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+    .impact-copy { padding: clamp(16px, 2vw, 24px); border: 1px solid rgba(255,255,255,.12); border-radius: 26px; background: rgba(255,255,255,.06); box-shadow: inset 0 1px 0 rgba(255,255,255,.08); backdrop-filter: blur(14px); }
+    .impact-kicker { margin: 0 0 12px; color: #9bd4e7; font-size: 13px; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
+    .impact-copy h3 { margin: 0 0 12px; font-size: clamp(26px, 3vw, 42px); line-height: 1.05; }
+    .impact-copy p { margin: 0; color: #d8dee1; font-size: 17px; line-height: 1.75; }
+    .impact-hint { margin-top: 18px; color: #9fa9ae; font-size: 14px; line-height: 1.5; }
+    .impact-thumbs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; }
+    .impact-thumb { position: relative; min-height: 82px; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 18px; background: #24282a; opacity: .72; box-shadow: 0 12px 28px rgba(0,0,0,.22); transition: transform .28s ease, opacity .28s ease, border-color .28s ease; }
+    .impact-thumb img { width: 100%; height: 100%; display: block; object-fit: cover; pointer-events: none; }
+    .impact-thumb:hover, .impact-thumb:focus-visible, .impact-thumb.is-active { opacity: 1; border-color: #9bd4e7; transform: translateY(-3px); }
+    .impact-thumb.is-active::after { content: ""; position: absolute; right: 10px; bottom: 10px; width: 9px; height: 9px; border-radius: 999px; background: #9bd4e7; box-shadow: 0 0 0 5px rgba(155,212,231,.2); }
     .contact { position: relative; overflow: hidden; background: var(--soft); }
     .shapegrid-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; opacity: .14; }
     .contact-layout { position: relative; z-index: 1; display: grid; grid-template-columns: .8fr 1.2fr; gap: 52px; align-items: start; }
@@ -244,6 +265,10 @@
       .step span { margin: 0; }
       .work-gallery-shell { min-height: 570px; }
       .work-gallery { width: min(68vw, 360px); }
+      .impact-stage { grid-template-columns: 1fr; }
+      .impact-feature { min-height: 520px; }
+      .impact-thumbs { display: flex; gap: 10px; margin-inline: -18px; padding: 0 18px 6px; overflow-x: auto; scroll-snap-type: x mandatory; }
+      .impact-thumb { flex: 0 0 86px; min-height: 96px; scroll-snap-align: start; }
       .photo-spread { min-height: 395px; }
       .photo-spread-stage { height: 235px; }
       .photo-spread-card:nth-child(1) { --spread-x: -224px; --spread-y: 16px; }
@@ -275,6 +300,12 @@
       .ortal-card { width: min(68vw, 290px); border-radius: 14px; }
       .work-gallery-shell { min-height: 510px; padding-right: 11px; padding-left: 11px; }
       .work-gallery { width: min(76vw, 300px); }
+      .impact-gallery { border-radius: 24px; padding: 14px; }
+      .impact-feature { min-height: 430px; border-radius: 21px; }
+      .impact-caption { padding: 18px; }
+      .impact-copy { padding: 16px; border-radius: 20px; }
+      .impact-copy p { font-size: 15px; line-height: 1.65; }
+      .impact-hint { font-size: 13px; }
       .photo-spread { min-height: 350px; margin-bottom: 28px; }
       .photo-spread-stage { height: 205px; }
       .photo-spread-card { --card-size: clamp(112px, 34vw, 142px); border-radius: 18px; }
@@ -405,41 +436,44 @@
     <section class="gallery-section" id="gallery">
       <div class="container">
         <div class="section-heading"><h2>עבודות של וופל׳ס</h2><p>תוצאות אמיתיות מהמספרה, בהתאמה לפרווה ולכלב.</p></div>
-        <div class="photo-spread is-ready" id="photoSpreadGallery" aria-label="תמונות נבחרות מעבודות וופל׳ס">
-          <p class="photo-spread-kicker">אפקט גלריה חדש · Waffel’s visual stories</p>
-          <h3 class="photo-spread-title">רגעים קטנים מהטיפול — לפני שהכלב חוזר הביתה מסודר ונינוח</h3>
-          <div class="photo-spread-stage" tabindex="0" role="region" aria-label="גלריית תמונות נפתחת. אפשר לגרור תמונה או להשתמש בחצים במקלדת.">
-            <figure class="photo-spread-card"><img src="./assets/media/fast/poodle-after.webp" alt="פודל לאחר טיפול טיפוח פרימיום בוופל׳ס" loading="lazy" decoding="async" width="220" height="220"></figure>
-            <figure class="photo-spread-card"><img src="./assets/media/fast/gallery-05-shovi.webp" alt="שובי לאחר תספורת ועיצוב במספרת וופל׳ס" loading="lazy" decoding="async" width="220" height="220"></figure>
-            <figure class="photo-spread-card"><img src="./assets/media/fast/ortal-working-03.webp" alt="אורטל במהלך טיפול מקצועי ורגוע לכלב" loading="lazy" decoding="async" width="220" height="220"></figure>
-            <figure class="photo-spread-card"><img src="./assets/media/fast/gallery-collie-2026.webp" alt="כלב קולי לאחר טיפוח מקצועי והתאמה לפרווה" loading="lazy" decoding="async" width="220" height="220"></figure>
-            <figure class="photo-spread-card"><img src="./assets/media/fast/pomeranian-after.webp" alt="פומרניאן עם פרווה כפולה לאחר טיפול והוצאת פרווה מתה" loading="lazy" decoding="async" width="220" height="220"></figure>
-          </div>
-          <div class="photo-spread-actions">
-            <a class="button light" href="#contact">רוצה טיפול כזה לכלב שלך?</a>
-          </div>
-        </div>
-        <div class="work-gallery-shell">
-          <div class="work-gallery" id="workGallery" tabindex="0" role="region" aria-label="גלריית עבודות של וופל׳ס. גררו את התמונה העליונה כדי לעבור לעבודה הבאה.">
-            <figure class="work-card"><img src="./assets/media/fast/gallery-01.webp" alt="טיפוח מקצועי לכלב בוופל׳ס" loading="lazy" decoding="async"><figcaption>טיפוח מותאם לפרווה</figcaption></figure>
-            <figure class="work-card"><img src="./assets/media/fast/gallery-02.webp" alt="עבודת טיפוח של וופל׳ס" loading="lazy" decoding="async"><figcaption>גימור מדויק</figcaption></figure>
-            <figure class="work-card"><img src="./assets/media/fast/gallery-04.webp" alt="כלב לאחר טיפול בוופל׳ס" loading="lazy" decoding="async"><figcaption>אחרי טיפול בוופל׳ס</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-05-shovi.webp" alt="שובי לאחר תספורת ועיצוב" decoding="async"><figcaption>תספורת ועיצוב</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-06.webp" alt="טיפוח פרווה מקצועי" decoding="async"><figcaption>עבודה לפי מצב הפרווה</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-07.webp" alt="עיצוב פרווה בוופל׳ס" decoding="async"><figcaption>עיצוב הפרווה</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-08.webp" alt="כלב מטופח בוופל׳ס" decoding="async"><figcaption>טיפול אישי ורגוע</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-09.webp" alt="עבודת מספרת כלבים וופל׳ס" decoding="async"><figcaption>תוצאה נקייה ומוקפדת</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-10.webp" alt="טיפוח מקצועי במספרת וופל׳ס" decoding="async"><figcaption>טיפוח מקצועי</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-11.webp" alt="כלב לאחר סירוק ועיצוב" decoding="async"><figcaption>סירוק ועיצוב</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-12.webp" alt="תוצאה של טיפול פרווה" decoding="async"><figcaption>טיפול מלא לפרווה</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-13.webp" alt="עבודת טיפוח עדינה" decoding="async"><figcaption>טיפוח עדין ומדויק</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-14.webp" alt="כלב לאחר גימור במספרה" decoding="async"><figcaption>גימור מוקפד</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-15.webp" alt="תספורת מקצועית לכלב" decoding="async"><figcaption>תספורת מקצועית</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-16.webp" alt="עבודת עיצוב לכלב" decoding="async"><figcaption>התאמה אישית לכלב</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-collie-2026.webp" alt="כלב קולי לאחר טיפוח מקצועי" decoding="async"><figcaption>טיפוח מותאם לפרווה</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-yorkie-2026.webp" alt="כלב יורקשייר לאחר תספורת ועיצוב" decoding="async"><figcaption>גימור ועיצוב מוקפד</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-westie-2026.webp" alt="כלב ווסטי במהלך טיפול במספרה" decoding="async"><figcaption>תספורת מקצועית</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-collie-original.webp" alt="טיפוח מקצועי לפרווה ארוכה" decoding="async"><figcaption>טיפוח לפרווה ארוכה</figcaption></figure>
+        <div class="impact-gallery" id="impactGallery" tabindex="0" role="region" aria-label="גלריית עבודות של וופל׳ס. בחרו תמונה, החליקו או השתמשו בחצים במקלדת.">
+          <div class="impact-stage">
+            <figure class="impact-feature" id="impactFeature">
+              <img id="impactImage" src="./assets/media/fast/gallery-01.webp" alt="טיפוח מקצועי לכלב בוופל׳ס" loading="lazy" decoding="async">
+              <figcaption class="impact-caption">
+                <span class="impact-count" id="impactCount">01 / 19</span>
+                <h3 id="impactTitle">טיפוח מותאם לפרווה</h3>
+              </figcaption>
+            </figure>
+            <div class="impact-panel">
+              <div class="impact-copy">
+                <p class="impact-kicker">Waffel’s work gallery</p>
+                <h3>תוצאות שמרגישות כמו רגע “וואו”</h3>
+                <p id="impactText">כל עבודה מתחילה בבדיקה של הפרווה והכלב, ומסתיימת בגימור נקי, רגוע ומותאם אישית.</p>
+                <p class="impact-hint">לחצו על תמונה, החליקו על התמונה הגדולה או השתמשו בחצים במקלדת.</p>
+              </div>
+              <div class="impact-thumbs" aria-label="בחירת עבודה להצגה">
+                <button class="impact-thumb is-active" type="button" data-title="טיפוח מותאם לפרווה" data-caption="עבודה נקייה ומדויקת לפי סוג הפרווה ומצב הכלב." data-src="./assets/media/fast/gallery-01.webp" data-alt="טיפוח מקצועי לכלב בוופל׳ס"><img src="./assets/media/fast/gallery-01.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="גימור מדויק" data-caption="מראה מסודר שמדגיש עבודה עדינה ולא אגרסיבית." data-src="./assets/media/fast/gallery-02.webp" data-alt="עבודת טיפוח של וופל׳ס"><img src="./assets/media/fast/gallery-02.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="אחרי טיפול בוופל׳ס" data-caption="תוצאה נקייה, רכה ומוכנה לחזרה הביתה." data-src="./assets/media/fast/gallery-04.webp" data-alt="כלב לאחר טיפול בוופל׳ס"><img src="./assets/media/fast/gallery-04.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="תספורת ועיצוב" data-caption="עיצוב לפי מבנה הכלב והאופי של הפרווה." data-src="./assets/media/fast/gallery-05-shovi.webp" data-alt="שובי לאחר תספורת ועיצוב"><img src="./assets/media/fast/gallery-05-shovi.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="עבודה לפי מצב הפרווה" data-caption="טיפול שמתייחס לקשרים, צפיפות ונוחות הכלב." data-src="./assets/media/fast/gallery-06.webp" data-alt="טיפוח פרווה מקצועי"><img src="./assets/media/fast/gallery-06.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="עיצוב הפרווה" data-caption="גימור שמרגיש טבעי, נקי ומותאם לכלב." data-src="./assets/media/fast/gallery-07.webp" data-alt="עיצוב פרווה בוופל׳ס"><img src="./assets/media/fast/gallery-07.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפול אישי ורגוע" data-caption="תהליך טיפוח עדין שמכבד את הקצב של הכלב." data-src="./assets/media/fast/gallery-08.webp" data-alt="כלב מטופח בוופל׳ס"><img src="./assets/media/fast/gallery-08.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="תוצאה נקייה ומוקפדת" data-caption="מראה מסודר שמציג את איכות הגימור." data-src="./assets/media/fast/gallery-09.webp" data-alt="עבודת מספרת כלבים וופל׳ס"><img src="./assets/media/fast/gallery-09.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפוח מקצועי" data-caption="טיפול מלא שמחבר בין ניקיון, נוחות ואסתטיקה." data-src="./assets/media/fast/gallery-10.webp" data-alt="טיפוח מקצועי במספרת וופל׳ס"><img src="./assets/media/fast/gallery-10.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="סירוק ועיצוב" data-caption="עבודה שמחזירה לפרווה נפח, סדר ותנועה." data-src="./assets/media/fast/gallery-11.webp" data-alt="כלב לאחר סירוק ועיצוב"><img src="./assets/media/fast/gallery-11.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפול מלא לפרווה" data-caption="הסתכלות מקצועית על כל שכבות הפרווה." data-src="./assets/media/fast/gallery-12.webp" data-alt="תוצאה של טיפול פרווה"><img src="./assets/media/fast/gallery-12.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפוח עדין ומדויק" data-caption="פינישים קטנים שעושים הבדל גדול בתוצאה." data-src="./assets/media/fast/gallery-13.webp" data-alt="עבודת טיפוח עדינה"><img src="./assets/media/fast/gallery-13.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="גימור מוקפד" data-caption="קו נקי ומסודר בלי לאבד את האישיות של הכלב." data-src="./assets/media/fast/gallery-14.webp" data-alt="כלב לאחר גימור במספרה"><img src="./assets/media/fast/gallery-14.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="תספורת מקצועית" data-caption="תספורת שמותאמת למבנה, לפרווה ולנוחות הכלב." data-src="./assets/media/fast/gallery-15.webp" data-alt="תספורת מקצועית לכלב"><img src="./assets/media/fast/gallery-15.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="התאמה אישית לכלב" data-caption="לא תבנית קבועה — התאמה אמיתית לכל כלב." data-src="./assets/media/fast/gallery-16.webp" data-alt="עבודת עיצוב לכלב"><img src="./assets/media/fast/gallery-16.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפוח מותאם לפרווה ארוכה" data-caption="עבודה עדינה עם פרווה ארוכה, נשירה וסירוק." data-src="./assets/media/fast/gallery-collie-2026.webp" data-alt="כלב קולי לאחר טיפוח מקצועי"><img src="./assets/media/fast/gallery-collie-2026.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="גימור ועיצוב מוקפד" data-caption="תוצאה חדה, נקייה ומלאת אופי." data-src="./assets/media/fast/gallery-yorkie-2026.webp" data-alt="כלב יורקשייר לאחר תספורת ועיצוב"><img src="./assets/media/fast/gallery-yorkie-2026.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="תספורת מקצועית" data-caption="עיצוב שמרגיש טבעי ונעים לעין." data-src="./assets/media/fast/gallery-westie-2026.webp" data-alt="כלב ווסטי במהלך טיפול במספרה"><img src="./assets/media/fast/gallery-westie-2026.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפוח לפרווה ארוכה" data-caption="שמירה על מראה מלא, נקי ובריא יותר לפרווה." data-src="./assets/media/fast/gallery-collie-original.webp" data-alt="טיפוח מקצועי לפרווה ארוכה"><img src="./assets/media/fast/gallery-collie-original.webp" alt="" loading="lazy" decoding="async"></button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1001,90 +1035,90 @@
   </script>
   <script>
     (() => {
-      const gallery = document.getElementById('workGallery');
+      const gallery = document.getElementById('impactGallery');
       if (!gallery) return;
-      const minDragDistance = window.matchMedia('(pointer: coarse)').matches ? 38 : 48;
-      let isAnimating = false;
+      const feature = gallery.querySelector('#impactFeature');
+      const image = gallery.querySelector('#impactImage');
+      const title = gallery.querySelector('#impactTitle');
+      const text = gallery.querySelector('#impactText');
+      const count = gallery.querySelector('#impactCount');
+      const thumbs = [...gallery.querySelectorAll('.impact-thumb')];
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let active = 0;
       let drag = null;
 
-      const cards = () => [...gallery.querySelectorAll('.work-card')];
-      const positionCards = () => {
-        const orderedCards = cards();
-        orderedCards.slice(0, 3).forEach((card) => {
-          const image = card.querySelector('img[data-src]');
-          if (!image) return;
-          image.src = image.dataset.src;
-          image.removeAttribute('data-src');
-        });
-        orderedCards.forEach((card, index) => {
-          card.dataset.stackIndex = String(index);
-          card.style.zIndex = String(50 - index);
-          card.style.opacity = index > 5 ? '0' : String(1 - index * .1);
-          card.style.visibility = index > 5 ? 'hidden' : 'visible';
-          card.style.transform = index === 0
-            ? 'translate3d(0, 0, 0) rotate(0deg) scale(1)'
-            : `translate3d(${-12 * index}px, ${-8 * index}px, 0) rotate(${-2 - 3 * index}deg) scale(${1 - Math.min(index, 5) * .018})`;
+      const formatCount = (index) => `${String(index + 1).padStart(2, '0')} / ${String(thumbs.length).padStart(2, '0')}`;
+      const preloadAround = (index) => {
+        [index - 1, index + 1].forEach((value) => {
+          const thumb = thumbs[(value + thumbs.length) % thumbs.length];
+          if (!thumb) return;
+          const preloader = new Image();
+          preloader.src = thumb.dataset.src;
         });
       };
 
-      const moveTopCard = (direction = 1) => {
-        if (isAnimating) return;
-        const topCard = cards()[0];
-        if (!topCard) return;
-        isAnimating = true;
-        topCard.classList.remove('is-dragging');
-        topCard.classList.add('is-leaving');
-        const exitDistance = Math.min(Math.max(window.innerWidth * .72, 330), 560);
-        topCard.style.transform = `translate3d(${direction * exitDistance}px, -18px, 0) rotate(${direction * 10}deg) scale(1.018)`;
+      const show = (index) => {
+        active = (index + thumbs.length) % thumbs.length;
+        const selected = thumbs[active];
+        if (!selected) return;
+        feature.classList.add('is-changing');
         window.setTimeout(() => {
-          topCard.classList.remove('is-leaving');
-          gallery.appendChild(topCard);
-          positionCards();
-          window.setTimeout(() => { isAnimating = false; }, 180);
-        }, 420);
+          image.src = selected.dataset.src;
+          image.alt = selected.dataset.alt || '';
+          title.textContent = selected.dataset.title || '';
+          text.textContent = selected.dataset.caption || '';
+          count.textContent = formatCount(active);
+          thumbs.forEach((thumb, thumbIndex) => {
+            const isActive = thumbIndex === active;
+            thumb.classList.toggle('is-active', isActive);
+            thumb.setAttribute('aria-current', isActive ? 'true' : 'false');
+          });
+          if (!reduceMotion) selected.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          preloadAround(active);
+          window.setTimeout(() => feature.classList.remove('is-changing'), 90);
+        }, reduceMotion ? 0 : 120);
       };
 
-      gallery.addEventListener('pointerdown', (event) => {
-        if (isAnimating) return;
-        const topCard = cards()[0];
-        if (!topCard || !topCard.contains(event.target)) return;
-        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, card: topCard, axis: null };
-        topCard.setPointerCapture(event.pointerId);
+      thumbs.forEach((thumb, index) => {
+        thumb.setAttribute('aria-label', `הצג עבודה: ${thumb.dataset.title || index + 1}`);
+        thumb.addEventListener('click', () => show(index));
       });
 
-      gallery.addEventListener('pointermove', (event) => {
+      feature.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, axis: null };
+        feature.setPointerCapture(event.pointerId);
+      });
+
+      feature.addEventListener('pointermove', (event) => {
         if (!drag || drag.id !== event.pointerId) return;
         const dx = event.clientX - drag.x;
         const dy = event.clientY - drag.y;
         if (!drag.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
           drag.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
-          if (drag.axis === 'horizontal') drag.card.classList.add('is-dragging');
         }
         if (drag.axis !== 'horizontal') return;
-        drag.card.style.transform = `translate3d(${dx}px, ${dy * .16}px, 0) rotate(${dx / 30}deg) scale(1.018)`;
+        image.style.transform = `scale(1.03) translateX(${dx * .04}px) rotate(${dx / 260}deg)`;
       });
 
       const finishDrag = (event) => {
         if (!drag || drag.id !== event.pointerId) return;
         const dx = event.clientX - drag.x;
-        const dy = event.clientY - drag.y;
         const isHorizontalDrag = drag.axis === 'horizontal';
-        const draggedCard = drag.card;
         drag = null;
-        draggedCard.classList.remove('is-dragging');
-        if (isHorizontalDrag && Math.abs(dx) >= minDragDistance) moveTopCard(dx < 0 ? -1 : 1);
-        else positionCards();
+        image.style.transform = '';
+        if (isHorizontalDrag && Math.abs(dx) > 42) show(active + (dx < 0 ? 1 : -1));
       };
-      gallery.addEventListener('pointerup', finishDrag);
-      gallery.addEventListener('pointercancel', finishDrag);
+      feature.addEventListener('pointerup', finishDrag);
+      feature.addEventListener('pointercancel', finishDrag);
 
       gallery.addEventListener('keydown', (event) => {
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
         event.preventDefault();
-        moveTopCard(event.key === 'ArrowLeft' ? -1 : 1);
+        show(active + (event.key === 'ArrowLeft' ? -1 : 1));
       });
 
-      positionCards();
+      preloadAround(active);
     })();
   </script>
 </body>
