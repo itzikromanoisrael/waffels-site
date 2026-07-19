@@ -143,11 +143,11 @@
     .service-item p { margin: 0; color: var(--muted); line-height: 1.6; }
     .ortal-showcase { margin-top: 54px; overflow: hidden; }
     .ortal-stage { position: relative; height: 590px; margin-inline: calc(50% - 50vw); overflow: hidden; touch-action: pan-y; }
-    .ortal-card { position: absolute; top: 50%; left: 50%; width: min(32vw, 380px); aspect-ratio: 4 / 5; margin: 0; overflow: hidden; border-radius: 18px; background: #dfe4e5; box-shadow: 0 22px 55px rgba(20,30,34,.18); transition: transform .65s cubic-bezier(.2,.75,.2,1), opacity .55s ease, filter .55s ease; cursor: pointer; }
+    .ortal-card { position: absolute; top: 50%; left: 50%; width: min(32vw, 380px); aspect-ratio: 4 / 5; margin: 0; overflow: hidden; border-radius: 18px; background: #dfe4e5; box-shadow: 0 22px 55px rgba(20,30,34,.18); transition: transform .82s cubic-bezier(.16, 1, .3, 1), opacity .65s ease, filter .65s ease, box-shadow .35s ease; cursor: pointer; will-change: transform; }
     .ortal-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; -webkit-user-drag: none; }
     .ortal-card[data-offset="0"] { cursor: grab; }
     .ortal-card[data-offset="0"]:active { cursor: grabbing; }
-    .ortal-card.is-dragging { transition: none; cursor: grabbing; }
+    .ortal-card.is-dragging { transition: transform .03s linear; cursor: grabbing; box-shadow: 0 28px 70px rgba(20,30,34,.24); }
     .ortal-note { margin: 0 auto; max-width: 650px; color: var(--muted); text-align: center; line-height: 1.7; }
     .coat-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: 44px; align-items: center; }
     .coat-media { display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1fr 1fr; gap: 10px; min-height: 560px; }
@@ -171,30 +171,27 @@
     .photo-spread-kicker { margin: 0 0 8px; text-align: center; color: #9bd4e7; font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
     .photo-spread-title { margin: 0 auto 24px; max-width: 720px; text-align: center; font-size: clamp(28px, 4vw, 50px); line-height: 1.14; }
     .photo-spread-stage { position: relative; height: 255px; margin: 0 auto; outline: none; touch-action: pan-y; }
-    .photo-spread-card { --spread-x: 0px; --spread-y: 0px; --spread-rotation: 0deg; --spread-order: 0; --card-size: clamp(150px, 17vw, 220px); position: absolute; top: 18px; left: 50%; width: var(--card-size); height: var(--card-size); overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 26px; background: #24282a; box-shadow: 0 24px 70px rgba(0,0,0,.36); opacity: 1; transform: translateX(-50%) translate3d(var(--spread-x), var(--spread-y), 0) rotate(var(--spread-rotation)) scale(1); transition: transform .85s cubic-bezier(.2,.75,.2,1), opacity .45s ease, box-shadow .25s ease; cursor: grab; user-select: none; -webkit-user-drag: none; }
+    .photo-spread-card { --spread-x: 0px; --spread-y: 0px; --spread-rotation: 0deg; --spread-order: 0; --card-size: clamp(150px, 17vw, 220px); position: absolute; top: 18px; left: 50%; width: var(--card-size); height: var(--card-size); overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 26px; background: #24282a; box-shadow: 0 24px 70px rgba(0,0,0,.36); opacity: 1; transform: translateX(-50%) translate3d(var(--spread-x), var(--spread-y), 0) rotate(var(--spread-rotation)) scale(1); transition: transform 1.05s cubic-bezier(.16, 1, .3, 1), opacity .55s ease, box-shadow .35s ease; cursor: grab; user-select: none; -webkit-user-drag: none; will-change: transform; }
     .photo-spread-card:nth-child(1) { --spread-x: -320px; --spread-y: 16px; --spread-rotation: -3.5deg; --spread-order: 0; z-index: 48; }
     .photo-spread-card:nth-child(2) { --spread-x: -160px; --spread-y: 74px; --spread-rotation: 2.5deg; --spread-order: 1; z-index: 49; }
     .photo-spread-card:nth-child(3) { --spread-x: 0px; --spread-y: 2px; --spread-rotation: -1deg; --spread-order: 2; z-index: 52; }
     .photo-spread-card:nth-child(4) { --spread-x: 160px; --spread-y: 74px; --spread-rotation: 3.2deg; --spread-order: 3; z-index: 49; }
     .photo-spread-card:nth-child(5) { --spread-x: 320px; --spread-y: 16px; --spread-rotation: -2.8deg; --spread-order: 4; z-index: 48; }
     .photo-spread.is-ready .photo-spread-card { opacity: 1; transform: translateX(-50%) translate3d(var(--spread-x), var(--spread-y), 0) rotate(var(--spread-rotation)) scale(1); transition-delay: calc(var(--spread-order) * 80ms); }
-    .photo-spread-card:hover, .photo-spread-card:focus-visible, .photo-spread-card.is-dragging { z-index: 90 !important; box-shadow: 0 32px 90px rgba(0,0,0,.48); transform: translateX(-50%) translate3d(var(--spread-x), calc(var(--spread-y) - 10px), 0) rotate(var(--spread-hover-rotation, var(--spread-rotation))) scale(1.06); }
-    .photo-spread-card.is-dragging { transition: none; cursor: grabbing; }
+    .photo-spread-card:hover, .photo-spread-card:focus-visible, .photo-spread-card.is-dragging { z-index: 90 !important; box-shadow: 0 32px 90px rgba(0,0,0,.46); transform: translateX(-50%) translate3d(var(--spread-x), calc(var(--spread-y) - 7px), 0) rotate(var(--spread-hover-rotation, var(--spread-rotation))) scale(1.035); }
+    .photo-spread-card.is-dragging { transition: transform .03s linear; cursor: grabbing; }
     .photo-spread-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; -webkit-user-drag: none; }
     .photo-spread-actions { display: flex; justify-content: center; margin-top: 8px; }
-    .work-gallery-shell { position: relative; z-index: 0; min-height: 610px; margin-inline: calc(50% - 50vw); padding: 8px 18px 80px; overflow: hidden; isolation: isolate; }
+    .work-gallery-shell { position: relative; z-index: 0; min-height: 610px; margin-inline: calc(50% - 50vw); padding: 8px 18px 46px; overflow: hidden; isolation: isolate; }
     .work-gallery { position: relative; width: min(72vw, 410px); aspect-ratio: 5 / 7; margin: 0 auto; touch-action: pan-y; }
-    .work-card { position: absolute; inset: 0; overflow: hidden; margin: 0; border: 1px solid rgba(255,255,255,.13); border-radius: 8px; background: #24282a; box-shadow: 0 22px 55px rgba(0,0,0,.36); transform-origin: center bottom; transition: transform .5s ease, opacity .35s ease, box-shadow .2s ease; user-select: none; touch-action: pan-y; }
+    .work-card { position: absolute; inset: 0; overflow: hidden; margin: 0; border: 1px solid rgba(255,255,255,.13); border-radius: 8px; background: #24282a; box-shadow: 0 22px 55px rgba(0,0,0,.36); transform-origin: center bottom; transition: transform .72s cubic-bezier(.16, 1, .3, 1), opacity .48s ease, box-shadow .32s ease; user-select: none; touch-action: pan-y; will-change: transform; }
     .work-card:not([data-stack-index="0"]) { pointer-events: none; }
     .work-card[data-stack-index="0"] { cursor: grab; }
-    .work-card.is-dragging { cursor: grabbing; transition: none; box-shadow: 0 30px 70px rgba(0,0,0,.5); }
-    .work-card.is-leaving { transition: transform .28s ease, opacity .28s ease; opacity: 0; }
-    .work-card img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease; pointer-events: none; user-select: none; -webkit-user-drag: none; }
-    .work-card[data-stack-index="0"]:hover img { transform: scale(1.025); }
+    .work-card.is-dragging { cursor: grabbing; transition: transform .03s linear; box-shadow: 0 30px 70px rgba(0,0,0,.46); }
+    .work-card.is-leaving { transition: transform .44s cubic-bezier(.16, 1, .3, 1), opacity .36s ease; opacity: 0; }
+    .work-card img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .75s cubic-bezier(.16, 1, .3, 1); pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .work-card[data-stack-index="0"]:hover img { transform: scale(1.018); }
     .work-card figcaption { position: absolute; right: 0; bottom: 0; left: 0; padding: 38px 18px 16px; color: #fff; font-weight: 750; background: linear-gradient(transparent, rgba(0,0,0,.72)); pointer-events: none; user-select: none; }
-    .gallery-controls { position: absolute; right: 0; bottom: 12px; left: 0; display: flex; direction: ltr; justify-content: center; gap: 10px; }
-    .gallery-control { width: 48px; height: 48px; padding: 0; border: 1px solid rgba(255,255,255,.34); border-radius: 50%; background: #202426; color: #fff; font-size: 24px; line-height: 1; box-shadow: 0 8px 24px rgba(0,0,0,.24); }
-    .gallery-control:hover, .gallery-control:focus-visible { background: #fff; color: var(--ink); }
     .contact { position: relative; overflow: hidden; background: var(--soft); }
     .shapegrid-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; opacity: .14; }
     .contact-layout { position: relative; z-index: 1; display: grid; grid-template-columns: .8fr 1.2fr; gap: 52px; align-items: start; }
@@ -278,7 +275,6 @@
       .photo-spread-card:nth-child(3) { --spread-x: 0px; --spread-y: 0; }
       .photo-spread-card:nth-child(4) { --spread-x: 58px; --spread-y: 66px; --spread-rotation: 4.8deg; }
       .photo-spread-card:nth-child(5) { --spread-x: 120px; --spread-y: 12px; --spread-rotation: -4deg; }
-      .gallery-control { width: 44px; height: 44px; }
       .coat-row { grid-template-columns: 1fr; gap: 5px; }
       .coat-media { min-height: 440px; gap: 7px; }
       .lead-form { padding: 18px; }
@@ -430,10 +426,6 @@
             <figure class="work-card"><img data-src="./assets/media/fast/gallery-yorkie-2026.webp" alt="כלב יורקשייר לאחר תספורת ועיצוב" decoding="async"><figcaption>גימור ועיצוב מוקפד</figcaption></figure>
             <figure class="work-card"><img data-src="./assets/media/fast/gallery-westie-2026.webp" alt="כלב ווסטי במהלך טיפול במספרה" decoding="async"><figcaption>תספורת מקצועית</figcaption></figure>
             <figure class="work-card"><img data-src="./assets/media/fast/gallery-collie-original.webp" alt="טיפוח מקצועי לפרווה ארוכה" decoding="async"><figcaption>טיפוח לפרווה ארוכה</figcaption></figure>
-          </div>
-          <div class="gallery-controls" aria-label="ניווט בגלריה">
-            <button class="gallery-control" type="button" data-gallery-action="previous" aria-label="העבודה הקודמת" title="העבודה הקודמת">←</button>
-            <button class="gallery-control" type="button" data-gallery-action="next" aria-label="העבודה הבאה" title="העבודה הבאה">→</button>
           </div>
         </div>
       </div>
@@ -856,7 +848,7 @@
           }
         }
         if (pointerStart.axis !== 'horizontal') return;
-        pointerStart.card.style.transform = `translate(-50%, -50%) translateX(${dx}px) rotate(${dx / 28}deg) scale(1.02)`;
+        pointerStart.card.style.transform = `translate(-50%, -50%) translateX(${dx}px) translateY(${dy * .08}px) rotate(${dx / 42}deg) scale(1.012)`;
       });
       stage.addEventListener('pointerup', (event) => {
         if (!pointerStart || pointerStart.id !== event.pointerId) return;
@@ -950,7 +942,7 @@
           const dy = event.clientY - drag.startY;
           if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 12) return;
           card.style.setProperty('--spread-x', `${drag.baseX + dx}px`);
-          card.style.setProperty('--spread-y', `${drag.baseY + dy * .35}px`);
+          card.style.setProperty('--spread-y', `${drag.baseY + dy * .22}px`);
         });
 
         const finishDrag = (event) => {
@@ -982,7 +974,7 @@
     (() => {
       const gallery = document.getElementById('workGallery');
       if (!gallery) return;
-      const minDragDistance = 50;
+      const minDragDistance = window.matchMedia('(pointer: coarse)').matches ? 38 : 48;
       let isAnimating = false;
       let drag = null;
 
@@ -1013,13 +1005,14 @@
         isAnimating = true;
         topCard.classList.remove('is-dragging');
         topCard.classList.add('is-leaving');
-        topCard.style.transform = `translate3d(${direction * 520}px, -25px, 0) rotate(${direction * 14}deg) scale(1.04)`;
+        const exitDistance = Math.min(Math.max(window.innerWidth * .72, 330), 560);
+        topCard.style.transform = `translate3d(${direction * exitDistance}px, -18px, 0) rotate(${direction * 10}deg) scale(1.018)`;
         window.setTimeout(() => {
           topCard.classList.remove('is-leaving');
           gallery.appendChild(topCard);
           positionCards();
-          window.setTimeout(() => { isAnimating = false; }, 220);
-        }, 280);
+          window.setTimeout(() => { isAnimating = false; }, 180);
+        }, 420);
       };
 
       gallery.addEventListener('pointerdown', (event) => {
@@ -1039,7 +1032,7 @@
           if (drag.axis === 'horizontal') drag.card.classList.add('is-dragging');
         }
         if (drag.axis !== 'horizontal') return;
-        drag.card.style.transform = `translate3d(${dx}px, ${dy * .12}px, 0) rotate(${dx / 18}deg) scale(1.04)`;
+        drag.card.style.transform = `translate3d(${dx}px, ${dy * .16}px, 0) rotate(${dx / 30}deg) scale(1.018)`;
       });
 
       const finishDrag = (event) => {
@@ -1055,10 +1048,6 @@
       };
       gallery.addEventListener('pointerup', finishDrag);
       gallery.addEventListener('pointercancel', finishDrag);
-
-      document.querySelectorAll('[data-gallery-action]').forEach((button) => {
-        button.addEventListener('click', () => moveTopCard(button.dataset.galleryAction === 'next' ? -1 : 1));
-      });
 
       gallery.addEventListener('keydown', (event) => {
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
