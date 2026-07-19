@@ -355,7 +355,7 @@
           <article class="service-item"><strong>טיפול רגוע ומותאם</strong><p>הטיפול הממוצע נמשך כשעתיים, בהתאם לכלב, מצב הפרווה ורמת שיתוף הפעולה.</p></article>
         </div>
         <div class="ortal-showcase" aria-label="אורטל מטפלת בכלבים במספרה">
-          <div class="ortal-stage" id="ortalShowcase" tabindex="0" role="region" aria-label="תמונות מהעבודה המקצועית במספרה. השתמשו בחצים או החליקו לצדדים.">
+          <div class="ortal-stage" id="ortalShowcase" tabindex="0" role="region" aria-label="תמונות מהעבודה המקצועית במספרה. החליקו ימינה או שמאלה לסיבוב חופשי בין התמונות.">
             <figure class="ortal-card"><img src="./assets/media/fast/ortal-working-01.webp" alt="אורטל מטפחת כלב בעדינות" loading="lazy" decoding="async"></figure>
             <figure class="ortal-card"><img src="./assets/media/fast/ortal-working-02.webp" alt="אורטל מעצבת את פרוותו של כלב" loading="lazy" decoding="async"></figure>
             <figure class="ortal-card"><img src="./assets/media/fast/ortal-working-03.webp" alt="אורטל במהלך טיפול מקצועי בכלב" loading="lazy" decoding="async"></figure>
@@ -811,41 +811,53 @@
       if (!stage) return;
       const cards = [...stage.querySelectorAll('.ortal-card')];
       let active = 0;
+      let lastDirection = 1;
       let pointerStart = null;
       let didDrag = false;
+
+      const wrapIndex = (value) => (value % cards.length + cards.length) % cards.length;
+
+      const circularOffset = (index) => {
+        let offset = index - active;
+        const half = cards.length / 2;
+        if (offset > half) offset -= cards.length;
+        if (offset < -half) offset += cards.length;
+        if (cards.length % 2 === 0 && Math.abs(offset) === half) {
+          offset = half * lastDirection;
+        }
+        return offset;
+      };
 
       const render = () => {
         const spacing = Math.min(window.innerWidth * .27, 310);
         cards.forEach((card, index) => {
-          let offset = index - active;
-          if (offset > cards.length / 2) offset -= cards.length;
-          if (offset < -cards.length / 2) offset += cards.length;
+          const offset = circularOffset(index);
           const distance = Math.abs(offset);
           const scale = distance === 0 ? 1 : distance === 1 ? .82 : .66;
           card.dataset.offset = String(offset);
           card.style.zIndex = String(10 - distance);
           card.style.opacity = distance > 2 ? '0' : distance === 2 ? '.42' : distance === 1 ? '.76' : '1';
           card.style.pointerEvents = distance > 2 ? 'none' : 'auto';
-          card.style.transform = `translate(-50%, -50%) translateX(${offset * spacing}px) scale(${scale})`;
+          card.style.transform = `translate(-50%, -50%) translateX(${offset * spacing}px) translateY(${distance * 8}px) rotate(${offset * -1.8}deg) scale(${scale})`;
           card.setAttribute('aria-hidden', distance > 2 ? 'true' : 'false');
         });
       };
 
       const move = (step) => {
-        active = (active + step + cards.length) % cards.length;
+        if (!step) return;
+        lastDirection = Math.sign(step);
+        active = wrapIndex(active + step);
         render();
       };
 
       cards.forEach((card, index) => card.addEventListener('click', () => {
         if (didDrag) { didDrag = false; return; }
         if (index === active) { move(1); return; }
-        const forward = (index - active + cards.length) % cards.length;
-        move(forward <= cards.length / 2 ? forward : forward - cards.length);
+        move(circularOffset(index));
       }));
 
       stage.addEventListener('pointerdown', (event) => {
         const activeCard = cards[active];
-        if (!activeCard.contains(event.target)) return;
         didDrag = false;
         pointerStart = { id: event.pointerId, x: event.clientX, y: event.clientY, axis: null, card: activeCard };
         activeCard.setPointerCapture(event.pointerId);
@@ -870,7 +882,10 @@
         const wasHorizontal = pointerStart.axis === 'horizontal';
         pointerStart.card.classList.remove('is-dragging');
         pointerStart = null;
-        if (wasHorizontal && Math.abs(distance) > 45) move(distance < 0 ? 1 : -1);
+        if (wasHorizontal && Math.abs(distance) > 38) {
+          const steps = Math.min(3, Math.max(1, Math.round(Math.abs(distance) / 125)));
+          move(distance < 0 ? steps : -steps);
+        }
         else render();
         window.setTimeout(() => { didDrag = false; }, 0);
       });
