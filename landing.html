@@ -151,6 +151,7 @@
     .ortal-card[data-offset="0"] { cursor: grab; }
     .ortal-card[data-offset="0"]:active { cursor: grabbing; }
     .ortal-card.is-dragging { transition: transform .03s linear; cursor: grabbing; box-shadow: 0 28px 70px rgba(20,30,34,.24); }
+    .ortal-stage.is-dragging .ortal-card { transition: transform .03s linear, opacity .08s ease; cursor: grabbing; }
     .ortal-note { margin: 0 auto; max-width: 650px; color: var(--muted); text-align: center; line-height: 1.7; }
     .coat-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: 44px; align-items: center; }
     .coat-media { display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1fr 1fr; gap: 10px; min-height: 560px; }
@@ -845,41 +846,38 @@
       if (!stage) return;
       const cards = [...stage.querySelectorAll('.ortal-card')];
       let active = 0;
-      let lastDirection = 1;
       let pointerStart = null;
       let didDrag = false;
 
       const wrapIndex = (value) => (value % cards.length + cards.length) % cards.length;
 
-      const circularOffset = (index) => {
-        let offset = index - active;
+      const normalizeOffset = (offset) => {
         const half = cards.length / 2;
         if (offset > half) offset -= cards.length;
-        if (offset < -half) offset += cards.length;
-        if (cards.length % 2 === 0 && Math.abs(offset) === half) {
-          offset = half * lastDirection;
-        }
+        if (offset <= -half) offset += cards.length;
         return offset;
       };
 
-      const render = () => {
+      const circularOffset = (index, dragOffset = 0) => normalizeOffset(index - active + dragOffset);
+
+      const render = (dragOffset = 0) => {
         const spacing = Math.min(window.innerWidth * .27, 310);
         cards.forEach((card, index) => {
-          const offset = circularOffset(index);
+          const offset = circularOffset(index, dragOffset);
           const distance = Math.abs(offset);
-          const scale = distance === 0 ? 1 : distance === 1 ? .82 : .66;
+          const scale = Math.max(.62, 1 - Math.min(distance, 3) * .18);
           card.dataset.offset = String(offset);
-          card.style.zIndex = String(10 - distance);
-          card.style.opacity = distance > 2 ? '0' : distance === 2 ? '.42' : distance === 1 ? '.76' : '1';
-          card.style.pointerEvents = distance > 2 ? 'none' : 'auto';
+          card.style.zIndex = String(30 - Math.round(distance * 5));
+          card.style.opacity = distance > 2.35 ? '0' : distance > 1.65 ? '.38' : distance > .65 ? '.78' : '1';
+          card.style.pointerEvents = distance > 2.35 ? 'none' : 'auto';
           card.style.transform = `translate(-50%, -50%) translateX(${offset * spacing}px) translateY(${distance * 8}px) rotate(${offset * -1.8}deg) scale(${scale})`;
-          card.setAttribute('aria-hidden', distance > 2 ? 'true' : 'false');
+          card.setAttribute('aria-hidden', distance > 2.35 ? 'true' : 'false');
         });
+        return spacing;
       };
 
       const move = (step) => {
         if (!step) return;
-        lastDirection = Math.sign(step);
         active = wrapIndex(active + step);
         render();
       };
@@ -887,14 +885,13 @@
       cards.forEach((card, index) => card.addEventListener('click', () => {
         if (didDrag) { didDrag = false; return; }
         if (index === active) { move(1); return; }
-        move(circularOffset(index));
+        move(Math.round(circularOffset(index)));
       }));
 
       stage.addEventListener('pointerdown', (event) => {
-        const activeCard = cards[active];
         didDrag = false;
-        pointerStart = { id: event.pointerId, x: event.clientX, y: event.clientY, axis: null, card: activeCard };
-        activeCard.setPointerCapture(event.pointerId);
+        pointerStart = { id: event.pointerId, x: event.clientX, y: event.clientY, axis: null, spacing: render() };
+        stage.setPointerCapture(event.pointerId);
       });
       stage.addEventListener('pointermove', (event) => {
         if (!pointerStart || pointerStart.id !== event.pointerId) return;
@@ -904,27 +901,28 @@
           pointerStart.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
           if (pointerStart.axis === 'horizontal') {
             didDrag = true;
-            pointerStart.card.classList.add('is-dragging');
+            stage.classList.add('is-dragging');
           }
         }
         if (pointerStart.axis !== 'horizontal') return;
-        pointerStart.card.style.transform = `translate(-50%, -50%) translateX(${dx}px) translateY(${dy * .08}px) rotate(${dx / 42}deg) scale(1.012)`;
+        const dragOffset = Math.max(-1.15, Math.min(1.15, dx / pointerStart.spacing));
+        render(dragOffset);
       });
       stage.addEventListener('pointerup', (event) => {
         if (!pointerStart || pointerStart.id !== event.pointerId) return;
         const distance = event.clientX - pointerStart.x;
         const wasHorizontal = pointerStart.axis === 'horizontal';
-        pointerStart.card.classList.remove('is-dragging');
+        stage.classList.remove('is-dragging');
         pointerStart = null;
         if (wasHorizontal && Math.abs(distance) > 38) {
-          const steps = Math.min(3, Math.max(1, Math.round(Math.abs(distance) / 125)));
+          const steps = Math.min(2, Math.max(1, Math.round(Math.abs(distance) / 170)));
           move(distance < 0 ? steps : -steps);
         }
         else render();
         window.setTimeout(() => { didDrag = false; }, 0);
       });
       stage.addEventListener('pointercancel', () => {
-        if (pointerStart) pointerStart.card.classList.remove('is-dragging');
+        stage.classList.remove('is-dragging');
         pointerStart = null;
         didDrag = false;
         render();
