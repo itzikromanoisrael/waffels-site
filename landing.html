@@ -199,22 +199,22 @@
     .impact-gallery { position: relative; margin-top: 10px; padding: clamp(18px, 3vw, 34px); overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 34px; background: radial-gradient(circle at 18% 8%, rgba(155,212,231,.22), transparent 34%), radial-gradient(circle at 92% 16%, rgba(211,147,88,.18), transparent 28%), linear-gradient(135deg, #171c1f, #0b0e10 76%); box-shadow: 0 32px 90px rgba(0,0,0,.36); }
     .impact-gallery::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .16; background-image: linear-gradient(to right, rgba(255,255,255,.24) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.18) 1px, transparent 1px); background-size: 52px 52px; mask-image: radial-gradient(ellipse 70% 55% at 50% 35%, #000 52%, transparent 105%); }
     .impact-stage { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr); gap: clamp(18px, 3vw, 34px); align-items: stretch; }
-    .impact-feature { position: relative; min-height: 560px; margin: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 28px; background: #24282a; box-shadow: 0 28px 72px rgba(0,0,0,.44); transform: translateZ(0); }
-    .impact-feature img { width: 100%; height: 100%; display: block; object-fit: cover; transform: scale(1.01); transition: opacity .28s ease, transform .85s cubic-bezier(.16, 1, .3, 1), filter .45s ease; }
-    .impact-feature.is-changing img { opacity: .34; filter: blur(2px); transform: scale(1.07); }
+    .impact-feature { position: relative; height: clamp(520px, 62vw, 680px); aspect-ratio: 4 / 5; margin: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 28px; background: #24282a; box-shadow: 0 28px 72px rgba(0,0,0,.44); transform: translateZ(0); contain: layout paint; }
+    .impact-feature img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; transition: opacity .28s ease, filter .45s ease; }
+    .impact-feature.is-changing img { opacity: .34; filter: blur(2px); }
     .impact-feature::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.04), transparent 38%, rgba(0,0,0,.72)); }
     .impact-caption { position: absolute; right: 0; bottom: 0; left: 0; z-index: 1; padding: clamp(18px, 3vw, 32px); }
     .impact-count { display: inline-flex; margin-bottom: 10px; padding: 6px 10px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(13,17,19,.58); color: #cfeaf3; font-size: 13px; font-weight: 850; backdrop-filter: blur(10px); }
     .impact-caption h3 { max-width: 700px; margin: 0; font-size: clamp(30px, 5vw, 64px); line-height: .98; letter-spacing: -.02em; }
     .impact-panel { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
-    .impact-copy { padding: clamp(16px, 2vw, 24px); border: 1px solid rgba(255,255,255,.12); border-radius: 26px; background: rgba(255,255,255,.06); box-shadow: inset 0 1px 0 rgba(255,255,255,.08); backdrop-filter: blur(14px); }
+    .impact-copy { height: 320px; padding: clamp(16px, 2vw, 24px); overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 26px; background: rgba(255,255,255,.06); box-shadow: inset 0 1px 0 rgba(255,255,255,.08); backdrop-filter: blur(14px); }
     .impact-kicker { margin: 0 0 12px; color: #9bd4e7; font-size: 13px; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
     .impact-copy h3 { margin: 0 0 12px; font-size: clamp(26px, 3vw, 42px); line-height: 1.05; }
     .impact-copy p { margin: 0; color: #d8dee1; font-size: 17px; line-height: 1.75; }
     .impact-hint { margin-top: 18px; color: #9fa9ae; font-size: 14px; line-height: 1.5; }
     .impact-thumbs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; }
-    .impact-thumb { position: relative; min-height: 82px; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 18px; background: #24282a; opacity: .72; box-shadow: 0 12px 28px rgba(0,0,0,.22); transition: transform .28s ease, opacity .28s ease, border-color .28s ease; }
-    .impact-thumb img { width: 100%; height: 100%; display: block; object-fit: cover; pointer-events: none; }
+    .impact-thumb { position: relative; aspect-ratio: 4 / 5; min-height: 0; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 18px; background: #24282a; opacity: .72; box-shadow: 0 12px 28px rgba(0,0,0,.22); transition: transform .28s ease, opacity .28s ease, border-color .28s ease; }
+    .impact-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; pointer-events: none; }
     .impact-thumb:hover, .impact-thumb:focus-visible, .impact-thumb.is-active { opacity: 1; border-color: #9bd4e7; transform: translateY(-3px); }
     .impact-thumb.is-active::after { content: ""; position: absolute; right: 10px; bottom: 10px; width: 9px; height: 9px; border-radius: 999px; background: #9bd4e7; box-shadow: 0 0 0 5px rgba(155,212,231,.2); }
     .contact { position: relative; overflow: hidden; background: var(--soft); }
@@ -267,9 +267,10 @@
       .work-gallery-shell { min-height: 570px; }
       .work-gallery { width: min(68vw, 360px); }
       .impact-stage { grid-template-columns: 1fr; }
-      .impact-feature { min-height: 520px; }
+      .impact-feature { width: min(100%, 520px); height: auto; aspect-ratio: 4 / 5; justify-self: center; }
+      .impact-copy { height: 260px; }
       .impact-thumbs { display: flex; gap: 10px; margin-inline: -18px; padding: 0 18px 6px; overflow-x: auto; scroll-snap-type: x mandatory; }
-      .impact-thumb { flex: 0 0 86px; min-height: 96px; scroll-snap-align: start; }
+      .impact-thumb { flex: 0 0 86px; scroll-snap-align: start; }
       .photo-spread { min-height: 395px; }
       .photo-spread-stage { height: 235px; }
       .photo-spread-card:nth-child(1) { --spread-x: -224px; --spread-y: 16px; }
@@ -302,9 +303,9 @@
       .work-gallery-shell { min-height: 510px; padding-right: 11px; padding-left: 11px; }
       .work-gallery { width: min(76vw, 300px); }
       .impact-gallery { border-radius: 24px; padding: 14px; }
-      .impact-feature { min-height: 430px; border-radius: 21px; }
+      .impact-feature { width: 100%; height: auto; aspect-ratio: 4 / 5; border-radius: 21px; }
       .impact-caption { padding: 18px; }
-      .impact-copy { padding: 16px; border-radius: 20px; }
+      .impact-copy { height: 240px; padding: 16px; border-radius: 20px; }
       .impact-copy p { font-size: 15px; line-height: 1.65; }
       .impact-hint { font-size: 13px; }
       .photo-spread { min-height: 350px; margin-bottom: 28px; }
