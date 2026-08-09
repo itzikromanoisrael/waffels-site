@@ -111,6 +111,8 @@
       color: #fff;
       overflow: hidden;
       background: #30383d;
+      isolation: isolate;
+      perspective: 1200px;
     }
     .hero::before {
       content: "";
@@ -119,8 +121,29 @@
       background: linear-gradient(90deg, rgba(11,17,20,.15), rgba(11,17,20,.82));
       z-index: 1;
     }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 36%;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(0deg, rgba(16,13,11,.7), transparent);
+    }
     .hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 42% 43%; }
-    .hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; max-width: 680px; }
+    .hero-content { position: relative; z-index: 4; height: 100%; display: flex; flex-direction: column; justify-content: center; max-width: 680px; }
+    .hero-memory-scene { position: absolute; inset: 6% auto 7% 4%; z-index: 3; width: min(38vw, 430px); min-width: 300px; pointer-events: none; transform-style: preserve-3d; opacity: .96; filter: drop-shadow(0 26px 42px rgba(0,0,0,.32)); }
+    .hero-memory-glow { position: absolute; inset: 15% 8%; border-radius: 999px; background: radial-gradient(circle, rgba(255,226,178,.34), rgba(162,212,219,.12) 42%, transparent 72%); transform: translateZ(-90px); filter: blur(10px); }
+    .hero-memory-card { position: absolute; overflow: hidden; border: 8px solid rgba(255,250,239,.96); border-bottom-width: 32px; border-radius: 18px; background: #fff8ea; box-shadow: 0 24px 70px rgba(0,0,0,.35); transform-style: preserve-3d; animation: memoryDrift 8s ease-in-out infinite; }
+    .hero-memory-card img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.96) contrast(1.03) sepia(.08); }
+    .hero-memory-card.one { top: 13%; left: 17%; width: 54%; aspect-ratio: 4 / 5; transform: rotate(-9deg) translateZ(80px); animation-delay: -.6s; }
+    .hero-memory-card.two { top: 37%; left: 48%; width: 43%; aspect-ratio: 4 / 5; transform: rotate(7deg) translateZ(130px); animation-delay: -2.4s; }
+    .hero-memory-card.three { top: 57%; left: 5%; width: 42%; aspect-ratio: 1 / 1; transform: rotate(11deg) translateZ(45px); animation-delay: -4s; }
+    .hero-memory-note { position: absolute; left: 2%; bottom: 8%; max-width: 260px; padding: 14px 16px; border: 1px solid rgba(255,245,221,.48); border-radius: 18px; background: rgba(37,29,23,.5); color: #fff5dd; font-size: 14px; line-height: 1.55; backdrop-filter: blur(14px); transform: translateZ(170px) rotate(-1deg); }
+    @keyframes memoryDrift {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -10px; }
+    }
     .eyebrow { font-size: 14px; font-weight: 800; margin-bottom: 14px; }
     h1, h2, h3, p { margin-top: 0; }
     h1 { font-size: clamp(38px, 7vw, 76px); line-height: 1.02; letter-spacing: 0; margin-bottom: 20px; }
@@ -137,6 +160,34 @@
     .section-heading { max-width: 700px; margin-bottom: 34px; }
     h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1.12; letter-spacing: 0; margin-bottom: 12px; }
     .section-heading p, .lead { color: var(--muted); font-size: 17px; line-height: 1.7; }
+    .memory-album { position: relative; overflow: hidden; isolation: isolate; background: radial-gradient(circle at 12% 12%, rgba(255,225,180,.45), transparent 34%), linear-gradient(145deg, #fff6e8 0%, #f2e5d2 48%, #e9f2ef 100%); color: #241b16; }
+    .memory-album::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .18; background-image: linear-gradient(90deg, rgba(117,82,50,.18) 1px, transparent 1px), linear-gradient(rgba(117,82,50,.14) 1px, transparent 1px); background-size: 34px 34px; mask-image: radial-gradient(ellipse 82% 72% at 50% 38%, #000 42%, transparent 110%); }
+    .memory-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(420px, 1.1fr); gap: clamp(28px, 5vw, 70px); align-items: center; }
+    .memory-copy { max-width: 560px; }
+    .memory-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; padding: 8px 12px; border: 1px solid rgba(90,68,44,.16); border-radius: 999px; background: rgba(255,255,255,.52); color: #8b5d34; font-size: 13px; font-weight: 900; letter-spacing: .05em; }
+    .memory-copy h2 { font-size: clamp(34px, 5.4vw, 70px); line-height: .98; letter-spacing: -.03em; margin-bottom: 18px; }
+    .memory-copy p { color: #5f5149; font-size: clamp(17px, 1.55vw, 20px); line-height: 1.85; }
+    .memory-signature { display: inline-block; margin-top: 10px; color: #2e7189; font-weight: 900; }
+    .memory-album-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .memory-album-actions .button { background: #241b16; }
+    .memory-album-actions .button.outline-warm { background: rgba(255,255,255,.3); color: #241b16; border: 1px solid rgba(36,27,22,.22); }
+    .memory-stage-wrap { perspective: 1400px; min-height: 600px; }
+    .memory-stage { --tilt-x: 0deg; --tilt-y: 0deg; position: relative; height: clamp(500px, 54vw, 640px); transform-style: preserve-3d; transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); transition: transform .55s cubic-bezier(.16, 1, .3, 1); }
+    .memory-stage::before { content: ""; position: absolute; inset: 12% 8% 16%; border-radius: 44px; background: linear-gradient(135deg, rgba(255,255,255,.55), rgba(255,255,255,.12)); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 36px 110px rgba(111,77,43,.2); transform: translateZ(-110px) rotate(-2deg); }
+    .memory-stage::after { content: ""; position: absolute; right: 12%; bottom: 9%; width: 58%; height: 22px; border-radius: 999px; background: rgba(58,38,23,.2); filter: blur(18px); transform: translateZ(-140px); }
+    .memory-photo { position: absolute; margin: 0; width: clamp(150px, 18vw, 238px); aspect-ratio: 4 / 5; overflow: hidden; border: 10px solid #fffaf0; border-bottom-width: 42px; border-radius: 20px; background: #fffaf0; box-shadow: 0 30px 70px rgba(70,45,26,.24); transform-style: preserve-3d; opacity: 0; translate: 0 18px; transition: opacity .72s ease, translate .72s ease, transform .72s cubic-bezier(.16, 1, .3, 1), box-shadow .32s ease; }
+    .memory-album.is-visible .memory-photo { opacity: 1; translate: 0 0; transition-delay: calc(var(--order) * 85ms); }
+    .memory-photo img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.97) contrast(1.04) sepia(.06); pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .memory-photo figcaption { position: absolute; right: 10px; bottom: 10px; left: 10px; color: #6a4e39; font-size: 13px; font-weight: 850; line-height: 1.2; text-align: center; }
+    .memory-photo.main { --order: 1; top: 15%; right: 29%; width: clamp(205px, 24vw, 320px); transform: translateZ(180px) rotate(-2deg); z-index: 5; }
+    .memory-photo.left { --order: 2; top: 23%; right: 3%; transform: translateZ(90px) rotate(8deg); z-index: 4; }
+    .memory-photo.top { --order: 3; top: 2%; right: 48%; width: clamp(138px, 15vw, 210px); transform: translateZ(60px) rotate(-11deg); z-index: 3; }
+    .memory-photo.bottom { --order: 4; top: 55%; right: 54%; transform: translateZ(120px) rotate(9deg); z-index: 4; }
+    .memory-photo.small { --order: 5; top: 63%; right: 15%; width: clamp(132px, 14vw, 190px); transform: translateZ(210px) rotate(-7deg); z-index: 6; }
+    .memory-photo:hover, .memory-photo:focus-within { box-shadow: 0 38px 90px rgba(70,45,26,.32); }
+    .memory-thread { position: absolute; top: 9%; right: 7%; left: 11%; height: 2px; border-radius: 999px; background: linear-gradient(90deg, transparent, rgba(114,76,43,.3), transparent); transform: translateZ(-10px) rotate(-3deg); }
+    .memory-tag { position: absolute; left: 9%; top: 18%; max-width: 210px; padding: 14px 16px; border-radius: 18px; background: rgba(255,255,255,.58); color: #5f5149; line-height: 1.55; font-weight: 750; box-shadow: 0 18px 52px rgba(70,45,26,.14); transform: translateZ(145px) rotate(3deg); }
+    .memory-hint { margin: 18px auto 0; max-width: 620px; color: #78675c; font-size: 14px; text-align: center; }
     .services { position: relative; overflow: hidden; isolation: isolate; background: var(--soft); }
     .services-dots { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .services > .container { position: relative; z-index: 1; }
@@ -254,11 +305,22 @@
       .hero::before { background: linear-gradient(0deg, rgba(10,15,17,.85), rgba(10,15,17,.18)); }
       .hero-image { object-position: 44% center; }
       .hero-content { justify-content: flex-end; padding-bottom: 46px; }
+      .hero-memory-scene { inset: 6% auto auto 0; width: min(78vw, 340px); min-width: 250px; opacity: .62; transform: scale(.88); transform-origin: top left; }
+      .hero-memory-note { display: none; }
       .trust-inner, .coat-layout, .contact-layout { grid-template-columns: 1fr; }
       .care-promise { grid-template-columns: 1fr; gap: 12px; }
       .trust-mark { width: fit-content; min-width: 0; }
       .coat-media { min-height: 500px; }
       .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .memory-layout { grid-template-columns: 1fr; }
+      .memory-stage-wrap { min-height: 540px; }
+      .memory-stage { height: 520px; margin-inline: -10px; }
+      .memory-photo.main { right: 25%; top: 13%; }
+      .memory-photo.left { right: 0; top: 31%; }
+      .memory-photo.top { right: 49%; top: 2%; }
+      .memory-photo.bottom { right: 47%; top: 57%; }
+      .memory-photo.small { right: 12%; top: 67%; }
+      .memory-tag { left: 4%; top: 45%; max-width: 180px; font-size: 13px; }
       .ortal-stage { height: 540px; }
       .ortal-card { width: min(48vw, 340px); }
       .steps { grid-template-columns: 1fr; }
@@ -292,6 +354,19 @@
       h1 { font-size: 40px; }
       .hero p { font-size: 17px; }
       .hero-actions .button { width: 100%; }
+      .hero-memory-scene { width: 310px; opacity: .42; transform: scale(.8); }
+      .memory-copy h2 { font-size: clamp(38px, 12vw, 54px); }
+      .memory-album-actions .button { width: 100%; }
+      .memory-stage-wrap { min-height: 475px; }
+      .memory-stage { height: 465px; }
+      .memory-photo { border-width: 7px; border-bottom-width: 31px; border-radius: 16px; }
+      .memory-photo figcaption { font-size: 11px; }
+      .memory-photo.main { width: 205px; right: 21%; }
+      .memory-photo.left { width: 148px; right: -3%; }
+      .memory-photo.top { width: 138px; right: 49%; }
+      .memory-photo.bottom { width: 145px; right: 49%; top: 58%; }
+      .memory-photo.small { width: 132px; right: 11%; top: 66%; }
+      .memory-tag { display: none; }
       .trust-inner { padding: 18px 0; }
       .care-promise { padding: 0 0 0 12px; }
       .trust-mark { font-size: 14px; }
@@ -328,6 +403,8 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
       .shapegrid-canvas, .services-dots { opacity: .08; }
+      .hero-memory-card, .memory-photo { animation: none !important; }
+      .memory-stage { transform: none !important; }
     }
   </style>
 </head>
@@ -352,6 +429,13 @@
   <main id="main-content">
     <section class="hero" aria-labelledby="hero-title">
       <img class="hero-image" src="./assets/media/optimized/hero/hero-ortal-background.webp" alt="אורטל מטפחת כלב במספרת וופל׳ס בהוד השרון" width="1600" height="1000" fetchpriority="high" loading="eager" decoding="async">
+      <div class="hero-memory-scene" aria-hidden="true">
+        <div class="hero-memory-glow"></div>
+        <figure class="hero-memory-card one"><img src="./assets/media/fast/ortal-working-06.webp" alt=""></figure>
+        <figure class="hero-memory-card two"><img src="./assets/media/fast/poodle-after.webp" alt=""></figure>
+        <figure class="hero-memory-card three"><img src="./assets/media/fast/gallery-collie-2026.webp" alt=""></figure>
+        <div class="hero-memory-note">לא רק טיפול — רגע קטן שנשאר בזיכרון.</div>
+      </div>
       <div class="container hero-content">
         <div class="eyebrow">Waffel’s Dog Grooming · וופל׳ס מספרת כלבים</div>
         <h1 id="hero-title">טיפול טיפוח פרימיום לכלבים בהוד השרון</h1>
@@ -374,6 +458,49 @@
         </aside>
       </div>
     </div>
+
+    <section class="memory-album" id="family-album" aria-labelledby="memory-album-title">
+      <div class="container memory-layout">
+        <div class="memory-copy">
+          <span class="memory-kicker">הישן חוזר חדש</span>
+          <h2 id="memory-album-title">אלבום משפחתי חי, חם ומחבק.</h2>
+          <p>הרעיון הוא לא להציג “עוד תמונות”. הוא להחזיר את התחושה של אלבום ישן שפותחים בסלון — רק בגרסה מודרנית, רכה, תלת־ממדית ונעימה למגע. כל תמונה מספרת רגע: מבט, פרווה, יד עדינה, כלב שחוזר הביתה מסודר ורגוע.</p>
+          <p>זו השפה החדשה של וופל׳ס: מקצועית, אבל עם לב. יוקרתית, אבל לא קרה.</p>
+          <span class="memory-signature">Waffel’s — טיפול שנזכרים בו בחיוך.</span>
+          <div class="memory-album-actions">
+            <a class="button whatsapp-link" href="#" target="_blank" rel="noreferrer">שלחו תמונה לאורטל</a>
+            <a class="button outline-warm" href="#gallery">ראו את העבודות</a>
+          </div>
+        </div>
+        <div class="memory-stage-wrap" id="memoryAlbum">
+          <div class="memory-stage" aria-label="אלבום תמונות חם של וופל׳ס">
+            <span class="memory-thread"></span>
+            <figure class="memory-photo main">
+              <img src="./assets/media/fast/ortal-working-06.webp" alt="אורטל מטפלת בכלב בזמן עבודה במספרה" loading="lazy" decoding="async">
+              <figcaption>רגע של אמון</figcaption>
+            </figure>
+            <figure class="memory-photo left">
+              <img src="./assets/media/fast/poodle-after.webp" alt="פודל לאחר טיפול טיפוח בוופל׳ס" loading="lazy" decoding="async">
+              <figcaption>אחרי טיפול</figcaption>
+            </figure>
+            <figure class="memory-photo top">
+              <img src="./assets/media/fast/gallery-yorkie-2026.webp" alt="יורקשייר לאחר תספורת ועיצוב" loading="lazy" decoding="async">
+              <figcaption>אופי בפרטים</figcaption>
+            </figure>
+            <figure class="memory-photo bottom">
+              <img src="./assets/media/fast/gallery-collie-2026.webp" alt="כלב קולי לאחר טיפוח מקצועי" loading="lazy" decoding="async">
+              <figcaption>פרווה שחוזרת לנשום</figcaption>
+            </figure>
+            <figure class="memory-photo small">
+              <img src="./assets/media/fast/gallery-05-shovi.webp" alt="כלב לאחר עיצוב במספרת וופל׳ס" loading="lazy" decoding="async">
+              <figcaption>חיוך קטן הביתה</figcaption>
+            </figure>
+            <div class="memory-tag">הזיזו בעדינות את העכבר או געו במסך — האלבום מגיב כמו אובייקט אמיתי.</div>
+          </div>
+          <p class="memory-hint">החוויה נבנתה כהשראה מקורית לוופל׳ס, בלי להשתמש בנכסים או קוד של האתר ששלחת.</p>
+        </div>
+      </div>
+    </section>
 
     <section class="services" id="services">
       <canvas class="services-dots" id="servicesDots" aria-hidden="true"></canvas>
@@ -1118,6 +1245,46 @@
       });
 
       preloadAround(active);
+    })();
+  </script>
+  <script>
+    (() => {
+      const album = document.getElementById('memoryAlbum');
+      if (!album) return;
+      const section = album.closest('.memory-album');
+      const stage = album.querySelector('.memory-stage');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let frame = null;
+
+      const reveal = () => section && section.classList.add('is-visible');
+      const resetTilt = () => {
+        if (!stage || reduceMotion) return;
+        stage.style.setProperty('--tilt-x', '0deg');
+        stage.style.setProperty('--tilt-y', '0deg');
+      };
+
+      const setTilt = (event) => {
+        if (!stage || reduceMotion) return;
+        const rect = album.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - .5;
+        const y = (event.clientY - rect.top) / rect.height - .5;
+        if (frame) window.cancelAnimationFrame(frame);
+        frame = window.requestAnimationFrame(() => {
+          stage.style.setProperty('--tilt-x', `${Math.max(-5, Math.min(5, y * -8))}deg`);
+          stage.style.setProperty('--tilt-y', `${Math.max(-7, Math.min(7, x * 10))}deg`);
+        });
+      };
+
+      const observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        reveal();
+        observer.disconnect();
+      }, { threshold: .24 });
+
+      album.addEventListener('pointermove', setTilt, { passive: true });
+      album.addEventListener('pointerleave', resetTilt);
+      album.addEventListener('pointercancel', resetTilt);
+      observer.observe(album);
     })();
   </script>
 </body>
