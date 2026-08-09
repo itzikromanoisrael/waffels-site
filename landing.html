@@ -1397,9 +1397,9 @@
       const dots = [...album.querySelectorAll('.memory-dot')];
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const modes = [
-        { label: 'calm', auto: .055, sensitivity: .16, decay: .945, radius: .34 },
-        { label: 'alive', auto: .105, sensitivity: .22, decay: .955, radius: .36 },
-        { label: 'focus', auto: .025, sensitivity: .13, decay: .93, radius: .32 }
+        { label: 'calm', auto: .024, sensitivity: .072, decay: .982, radius: .34, easing: .095 },
+        { label: 'alive', auto: .044, sensitivity: .092, decay: .986, radius: .36, easing: .11 },
+        { label: 'focus', auto: .012, sensitivity: .055, decay: .975, radius: .32, easing: .085 }
       ];
       const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
       const normalize = (angle) => {
@@ -1423,8 +1423,10 @@
       let activeMode = 0;
       let drag = null;
       let rotation = { x: -7, y: 18 };
+      let displayRotation = { x: -7, y: 18 };
       let velocity = { x: 0, y: 0 };
       let isVisible = false;
+      let lastFrameTime = performance.now();
 
       const reveal = () => section && section.classList.add('is-visible');
       const updateModeButtons = () => {
@@ -1440,8 +1442,8 @@
         const rect = stage.getBoundingClientRect();
         const size = Math.min(rect.width || 520, rect.height || 520);
         const radius = size * mode.radius;
-        const xRad = toRadians(rotation.x);
-        const yRad = toRadians(rotation.y);
+        const xRad = toRadians(displayRotation.x);
+        const yRad = toRadians(displayRotation.y);
         const sinX = Math.sin(xRad);
         const cosX = Math.cos(xRad);
         const sinY = Math.sin(yRad);
@@ -1479,19 +1481,24 @@
       };
 
       const animate = () => {
+        const now = performance.now();
+        const frameStep = clamp((now - lastFrameTime) / 16.67, .5, 1.8);
+        lastFrameTime = now;
         if (!isVisible || document.hidden) {
           frame = window.requestAnimationFrame(animate);
           return;
         }
         const mode = modes[activeMode];
         if (!drag && !reduceMotion) {
-          rotation.y = normalize(rotation.y + mode.auto + velocity.y);
-          rotation.x = normalize(clamp(rotation.x + velocity.x, -42, 42));
-          velocity.x *= mode.decay;
-          velocity.y *= mode.decay;
-          if (Math.abs(velocity.x) < .002) velocity.x = 0;
-          if (Math.abs(velocity.y) < .002) velocity.y = 0;
+          rotation.y = normalize(rotation.y + (mode.auto + velocity.y) * frameStep);
+          rotation.x = normalize(clamp(rotation.x + velocity.x * frameStep, -36, 36));
+          velocity.x *= Math.pow(mode.decay, frameStep);
+          velocity.y *= Math.pow(mode.decay, frameStep);
+          if (Math.abs(velocity.x) < .0015) velocity.x = 0;
+          if (Math.abs(velocity.y) < .0015) velocity.y = 0;
         }
+        displayRotation.x = normalize(displayRotation.x + normalize(rotation.x - displayRotation.x) * mode.easing * frameStep);
+        displayRotation.y = normalize(displayRotation.y + normalize(rotation.y - displayRotation.y) * mode.easing * frameStep);
         renderSphere();
         frame = window.requestAnimationFrame(animate);
       };
@@ -1515,10 +1522,14 @@
         const mode = modes[activeMode];
         const moveX = event.clientX - drag.lastX;
         const moveY = event.clientY - drag.lastY;
-        velocity.y = clamp(moveX * mode.sensitivity, -3.2, 3.2);
-        velocity.x = clamp(-moveY * mode.sensitivity, -2.2, 2.2);
+        const nextY = clamp(moveX * mode.sensitivity, -1.35, 1.35);
+        const nextX = clamp(-moveY * mode.sensitivity, -.82, .82);
+        velocity.y = velocity.y * .62 + nextY * .38;
+        velocity.x = velocity.x * .66 + nextX * .34;
         rotation.y = normalize(rotation.y + velocity.y);
-        rotation.x = normalize(clamp(rotation.x + velocity.x, -42, 42));
+        rotation.x = normalize(clamp(rotation.x + velocity.x, -36, 36));
+        displayRotation.x = normalize(displayRotation.x + normalize(rotation.x - displayRotation.x) * .28);
+        displayRotation.y = normalize(displayRotation.y + normalize(rotation.y - displayRotation.y) * .28);
         drag.lastX = event.clientX;
         drag.lastY = event.clientY;
         renderSphere();
@@ -1537,7 +1548,7 @@
 
       dots.forEach((dot, index) => dot.addEventListener('click', () => {
         activeMode = index;
-        velocity = { x: 0, y: index === 1 ? .7 : .2 };
+        velocity = { x: 0, y: index === 1 ? .36 : .12 };
         updateModeButtons();
         renderSphere();
       }));
@@ -1556,8 +1567,8 @@
         event.preventDefault();
         if (event.key === 'ArrowLeft') rotation.y -= 12;
         if (event.key === 'ArrowRight') rotation.y += 12;
-        if (event.key === 'ArrowUp') rotation.x -= 8;
-        if (event.key === 'ArrowDown') rotation.x += 8;
+        if (event.key === 'ArrowUp') rotation.x -= 6;
+        if (event.key === 'ArrowDown') rotation.x += 6;
         renderSphere();
       });
       window.addEventListener('resize', renderSphere, { passive: true });
