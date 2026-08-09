@@ -1397,9 +1397,9 @@
       const dots = [...album.querySelectorAll('.memory-dot')];
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const modes = [
-        { label: 'calm', auto: .024, sensitivity: .072, decay: .982, radius: .34, easing: .095 },
-        { label: 'alive', auto: .044, sensitivity: .092, decay: .986, radius: .36, easing: .11 },
-        { label: 'focus', auto: .012, sensitivity: .055, decay: .975, radius: .32, easing: .085 }
+        { label: 'calm', auto: .014, sensitivity: .045, decay: .965, radius: .34, easing: .13, dragEase: .18 },
+        { label: 'alive', auto: .026, sensitivity: .058, decay: .972, radius: .36, easing: .145, dragEase: .21 },
+        { label: 'focus', auto: .006, sensitivity: .035, decay: .956, radius: .32, easing: .115, dragEase: .16 }
       ];
       const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
       const normalize = (angle) => {
@@ -1427,6 +1427,8 @@
       let velocity = { x: 0, y: 0 };
       let isVisible = false;
       let lastFrameTime = performance.now();
+      let lastTouchTime = 0;
+      let pointerSoftness = { x: 0, y: 0, active: 0 };
 
       const reveal = () => section && section.classList.add('is-visible');
       const updateModeButtons = () => {
@@ -1466,17 +1468,20 @@
           z = z2;
 
           const depth = (z + radius) / (2 * radius);
-          const scale = .58 + depth * .78;
+          const pointerLift = pointerSoftness.active * clamp(1 - Math.hypot((x / radius) - pointerSoftness.x, (y / radius) - pointerSoftness.y) * .9, 0, 1);
+          const scale = .58 + depth * .72 + pointerLift * .11;
           const opacity = clamp(.18 + depth * .88, .12, 1);
           const blur = z < -radius * .56 ? .9 : 0;
           const isFront = z > radius * .5;
+          const softX = pointerLift * pointerSoftness.x * 10;
+          const softY = pointerLift * pointerSoftness.y * 10;
 
           photo.classList.toggle('is-front', isFront);
           photo.classList.toggle('is-back', z < -radius * .35);
           photo.style.opacity = String(opacity);
           photo.style.zIndex = String(Math.round(1000 + z));
           photo.style.filter = `blur(${blur}px) saturate(${.82 + depth * .25})`;
-          photo.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, ${z}px) scale(${scale})`;
+          photo.style.transform = `translate(-50%, -50%) translate3d(${x + softX}px, ${y + softY}px, ${z}px) scale(${scale})`;
         });
       };
 
@@ -1490,13 +1495,15 @@
         }
         const mode = modes[activeMode];
         if (!drag && !reduceMotion) {
-          rotation.y = normalize(rotation.y + (mode.auto + velocity.y) * frameStep);
+          const autoResume = clamp((now - lastTouchTime - 900) / 1800, 0, 1);
+          rotation.y = normalize(rotation.y + (mode.auto * autoResume + velocity.y) * frameStep);
           rotation.x = normalize(clamp(rotation.x + velocity.x * frameStep, -36, 36));
           velocity.x *= Math.pow(mode.decay, frameStep);
           velocity.y *= Math.pow(mode.decay, frameStep);
           if (Math.abs(velocity.x) < .0015) velocity.x = 0;
           if (Math.abs(velocity.y) < .0015) velocity.y = 0;
         }
+        pointerSoftness.active += ((drag ? 1 : 0) - pointerSoftness.active) * .08 * frameStep;
         displayRotation.x = normalize(displayRotation.x + normalize(rotation.x - displayRotation.x) * mode.easing * frameStep);
         displayRotation.y = normalize(displayRotation.y + normalize(rotation.y - displayRotation.y) * mode.easing * frameStep);
         renderSphere();
@@ -1506,6 +1513,7 @@
       const startDrag = (event) => {
         if (event.pointerType === 'mouse' && event.button !== 0) return;
         drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY, axis: null };
+        lastTouchTime = performance.now();
         velocity = { x: 0, y: 0 };
         album.setPointerCapture(event.pointerId);
       };
@@ -1522,14 +1530,19 @@
         const mode = modes[activeMode];
         const moveX = event.clientX - drag.lastX;
         const moveY = event.clientY - drag.lastY;
-        const nextY = clamp(moveX * mode.sensitivity, -1.35, 1.35);
-        const nextX = clamp(-moveY * mode.sensitivity, -.82, .82);
-        velocity.y = velocity.y * .62 + nextY * .38;
-        velocity.x = velocity.x * .66 + nextX * .34;
+        const rect = album.getBoundingClientRect();
+        pointerSoftness.x = clamp(((event.clientX - rect.left) / rect.width - .5) * 2, -1, 1);
+        pointerSoftness.y = clamp(((event.clientY - rect.top) / rect.height - .5) * 2, -1, 1);
+        pointerSoftness.active = Math.min(1, pointerSoftness.active + .18);
+        lastTouchTime = performance.now();
+        const nextY = clamp(moveX * mode.sensitivity, -.72, .72);
+        const nextX = clamp(-moveY * mode.sensitivity, -.42, .42);
+        velocity.y = velocity.y * .76 + nextY * .24;
+        velocity.x = velocity.x * .78 + nextX * .22;
         rotation.y = normalize(rotation.y + velocity.y);
         rotation.x = normalize(clamp(rotation.x + velocity.x, -36, 36));
-        displayRotation.x = normalize(displayRotation.x + normalize(rotation.x - displayRotation.x) * .28);
-        displayRotation.y = normalize(displayRotation.y + normalize(rotation.y - displayRotation.y) * .28);
+        displayRotation.x = normalize(displayRotation.x + normalize(rotation.x - displayRotation.x) * mode.dragEase);
+        displayRotation.y = normalize(displayRotation.y + normalize(rotation.y - displayRotation.y) * mode.dragEase);
         drag.lastX = event.clientX;
         drag.lastY = event.clientY;
         renderSphere();
@@ -1539,6 +1552,9 @@
         if (!drag || drag.id !== event.pointerId) return;
         drag = null;
         album.classList.remove('is-dragging');
+        lastTouchTime = performance.now();
+        velocity.x *= .45;
+        velocity.y *= .45;
       };
 
       const observer = new IntersectionObserver(([entry]) => {
