@@ -171,12 +171,15 @@
     .memory-album-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
     .memory-album-actions .button { background: #241b16; }
     .memory-album-actions .button.outline-warm { background: rgba(255,255,255,.3); color: #241b16; border: 1px solid rgba(36,27,22,.22); }
-    .memory-stage-wrap { perspective: 1400px; min-height: 600px; }
-    .memory-stage { --tilt-x: 0deg; --tilt-y: 0deg; position: relative; height: clamp(500px, 54vw, 640px); transform-style: preserve-3d; transform: rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); transition: transform .55s cubic-bezier(.16, 1, .3, 1); }
+    .memory-stage-wrap { perspective: 1400px; min-height: 600px; touch-action: pan-y; cursor: grab; user-select: none; }
+    .memory-stage-wrap.is-dragging { cursor: grabbing; }
+    .memory-stage { --tilt-x: 0deg; --tilt-y: 0deg; --drag-x: 0px; position: relative; height: clamp(500px, 54vw, 640px); transform-style: preserve-3d; transform: translateX(var(--drag-x)) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); transition: transform .55s cubic-bezier(.16, 1, .3, 1); }
+    .memory-stage-wrap.is-dragging .memory-stage { transition: transform .05s linear; }
     .memory-stage::before { content: ""; position: absolute; inset: 12% 8% 16%; border-radius: 44px; background: linear-gradient(135deg, rgba(255,255,255,.55), rgba(255,255,255,.12)); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 36px 110px rgba(111,77,43,.2); transform: translateZ(-110px) rotate(-2deg); }
     .memory-stage::after { content: ""; position: absolute; right: 12%; bottom: 9%; width: 58%; height: 22px; border-radius: 999px; background: rgba(58,38,23,.2); filter: blur(18px); transform: translateZ(-140px); }
-    .memory-photo { position: absolute; margin: 0; width: clamp(150px, 18vw, 238px); aspect-ratio: 4 / 5; overflow: hidden; border: 10px solid #fffaf0; border-bottom-width: 42px; border-radius: 20px; background: #fffaf0; box-shadow: 0 30px 70px rgba(70,45,26,.24); transform-style: preserve-3d; opacity: 0; translate: 0 18px; transition: opacity .72s ease, translate .72s ease, transform .72s cubic-bezier(.16, 1, .3, 1), box-shadow .32s ease; }
+    .memory-photo { position: absolute; margin: 0; width: clamp(150px, 18vw, 238px); aspect-ratio: 4 / 5; overflow: hidden; border: 10px solid #fffaf0; border-bottom-width: 42px; border-radius: 20px; background: #fffaf0; box-shadow: 0 30px 70px rgba(70,45,26,.24); transform-style: preserve-3d; opacity: 0; translate: 0 18px; transition: opacity .72s ease, translate .72s ease, transform .72s cubic-bezier(.16, 1, .3, 1), box-shadow .32s ease, filter .38s ease; }
     .memory-album.is-visible .memory-photo { opacity: 1; translate: 0 0; transition-delay: calc(var(--order) * 85ms); }
+    .memory-album.is-shuffling .memory-photo { opacity: .58; filter: blur(.8px) saturate(.92); translate: 0 8px; transition-delay: 0ms; }
     .memory-photo img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.97) contrast(1.04) sepia(.06); pointer-events: none; user-select: none; -webkit-user-drag: none; }
     .memory-photo figcaption { position: absolute; right: 10px; bottom: 10px; left: 10px; color: #6a4e39; font-size: 13px; font-weight: 850; line-height: 1.2; text-align: center; }
     .memory-photo.main { --order: 1; top: 15%; right: 29%; width: clamp(205px, 24vw, 320px); transform: translateZ(180px) rotate(-2deg); z-index: 5; }
@@ -187,7 +190,10 @@
     .memory-photo:hover, .memory-photo:focus-within { box-shadow: 0 38px 90px rgba(70,45,26,.32); }
     .memory-thread { position: absolute; top: 9%; right: 7%; left: 11%; height: 2px; border-radius: 999px; background: linear-gradient(90deg, transparent, rgba(114,76,43,.3), transparent); transform: translateZ(-10px) rotate(-3deg); }
     .memory-tag { position: absolute; left: 9%; top: 18%; max-width: 210px; padding: 14px 16px; border-radius: 18px; background: rgba(255,255,255,.58); color: #5f5149; line-height: 1.55; font-weight: 750; box-shadow: 0 18px 52px rgba(70,45,26,.14); transform: translateZ(145px) rotate(3deg); }
-    .memory-hint { margin: 18px auto 0; max-width: 620px; color: #78675c; font-size: 14px; text-align: center; }
+    .memory-controls { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 auto 8px; }
+    .memory-dot { width: 9px; height: 9px; min-height: 0; padding: 0; border-radius: 999px; background: rgba(36,27,22,.24); transform: scale(.86); transition: width .32s ease, transform .32s ease, background .32s ease; }
+    .memory-dot.is-active { width: 30px; background: #2e7189; transform: scale(1); }
+    .memory-hint { margin: 10px auto 0; max-width: 620px; color: #78675c; font-size: 14px; text-align: center; }
     .services { position: relative; overflow: hidden; isolation: isolate; background: var(--soft); }
     .services-dots { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .services > .container { position: relative; z-index: 1; }
@@ -472,7 +478,7 @@
             <a class="button outline-warm" href="#gallery">ראו את העבודות</a>
           </div>
         </div>
-        <div class="memory-stage-wrap" id="memoryAlbum">
+        <div class="memory-stage-wrap" id="memoryAlbum" tabindex="0" role="region" aria-label="אלבום תמונות חי של וופל׳ס. החליקו או השתמשו בחיצים במקלדת.">
           <div class="memory-stage" aria-label="אלבום תמונות חם של וופל׳ס">
             <span class="memory-thread"></span>
             <figure class="memory-photo main">
@@ -495,9 +501,14 @@
               <img src="./assets/media/fast/gallery-05-shovi.webp" alt="כלב לאחר עיצוב במספרת וופל׳ס" loading="lazy" decoding="async">
               <figcaption>חיוך קטן הביתה</figcaption>
             </figure>
-            <div class="memory-tag">הזיזו בעדינות את העכבר או געו במסך — האלבום מגיב כמו אובייקט אמיתי.</div>
+            <div class="memory-tag">החליקו ימינה או שמאלה — האלבום זז ברכות כמו זיכרון בידיים.</div>
           </div>
-          <p class="memory-hint">החוויה נבנתה כהשראה מקורית לוופל׳ס, בלי להשתמש בנכסים או קוד של האתר ששלחת.</p>
+          <div class="memory-controls" aria-label="בחירת סט תמונות באלבום">
+            <button class="memory-dot is-active" type="button" aria-label="סט תמונות 1"></button>
+            <button class="memory-dot" type="button" aria-label="סט תמונות 2"></button>
+            <button class="memory-dot" type="button" aria-label="סט תמונות 3"></button>
+          </div>
+          <p class="memory-hint">החליקו בעדינות על האלבום. התנועה נשארת רכה גם במובייל וגם במחשב.</p>
         </div>
       </div>
     </section>
@@ -1253,18 +1264,47 @@
       if (!album) return;
       const section = album.closest('.memory-album');
       const stage = album.querySelector('.memory-stage');
+      const photos = [...album.querySelectorAll('.memory-photo')];
+      const dots = [...album.querySelectorAll('.memory-dot')];
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const sets = [
+        [
+          { src: './assets/media/fast/ortal-working-06.webp', alt: 'אורטל מטפלת בכלב בזמן עבודה במספרה', caption: 'רגע של אמון' },
+          { src: './assets/media/fast/poodle-after.webp', alt: 'פודל לאחר טיפול טיפוח בוופל׳ס', caption: 'אחרי טיפול' },
+          { src: './assets/media/fast/gallery-yorkie-2026.webp', alt: 'יורקשייר לאחר תספורת ועיצוב', caption: 'אופי בפרטים' },
+          { src: './assets/media/fast/gallery-collie-2026.webp', alt: 'כלב קולי לאחר טיפוח מקצועי', caption: 'פרווה שחוזרת לנשום' },
+          { src: './assets/media/fast/gallery-05-shovi.webp', alt: 'כלב לאחר עיצוב במספרת וופל׳ס', caption: 'חיוך קטן הביתה' }
+        ],
+        [
+          { src: './assets/media/fast/ortal-working-01.webp', alt: 'אורטל מטפחת כלב בעדינות', caption: 'יד עדינה' },
+          { src: './assets/media/fast/gallery-14.webp', alt: 'כלב לאחר גימור במספרה', caption: 'גימור מוקפד' },
+          { src: './assets/media/fast/gallery-08.webp', alt: 'כלב מטופח בוופל׳ס', caption: 'רוגע בעיניים' },
+          { src: './assets/media/fast/pomeranian-after.webp', alt: 'פומרניאן לאחר טיפול מקצועי', caption: 'נפח טבעי' },
+          { src: './assets/media/fast/gallery-16.webp', alt: 'עבודת עיצוב לכלב', caption: 'אופי קטן גדול' }
+        ],
+        [
+          { src: './assets/media/fast/ortal-working-03.webp', alt: 'אורטל במהלך טיפול מקצועי בכלב', caption: 'תהליך שקט' },
+          { src: './assets/media/fast/gallery-12.webp', alt: 'תוצאה של טיפול פרווה', caption: 'פרווה מסודרת' },
+          { src: './assets/media/fast/leo-after.webp', alt: 'כלב עם פרווה מתולתלת לאחר תספורת ועיצוב', caption: 'מתולתל ומדויק' },
+          { src: './assets/media/fast/gallery-westie-2026.webp', alt: 'כלב ווסטי במהלך טיפול במספרה', caption: 'מבט אחרון' },
+          { src: './assets/media/fast/gallery-09.webp', alt: 'עבודת מספרת כלבים וופל׳ס', caption: 'חוזרים הביתה' }
+        ]
+      ];
       let frame = null;
+      let active = 0;
+      let drag = null;
+      let didDrag = false;
 
       const reveal = () => section && section.classList.add('is-visible');
       const resetTilt = () => {
         if (!stage || reduceMotion) return;
         stage.style.setProperty('--tilt-x', '0deg');
         stage.style.setProperty('--tilt-y', '0deg');
+        stage.style.setProperty('--drag-x', '0px');
       };
 
       const setTilt = (event) => {
-        if (!stage || reduceMotion) return;
+        if (!stage || reduceMotion || didDrag || drag) return;
         const rect = album.getBoundingClientRect();
         const x = (event.clientX - rect.left) / rect.width - .5;
         const y = (event.clientY - rect.top) / rect.height - .5;
@@ -1275,15 +1315,99 @@
         });
       };
 
+      const renderDots = () => {
+        dots.forEach((dot, index) => {
+          const isActive = index === active;
+          dot.classList.toggle('is-active', isActive);
+          dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+      };
+
+      const showSet = (nextIndex, direction = 1) => {
+        active = (nextIndex + sets.length) % sets.length;
+        section.classList.add('is-shuffling');
+        if (stage) {
+          stage.style.setProperty('--drag-x', `${direction * 20}px`);
+          stage.style.setProperty('--tilt-y', `${direction * -3}deg`);
+        }
+        window.setTimeout(() => {
+          sets[active].forEach((item, index) => {
+            const photo = photos[index];
+            if (!photo) return;
+            const img = photo.querySelector('img');
+            const caption = photo.querySelector('figcaption');
+            img.src = item.src;
+            img.alt = item.alt;
+            caption.textContent = item.caption;
+          });
+          renderDots();
+          if (stage) {
+            stage.style.setProperty('--drag-x', `${direction * -10}px`);
+            window.setTimeout(resetTilt, reduceMotion ? 0 : 160);
+          }
+          section.classList.remove('is-shuffling');
+        }, reduceMotion ? 0 : 170);
+      };
+
+      const startDrag = (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, axis: null };
+        didDrag = false;
+        album.setPointerCapture(event.pointerId);
+      };
+
+      const moveDrag = (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const dx = event.clientX - drag.x;
+        const dy = event.clientY - drag.y;
+        if (!drag.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 8) {
+          drag.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+          if (drag.axis === 'horizontal') {
+            didDrag = true;
+            album.classList.add('is-dragging');
+          }
+        }
+        if (drag.axis !== 'horizontal' || !stage) return;
+        const softX = Math.max(-64, Math.min(64, dx * .28));
+        stage.style.setProperty('--drag-x', `${softX}px`);
+        stage.style.setProperty('--tilt-y', `${Math.max(-5, Math.min(5, dx / 45))}deg`);
+      };
+
+      const finishDrag = (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const dx = event.clientX - drag.x;
+        const wasHorizontal = drag.axis === 'horizontal';
+        drag = null;
+        album.classList.remove('is-dragging');
+        if (wasHorizontal && Math.abs(dx) > 44) {
+          showSet(active + (dx < 0 ? 1 : -1), dx < 0 ? -1 : 1);
+        }
+        else resetTilt();
+        window.setTimeout(() => { didDrag = false; }, 120);
+      };
+
       const observer = new IntersectionObserver(([entry]) => {
         if (!entry.isIntersecting) return;
         reveal();
         observer.disconnect();
       }, { threshold: .24 });
 
+      dots.forEach((dot, index) => dot.addEventListener('click', () => showSet(index, index > active ? -1 : 1)));
+      album.addEventListener('pointerdown', startDrag);
       album.addEventListener('pointermove', setTilt, { passive: true });
+      album.addEventListener('pointermove', moveDrag, { passive: true });
+      album.addEventListener('pointerup', finishDrag);
       album.addEventListener('pointerleave', resetTilt);
-      album.addEventListener('pointercancel', resetTilt);
+      album.addEventListener('pointercancel', (event) => {
+        if (drag) finishDrag(event);
+        else resetTilt();
+      });
+      album.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        showSet(active + (event.key === 'ArrowLeft' ? -1 : 1), event.key === 'ArrowLeft' ? 1 : -1);
+      });
+      renderDots();
       observer.observe(album);
     })();
   </script>
