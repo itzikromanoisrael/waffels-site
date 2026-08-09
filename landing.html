@@ -474,6 +474,45 @@
       .memory-stage, .memory-photo, .memory-photo img, .memory-dot { transition: none !important; }
       .memory-stage { transform: none !important; }
     }
+
+    /* WAFFEL AI 3D image sphere motion upgrade */
+    .sphere-album-wrap { --sphere-size: min(610px, 64vw); --sphere-card-size: clamp(76px, 10vw, 118px); display: grid; align-content: center; min-height: 660px; cursor: grab; }
+    .sphere-album-wrap.is-dragging { cursor: grabbing; }
+    .sphere-album-wrap::after { content: ""; position: absolute; inset: 10% 12%; border-radius: 999px; background: radial-gradient(circle, rgba(255,255,255,.28), transparent 58%); pointer-events: none; filter: blur(2px); }
+    .sphere-album-wrap .sphere-stage { width: var(--sphere-size); height: var(--sphere-size); max-width: 100%; margin: 0 auto; transform: none; transition: none; transform-style: preserve-3d; }
+    .sphere-album-wrap .sphere-stage::before { inset: 8%; border-radius: 999px; background: radial-gradient(circle at 42% 30%, rgba(255,255,255,.58), rgba(255,255,255,.13) 42%, transparent 72%); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 38px 120px rgba(66,45,28,.16); transform: translateZ(-150px); }
+    .sphere-album-wrap .sphere-stage::after { right: 14%; bottom: 5%; width: 72%; height: 32px; background: rgba(70,48,30,.18); filter: blur(24px); transform: translateZ(-180px); }
+    .sphere-album-wrap .memory-photo,
+    .sphere-album-wrap .memory-photo.main,
+    .sphere-album-wrap .memory-photo.left,
+    .sphere-album-wrap .memory-photo.top,
+    .sphere-album-wrap .memory-photo.bottom,
+    .sphere-album-wrap .memory-photo.small { top: 50%; right: auto; left: 50%; width: var(--sphere-card-size); aspect-ratio: 1; border-radius: 999px; opacity: 1; translate: 0 0; transform: translate(-50%, -50%); box-shadow: 0 18px 48px rgba(33,24,17,.22); will-change: transform, opacity; backface-visibility: hidden; pointer-events: auto; }
+    .sphere-album-wrap .memory-photo::before { border-radius: inherit; background: linear-gradient(180deg, rgba(0,0,0,0), transparent 44%, rgba(0,0,0,.32)); }
+    .sphere-album-wrap .memory-photo img { border-radius: inherit; }
+    .sphere-album-wrap .memory-photo figcaption { right: 50%; bottom: -13px; left: auto; width: max-content; max-width: 160px; translate: 50% 0; padding: 6px 10px; font-size: 11px; opacity: 0; transition: opacity .25s ease, transform .25s ease; transform: translateY(4px); }
+    .sphere-album-wrap .memory-photo.is-front figcaption,
+    .sphere-album-wrap .memory-photo:hover figcaption { opacity: 1; transform: translateY(0); }
+    .sphere-album-wrap .memory-photo.is-back { pointer-events: none; }
+    .sphere-album-wrap .memory-photo.is-front { box-shadow: 0 28px 76px rgba(33,24,17,.3); }
+    .sphere-album-wrap .memory-tag { left: 5%; bottom: 12%; top: auto; z-index: 8; max-width: 235px; font-size: 13px; }
+    .sphere-album-wrap .memory-controls { margin-top: -16px; }
+    .sphere-album-wrap .memory-dot { width: auto; height: auto; min-height: 32px; padding: 0 12px; border-radius: 999px; background: rgba(36,27,22,.12); color: #5b4a3d; font-size: 12px; font-weight: 850; transform: none; }
+    .sphere-album-wrap .memory-dot::before { content: attr(data-label); }
+    .sphere-album-wrap .memory-dot.is-active { width: auto; background: #241b16; color: #fff8ed; }
+
+    @media (max-width: 820px) {
+      .sphere-album-wrap { --sphere-size: min(520px, 92vw); --sphere-card-size: clamp(64px, 15vw, 92px); min-height: 575px; padding: 12px; }
+      .sphere-album-wrap .sphere-stage { height: var(--sphere-size); margin-inline: auto; }
+      .sphere-album-wrap .memory-tag { display: none; }
+    }
+
+    @media (max-width: 520px) {
+      .sphere-album-wrap { --sphere-size: min(390px, 92vw); --sphere-card-size: clamp(54px, 17vw, 74px); min-height: 445px; }
+      .sphere-album-wrap .memory-controls { margin-top: -8px; }
+      .sphere-album-wrap .memory-dot { min-height: 30px; padding: 0 10px; font-size: 11px; }
+      .sphere-album-wrap .memory-photo figcaption { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -540,8 +579,8 @@
             <a class="button outline-warm" href="#gallery">ראו את העבודות</a>
           </div>
         </div>
-        <div class="memory-stage-wrap" id="memoryAlbum" tabindex="0" role="region" aria-label="אלבום תמונות חי של וופל׳ס. החליקו או השתמשו בחיצים במקלדת.">
-          <div class="memory-stage" aria-label="אלבום תמונות חם של וופל׳ס">
+        <div class="memory-stage-wrap sphere-album-wrap" id="memoryAlbum" tabindex="0" role="region" aria-label="אלבום תמונות תלת־ממדי חי של וופל׳ס. גררו לסיבוב או השתמשו בחיצים במקלדת.">
+          <div class="memory-stage sphere-stage" aria-label="כדור תמונות חי של וופל׳ס">
             <span class="memory-thread"></span>
             <figure class="memory-photo main">
               <img src="./assets/media/fast/ortal-working-06.webp" alt="אורטל מטפלת בכלב בזמן עבודה במספרה" loading="lazy" decoding="async">
@@ -563,14 +602,42 @@
               <img src="./assets/media/fast/gallery-05-shovi.webp" alt="כלב לאחר עיצוב במספרת וופל׳ס" loading="lazy" decoding="async">
               <figcaption>חיוך קטן הביתה</figcaption>
             </figure>
-            <div class="memory-tag">החליקו ימינה או שמאלה — האלבום זז ברכות כמו זיכרון בידיים.</div>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/gallery-14.webp" alt="כלב לאחר גימור מוקפד במספרה" loading="lazy" decoding="async">
+              <figcaption>גימור מוקפד</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/gallery-08.webp" alt="כלב מטופח בוופל׳ס" loading="lazy" decoding="async">
+              <figcaption>רוגע בעיניים</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/pomeranian-after.webp" alt="פומרניאן לאחר טיפול מקצועי" loading="lazy" decoding="async">
+              <figcaption>נפח טבעי</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/gallery-16.webp" alt="עבודת עיצוב לכלב בוופל׳ס" loading="lazy" decoding="async">
+              <figcaption>אופי קטן גדול</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/ortal-working-03.webp" alt="אורטל במהלך טיפול מקצועי בכלב" loading="lazy" decoding="async">
+              <figcaption>תהליך שקט</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/leo-after.webp" alt="כלב עם פרווה מתולתלת לאחר תספורת ועיצוב" loading="lazy" decoding="async">
+              <figcaption>מתולתל ומדויק</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/gallery-westie-2026.webp" alt="כלב ווסטי במהלך טיפול במספרה" loading="lazy" decoding="async">
+              <figcaption>מבט אחרון</figcaption>
+            </figure>
+            <div class="memory-tag">גררו בעדינות — הכדור ממשיך לנוע עם אינרציה רכה, כמו אלבום חי בידיים.</div>
           </div>
           <div class="memory-controls" aria-label="בחירת סט תמונות באלבום">
-            <button class="memory-dot is-active" type="button" aria-label="סט תמונות 1"></button>
-            <button class="memory-dot" type="button" aria-label="סט תמונות 2"></button>
-            <button class="memory-dot" type="button" aria-label="סט תמונות 3"></button>
+            <button class="memory-dot is-active" type="button" data-label="רגוע" aria-label="תנועה רגועה"></button>
+            <button class="memory-dot" type="button" data-label="חי" aria-label="תנועה חיה"></button>
+            <button class="memory-dot" type="button" data-label="ממוקד" aria-label="תנועה ממוקדת"></button>
           </div>
-          <p class="memory-hint">החליקו בעדינות על האלבום. התנועה נשארת רכה גם במובייל וגם במחשב.</p>
+          <p class="memory-hint">גררו בעדינות על האלבום. התמונות מסתובבות ב־3D עם תנועה רכה וגמישה במובייל ובמחשב.</p>
         </div>
       </div>
     </section>
@@ -1329,92 +1396,110 @@
       const photos = [...album.querySelectorAll('.memory-photo')];
       const dots = [...album.querySelectorAll('.memory-dot')];
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const sets = [
-        [
-          { src: './assets/media/fast/ortal-working-06.webp', alt: 'אורטל מטפלת בכלב בזמן עבודה במספרה', caption: 'רגע של אמון' },
-          { src: './assets/media/fast/poodle-after.webp', alt: 'פודל לאחר טיפול טיפוח בוופל׳ס', caption: 'אחרי טיפול' },
-          { src: './assets/media/fast/gallery-yorkie-2026.webp', alt: 'יורקשייר לאחר תספורת ועיצוב', caption: 'אופי בפרטים' },
-          { src: './assets/media/fast/gallery-collie-2026.webp', alt: 'כלב קולי לאחר טיפוח מקצועי', caption: 'פרווה שחוזרת לנשום' },
-          { src: './assets/media/fast/gallery-05-shovi.webp', alt: 'כלב לאחר עיצוב במספרת וופל׳ס', caption: 'חיוך קטן הביתה' }
-        ],
-        [
-          { src: './assets/media/fast/ortal-working-01.webp', alt: 'אורטל מטפחת כלב בעדינות', caption: 'יד עדינה' },
-          { src: './assets/media/fast/gallery-14.webp', alt: 'כלב לאחר גימור במספרה', caption: 'גימור מוקפד' },
-          { src: './assets/media/fast/gallery-08.webp', alt: 'כלב מטופח בוופל׳ס', caption: 'רוגע בעיניים' },
-          { src: './assets/media/fast/pomeranian-after.webp', alt: 'פומרניאן לאחר טיפול מקצועי', caption: 'נפח טבעי' },
-          { src: './assets/media/fast/gallery-16.webp', alt: 'עבודת עיצוב לכלב', caption: 'אופי קטן גדול' }
-        ],
-        [
-          { src: './assets/media/fast/ortal-working-03.webp', alt: 'אורטל במהלך טיפול מקצועי בכלב', caption: 'תהליך שקט' },
-          { src: './assets/media/fast/gallery-12.webp', alt: 'תוצאה של טיפול פרווה', caption: 'פרווה מסודרת' },
-          { src: './assets/media/fast/leo-after.webp', alt: 'כלב עם פרווה מתולתלת לאחר תספורת ועיצוב', caption: 'מתולתל ומדויק' },
-          { src: './assets/media/fast/gallery-westie-2026.webp', alt: 'כלב ווסטי במהלך טיפול במספרה', caption: 'מבט אחרון' },
-          { src: './assets/media/fast/gallery-09.webp', alt: 'עבודת מספרת כלבים וופל׳ס', caption: 'חוזרים הביתה' }
-        ]
+      const modes = [
+        { label: 'calm', auto: .055, sensitivity: .16, decay: .945, radius: .34 },
+        { label: 'alive', auto: .105, sensitivity: .22, decay: .955, radius: .36 },
+        { label: 'focus', auto: .025, sensitivity: .13, decay: .93, radius: .32 }
       ];
+      const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+      const normalize = (angle) => {
+        while (angle > 180) angle -= 360;
+        while (angle < -180) angle += 360;
+        return angle;
+      };
+      const toRadians = (degrees) => degrees * Math.PI / 180;
+      const positions = photos.map((_, index) => {
+        const count = photos.length;
+        const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+        const y = 1 - (index / Math.max(1, count - 1)) * 2;
+        const radiusAtY = Math.sqrt(Math.max(0, 1 - y * y));
+        return {
+          x: Math.cos(goldenAngle * index) * radiusAtY,
+          y,
+          z: Math.sin(goldenAngle * index) * radiusAtY
+        };
+      });
       let frame = null;
-      let active = 0;
+      let activeMode = 0;
       let drag = null;
-      let didDrag = false;
+      let rotation = { x: -7, y: 18 };
+      let velocity = { x: 0, y: 0 };
+      let isVisible = false;
 
       const reveal = () => section && section.classList.add('is-visible');
-      const resetTilt = () => {
-        if (!stage || reduceMotion) return;
-        stage.style.setProperty('--tilt-x', '0deg');
-        stage.style.setProperty('--tilt-y', '0deg');
-        stage.style.setProperty('--drag-x', '0px');
-      };
-
-      const setTilt = (event) => {
-        if (!stage || reduceMotion || didDrag || drag) return;
-        const rect = album.getBoundingClientRect();
-        const x = (event.clientX - rect.left) / rect.width - .5;
-        const y = (event.clientY - rect.top) / rect.height - .5;
-        if (frame) window.cancelAnimationFrame(frame);
-        frame = window.requestAnimationFrame(() => {
-          stage.style.setProperty('--tilt-x', `${Math.max(-5, Math.min(5, y * -8))}deg`);
-          stage.style.setProperty('--tilt-y', `${Math.max(-7, Math.min(7, x * 10))}deg`);
-        });
-      };
-
-      const renderDots = () => {
+      const updateModeButtons = () => {
         dots.forEach((dot, index) => {
-          const isActive = index === active;
+          const isActive = index === activeMode;
           dot.classList.toggle('is-active', isActive);
           dot.setAttribute('aria-current', isActive ? 'true' : 'false');
         });
       };
 
-      const showSet = (nextIndex, direction = 1) => {
-        active = (nextIndex + sets.length) % sets.length;
-        section.classList.add('is-shuffling');
-        if (stage) {
-          stage.style.setProperty('--drag-x', `${direction * 20}px`);
-          stage.style.setProperty('--tilt-y', `${direction * -3}deg`);
+      const renderSphere = () => {
+        const mode = modes[activeMode];
+        const rect = stage.getBoundingClientRect();
+        const size = Math.min(rect.width || 520, rect.height || 520);
+        const radius = size * mode.radius;
+        const xRad = toRadians(rotation.x);
+        const yRad = toRadians(rotation.y);
+        const sinX = Math.sin(xRad);
+        const cosX = Math.cos(xRad);
+        const sinY = Math.sin(yRad);
+        const cosY = Math.cos(yRad);
+
+        photos.forEach((photo, index) => {
+          const base = positions[index];
+          let x = base.x * radius;
+          let y = base.y * radius;
+          let z = base.z * radius;
+
+          const x1 = x * cosY + z * sinY;
+          const z1 = -x * sinY + z * cosY;
+          x = x1;
+          z = z1;
+
+          const y2 = y * cosX - z * sinX;
+          const z2 = y * sinX + z * cosX;
+          y = y2;
+          z = z2;
+
+          const depth = (z + radius) / (2 * radius);
+          const scale = .58 + depth * .78;
+          const opacity = clamp(.18 + depth * .88, .12, 1);
+          const blur = z < -radius * .56 ? .9 : 0;
+          const isFront = z > radius * .5;
+
+          photo.classList.toggle('is-front', isFront);
+          photo.classList.toggle('is-back', z < -radius * .35);
+          photo.style.opacity = String(opacity);
+          photo.style.zIndex = String(Math.round(1000 + z));
+          photo.style.filter = `blur(${blur}px) saturate(${.82 + depth * .25})`;
+          photo.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, ${z}px) scale(${scale})`;
+        });
+      };
+
+      const animate = () => {
+        if (!isVisible || document.hidden) {
+          frame = window.requestAnimationFrame(animate);
+          return;
         }
-        window.setTimeout(() => {
-          sets[active].forEach((item, index) => {
-            const photo = photos[index];
-            if (!photo) return;
-            const img = photo.querySelector('img');
-            const caption = photo.querySelector('figcaption');
-            img.src = item.src;
-            img.alt = item.alt;
-            caption.textContent = item.caption;
-          });
-          renderDots();
-          if (stage) {
-            stage.style.setProperty('--drag-x', `${direction * -10}px`);
-            window.setTimeout(resetTilt, reduceMotion ? 0 : 160);
-          }
-          section.classList.remove('is-shuffling');
-        }, reduceMotion ? 0 : 170);
+        const mode = modes[activeMode];
+        if (!drag && !reduceMotion) {
+          rotation.y = normalize(rotation.y + mode.auto + velocity.y);
+          rotation.x = normalize(clamp(rotation.x + velocity.x, -42, 42));
+          velocity.x *= mode.decay;
+          velocity.y *= mode.decay;
+          if (Math.abs(velocity.x) < .002) velocity.x = 0;
+          if (Math.abs(velocity.y) < .002) velocity.y = 0;
+        }
+        renderSphere();
+        frame = window.requestAnimationFrame(animate);
       };
 
       const startDrag = (event) => {
         if (event.pointerType === 'mouse' && event.button !== 0) return;
-        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, axis: null };
-        didDrag = false;
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY, axis: null };
+        velocity = { x: 0, y: 0 };
         album.setPointerCapture(event.pointerId);
       };
 
@@ -1424,53 +1509,62 @@
         const dy = event.clientY - drag.y;
         if (!drag.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 8) {
           drag.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
-          if (drag.axis === 'horizontal') {
-            didDrag = true;
-            album.classList.add('is-dragging');
-          }
+          if (drag.axis === 'horizontal') album.classList.add('is-dragging');
         }
-        if (drag.axis !== 'horizontal' || !stage) return;
-        const softX = Math.max(-64, Math.min(64, dx * .28));
-        stage.style.setProperty('--drag-x', `${softX}px`);
-        stage.style.setProperty('--tilt-y', `${Math.max(-5, Math.min(5, dx / 45))}deg`);
+        if (drag.axis !== 'horizontal') return;
+        const mode = modes[activeMode];
+        const moveX = event.clientX - drag.lastX;
+        const moveY = event.clientY - drag.lastY;
+        velocity.y = clamp(moveX * mode.sensitivity, -3.2, 3.2);
+        velocity.x = clamp(-moveY * mode.sensitivity, -2.2, 2.2);
+        rotation.y = normalize(rotation.y + velocity.y);
+        rotation.x = normalize(clamp(rotation.x + velocity.x, -42, 42));
+        drag.lastX = event.clientX;
+        drag.lastY = event.clientY;
+        renderSphere();
       };
 
       const finishDrag = (event) => {
         if (!drag || drag.id !== event.pointerId) return;
-        const dx = event.clientX - drag.x;
-        const wasHorizontal = drag.axis === 'horizontal';
         drag = null;
         album.classList.remove('is-dragging');
-        if (wasHorizontal && Math.abs(dx) > 44) {
-          showSet(active + (dx < 0 ? 1 : -1), dx < 0 ? -1 : 1);
-        }
-        else resetTilt();
-        window.setTimeout(() => { didDrag = false; }, 120);
       };
 
       const observer = new IntersectionObserver(([entry]) => {
-        if (!entry.isIntersecting) return;
-        reveal();
-        observer.disconnect();
+        isVisible = entry.isIntersecting;
+        if (isVisible) reveal();
       }, { threshold: .24 });
 
-      dots.forEach((dot, index) => dot.addEventListener('click', () => showSet(index, index > active ? -1 : 1)));
+      dots.forEach((dot, index) => dot.addEventListener('click', () => {
+        activeMode = index;
+        velocity = { x: 0, y: index === 1 ? .7 : .2 };
+        updateModeButtons();
+        renderSphere();
+      }));
       album.addEventListener('pointerdown', startDrag);
-      album.addEventListener('pointermove', setTilt, { passive: true });
       album.addEventListener('pointermove', moveDrag, { passive: true });
       album.addEventListener('pointerup', finishDrag);
-      album.addEventListener('pointerleave', resetTilt);
+      album.addEventListener('pointerleave', () => {
+        if (drag) album.classList.remove('is-dragging');
+        drag = null;
+      });
       album.addEventListener('pointercancel', (event) => {
         if (drag) finishDrag(event);
-        else resetTilt();
       });
       album.addEventListener('keydown', (event) => {
-        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
         event.preventDefault();
-        showSet(active + (event.key === 'ArrowLeft' ? -1 : 1), event.key === 'ArrowLeft' ? 1 : -1);
+        if (event.key === 'ArrowLeft') rotation.y -= 12;
+        if (event.key === 'ArrowRight') rotation.y += 12;
+        if (event.key === 'ArrowUp') rotation.x -= 8;
+        if (event.key === 'ArrowDown') rotation.x += 8;
+        renderSphere();
       });
-      renderDots();
+      window.addEventListener('resize', renderSphere, { passive: true });
+      updateModeButtons();
       observer.observe(album);
+      renderSphere();
+      frame = window.requestAnimationFrame(animate);
     })();
   </script>
 </body>
