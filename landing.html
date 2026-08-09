@@ -412,6 +412,68 @@
       .hero-memory-card, .memory-photo { animation: none !important; }
       .memory-stage { transform: none !important; }
     }
+
+    /* WAFFEL AI premium memory slider upgrade */
+    .memory-album { background: radial-gradient(circle at 16% 10%, rgba(255,232,197,.5), transparent 32%), radial-gradient(circle at 92% 18%, rgba(155,212,231,.28), transparent 30%), linear-gradient(145deg, #fff8ef 0%, #efe1d0 52%, #e7efeb 100%); }
+    .memory-album::after { content: ""; position: absolute; inset: auto 0 0; height: 46%; z-index: -1; background: linear-gradient(0deg, rgba(76,51,31,.08), transparent); pointer-events: none; }
+    .memory-layout { grid-template-columns: minmax(300px, .86fr) minmax(480px, 1.14fr); }
+    .memory-copy { padding-block: 18px; }
+    .memory-kicker { background: rgba(255,255,255,.7); box-shadow: 0 10px 30px rgba(99,72,45,.08); }
+    .memory-stage-wrap { position: relative; min-height: 620px; padding: clamp(18px, 2vw, 26px); border: 1px solid rgba(80,58,39,.14); border-radius: 42px; background: linear-gradient(145deg, rgba(255,255,255,.68), rgba(255,255,255,.28)); box-shadow: 0 34px 100px rgba(80,56,34,.18), inset 0 1px 0 rgba(255,255,255,.78); backdrop-filter: blur(18px); overflow: hidden; }
+    .memory-stage-wrap::before { content: ""; position: absolute; inset: 14px; border-radius: 34px; border: 1px solid rgba(255,255,255,.58); pointer-events: none; }
+    .memory-stage { height: clamp(500px, 52vw, 640px); }
+    .memory-stage::before { inset: 11% 11% 16%; border-radius: 38px; background: radial-gradient(circle at 42% 20%, rgba(255,255,255,.72), rgba(255,255,255,.18) 42%, transparent 76%); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 34px 110px rgba(66,45,28,.17); }
+    .memory-stage::after { right: 18%; bottom: 8%; width: 64%; height: 30px; background: rgba(70,48,30,.18); filter: blur(22px); }
+    .memory-thread { display: none; }
+    .memory-photo { border: 0; border-radius: 30px; background: #171717; box-shadow: 0 32px 80px rgba(38,27,18,.2); translate: 0 10px; transition: opacity .5s ease, translate .56s ease, transform .72s cubic-bezier(.16, 1, .3, 1), box-shadow .38s ease, filter .38s ease; }
+    .memory-photo::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.02), transparent 40%, rgba(0,0,0,.48)); }
+    .memory-photo img { filter: saturate(.98) contrast(1.04); transition: transform .9s cubic-bezier(.16, 1, .3, 1), filter .4s ease; }
+    .memory-photo figcaption { z-index: 2; right: 16px; bottom: 16px; left: 16px; padding: 9px 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(18,16,14,.45); color: #fff8ed; font-size: 13px; backdrop-filter: blur(12px); }
+    .memory-photo.main { top: 8%; right: 24%; width: clamp(250px, 30vw, 420px); aspect-ratio: 4 / 5.15; transform: translateZ(210px) rotate(-.8deg) scale(1.02); z-index: 8; box-shadow: 0 38px 96px rgba(38,27,18,.26); }
+    .memory-photo.left { top: 19%; right: 2%; width: clamp(165px, 17vw, 242px); aspect-ratio: 4 / 5; transform: translateZ(70px) rotate(4.5deg) scale(.95); z-index: 4; opacity: .92; }
+    .memory-photo.top { top: 4%; right: 57%; width: clamp(150px, 15vw, 218px); aspect-ratio: 4 / 5; transform: translateZ(55px) rotate(-5deg) scale(.92); z-index: 3; opacity: .86; }
+    .memory-photo.bottom { top: 57%; right: 54%; width: clamp(170px, 17vw, 245px); aspect-ratio: 4 / 5; transform: translateZ(95px) rotate(3.8deg) scale(.94); z-index: 5; opacity: .9; }
+    .memory-photo.small { top: 61%; right: 10%; width: clamp(148px, 14vw, 205px); aspect-ratio: 4 / 5; transform: translateZ(155px) rotate(-4deg) scale(.94); z-index: 6; opacity: .94; }
+    .memory-photo:hover img { transform: scale(1.035); }
+    .memory-photo:hover, .memory-photo:focus-within { box-shadow: 0 42px 105px rgba(38,27,18,.31); }
+    .memory-album.is-shuffling .memory-photo { opacity: .72; filter: saturate(.92) brightness(.96); translate: 0 5px; }
+    .memory-album.is-shuffling .memory-photo.main { opacity: .86; }
+    .memory-tag { left: 5%; top: auto; bottom: 16%; max-width: 220px; border: 1px solid rgba(255,255,255,.5); background: rgba(255,255,255,.62); color: #5b4a3d; box-shadow: 0 20px 58px rgba(73,51,33,.13); transform: translateZ(180px) rotate(1deg); backdrop-filter: blur(16px); }
+    .memory-controls { position: relative; z-index: 5; margin-top: -30px; }
+    .memory-dot { background: rgba(36,27,22,.2); }
+    .memory-dot.is-active { background: #241b16; }
+    .memory-hint { position: relative; z-index: 5; color: #6f6056; }
+
+    @media (max-width: 820px) {
+      .memory-layout { grid-template-columns: 1fr; }
+      .memory-stage-wrap { min-height: 560px; border-radius: 34px; }
+      .memory-stage { height: 500px; margin-inline: 0; }
+      .memory-photo.main { top: 8%; right: 23%; width: min(58vw, 310px); }
+      .memory-photo.left { top: 23%; right: -2%; width: min(34vw, 185px); }
+      .memory-photo.top { top: 3%; right: 58%; width: min(31vw, 170px); }
+      .memory-photo.bottom { top: 57%; right: 51%; width: min(34vw, 185px); }
+      .memory-photo.small { top: 64%; right: 12%; width: min(30vw, 165px); }
+      .memory-tag { display: none; }
+      .memory-controls { margin-top: -18px; }
+    }
+
+    @media (max-width: 520px) {
+      .memory-stage-wrap { min-height: 500px; padding: 12px; border-radius: 28px; }
+      .memory-stage { height: 438px; }
+      .memory-photo { border-radius: 23px; }
+      .memory-photo figcaption { right: 10px; bottom: 10px; left: 10px; padding: 7px 9px; font-size: 11px; }
+      .memory-photo.main { width: 224px; right: 18%; top: 8%; }
+      .memory-photo.left { width: 136px; right: -1%; top: 26%; }
+      .memory-photo.top { width: 132px; right: 57%; top: 4%; }
+      .memory-photo.bottom { width: 138px; right: 50%; top: 58%; }
+      .memory-photo.small { width: 126px; right: 12%; top: 66%; }
+      .memory-hint { font-size: 13px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .memory-stage, .memory-photo, .memory-photo img, .memory-dot { transition: none !important; }
+      .memory-stage { transform: none !important; }
+    }
   </style>
 </head>
 <body>
