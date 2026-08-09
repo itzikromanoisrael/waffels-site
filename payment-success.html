@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>המקדמה התקבלה | WAFFELS</title>
+  <style>
+    :root {
+      --bg: #fff8fb;
+      --card: rgba(255,255,255,0.92);
+      --line: rgba(123, 56, 94, 0.12);
+      --text: #3c2433;
+      --muted: #7e6170;
+      --pink: #e85aa8;
+      --pink-deep: #d53f93;
+      --success: #1d8f61;
+      --error: #c0395a;
+      --shadow: 0 26px 58px rgba(128, 64, 98, 0.15);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(232, 90, 168, 0.18), transparent 24%),
+        linear-gradient(180deg, #fffafc 0%, #fff1f7 100%);
+      color: var(--text);
+    }
+
+    .card {
+      width: min(100%, 680px);
+      padding: 32px;
+      border-radius: 32px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(18px) saturate(160%);
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 2.9rem);
+      line-height: 1.1;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.85;
+    }
+
+    .status {
+      margin-top: 18px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      display: none;
+      font-weight: 700;
+      line-height: 1.7;
+    }
+
+    .status.show { display: block; }
+    .status.success { background: rgba(29, 143, 97, 0.12); color: var(--success); }
+    .status.error { background: rgba(192, 57, 90, 0.1); color: var(--error); }
+    .status.info { background: rgba(232, 90, 168, 0.08); color: var(--pink-deep); }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      border: 1px solid rgba(123, 56, 94, 0.12);
+      color: var(--text);
+      background: rgba(255,255,255,0.8);
+    }
+
+    .btn-primary {
+      border: 0;
+      color: #fff;
+      background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+      box-shadow: 0 18px 30px rgba(232, 90, 168, 0.24);
+    }
+
+    @media (max-width: 640px) {
+      .actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>המקדמה התקבלה</h1>
+    <p id="introText">אנחנו משלימים עכשיו את שריון התור באופן סופי ומעדכנים את המערכת שהשעה נתפסה עבורך.</p>
+    <div class="status info show" id="statusBox">בודק את התשלום ומאשר את התור…</div>
+    <div class="actions">
+      <a class="btn btn-primary" href="./index.html#booking">חזרה לאתר</a>
+      <a class="btn" href="./admin.html">מעבר למסך הניהול</a>
+    </div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const bookingId = String(params.get("booking_id") || "").trim();
+    const sessionId = String(params.get("session_id") || "").trim();
+    const introText = document.getElementById("introText");
+    const statusBox = document.getElementById("statusBox");
+
+    const setStatus = (message, type = "info") => {
+      statusBox.textContent = message;
+      statusBox.className = "status show " + type;
+    };
+
+    const finalize = async () => {
+      if (!bookingId || !sessionId) {
+        setStatus("חסרים פרטי תשלום בקישור, ולכן לא הצלחנו לסגור את השריון אוטומטית.", "error");
+        return;
+      }
+
+      try {
+        const response = await fetch("./api/bookings/finalize-payment", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ bookingId, sessionId })
+        });
+        const json = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(json.error || "payment-finalize-failed");
+        }
+
+        introText.textContent = "התשלום נקלט, השעה נשמרה, והתור עבר לסטטוס מאושר סופית.";
+        setStatus("התור אושר סופית. אם יומן Google מחובר, האירוע נוסף גם ליומן של אורטל.", "success");
+      } catch (error) {
+        if (error.message === "payment-not-completed") {
+          setStatus("התשלום עדיין לא סומן כמשולם. אפשר לנסות שוב בעוד רגע או לבדוק מול אורטל.", "error");
+          return;
+        }
+        setStatus("התשלום בוצע, אבל לא הצלחנו להשלים את השריון אוטומטית. כדאי לבדוק את מסך הניהול.", "error");
+      }
+    };
+
+    finalize();
+  </script>
+</body>
+</html>

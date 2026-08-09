@@ -1,0 +1,2790 @@
+﻿<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: blob:; img-src 'self' data: blob:; media-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <title>מנהל אתר | WAFFELS</title>
+  <style>
+    :root {
+      --bg: #090704;
+      --surface: rgba(18, 15, 10, 0.96);
+      --surface-soft: #16110b;
+      --line: rgba(212, 175, 55, 0.18);
+      --ink: #f8f2e7;
+      --muted: #d3c2a5;
+      --pink: #d4af37;
+      --cyan: #f1d48a;
+      --gold: #d4af37;
+      --gold-soft: #f4d37a;
+      --radius-xl: 28px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --shadow: 0 24px 48px rgba(0, 0, 0, 0.34);
+      --max: 1100px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(212, 175, 55, 0.14), transparent 24%),
+        radial-gradient(circle at top left, rgba(244, 211, 122, 0.1), transparent 22%),
+        linear-gradient(180deg, #080603, #120d08 58%, #1a130c 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(calc(100% - 28px), var(--max));
+      margin: 0 auto;
+      padding: 26px 0 40px;
+    }
+
+    .topbar,
+    .panel,
+    .login-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+    }
+
+    .topbar {
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .admin-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 14px 16px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 16px;
+      z-index: 35;
+    }
+    .admin-nav button {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--ink);
+      border: 1px solid rgba(244, 211, 122, 0.18);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    .admin-nav button:hover {
+      border-color: rgba(244, 211, 122, 0.38);
+      box-shadow: 0 10px 22px rgba(212, 175, 55, 0.16);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .brand strong {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.14em;
+    }
+
+    .brand span,
+    .panel p,
+    .login-box p,
+    .hint {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .actions,
+    .top-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .btn,
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    .btn,
+    button {
+      border: 0;
+      cursor: pointer;
+      border-radius: 999px;
+      padding: 11px 16px;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .btn:hover,
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+      color: #24170a;
+      box-shadow: 0 12px 24px rgba(212, 175, 55, 0.28);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 248, 235, 0.05);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .login-wrap {
+      min-height: calc(100vh - 40px);
+      display: grid;
+      place-items: center;
+    }
+
+    .login-box {
+      width: min(calc(100% - 28px), 480px);
+      padding: 26px;
+    }
+
+    .login-box h1,
+    .panel h2 {
+      margin: 0 0 8px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .login-box h1 {
+      font-size: 2rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .panel + .panel {
+      margin-top: 18px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .field label {
+      font-weight: 700;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--ink);
+      padding: 12px 14px;
+    }
+
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .status {
+      margin-top: 14px;
+      min-height: 24px;
+      font-weight: 700;
+    }
+
+    .status.success {
+      color: #f4d37a;
+    }
+
+    .status.error {
+      color: #ffb0a0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .mono {
+      font-family: Consolas, monospace;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .row-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .row-card {
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(255, 248, 235, 0.035);
+    }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .panel-head h2 {
+      margin: 0;
+    }
+    .apply-btn {
+      padding: 12px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(235, 76, 183, 0.22), rgba(139, 92, 246, 0.22));
+      border: 1px solid rgba(244, 211, 122, 0.38);
+      color: var(--ink);
+      font-weight: 800;
+      box-shadow: 0 10px 24px rgba(139, 92, 246, 0.16);
+    }
+    .apply-btn.synced {
+      background: linear-gradient(135deg, #89f0b6, #4ecf8a);
+      color: #0c2a17;
+      border-color: rgba(255,255,255,0.28);
+    }
+
+    .sync-toast {
+      position: fixed;
+      top: 24px;
+      left: 50%;
+      transform: translate(-50%, -16px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(244, 211, 122, 0.95), rgba(212, 175, 55, 0.98));
+      color: #24170a;
+      font-weight: 800;
+      box-shadow: 0 18px 34px rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(255, 247, 224, 0.45);
+      transition: opacity 0.28s ease, transform 0.28s ease;
+    }
+
+    .sync-toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .booking-photo {
+      margin-top: 12px;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .booking-photo img {
+      display: block;
+      width: 100%;
+      max-height: 240px;
+      object-fit: contain;
+      background: #0b0d12;
+    }
+
+    .row-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .row-card .field {
+      margin-top: 0;
+    }
+
+    .row-actions {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .mini-btn {
+      border-radius: 999px;
+      padding: 9px 12px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #ffd5dc;
+      border: 1px solid rgba(255, 141, 158, 0.22);
+    }
+
+    .order-btn {
+      border-radius: 999px;
+      padding: 9px 12px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .upload-btn {
+      border-radius: 999px;
+      padding: 9px 12px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+
+    .dropzone {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px dashed rgba(255, 255, 255, 0.16);
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--muted);
+      text-align: center;
+      transition: border-color 0.18s ease, background 0.18s ease, color 0.18s ease;
+    }
+
+    .dropzone.dragover {
+      border-color: rgba(34, 209, 234, 0.7);
+      background: rgba(34, 209, 234, 0.08);
+      color: var(--ink);
+    }
+
+    .preview-box {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--line);
+    }
+
+    .preview-box {
+      display: grid;
+      place-items: center;
+      min-height: 190px;
+    }
+
+    .preview-box img,
+    .preview-box video {
+      width: 100%;
+      max-height: 220px;
+      object-fit: contain;
+      border-radius: 12px;
+      display: block;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .file-name {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      direction: ltr;
+      text-align: left;
+      word-break: break-all;
+    }
+
+    .section-actions {
+      display: flex;
+      justify-content: flex-start;
+      margin-top: 14px;
+    }
+    .helper-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .helper-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(244, 211, 122, 0.18);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--ink);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+    .sticky-save {
+      position: sticky;
+      bottom: 18px;
+      z-index: 40;
+      margin-top: 22px;
+      padding: 14px;
+      border-radius: 24px;
+      background: rgba(8, 6, 3, 0.92);
+      border: 1px solid rgba(244, 211, 122, 0.22);
+      box-shadow: 0 20px 42px rgba(0, 0, 0, 0.36);
+      backdrop-filter: blur(14px);
+    }
+    .sticky-save .btn-primary {
+      width: 100%;
+      justify-content: center;
+      padding: 16px 22px;
+      font-size: 1rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #eb4cb7, #8b5cf6);
+      color: #fff6ff;
+      border: 1px solid rgba(255, 226, 247, 0.34);
+      box-shadow:
+        0 16px 34px rgba(139, 92, 246, 0.28),
+        0 0 0 1px rgba(255,255,255,0.08) inset;
+    }
+    .sticky-save-note {
+      margin-top: 10px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .booking-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .booking-chip {
+      border-radius: 999px;
+      padding: 7px 11px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-size: 0.92rem;
+    }
+
+    .booking-chip.approved {
+      background: rgba(109, 227, 169, 0.12);
+      border-color: rgba(109, 227, 169, 0.3);
+      color: #9ef0bf;
+    }
+
+    @media (max-width: 840px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .row-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+    }
+  </style>
+</head>
+<body>
+  <div class="login-wrap" id="loginWrap">
+    <div class="login-box">
+      <h1>כניסת מנהל</h1>
+      <p>אזור זה מאפשר לערוך את תוכן האתר: טקסטים, תמונות ראשיות, גלריה, לפני/אחרי וביקורות.</p>
+      <div class="field">
+        <label for="passcode">סיסמת מנהל</label>
+        <input id="passcode" type="password" placeholder="הזן סיסמה">
+      </div>
+      <div class="actions" style="margin-top: 16px;">
+        <button class="btn btn-primary" id="loginButton" type="button">כניסה</button>
+        <a class="btn btn-secondary" href="./index.html">חזרה לאתר</a>
+      </div>
+      <div class="status" id="loginStatus"></div>
+      <p class="hint">ההרשאה כאן היא מקומית בדפדפן הזה. אם תרצה בהמשך מערכת ניהול אונליין מלאה עם שרת, אפשר לבנות גם את זה.</p>
+    </div>
+  </div>
+
+  <main class="shell hidden" id="adminApp">
+    <div class="topbar">
+      <div class="brand">
+        <strong>WAFFELS ADMIN</strong>
+        <span>ניהול פשוט ונוח של האתר</span>
+      </div>
+      <div class="top-actions">
+        <a class="btn btn-secondary" href="./index.html" target="_blank" rel="noreferrer">פתיחת האתר</a>
+        <button class="btn btn-secondary" id="resetButton" type="button">איפוס שינויים</button>
+        <button class="btn btn-primary" id="saveButton" type="button">💾 שמירת כל השינויים באתר</button>
+        <button class="btn btn-secondary" id="logoutButton" type="button">יציאה</button>
+      </div>
+    </div>
+
+    <div class="row-card" role="note">
+      <strong>חשוב:</strong> כדי לראות את השינויים יש לפתוח את האתר דרך הדומיין של האתר ולא דרך file:// או דאבל קליק על index.html.
+    </div>
+
+    <nav class="admin-nav" aria-label="ניווט באדמין">
+      <button type="button" data-scroll-target="#admin-main">ראשי</button>
+      <button type="button" data-scroll-target="#admin-services">שירותים</button>
+      <button type="button" data-scroll-target="#admin-booking">קביעת תורים</button>
+      <button type="button" data-scroll-target="#admin-before-after">לפני ואחרי</button>
+      <button type="button" data-scroll-target="#admin-gallery">גלריה</button>
+      <button type="button" data-scroll-target="#admin-services">ביקורות</button>
+      <button type="button" data-scroll-target="#admin-contact">יצירת קשר</button>
+    </nav>
+
+    <section class="panel" id="admin-main">
+      <div class="panel-head">
+        <h2>הסבר קצר</h2>
+      </div>
+      <p>כאן ניתן לערוך את התמונות, הטקסטים והשירותים שמופיעים באתר. בסיום חובה ללחוץ על שמירת כל השינויים באתר.</p>
+    </section>
+
+    <div class="actions" style="margin: 0 0 18px;">
+      <button class="btn btn-secondary" id="connectFileButton" type="button">חיבור קובץ האתר</button>
+      <button class="btn btn-secondary" id="saveFileButton" type="button">שמירה ישירה לקובץ האתר</button>
+    </div>
+
+    <div class="grid">
+      <section class="panel" id="admin-contact">
+        <div class="panel-head">
+          <h2>פרטי העסק</h2>
+        </div>
+        <p>עריכת שם, מיתוג, טלפון, קישורים וכותרות ראשיות.</p>
+        <div class="helper-pills">
+          <span class="helper-pill">✏️ עריכת כותרת</span>
+        </div>
+        <div class="field"><label for="businessName">שם העסק</label><input id="businessName"></div>
+        <div class="field"><label for="brandName">שם המותג</label><input id="brandName"></div>
+        <div class="field"><label for="city">עיר</label><input id="city"></div>
+        <div class="field"><label for="phoneDisplay">טלפון מוצג</label><input id="phoneDisplay"></div>
+        <div class="field"><label for="phoneIntl">טלפון בינלאומי</label><input id="phoneIntl"></div>
+        <div class="field"><label for="whatsappText">טקסט לוואטסאפ</label><textarea id="whatsappText"></textarea></div>
+        <div class="field"><label for="instagram">קישור אינסטגרם</label><input id="instagram"></div>
+        <div class="field"><label for="tiktok">קישור טיקטוק</label><input id="tiktok"></div>
+        <div class="field"><label for="googleReviews">קישור ביקורות גוגל</label><input id="googleReviews"></div>
+        <div class="field"><label for="mapsEmbed">קוד/קישור Google Maps Embed</label><textarea id="mapsEmbed" class="mono"></textarea></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>הירו ראשי</h2>
+          <button class="apply-btn" id="applyHeroButton" type="button">שמירת אזור זה</button>
+        </div>
+        <p>עריכת הכותרת הראשית ותמונות/וידאו שמתחלפים בראש האתר.</p>
+        <div class="helper-pills">
+          <span class="helper-pill">✏️ עריכת כותרת</span>
+          <span class="helper-pill">🖼️ החלפת תמונה</span>
+          <span class="helper-pill">➕ הוספת תמונה חדשה</span>
+        </div>
+        <div class="field"><label for="heroTitle">כותרת ראשית</label><input id="heroTitle"></div>
+        <div class="field"><label for="heroSubtitle">כותרת משנה</label><textarea id="heroSubtitle"></textarea></div>
+        <div class="field"><label for="heroBadge">תגית עליונה</label><input id="heroBadge"></div>
+        <div class="field"><label for="heroPrimary">כפתור ראשי</label><input id="heroPrimary"></div>
+        <div class="field"><label for="heroSecondary">כפתור משני</label><input id="heroSecondary"></div>
+        <div class="field">
+          <label>מדיה ראשית</label>
+          <div class="row-list" id="heroMediaList"></div>
+          <div class="section-actions">
+            <button class="btn btn-secondary" id="addHeroMediaButton" type="button">הוספת תמונה חדשה</button>
+          </div>
+          <div class="hint">אפשר להוסיף תמונה או וידאו, לערוך נתיב קיים או למחוק פריט שלא רוצים.</div>
+        </div>
+      </section>
+    </div>
+
+    <section class="panel" id="admin-services">
+      <div class="panel-head">
+        <h2>שירותים וביקורות</h2>
+        <button class="apply-btn" id="applyReviewsButton" type="button">שמירת אזור זה</button>
+      </div>
+      <p>אפשר לעדכן כל שורה בלי להיכנס לקוד.</p>
+      <div class="helper-pills">
+        <span class="helper-pill">✏️ עריכת כותרת</span>
+      </div>
+      <div class="grid">
+        <div class="field">
+          <label for="services">שירותים</label>
+          <textarea id="services" class="mono" placeholder="כותרת||תיאור"></textarea>
+          <div class="hint">כל שורה: <span class="mono">כותרת||תיאור</span></div>
+        </div>
+        <div class="field">
+          <label for="reviews">ביקורות</label>
+          <textarea id="reviews" class="mono" placeholder="מחבר||טקסט הביקורת"></textarea>
+          <div class="hint">כל שורה: <span class="mono">מחבר||טקסט</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <h2>כותרות סקשנים</h2>
+        <button class="apply-btn" id="applySectionsButton" type="button">שמירת אזור זה</button>
+      </div>
+      <p>כאן אפשר לערוך רק את הכותרות ותתי הכותרות של הסקשנים, בלי לגעת בעיצוב ובלי לשנות תוכן אחר.</p>
+      <div class="grid">
+        <div class="field"><label for="servicesTitle">כותרת שירותים</label><input id="servicesTitle"></div>
+        <div class="field"><label for="servicesSubtitle">תת כותרת שירותים</label><textarea id="servicesSubtitle"></textarea></div>
+        <div class="field"><label for="bookingTitle">כותרת קביעת תורים</label><input id="bookingTitle"></div>
+        <div class="field"><label for="bookingSubtitle">תת כותרת קביעת תורים</label><textarea id="bookingSubtitle"></textarea></div>
+        <div class="field"><label for="beforeAfterTitle">כותרת לפני ואחרי</label><input id="beforeAfterTitle"></div>
+        <div class="field"><label for="beforeAfterSubtitle">תת כותרת לפני ואחרי</label><textarea id="beforeAfterSubtitle"></textarea></div>
+        <div class="field"><label for="galleryTitle">כותרת גלריה</label><input id="galleryTitle"></div>
+        <div class="field"><label for="gallerySubtitle">תת כותרת גלריה</label><textarea id="gallerySubtitle"></textarea></div>
+        <div class="field"><label for="reviewsTitle">כותרת ביקורות</label><input id="reviewsTitle"></div>
+        <div class="field"><label for="reviewsSubtitle">תת כותרת ביקורות</label><textarea id="reviewsSubtitle"></textarea></div>
+        <div class="field"><label for="contactTitle">כותרת איך מגיעים</label><input id="contactTitle"></div>
+        <div class="field"><label for="contactSubtitle">תת כותרת איך מגיעים</label><textarea id="contactSubtitle"></textarea></div>
+        <div class="field"><label for="academyTitle">כותרת אקדמיה</label><input id="academyTitle"></div>
+        <div class="field"><label for="academySubtitle">תת כותרת אקדמיה</label><textarea id="academySubtitle"></textarea></div>
+        <div class="field"><label for="academyPricingTitle">כותרת תמחור</label><input id="academyPricingTitle"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="admin-before-after">
+      <div class="panel-head">
+        <h2>לפני ואחרי</h2>
+        <button class="apply-btn" id="applyBeforeAfterButton" type="button">שמירת אזור זה</button>
+      </div>
+      <p>כאן אפשר להוסיף, למחוק או להחליף כרטיסי לפני/אחרי.</p>
+      <div class="helper-pills">
+        <span class="helper-pill">✏️ עריכת כותרת</span>
+        <span class="helper-pill">🖼️ החלפת תמונה</span>
+        <span class="helper-pill">🗑️ מחיקת תמונה</span>
+        <span class="helper-pill">➕ הוספת תמונה חדשה</span>
+      </div>
+      <div class="row-list" id="beforeAfterList"></div>
+      <div class="section-actions">
+        <button class="btn btn-secondary" id="addBeforeAfterButton" type="button">הוספת תמונה חדשה</button>
+      </div>
+    </section>
+
+    <section class="panel" id="admin-gallery">
+      <div class="panel-head">
+        <h2>גלריית תמונות</h2>
+        <button class="apply-btn" id="applyGalleryButton" type="button">שמירת אזור זה</button>
+      </div>
+      <p>אפשר להחליף, למחוק ולהוסיף תמונות חדשות לגלריה.</p>
+      <div class="helper-pills">
+        <span class="helper-pill">✏️ עריכת כותרת</span>
+        <span class="helper-pill">🖼️ החלפת תמונה</span>
+        <span class="helper-pill">🗑️ מחיקת תמונה</span>
+        <span class="helper-pill">➕ הוספת תמונה חדשה</span>
+      </div>
+      <div class="row-list" id="galleryList"></div>
+      <div class="section-actions">
+        <button class="btn btn-secondary" id="addGalleryButton" type="button">הוספת תמונה חדשה</button>
+      </div>
+    </section>
+
+    <section class="panel" id="admin-booking">
+      <h2>בקשות תור</h2>
+      <p>כאן אפשר לראות בקשות חדשות, לאשר אותן, לפתוח אירוע מוכן ביומן גוגל ולחסום את השעה באתר.</p>
+      <div class="row-list" id="bookingRequestsList"></div>
+      <div class="section-actions">
+        <button class="btn btn-secondary" id="refreshBookingsButton" type="button">רענון בקשות</button>
+      </div>
+    </section>
+
+    <section class="panel" id="admin-reviews">
+      <h2>תורים מאושרים</h2>
+      <p>כל תור שמאושר נשמר כאן, והחלון שלו נחסם לבחירה באתר.</p>
+      <div class="row-list" id="approvedBookingsList"></div>
+    </section>
+
+    <div class="status" id="saveStatus"></div>
+    <div class="sticky-save">
+      <button class="btn btn-primary" id="stickySaveButton" type="button">💾 שמירת כל השינויים באתר</button>
+      <div class="sticky-save-note">בסיום כל העריכה לוחצים כאן כדי לשמור את כל השינויים באתר.</div>
+    </div>
+  </main>
+  <div class="sync-toast" id="syncToast" aria-live="polite">Database Synced</div>
+
+  <script src="./content.js"></script>
+  <script>
+    const CP1255_DECODER = new TextDecoder("windows-1255");
+    const UTF8_DECODER = new TextDecoder("utf-8");
+    const CP1255_REVERSE_MAP = (() => {
+      const map = new Map();
+      for (let index = 0; index < 256; index += 1) {
+        map.set(CP1255_DECODER.decode(Uint8Array.of(index)), index);
+      }
+      return map;
+    })();
+    const looksLikeMojibake = (value = "") => /[\u05F3\u0080-\u009F\uFFFD]/.test(String(value));
+    const repairBrokenText = (value) => {
+      if (typeof value !== "string" || !looksLikeMojibake(value)) return value;
+      const bytes = [];
+      for (const character of value) {
+        const nextByte = CP1255_REVERSE_MAP.get(character);
+        if (typeof nextByte !== "number") return value;
+        bytes.push(nextByte);
+      }
+      const fixed = UTF8_DECODER.decode(Uint8Array.from(bytes));
+      return fixed && !fixed.includes("ן¿½") ? fixed : value;
+    };
+    const repairContentTree = (input) => {
+      if (Array.isArray(input)) return input.map(repairContentTree);
+      if (input && typeof input === "object") {
+        return Object.fromEntries(Object.entries(input).map(([key, value]) => [key, repairContentTree(value)]));
+      }
+      return repairBrokenText(input);
+    };
+    const repairDomText = (root = document.body) => {
+      if (!root) return;
+      const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      while (walker.nextNode()) {
+        const node = walker.currentNode;
+        const fixed = repairBrokenText(node.nodeValue || "");
+        if (fixed !== node.nodeValue) node.nodeValue = fixed;
+      }
+      root.querySelectorAll("[placeholder],[title],[aria-label]").forEach((element) => {
+        ["placeholder", "title", "aria-label"].forEach((attribute) => {
+          const raw = element.getAttribute(attribute);
+          if (!raw) return;
+          const fixed = repairBrokenText(raw);
+          if (fixed !== raw) element.setAttribute(attribute, fixed);
+        });
+      });
+    };
+    let repairObserverScheduled = false;
+    const scheduleRepairDomText = () => {
+      if (repairObserverScheduled) return;
+      repairObserverScheduled = true;
+      requestAnimationFrame(() => {
+        repairObserverScheduled = false;
+        repairDomText();
+      });
+    };
+    const repairObserver = new MutationObserver(() => {
+      scheduleRepairDomText();
+    });
+
+    window.siteContent = repairContentTree(window.siteContent || {});
+    repairDomText();
+    repairObserver.observe(document.body, { childList: true, subtree: true, characterData: true });
+
+    const baseContent = window.siteContent;
+    const adminConfig = baseContent.admin || {};
+    const MASTER_DATA = "waffels_core_data";
+    const STORAGE_VERSION_KEY = MASTER_DATA + "__version";
+    const contentStorageKey = MASTER_DATA;
+    const authStorageKey = adminConfig.authStorageKey || "waffels-admin-auth-v1";
+    const adminTokenStorageKey = authStorageKey + "-token";
+    const bookingStorageKey = adminConfig.storageKey || "waffels-booking-requests-v1";
+    const approvedStorageKey = adminConfig.approvedStorageKey || "waffels-approved-bookings-v1";
+    const apiBase = "/api";
+    const nativeFetch = window.fetch.bind(window);
+    const getAdminToken = () => sessionStorage.getItem(adminTokenStorageKey) || "";
+    window.fetch = (input, init = {}) => {
+      const url = typeof input === "string" ? input : (input && input.url) || "";
+      const isApiRequest = url.startsWith("/api") || url.startsWith("./api") || url.startsWith(apiBase);
+      const isLoginRequest = /\/api\/admin\/login$/.test(url) || url === apiBase + "/admin/login";
+      const token = getAdminToken();
+      if (!isApiRequest || isLoginRequest || !token) return nativeFetch(input, init);
+      const headers = new Headers(init.headers || {});
+      headers.set("X-Admin-Session", token);
+      return nativeFetch(input, { ...init, headers });
+    };
+    const contentDbName = "waffels-site-db";
+    const contentStoreName = "content";
+    const contentRecordKey = "site-content";
+    const contentHandleKey = "site-content-handle";
+
+    const cloneContent = (value) => JSON.parse(JSON.stringify(value));
+    const deepMergeContent = (target, source) => {
+      Object.keys(source || {}).forEach((key) => {
+        const sourceValue = source[key];
+        if (Array.isArray(sourceValue)) {
+          target[key] = sourceValue;
+          return;
+        }
+        if (sourceValue && typeof sourceValue === "object") {
+          target[key] = deepMergeContent(target[key] && typeof target[key] === "object" ? target[key] : {}, sourceValue);
+          return;
+        }
+        target[key] = sourceValue;
+      });
+      return target;
+    };
+    const loadOverrides = () => {
+      try {
+        return JSON.parse(localStorage.getItem(contentStorageKey) || "{}");
+      } catch (error) {
+        return {};
+      }
+    };
+    let serverContentOverrides = {};
+    function loadMasterContent() {
+      if (serverContentOverrides && Object.keys(serverContentOverrides).length > 0) {
+        return deepMergeContent(cloneContent(baseContent), serverContentOverrides);
+      }
+
+      const localBackup = loadOverrides();
+      if (localBackup && Object.keys(localBackup).length > 0) {
+        return deepMergeContent(cloneContent(baseContent), localBackup);
+      }
+
+      return cloneContent(baseContent);
+    }
+    let currentContent = loadMasterContent();
+
+    async function saveContentToServer(payload) {
+      const response = await fetch(apiBase + "/content", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || "שמירה לשרת נכשלה");
+      }
+
+      return data;
+    }
+
+    const loadContentFromServer = async () => {
+      try {
+        const response = await fetch(apiBase + "/content", { cache: "no-store" });
+        if (!response.ok) throw new Error("content-fetch-failed");
+        const data = await response.json();
+        if (data && data.content && typeof data.content === "object") {
+          return data.content;
+        }
+      } catch (_error) {
+        // Server content is preferred, local backup is only a fallback.
+      }
+
+      const backup = loadOverrides();
+      return backup && typeof backup === "object" ? backup : {};
+    };
+
+    const openContentDatabase = () => new Promise((resolve, reject) => {
+      const request = indexedDB.open(contentDbName, 1);
+      request.onupgradeneeded = () => {
+        const database = request.result;
+        if (!database.objectStoreNames.contains(contentStoreName)) {
+          database.createObjectStore(contentStoreName);
+        }
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+
+    const writeContentToIndexedDb = async (payload) => {
+      const database = await openContentDatabase();
+      await new Promise((resolve, reject) => {
+        const transaction = database.transaction(contentStoreName, "readwrite");
+        transaction.objectStore(contentStoreName).put(payload, contentRecordKey);
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => reject(transaction.error);
+      });
+      database.close();
+    };
+
+    const writeHandleToIndexedDb = async (handle) => {
+      const database = await openContentDatabase();
+      await new Promise((resolve, reject) => {
+        const transaction = database.transaction(contentStoreName, "readwrite");
+        transaction.objectStore(contentStoreName).put(handle, contentHandleKey);
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => reject(transaction.error);
+      });
+      database.close();
+    };
+
+    const readContentFromIndexedDb = async () => {
+      try {
+        const database = await openContentDatabase();
+        const result = await new Promise((resolve, reject) => {
+          const transaction = database.transaction(contentStoreName, "readonly");
+          const request = transaction.objectStore(contentStoreName).get(contentRecordKey);
+          request.onsuccess = () => resolve(request.result || null);
+          request.onerror = () => reject(request.error);
+        });
+        database.close();
+        return result;
+      } catch (error) {
+        return null;
+      }
+    };
+
+    const readHandleFromIndexedDb = async () => {
+      try {
+        const database = await openContentDatabase();
+        const result = await new Promise((resolve, reject) => {
+          const transaction = database.transaction(contentStoreName, "readonly");
+          const request = transaction.objectStore(contentStoreName).get(contentHandleKey);
+          request.onsuccess = () => resolve(request.result || null);
+          request.onerror = () => reject(request.error);
+        });
+        database.close();
+        return result;
+      } catch (error) {
+        return null;
+      }
+    };
+
+    const loginWrap = document.getElementById("loginWrap");
+    const adminApp = document.getElementById("adminApp");
+    const loginStatus = document.getElementById("loginStatus");
+    const saveStatus = document.getElementById("saveStatus");
+    const applyHeroButton = document.getElementById("applyHeroButton");
+    const applyReviewsButton = document.getElementById("applyReviewsButton");
+    const applyBeforeAfterButton = document.getElementById("applyBeforeAfterButton");
+    const applyGalleryButton = document.getElementById("applyGalleryButton");
+    const syncToast = document.getElementById("syncToast");
+    const connectFileButton = document.getElementById("connectFileButton");
+    const saveButton = document.getElementById("saveButton");
+    let saveFileButton = document.getElementById("saveFileButton");
+    let connectedContentHandle = null;
+    if (!saveFileButton) {
+      saveFileButton = document.createElement("button");
+      saveFileButton.type = "button";
+      saveFileButton.id = "saveFileButton";
+      saveFileButton.className = "btn btn-secondary";
+      saveFileButton.textContent = "שמור לקובץ האתר";
+      const topActions = document.querySelector(".top-actions");
+      if (topActions) {
+        topActions.insertBefore(saveFileButton, document.getElementById("logoutButton"));
+      }
+    }
+    let toastTimer = null;
+    const showSyncToast = (message = "Database Synced") => {
+      if (!syncToast) return;
+      syncToast.textContent = message;
+      syncToast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        syncToast.classList.remove("show");
+      }, 1900);
+    };
+
+    function showSaveMessage(message, type = "success") {
+      const saveStatusNode = document.getElementById("saveStatus");
+
+      if (saveStatusNode) {
+        saveStatusNode.textContent = message;
+        saveStatusNode.className = "status " + type;
+      }
+
+      const toast = document.getElementById("syncToast");
+      if (toast) {
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        setTimeout(() => {
+          toast.classList.remove("show");
+        }, 1800);
+      }
+    }
+
+    const parseLines = (value) => value.split(/\r?\n/).map((line) => line.trim()).filter(Boolean);
+    const heroMediaList = document.getElementById("heroMediaList");
+    const beforeAfterList = document.getElementById("beforeAfterList");
+    const galleryList = document.getElementById("galleryList");
+    const bookingRequestsList = document.getElementById("bookingRequestsList");
+    const approvedBookingsList = document.getElementById("approvedBookingsList");
+
+    const getPendingRequests = () => {
+      try { return JSON.parse(localStorage.getItem(bookingStorageKey) || "[]"); }
+      catch (error) { return []; }
+    };
+
+    const savePendingRequests = (items) => {
+      localStorage.setItem(bookingStorageKey, JSON.stringify(items));
+    };
+
+    const getApprovedRequests = () => {
+      try { return JSON.parse(localStorage.getItem(approvedStorageKey) || "[]"); }
+      catch (error) { return []; }
+    };
+
+    const saveApprovedRequests = (items) => {
+      localStorage.setItem(approvedStorageKey, JSON.stringify(items));
+      localStorage.setItem(STORAGE_VERSION_KEY, String(Date.now()));
+    };
+
+    const fetchApiBookings = async (status) => {
+      const response = await fetch(apiBase + "/bookings?status=" + encodeURIComponent(status), { cache: "no-store" });
+      if (!response.ok) throw new Error("api-bookings-failed");
+      const json = await response.json();
+      return Array.isArray(json.items) ? json.items : [];
+    };
+
+    const formatGoogleCalendarDate = (value) => {
+      const pad = (num) => String(num).padStart(2, "0");
+      return value.getUTCFullYear()
+        + pad(value.getUTCMonth() + 1)
+        + pad(value.getUTCDate())
+        + "T"
+        + pad(value.getUTCHours())
+        + pad(value.getUTCMinutes())
+        + "00Z";
+    };
+
+    const buildCalendarLink = (request) => {
+      const [year, month, day] = String(request.date || "").split("-").map(Number);
+      const [hour, minute] = String(request.slot || "09:00").split(":").map(Number);
+      const start = new Date(year, (month || 1) - 1, day || 1, hour || 0, minute || 0, 0, 0);
+      const durationHours = (((currentContent.bookingRules || {}).durationHours) || 2);
+      const end = new Date(start.getTime() + durationHours * 60 * 60 * 1000);
+      const details = [
+        "שם לקוח: " + (request.name || ""),
+        "טלפון: " + (request.phone || ""),
+        "שם הכלב: " + (request.dog || ""),
+        "הערות: " + (request.notes || "ללא")
+      ].join("\n");
+      const title = "WAFFELS | " + (request.dog || "תור חדש");
+      return "https://calendar.google.com/calendar/render?action=TEMPLATE"
+        + "&text=" + encodeURIComponent(title)
+        + "&dates=" + formatGoogleCalendarDate(start) + "%2F" + formatGoogleCalendarDate(end)
+        + "&details=" + encodeURIComponent(details);
+    };
+
+    const renderBookingManagement = async () => {
+      let pending = getPendingRequests();
+      let approved = getApprovedRequests();
+      try {
+        pending = await fetchApiBookings("pending");
+        approved = await fetchApiBookings("approved");
+      } catch (error) {
+        // Fallback to local data when API is unavailable.
+      }
+
+      bookingRequestsList.innerHTML = "";
+      approvedBookingsList.innerHTML = "";
+
+      if (!pending.length) {
+        const empty = document.createElement("div");
+        empty.className = "row-card";
+        empty.innerHTML = "<strong>אין כרגע בקשות חדשות.</strong>";
+        bookingRequestsList.appendChild(empty);
+      }
+
+      pending.forEach((request, index) => {
+        const card = document.createElement("div");
+        card.className = "row-card";
+        const notes = request.notes ? "<p class='hint'>" + request.notes + "</p>" : "";
+        const photo = request.photoDataUrl ? "<div class='booking-photo'><img src='" + request.photoDataUrl + "' alt='תמונת הכלב'></div>" : "";
+        card.innerHTML =
+          "<strong>" + (request.name || "ללא שם") + "</strong>" +
+          "<div class='booking-meta'>" +
+          "<span class='booking-chip'>" + (request.date || "") + "</span>" +
+          "<span class='booking-chip'>" + (request.slot || "") + "</span>" +
+          "<span class='booking-chip'>" + (request.dog || "ללא שם כלב") + "</span>" +
+          "<span class='booking-chip'>" + (request.phone || "") + "</span>" +
+          "</div>" +
+          notes +
+          photo;
+
+        const actions = document.createElement("div");
+        actions.className = "row-actions";
+
+        const approveButton = document.createElement("button");
+        approveButton.type = "button";
+        approveButton.className = "btn btn-primary";
+        approveButton.textContent = "אשר + יומן";
+        approveButton.addEventListener("click", async () => {
+          const currentRequest = pending[index];
+          if (!currentRequest) {
+            await renderBookingManagement();
+            return;
+          }
+          const alreadyApprovedForSlot = getApprovedRequests().some((item) =>
+            item.date === currentRequest.date
+            && item.slot === currentRequest.slot
+            && item.id !== currentRequest.id
+          );
+          if (alreadyApprovedForSlot) {
+            saveStatus.textContent = "יש כבר תור מאושר בשעה הזאת, ולכן אי אפשר לאשר אותה שוב.";
+            saveStatus.className = "status error";
+            await renderBookingManagement();
+            return;
+          }
+          if (currentRequest.id) {
+            try {
+              const response = await fetch(apiBase + "/bookings/" + encodeURIComponent(currentRequest.id) + "/approve", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" }
+              });
+              const json = await response.json().catch(() => ({}));
+              if (!response.ok) throw new Error(json.error || "approve-failed");
+              if (json.booking && json.booking.calendarHtmlLink) {
+                window.open(json.booking.calendarHtmlLink, "_blank", "noopener");
+              } else {
+                window.open(buildCalendarLink(currentRequest), "_blank", "noopener");
+              }
+              saveStatus.textContent = "התור אושר, נשמר בשרת, ונפתח אירוע ביומן.";
+              saveStatus.className = "status success";
+              await renderBookingManagement();
+              return;
+            } catch (error) {
+              if (String(error.message || "") === "slot-already-approved") {
+                saveStatus.textContent = "יש כבר תור מאושר בשעה הזאת, ולכן אי אפשר לאשר אותה שוב.";
+                saveStatus.className = "status error";
+                await renderBookingManagement();
+                return;
+              }
+              saveStatus.textContent = "לא הצלחתי לאשר דרך השרת. ממשיך לגיבוי המקומי.";
+              saveStatus.className = "status error";
+            }
+          }
+          const pendingNow = getPendingRequests();
+          const approvedNow = getApprovedRequests();
+          const fallbackRequest = pendingNow[index];
+          if (!fallbackRequest) {
+            await renderBookingManagement();
+            return;
+          }
+          const localSlotTaken = approvedNow.some((item) =>
+            item.date === fallbackRequest.date
+            && item.slot === fallbackRequest.slot
+            && item.id !== fallbackRequest.id
+          );
+          if (localSlotTaken) {
+            saveStatus.textContent = "יש כבר תור מאושר בשעה הזאת, ולכן אי אפשר לאשר אותה שוב.";
+            saveStatus.className = "status error";
+            await renderBookingManagement();
+            return;
+          }
+          approvedNow.push({ ...fallbackRequest, status: "approved", approvedAt: new Date().toISOString() });
+          pendingNow.splice(index, 1);
+          savePendingRequests(pendingNow);
+          saveApprovedRequests(approvedNow);
+          window.open(buildCalendarLink(fallbackRequest), "_blank", "noopener");
+          saveStatus.textContent = "התור אושר מקומית, השעה שוריינה, ונפתח אירוע מוכן ביומן גוגל.";
+          saveStatus.className = "status success";
+          await renderBookingManagement();
+        });
+
+        const whatsappButton = document.createElement("button");
+        whatsappButton.type = "button";
+        whatsappButton.className = "btn btn-secondary";
+        whatsappButton.textContent = "פתח WhatsApp";
+        whatsappButton.addEventListener("click", () => {
+          const text = "היי, בקשת התור שלך התקבלה אצל WAFFELS.\nשם: "
+            + (request.name || "")
+            + "\nכלב: " + (request.dog || "")
+            + "\nתאריך: " + (request.date || "")
+            + "\nשעה: " + (request.slot || "");
+          const phone = String(request.phone || "").replace(/[^\d]/g, "");
+          const intlPhone = phone.startsWith("0") ? ("972" + phone.slice(1)) : phone;
+          window.open("https://wa.me/" + intlPhone + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+        });
+
+        const rejectButton = document.createElement("button");
+        rejectButton.type = "button";
+        rejectButton.className = "mini-btn";
+        rejectButton.textContent = "מחק בקשה";
+        rejectButton.addEventListener("click", async () => {
+          const currentRequest = pending[index];
+          if (currentRequest && currentRequest.id) {
+            try {
+              await fetch(apiBase + "/bookings/" + encodeURIComponent(currentRequest.id) + "/reject", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" }
+              });
+              saveStatus.textContent = "הבקשה הוסרה מהשרת.";
+              saveStatus.className = "status success";
+              await renderBookingManagement();
+              return;
+            } catch (error) {
+              saveStatus.textContent = "לא הצלחתי למחוק מהשרת. ממשיך למחיקה מקומית.";
+              saveStatus.className = "status error";
+            }
+          }
+          const pendingNow = getPendingRequests();
+          pendingNow.splice(index, 1);
+          savePendingRequests(pendingNow);
+          saveStatus.textContent = "הבקשה הוסרה מהרשימה.";
+          saveStatus.className = "status success";
+          await renderBookingManagement();
+        });
+
+        actions.append(approveButton, whatsappButton, rejectButton);
+        card.appendChild(actions);
+        bookingRequestsList.appendChild(card);
+      });
+
+      if (!approved.length) {
+        const empty = document.createElement("div");
+        empty.className = "row-card";
+        empty.innerHTML = "<strong>אין עדיין תורים מאושרים.</strong>";
+        approvedBookingsList.appendChild(empty);
+      }
+
+      approved.forEach((request, index) => {
+        const card = document.createElement("div");
+        card.className = "row-card";
+        const photo = request.photoDataUrl ? "<div class='booking-photo'><img src='" + request.photoDataUrl + "' alt='תמונת הכלב'></div>" : "";
+        card.innerHTML =
+          "<strong>" + (request.name || "ללא שם") + "</strong>" +
+          "<div class='booking-meta'>" +
+          "<span class='booking-chip approved'>מאושר</span>" +
+          "<span class='booking-chip'>" + (request.date || "") + "</span>" +
+          "<span class='booking-chip'>" + (request.slot || "") + "</span>" +
+          "<span class='booking-chip'>" + (request.dog || "ללא שם כלב") + "</span>" +
+          "</div>" +
+          photo;
+
+        const actions = document.createElement("div");
+        actions.className = "row-actions";
+
+        const calendarButton = document.createElement("button");
+        calendarButton.type = "button";
+        calendarButton.className = "btn btn-secondary";
+        calendarButton.textContent = "פתח ביומן";
+        calendarButton.addEventListener("click", () => {
+          window.open(buildCalendarLink(request), "_blank", "noopener");
+        });
+
+        const approvalWhatsappButton = document.createElement("button");
+        approvalWhatsappButton.type = "button";
+        approvalWhatsappButton.className = "btn btn-secondary";
+        approvalWhatsappButton.textContent = "אושר בוואטסאפ";
+        approvalWhatsappButton.addEventListener("click", () => {
+          const text = "היי " + (request.name || "") + ",\n"
+            + "התור שלך ב-WAFFELS אושר.\n"
+            + "שם הכלב: " + (request.dog || "") + "\n"
+            + "תאריך: " + (request.date || "") + "\n"
+            + "שעה: " + (request.slot || "") + "\n"
+            + "מחכים לכם באהבה.";
+          const phone = String(request.phone || "").replace(/[^\d]/g, "");
+          const intlPhone = phone.startsWith("0") ? ("972" + phone.slice(1)) : phone;
+          window.open("https://wa.me/" + intlPhone + "?text=" + encodeURIComponent(text), "_blank", "noopener");
+        });
+
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "mini-btn";
+        removeButton.textContent = "בטל שיריון";
+        removeButton.addEventListener("click", async () => {
+          saveStatus.textContent = "כדי לבטל שיריון אמיתי בשרת, עדיף למחוק ישירות מקובץ הנתונים או להוסיף פעולת ביטול ייעודית.";
+          saveStatus.className = "status error";
+        });
+
+        actions.append(calendarButton, approvalWhatsappButton, removeButton);
+        card.appendChild(actions);
+        approvedBookingsList.appendChild(card);
+      });
+    };
+
+    const createInputField = (labelText, value = "", className = "", type = "text") => {
+      const field = document.createElement("div");
+      field.className = `field ${className}`.trim();
+      const label = document.createElement("label");
+      label.textContent = labelText;
+      const input = document.createElement("input");
+      input.type = type;
+      input.value = value;
+      field.append(label, input);
+      return { field, input };
+    };
+
+    const createTextareaField = (labelText, value = "", className = "") => {
+      const field = document.createElement("div");
+      field.className = `field ${className}`.trim();
+      const label = document.createElement("label");
+      label.textContent = labelText;
+      const textarea = document.createElement("textarea");
+      textarea.value = value;
+      textarea.className = "mono";
+      textarea.style.minHeight = "100px";
+      field.append(label, textarea);
+      return { field, textarea };
+    };
+
+    const readFileAsDataUrl = (file) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+
+    const optimizeImageFile = async (file) => {
+      if (!file || !String(file.type || "").startsWith("image/")) {
+        return readFileAsDataUrl(file);
+      }
+
+      const sourceUrl = URL.createObjectURL(file);
+      try {
+        const image = await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve(img);
+          img.onerror = reject;
+          img.src = sourceUrl;
+        });
+        const maxSide = 1800;
+        const scale = Math.min(1, maxSide / Math.max(image.naturalWidth || image.width, image.naturalHeight || image.height));
+        const width = Math.max(1, Math.round((image.naturalWidth || image.width) * scale));
+        const height = Math.max(1, Math.round((image.naturalHeight || image.height) * scale));
+        const canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+        const context = canvas.getContext("2d");
+        if (!context) return readFileAsDataUrl(file);
+        context.drawImage(image, 0, 0, width, height);
+        const mimeType = file.type === "image/png" ? "image/png" : "image/jpeg";
+        const quality = mimeType === "image/jpeg" ? 0.86 : undefined;
+        return canvas.toDataURL(mimeType, quality);
+      } catch (error) {
+        return readFileAsDataUrl(file);
+      } finally {
+        URL.revokeObjectURL(sourceUrl);
+      }
+    };
+
+    const uploadFileDataUrl = async (file, dataUrl) => {
+      const response = await fetch(apiBase + "/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fileName: file.name,
+          mimeType: file.type,
+          dataUrl
+        })
+      });
+      const json = await response.json().catch(() => ({}));
+      if (!response.ok || !json.url) {
+        const messageByCode = {
+          "invalid-data-url": "הקובץ לא נקרא בצורה תקינה.",
+          "unsupported-file-type": "סוג הקובץ לא נתמך. אפשר להעלות תמונה או וידאו.",
+          "upload-too-large": "הקובץ גדול מדי. נסה תמונה קטנה יותר.",
+          "invalid-upload": "הבקשה להעלאה לא תקינה."
+        };
+        throw new Error(messageByCode[json.error] || json.error || "upload-failed");
+      }
+      return json;
+    };
+
+    const buildAssetCandidates = (src = "") => {
+      const text = String(src || "").trim();
+      if (!text) return [];
+      const swaps = [
+        ["./assets/hero/", "./assets/media/hero/"],
+        ["./assets/gallery/", "./assets/media/gallery/"],
+        ["./assets/before-after/", "./assets/media/before-after/"],
+        ["./assets/media/hero/", "./assets/hero/"],
+        ["./assets/media/gallery/", "./assets/gallery/"],
+        ["./assets/media/before-after/", "./assets/before-after/"]
+      ];
+      const options = [text];
+      swaps.forEach(([from, to]) => {
+        if (text.includes(from)) options.push(text.replace(from, to));
+      });
+      return [...new Set(options)];
+    };
+
+    const applyPreviewCandidates = (element, src) => {
+      const candidates = buildAssetCandidates(src);
+      if (!candidates.length) return;
+      let index = 0;
+      const setSource = () => {
+        const next = candidates[index];
+        if (!next) return;
+        element.src = next;
+      };
+      element.onerror = () => {
+        index += 1;
+        if (index < candidates.length) setSource();
+      };
+      setSource();
+    };
+
+    const createUploadTools = ({ accept = "image/*", input, previewType = "image" }) => {
+      const wrap = document.createElement("div");
+      const actions = document.createElement("div");
+      actions.className = "row-actions";
+      const pickerButton = document.createElement("button");
+      pickerButton.type = "button";
+      pickerButton.className = "upload-btn";
+      pickerButton.textContent = "החלפת תמונה";
+      const hiddenInput = document.createElement("input");
+      hiddenInput.type = "file";
+      hiddenInput.accept = accept;
+      hiddenInput.className = "hidden";
+
+      const dropzone = document.createElement("div");
+      dropzone.className = "dropzone";
+      dropzone.textContent = "אפשר ללחוץ כדי לבחור תמונה או לגרור אותה לכאן";
+
+      const preview = document.createElement("div");
+      preview.className = "preview-box hidden";
+
+      const fileName = document.createElement("div");
+      fileName.className = "file-name";
+      const uploadStatus = document.createElement("div");
+      uploadStatus.className = "hint";
+
+      const updatePreview = (value, name = "") => {
+        fileName.textContent = name || (value && !String(value).startsWith("data:") ? value : "");
+        if (!value) {
+          preview.classList.add("hidden");
+          preview.innerHTML = "";
+          return;
+        }
+        preview.classList.remove("hidden");
+        if (previewType === "video") {
+          preview.innerHTML = `<video muted loop autoplay playsinline controls></video>`;
+          const media = preview.querySelector("video");
+          if (media) {
+            applyPreviewCandidates(media, value);
+            media.play?.().catch(() => {});
+          }
+        } else {
+          preview.innerHTML = `<img alt="תצוגה מקדימה">`;
+          const media = preview.querySelector("img");
+          if (media) applyPreviewCandidates(media, value);
+        }
+      };
+
+      const handleFile = async (file) => {
+        if (!file) return;
+        uploadStatus.textContent = "מעלה קובץ...";
+        try {
+          const dataUrl = previewType === "image"
+            ? await optimizeImageFile(file)
+            : await readFileAsDataUrl(file);
+          const upload = await uploadFileDataUrl(file, dataUrl);
+          input.value = upload.url;
+          updatePreview(upload.url, upload.fileName || file.name);
+          uploadStatus.textContent = "הקובץ עלה ונשמר בשרת";
+        } catch (error) {
+          uploadStatus.textContent = error.message && error.message !== "upload-failed"
+            ? error.message
+            : "העלאה נכשלה. נא לנסות שוב בעוד רגע.";
+        }
+      };
+
+      pickerButton.addEventListener("click", () => hiddenInput.click());
+      dropzone.addEventListener("click", () => hiddenInput.click());
+      hiddenInput.addEventListener("change", async (event) => {
+        const [file] = event.target.files || [];
+        await handleFile(file);
+      });
+
+      ["dragenter", "dragover"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          dropzone.classList.add("dragover");
+        });
+      });
+      ["dragleave", "drop"].forEach((eventName) => {
+        dropzone.addEventListener(eventName, (event) => {
+          event.preventDefault();
+          dropzone.classList.remove("dragover");
+        });
+      });
+      dropzone.addEventListener("drop", async (event) => {
+        const [file] = event.dataTransfer.files || [];
+        await handleFile(file);
+      });
+
+      input.addEventListener("input", () => updatePreview(input.value));
+      updatePreview(input.value);
+
+      actions.append(pickerButton, hiddenInput);
+      wrap.append(actions, dropzone, preview, fileName, uploadStatus);
+      return wrap;
+    };
+
+    const createRemoveButton = (onClick) => {
+      const wrap = document.createElement("div");
+      wrap.className = "row-actions";
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "mini-btn";
+      button.textContent = "מחיקת תמונה";
+      button.addEventListener("click", onClick);
+      wrap.appendChild(button);
+      return wrap;
+    };
+
+    const createRowActions = (card) => {
+      const wrap = document.createElement("div");
+      wrap.className = "row-actions";
+
+      const upButton = document.createElement("button");
+      upButton.type = "button";
+      upButton.className = "order-btn";
+      upButton.textContent = "למעלה";
+      upButton.addEventListener("click", () => {
+        const previous = card.previousElementSibling;
+        if (previous) {
+          card.parentElement.insertBefore(card, previous);
+        }
+      });
+
+      const downButton = document.createElement("button");
+      downButton.type = "button";
+      downButton.className = "order-btn";
+      downButton.textContent = "למטה";
+      downButton.addEventListener("click", () => {
+        const next = card.nextElementSibling;
+        if (next) {
+          card.parentElement.insertBefore(next, card);
+        }
+      });
+
+      const deleteButton = document.createElement("button");
+      deleteButton.type = "button";
+      deleteButton.className = "mini-btn";
+      deleteButton.textContent = "מחיקת תמונה";
+      deleteButton.addEventListener("click", () => {
+        console.log("[Admin][row] delete clicked", { classes: card.className });
+        card.remove();
+      });
+
+      wrap.append(upButton, downButton, deleteButton);
+      return wrap;
+    };
+
+    const addHeroMediaRow = (item = { type: "image", src: "" }) => {
+      const card = document.createElement("div");
+      card.className = "row-card hero-media-row";
+      const grid = document.createElement("div");
+      grid.className = "row-grid";
+      const typeField = document.createElement("div");
+      typeField.className = "field";
+      const typeLabel = document.createElement("label");
+      typeLabel.textContent = "סוג מדיה";
+      const typeSelect = document.createElement("select");
+      typeSelect.innerHTML = '<option value="image">image</option><option value="video">video</option>';
+      typeSelect.value = item.type || "image";
+      typeSelect.style.width = "100%";
+      typeSelect.style.borderRadius = "16px";
+      typeSelect.style.border = "1px solid var(--line)";
+      typeSelect.style.background = "rgba(255, 255, 255, 0.04)";
+      typeSelect.style.color = "var(--ink)";
+      typeSelect.style.padding = "12px 14px";
+      typeField.append(typeLabel, typeSelect);
+      const srcField = createInputField("נתיב קובץ", item.src || "", "mono");
+      grid.append(typeField, srcField.field);
+      card.append(
+        grid,
+        createUploadTools({ accept: "image/*,video/*", input: srcField.input, previewType: item.type === "video" ? "video" : "image" }),
+        createRowActions(card)
+      );
+      typeSelect.addEventListener("change", () => {
+        const tools = createUploadTools({
+          accept: typeSelect.value === "video" ? "video/*" : "image/*",
+          input: srcField.input,
+          previewType: typeSelect.value === "video" ? "video" : "image"
+        });
+        const existingTools = card.querySelector(".dropzone")?.parentElement;
+        if (existingTools) existingTools.remove();
+        card.insertBefore(tools, card.querySelector(".row-actions"));
+      });
+      heroMediaList.appendChild(card);
+    };
+
+    const addBeforeAfterRow = (item = { title: "", beforeSrc: "", afterSrc: "", note: "" }) => {
+      const card = document.createElement("div");
+      card.className = "row-card before-after-row before-after-admin-item";
+      const grid = document.createElement("div");
+      grid.className = "row-grid";
+      const titleField = createInputField("כותרת", item.title || "");
+      const beforeField = createInputField("נתיב לפני", item.beforeSrc || "", "mono");
+      const afterField = createInputField("נתיב אחרי", item.afterSrc || "", "mono");
+      const noteField = createTextareaField("תיאור", item.note || "");
+      grid.append(titleField.field, beforeField.field, afterField.field, noteField.field);
+      card.append(
+        grid,
+        createUploadTools({ accept: "image/*", input: beforeField.input, previewType: "image" }),
+        createUploadTools({ accept: "image/*", input: afterField.input, previewType: "image" }),
+        createRowActions(card)
+      );
+      beforeAfterList.appendChild(card);
+    };
+
+    const addGalleryRow = (item = { title: "", category: "", src: "" }) => {
+      const card = document.createElement("div");
+      card.className = "row-card gallery-row gallery-admin-item";
+      const grid = document.createElement("div");
+      grid.className = "row-grid";
+      const titleField = createInputField("כותרת", item.title || "");
+      const categoryField = createInputField("קטגוריה", item.category || "");
+      const srcField = createInputField("נתיב תמונה", item.src || "", "mono");
+      grid.append(titleField.field, categoryField.field, srcField.field);
+      card.append(
+        grid,
+        createUploadTools({ accept: "image/*", input: srcField.input, previewType: "image" }),
+        createRowActions(card)
+      );
+      galleryList.appendChild(card);
+    };
+
+    const hydrateForm = () => {
+      const business = currentContent.business || {};
+      const sections = currentContent.sections || {};
+      document.getElementById("businessName").value = business.name || "";
+      document.getElementById("brandName").value = business.brand || "";
+      document.getElementById("city").value = business.city || "";
+      document.getElementById("phoneDisplay").value = business.phoneDisplay || "";
+      document.getElementById("phoneIntl").value = business.phoneIntl || "";
+      document.getElementById("whatsappText").value = business.whatsappText || "";
+      document.getElementById("instagram").value = business.instagram || "";
+      document.getElementById("tiktok").value = business.tiktok || "";
+      document.getElementById("googleReviews").value = business.googleReviews || "";
+      document.getElementById("mapsEmbed").value = business.mapsEmbed || "";
+      document.getElementById("heroTitle").value = business.heroTitle || "";
+      document.getElementById("heroSubtitle").value = business.heroSubtitle || "";
+      document.getElementById("heroBadge").value = business.heroBadge || "";
+      document.getElementById("heroPrimary").value = business.primaryCta || "";
+      document.getElementById("heroSecondary").value = business.secondaryCta || "";
+      heroMediaList.innerHTML = "";
+      (business.heroMedia || []).forEach((item) => addHeroMediaRow(item));
+      beforeAfterList.innerHTML = "";
+      (currentContent.beforeAfterItems || []).forEach((item) => addBeforeAfterRow(item));
+      galleryList.innerHTML = "";
+      (currentContent.galleryItems || []).forEach((item) => addGalleryRow(item));
+      document.getElementById("services").value = (currentContent.services || []).map((item) => `${item.title || ""}||${item.description || ""}`).join("\n");
+      document.getElementById("reviews").value = (currentContent.reviews || []).map((item) => `${item.author || ""}||${item.text || ""}`).join("\n");
+      document.getElementById("servicesTitle").value = sections.servicesTitle || "";
+      document.getElementById("servicesSubtitle").value = sections.servicesSubtitle || "";
+      document.getElementById("bookingTitle").value = sections.bookingTitle || "";
+      document.getElementById("bookingSubtitle").value = sections.bookingSubtitle || "";
+      document.getElementById("beforeAfterTitle").value = sections.beforeAfterTitle || "";
+      document.getElementById("beforeAfterSubtitle").value = sections.beforeAfterSubtitle || "";
+      document.getElementById("galleryTitle").value = sections.galleryTitle || "";
+      document.getElementById("gallerySubtitle").value = sections.gallerySubtitle || "";
+      document.getElementById("reviewsTitle").value = sections.reviewsTitle || "";
+      document.getElementById("reviewsSubtitle").value = sections.reviewsSubtitle || "";
+      document.getElementById("contactTitle").value = sections.contactTitle || "";
+      document.getElementById("contactSubtitle").value = sections.contactSubtitle || "";
+      document.getElementById("academyTitle").value = sections.academyTitle || "";
+      document.getElementById("academySubtitle").value = sections.academySubtitle || "";
+      document.getElementById("academyPricingTitle").value = sections.academyPricingTitle || "";
+    };
+
+    const collectFormData = () => {
+      const phoneDisplay = document.getElementById("phoneDisplay").value.trim();
+      const phoneIntl = document.getElementById("phoneIntl").value.trim() || phoneDisplay.replace(/\D/g, "").replace(/^0/, "972");
+      const heroMedia = [...heroMediaList.querySelectorAll(".hero-media-row")].map((row) => {
+        const fields = row.querySelectorAll("select, input");
+        return {
+          type: fields[0].value.trim() || "image",
+          src: fields[1].value.trim()
+        };
+      }).filter((item) => item.src);
+      const beforeAfterItems = Array.from(document.querySelectorAll(".before-after-admin-item")).map((card) => {
+        const inputs = card.querySelectorAll("input, textarea");
+        return {
+          title: inputs[0]?.value.trim() || "לפני ואחרי",
+          category: "לפני ואחרי",
+          beforeLabel: "לפני",
+          afterLabel: "אחרי",
+          beforeSrc: inputs[1]?.value.trim(),
+          afterSrc: inputs[2]?.value.trim(),
+          note: inputs[3]?.value.trim() || ""
+        };
+      }).filter((item) => item.beforeSrc && item.afterSrc);
+      const galleryItems = Array.from(document.querySelectorAll(".gallery-admin-item")).map((card) => {
+        const inputs = card.querySelectorAll("input, textarea");
+        return {
+          title: inputs[0]?.value.trim() || "תמונה",
+          category: inputs[1]?.value.trim() || "גלריה",
+          src: inputs[2]?.value.trim()
+        };
+      }).filter((item) => item.src);
+      const sections = {
+        servicesTitle: document.getElementById("servicesTitle").value.trim(),
+        servicesSubtitle: document.getElementById("servicesSubtitle").value.trim(),
+        bookingTitle: document.getElementById("bookingTitle").value.trim(),
+        bookingSubtitle: document.getElementById("bookingSubtitle").value.trim(),
+        beforeAfterTitle: document.getElementById("beforeAfterTitle").value.trim(),
+        beforeAfterSubtitle: document.getElementById("beforeAfterSubtitle").value.trim(),
+        galleryTitle: document.getElementById("galleryTitle").value.trim(),
+        gallerySubtitle: document.getElementById("gallerySubtitle").value.trim(),
+        reviewsTitle: document.getElementById("reviewsTitle").value.trim(),
+        reviewsSubtitle: document.getElementById("reviewsSubtitle").value.trim(),
+        contactTitle: document.getElementById("contactTitle").value.trim(),
+        contactSubtitle: document.getElementById("contactSubtitle").value.trim(),
+        academyTitle: document.getElementById("academyTitle").value.trim(),
+        academySubtitle: document.getElementById("academySubtitle").value.trim(),
+        academyPricingTitle: document.getElementById("academyPricingTitle").value.trim()
+      };
+      return {
+        business: {
+          ...currentContent.business,
+          name: document.getElementById("businessName").value.trim(),
+          brand: document.getElementById("brandName").value.trim(),
+          city: document.getElementById("city").value.trim(),
+          phoneDisplay,
+          phoneIntl,
+          whatsappText: document.getElementById("whatsappText").value.trim(),
+          instagram: document.getElementById("instagram").value.trim(),
+          tiktok: document.getElementById("tiktok").value.trim(),
+          googleReviews: document.getElementById("googleReviews").value.trim(),
+          mapsEmbed: document.getElementById("mapsEmbed").value.trim(),
+          heroTitle: document.getElementById("heroTitle").value.trim(),
+          heroSubtitle: document.getElementById("heroSubtitle").value.trim(),
+          heroBadge: document.getElementById("heroBadge").value.trim(),
+          primaryCta: document.getElementById("heroPrimary").value.trim(),
+          secondaryCta: document.getElementById("heroSecondary").value.trim(),
+          heroMedia,
+          heroImages: []
+        },
+        services: parseLines(document.getElementById("services").value).map((line) => {
+          const [title, ...rest] = line.split("||");
+          return { title: (title || "").trim(), description: rest.join("||").trim() };
+        }).filter((item) => item.title && item.description),
+        reviews: parseLines(document.getElementById("reviews").value).map((line) => {
+          const [author, ...rest] = line.split("||");
+          return { author: (author || "").trim(), text: rest.join("||").trim() };
+        }).filter((item) => item.author && item.text),
+        sections,
+        galleryItems,
+        beforeAfterItems
+      };
+    };
+    const collectCategoryPayload = (category) => {
+      const allData = collectFormData();
+      if (category === "hero") {
+        return {
+          business: {
+            ...currentContent.business,
+            heroTitle: allData.business.heroTitle,
+            heroSubtitle: allData.business.heroSubtitle,
+            heroBadge: allData.business.heroBadge,
+            primaryCta: allData.business.primaryCta,
+            secondaryCta: allData.business.secondaryCta,
+            heroMedia: allData.business.heroMedia,
+            heroImages: []
+          }
+        };
+      }
+      if (category === "reviews") {
+        return {
+          services: allData.services,
+          reviews: allData.reviews
+        };
+      }
+      if (category === "sections") {
+        return {
+          sections: allData.sections
+        };
+      }
+      if (category === "beforeAfter") {
+        return {
+          beforeAfterItems: allData.beforeAfterItems
+        };
+      }
+      if (category === "gallery") {
+        return {
+          galleryItems: allData.galleryItems
+        };
+      }
+      return allData;
+    };
+    let applyFeedbackTimer = null;
+    const categorySyncTimers = {};
+    const pulseApplyButton = (button) => {
+      if (!button) return;
+      const original = button.textContent;
+      button.textContent = "ד Synced";
+      button.classList.add("synced");
+      clearTimeout(applyFeedbackTimer);
+      applyFeedbackTimer = setTimeout(() => {
+        button.textContent = original;
+        button.classList.remove("synced");
+      }, 1400);
+    };
+    const getCategoryButton = (category) => ({
+      hero: applyHeroButton,
+      reviews: applyReviewsButton,
+      sections: applySectionsButton,
+      beforeAfter: applyBeforeAfterButton,
+      gallery: applyGalleryButton
+    }[category] || null);
+
+    const serializeContentFile = (payload) => {
+      const json = JSON.stringify(payload, null, 2);
+      return "window.siteContent = " + json + ";\n";
+    };
+
+    const downloadContentFile = (payload) => {
+      const blob = new Blob([serializeContentFile(payload)], { type: "application/javascript;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "content.js";
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+    };
+
+    const saveContentFileDirectly = async (payload) => {
+      if (!window.showSaveFilePicker) {
+        downloadContentFile(payload);
+        saveStatus.textContent = "הדפדפן לא מאפשר שמירה ישירה לקובץ. הורדתי עבורך content.js מעודכן.";
+        saveStatus.className = "status success";
+        return;
+      }
+      const handle = await window.showSaveFilePicker({
+        suggestedName: "content.js",
+        types: [
+          {
+            description: "JavaScript",
+            accept: { "application/javascript": [".js"] }
+          }
+        ]
+      });
+      const writable = await handle.createWritable();
+      await writable.write(serializeContentFile(payload));
+      await writable.close();
+      saveStatus.textContent = "הקובץ content.js נשמר ישירות. רענן את האתר ותראה את השינוי.";
+      saveStatus.className = "status success";
+    };
+
+    const connectContentFile = async () => {
+      if (!window.showOpenFilePicker) {
+        saveStatus.textContent = "הדפדפן הזה לא תומך בחיבור ישיר לקובץ. השתמש ב-Edge או Chrome.";
+        saveStatus.className = "status error";
+        return;
+      }
+      const [handle] = await window.showOpenFilePicker({
+        multiple: false,
+        types: [
+          {
+            description: "JavaScript",
+            accept: { "application/javascript": [".js"] }
+          }
+        ]
+      });
+      connectedContentHandle = handle;
+      await writeHandleToIndexedDb(handle);
+      saveStatus.textContent = "קובץ האתר חובר בהצלחה. מעכשיו שמירת שינויים תכתוב ישירות ל-content.js.";
+      saveStatus.className = "status success";
+    };
+
+    const writeConnectedContentFile = async (payload) => {
+      if (!connectedContentHandle) {
+        return false;
+      }
+      const permission = await connectedContentHandle.requestPermission({ mode: "readwrite" });
+      if (permission !== "granted") {
+        throw new Error("permission-denied");
+      }
+      const writable = await connectedContentHandle.createWritable();
+      await writable.write(serializeContentFile(payload));
+      await writable.close();
+      return true;
+    };
+
+    const dataBridgeChannelName = "waffels_sync";
+    let dataBridgeChannel = null;
+    console.log("[Admin] script loaded", { channel: dataBridgeChannelName, storageKey: MASTER_DATA });
+    const DataBridge = {
+      saveData: async (payload, category = "all") => {
+        console.log("[Admin][saveData] start", { category, payload });
+        const master = deepMergeContent(cloneContent(baseContent), serverContentOverrides || {});
+        console.log("[Admin][saveData] loaded master", master);
+        const nextPayload = deepMergeContent(master, payload);
+        console.log("[Admin][saveData] merged payload", nextPayload);
+        const nextVersion = Date.now();
+        await saveContentToServer(nextPayload);
+        localStorage.setItem(contentStorageKey, JSON.stringify(nextPayload));
+        serverContentOverrides = nextPayload;
+        currentContent = loadMasterContent();
+        window.dispatchEvent(new CustomEvent("dataUpdated", { detail: { payload: nextPayload, version: nextVersion, category } }));
+        console.log("[Admin][saveData] dataUpdated event dispatched", { category, version: nextVersion });
+        if ("BroadcastChannel" in window) {
+          dataBridgeChannel = dataBridgeChannel || new BroadcastChannel(dataBridgeChannelName);
+          console.log("[Admin][saveData] BroadcastChannel connected", dataBridgeChannelName);
+          dataBridgeChannel.postMessage({ type: "update", version: nextVersion, category, payload: nextPayload });
+          console.log("[Admin][saveData] broadcast sent", { channel: dataBridgeChannelName, category, version: nextVersion });
+        }
+        console.log("Data saved & Broadcast sent:", nextVersion);
+      }
+    };
+
+    const openAdmin = async () => {
+      serverContentOverrides = await loadContentFromServer();
+      currentContent = loadMasterContent();
+      loginWrap.classList.add("hidden");
+      adminApp.classList.remove("hidden");
+      hydrateForm();
+      repairDomText();
+      await renderBookingManagement();
+      repairDomText();
+    };
+
+    if (sessionStorage.getItem(authStorageKey) === "true" && getAdminToken()) {
+      openAdmin();
+    }
+
+    readHandleFromIndexedDb().then((handle) => {
+      if (handle) {
+        connectedContentHandle = handle;
+      }
+    });
+
+    const runAdminLogin = async () => {
+      const value = document.getElementById("passcode").value.trim();
+      const loginButton = document.getElementById("loginButton");
+      if (!value) {
+        loginStatus.textContent = "יש להזין סיסמת מנהל.";
+        loginStatus.className = "status error";
+        return;
+      }
+      try {
+        loginButton.disabled = true;
+        loginButton.textContent = "בודק...";
+        loginStatus.textContent = "";
+        const response = await nativeFetch(apiBase + "/admin/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ password: value })
+        });
+        const loginData = await response.json().catch(() => ({}));
+        if (!response.ok || !loginData.token) {
+          loginStatus.textContent = loginData.error === "admin-password-not-configured"
+            ? "סיסמת האדמין לא מוגדרת בשרת המקומי."
+            : "הסיסמה לא נכונה.";
+          loginStatus.className = "status error";
+          return;
+        }
+        sessionStorage.setItem(adminTokenStorageKey, loginData.token);
+        serverContentOverrides = await loadContentFromServer();
+        currentContent = loadMasterContent();
+        sessionStorage.setItem(authStorageKey, "true");
+        loginStatus.textContent = "";
+        await openAdmin();
+      } catch (error) {
+        console.error("ADMIN LOGIN FAILED:", error);
+        loginStatus.textContent = "הכניסה נכשלה בגלל חיבור לשרת. פתח את admin.html דרך localhost:3001 או רענן את השרת.";
+        loginStatus.className = "status error";
+      } finally {
+        loginButton.disabled = false;
+        loginButton.textContent = "כניסה";
+      }
+    };
+
+    document.getElementById("loginButton").addEventListener("click", runAdminLogin);
+    document.getElementById("passcode").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        runAdminLogin();
+      }
+    });
+
+        const applyCategoryNow = async (category, options = {}) => {
+      const { silent = false } = options;
+      const payload = collectCategoryPayload(category);
+      console.log("[Admin][applyCategoryNow] collected category payload", { category, payload, silent });
+      await DataBridge.saveData(payload, category);
+      if (!silent) {
+        saveStatus.textContent = "השינויים נשמרו בהצלחה באתר ✅";
+        saveStatus.className = "status success";
+        pulseApplyButton(getCategoryButton(category));
+        showSyncToast("השינויים נשמרו בהצלחה באתר ✅");
+      }
+    };
+    const scheduleCategorySync = (category) => {
+      console.log("[Admin][scheduleCategorySync] queued", { category });
+      clearTimeout(categorySyncTimers[category]);
+      categorySyncTimers[category] = setTimeout(async () => {
+        try {
+          console.log("[Admin][scheduleCategorySync] running", { category });
+          await applyCategoryNow(category, { silent: true });
+        } catch (error) {}
+      }, 220);
+    };
+
+    connectFileButton.addEventListener("click", async () => {
+      try {
+        await connectContentFile();
+      } catch (error) {
+        saveStatus.textContent = "לא הצלחתי לחבר את קובץ האתר. נסה שוב ובחר את content.js מתוך תיקיית האתר.";
+        saveStatus.className = "status error";
+      }
+    });
+    saveFileButton.addEventListener("click", async () => {
+      try {
+        const payload = collectFormData();
+        await saveContentFileDirectly(payload);
+      } catch (error) {
+        saveStatus.textContent = "לא הצלחתי לשמור ישירות לקובץ. אפשר לנסות שוב או להשתמש בשמירה הרגילה.";
+        saveStatus.className = "status error";
+      }
+    });
+
+
+    document.getElementById("resetButton").addEventListener("click", () => {
+      localStorage.removeItem(contentStorageKey);
+      location.reload();
+    });
+
+    document.getElementById("logoutButton").addEventListener("click", () => {
+      sessionStorage.removeItem(authStorageKey);
+      sessionStorage.removeItem(adminTokenStorageKey);
+      location.reload();
+    });
+
+    document.getElementById("addHeroMediaButton").addEventListener("click", () => addHeroMediaRow());
+    document.getElementById("addBeforeAfterButton").addEventListener("click", () => addBeforeAfterRow());
+    document.getElementById("addGalleryButton").addEventListener("click", () => addGalleryRow());
+    const bindCategoryApply = (button, category) => {
+      if (!button) return;
+      button.addEventListener("click", async () => {
+        try {
+          await applyCategoryNow(category);
+        } catch (error) {
+          saveStatus.textContent = "השמירה נכשלה — נא לבדוק שהשרת פתוח ❌";
+          saveStatus.className = "status error";
+        }
+      });
+    };
+    bindCategoryApply(applyHeroButton, "hero");
+    bindCategoryApply(applyReviewsButton, "reviews");
+    bindCategoryApply(applySectionsButton, "sections");
+    bindCategoryApply(applyBeforeAfterButton, "beforeAfter");
+    bindCategoryApply(applyGalleryButton, "gallery");
+    const heroInputs = ["heroTitle", "heroSubtitle", "heroBadge", "heroPrimary", "heroSecondary"];
+    heroInputs.forEach((id) => {
+      const field = document.getElementById(id);
+      if (!field) return;
+      ["input", "change"].forEach((eventName) => field.addEventListener(eventName, () => scheduleCategorySync("hero")));
+    });
+    const servicesField = document.getElementById("services");
+    const reviewsField = document.getElementById("reviews");
+    [servicesField, reviewsField].forEach((field) => {
+      if (!field) return;
+      ["input", "change"].forEach((eventName) => field.addEventListener(eventName, () => scheduleCategorySync("reviews")));
+    });
+    const sectionFieldIds = [
+      "servicesTitle", "servicesSubtitle", "bookingTitle", "bookingSubtitle",
+      "beforeAfterTitle", "beforeAfterSubtitle", "galleryTitle", "gallerySubtitle",
+      "reviewsTitle", "reviewsSubtitle", "contactTitle", "contactSubtitle",
+      "academyTitle", "academySubtitle", "academyPricingTitle"
+    ];
+    sectionFieldIds.forEach((id) => {
+      const field = document.getElementById(id);
+      if (!field) return;
+      ["input", "change"].forEach((eventName) => field.addEventListener(eventName, () => scheduleCategorySync("sections")));
+    });
+    const bindListAutoSync = (list, category) => {
+      if (!list) return;
+      ["input", "change"].forEach((eventName) => {
+        list.addEventListener(eventName, () => scheduleCategorySync(category));
+      });
+      list.addEventListener("click", (event) => {
+        const target = event.target;
+        if (!(target instanceof HTMLElement)) return;
+        if (target.closest("button")) {
+          setTimeout(() => scheduleCategorySync(category), 0);
+        }
+      });
+    };
+    bindListAutoSync(heroMediaList, "hero");
+    bindListAutoSync(beforeAfterList, "beforeAfter");
+    bindListAutoSync(galleryList, "gallery");
+    document.getElementById("refreshBookingsButton").addEventListener("click", async () => {
+      await renderBookingManagement();
+      saveStatus.textContent = "רשימת הבקשות רועננה.";
+      saveStatus.className = "status success";
+    });
+
+    const buildManagedCustomerWhatsappLink = (request, lines) => {
+      const phone = String(request.phone || "").replace(/[^\d]/g, "");
+      const intlPhone = phone.startsWith("0") ? ("972" + phone.slice(1)) : phone;
+      if (!intlPhone) return "";
+      return "https://wa.me/" + intlPhone + "?text=" + encodeURIComponent(lines.join("\n"));
+    };
+
+    const buildManagedDepositWhatsappLink = (request, paymentUrl) => {
+      if (!paymentUrl) return "";
+      return buildManagedCustomerWhatsappLink(request, [
+        "היי " + (request.name || ""),
+        "התור שלך ב-WAFFELS אושר וממתין לפיקדון.",
+        "שם הכלב: " + (request.dog || ""),
+        "תאריך: " + (request.date || ""),
+        "שעה: " + (request.slot || ""),
+        "כדי לשריין סופית את השעה, משלמים פיקדון של 150 ש\"ח כאן:",
+        paymentUrl
+      ]);
+    };
+
+    const buildManagedConfirmationWhatsappLink = (request) => {
+      return buildManagedCustomerWhatsappLink(request, [
+        "היי " + (request.name || ""),
+        "התור שלך ב-WAFFELS אושר סופית.",
+        "שם הכלב: " + (request.dog || ""),
+        "תאריך: " + (request.date || ""),
+        "שעה: " + (request.slot || ""),
+        "מחכים לכם באהבה."
+      ]);
+    };
+
+    const getManagedStatusLabel = (request) => {
+      if (request.status === "confirmed" || request.depositStatus === "paid") return "שולם ואושר";
+      if (request.status === "approved_waiting_deposit" || request.depositStatus === "pending") return "ממתין לפיקדון";
+      if (request.status === "approved") return "אושר";
+      return request.status || "ממתין";
+    };
+
+    const syncManagedBookingViews = async () => {
+      let pending = [];
+      let approved = [];
+      try {
+        pending = await fetchApiBookings("pending");
+        approved = await fetchApiBookings("approved");
+      } catch (error) {
+        pending = getPendingRequests();
+        approved = getApprovedRequests();
+      }
+
+      bookingRequestsList.innerHTML = "";
+      approvedBookingsList.innerHTML = "";
+
+      if (!pending.length) {
+        const empty = document.createElement("div");
+        empty.className = "row-card";
+        empty.innerHTML = "<strong>אין כרגע בקשות חדשות.</strong>";
+        bookingRequestsList.appendChild(empty);
+      }
+
+      pending.forEach((request) => {
+        const card = document.createElement("div");
+        card.className = "row-card";
+        const notes = request.notes ? "<p class='hint'>" + request.notes + "</p>" : "";
+        const photo = request.photoDataUrl ? "<div class='booking-photo'><img src='" + request.photoDataUrl + "' alt='תמונת הכלב'></div>" : "";
+        card.innerHTML =
+          "<strong>" + (request.name || "ללא שם") + "</strong>" +
+          "<div class='booking-meta'>" +
+          "<span class='booking-chip'>" + (request.date || "") + "</span>" +
+          "<span class='booking-chip'>" + (request.slot || "") + "</span>" +
+          "<span class='booking-chip'>" + (request.dog || "ללא שם כלב") + "</span>" +
+          "<span class='booking-chip'>" + (request.phone || "") + "</span>" +
+          "</div>" +
+          notes +
+          photo;
+
+        const actions = document.createElement("div");
+        actions.className = "row-actions";
+
+        const approveButton = document.createElement("button");
+        approveButton.type = "button";
+        approveButton.className = "btn btn-primary";
+        approveButton.textContent = "אשר + פיקדון";
+        approveButton.addEventListener("click", async () => {
+          if (!request.id) {
+            saveStatus.textContent = "כדי לאשר בצורה מלאה צריך שהבקשה תישמר דרך השרת.";
+            saveStatus.className = "status error";
+            return;
+          }
+          try {
+            const response = await fetch(apiBase + "/bookings/" + encodeURIComponent(request.id) + "/approve", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" }
+            });
+            const json = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(json.error || "approve-failed");
+            const paymentWhatsappUrl = json.paymentWhatsappUrl || buildManagedDepositWhatsappLink(json.booking || request, json.paymentUrl);
+            if (paymentWhatsappUrl) {
+              window.open(paymentWhatsappUrl, "_blank", "noopener");
+            }
+            saveStatus.textContent = json.paymentUrl
+              ? "התור אושר. לינק הפיקדון נפתח ללקוח בוואטסאפ."
+              : "התור אושר, אבל Stripe עדיין לא מחובר ולכן לא נוצר לינק פיקדון.";
+            saveStatus.className = "status success";
+            await syncManagedBookingViews();
+          } catch (error) {
+            saveStatus.textContent = String(error.message || "") === "slot-already-approved"
+              ? "השעה הזו כבר אושרה קודם ולכן אי אפשר לאשר שוב."
+              : "לא הצלחנו לאשר את התור דרך השרת.";
+            saveStatus.className = "status error";
+          }
+        });
+
+        const whatsappButton = document.createElement("button");
+        whatsappButton.type = "button";
+        whatsappButton.className = "btn btn-secondary";
+        whatsappButton.textContent = "פתח WhatsApp";
+        whatsappButton.addEventListener("click", () => {
+          const link = buildManagedCustomerWhatsappLink(request, [
+            "היי " + (request.name || ""),
+            "בקשת התור שלך התקבלה ב-WAFFELS.",
+            "שם הכלב: " + (request.dog || ""),
+            "תאריך: " + (request.date || ""),
+            "שעה: " + (request.slot || "")
+          ]);
+          if (link) window.open(link, "_blank", "noopener");
+        });
+
+        const rejectButton = document.createElement("button");
+        rejectButton.type = "button";
+        rejectButton.className = "mini-btn";
+        rejectButton.textContent = "מחק בקשה";
+        rejectButton.addEventListener("click", async () => {
+          if (request.id) {
+            try {
+              await fetch(apiBase + "/bookings/" + encodeURIComponent(request.id) + "/reject", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" }
+              });
+            } catch (error) {
+              // keep fallback silent
+            }
+          }
+          saveStatus.textContent = "הבקשה הוסרה מהרשימה.";
+          saveStatus.className = "status success";
+          await syncManagedBookingViews();
+        });
+
+        actions.append(approveButton, whatsappButton, rejectButton);
+        card.appendChild(actions);
+        bookingRequestsList.appendChild(card);
+      });
+
+      if (!approved.length) {
+        const empty = document.createElement("div");
+        empty.className = "row-card";
+        empty.innerHTML = "<strong>אין עדיין תורים מאושרים.</strong>";
+        approvedBookingsList.appendChild(empty);
+      }
+
+      approved.forEach((request) => {
+        const card = document.createElement("div");
+        card.className = "row-card";
+        const photo = request.photoDataUrl ? "<div class='booking-photo'><img src='" + request.photoDataUrl + "' alt='תמונת הכלב'></div>" : "";
+        card.innerHTML =
+          "<strong>" + (request.name || "ללא שם") + "</strong>" +
+          "<div class='booking-meta'>" +
+          "<span class='booking-chip approved'>" + getManagedStatusLabel(request) + "</span>" +
+          "<span class='booking-chip'>" + (request.date || "") + "</span>" +
+          "<span class='booking-chip'>" + (request.slot || "") + "</span>" +
+          "<span class='booking-chip'>" + (request.dog || "ללא שם כלב") + "</span>" +
+          "</div>" +
+          photo;
+
+        const actions = document.createElement("div");
+        actions.className = "row-actions";
+
+        if (request.paymentUrl && request.depositStatus !== "paid" && request.status !== "confirmed") {
+          const resendButton = document.createElement("button");
+          resendButton.type = "button";
+          resendButton.className = "btn btn-secondary";
+          resendButton.textContent = "שלח שוב לינק פיקדון";
+          resendButton.addEventListener("click", async () => {
+            try {
+              const response = await fetch(apiBase + "/bookings/" + encodeURIComponent(request.id) + "/payment-link", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" }
+              });
+              const json = await response.json().catch(() => ({}));
+              if (!response.ok) throw new Error(json.error || "payment-link-failed");
+              const link = json.paymentWhatsappUrl || buildManagedDepositWhatsappLink(json.booking || request, json.paymentUrl);
+              if (link) window.open(link, "_blank", "noopener");
+              saveStatus.textContent = "לינק הפיקדון נפתח שוב ללקוח.";
+              saveStatus.className = "status success";
+              await syncManagedBookingViews();
+            } catch (error) {
+              saveStatus.textContent = "לא הצלחנו לייצר מחדש את לינק הפיקדון.";
+              saveStatus.className = "status error";
+            }
+          });
+          actions.appendChild(resendButton);
+        }
+
+        if (request.status === "confirmed" || request.depositStatus === "paid") {
+          const calendarButton = document.createElement("button");
+          calendarButton.type = "button";
+          calendarButton.className = "btn btn-secondary";
+          calendarButton.textContent = "פתח ביומן";
+          calendarButton.addEventListener("click", () => {
+            window.open(request.calendarHtmlLink || buildCalendarLink(request), "_blank", "noopener");
+          });
+          actions.appendChild(calendarButton);
+
+          const confirmationButton = document.createElement("button");
+          confirmationButton.type = "button";
+          confirmationButton.className = "btn btn-secondary";
+          confirmationButton.textContent = "שלח אישור ללקוח";
+          confirmationButton.addEventListener("click", () => {
+            const link = buildManagedConfirmationWhatsappLink(request);
+            if (link) window.open(link, "_blank", "noopener");
+          });
+          actions.appendChild(confirmationButton);
+        }
+
+        if (actions.children.length) {
+          card.appendChild(actions);
+        }
+        approvedBookingsList.appendChild(card);
+      });
+    };
+
+    const refreshBookingsButton = document.getElementById("refreshBookingsButton");
+    const replacementRefreshBookingsButton = refreshBookingsButton.cloneNode(true);
+    refreshBookingsButton.parentNode.replaceChild(replacementRefreshBookingsButton, refreshBookingsButton);
+    replacementRefreshBookingsButton.addEventListener("click", async () => {
+      await syncManagedBookingViews();
+      saveStatus.textContent = "רשימת הבקשות רועננה.";
+      saveStatus.className = "status success";
+    });
+
+    if (!adminApp.classList.contains("hidden")) {
+      setTimeout(syncManagedBookingViews, 50);
+    }
+
+    document.getElementById("loginButton").addEventListener("click", () => {
+      setTimeout(() => {
+        if (!adminApp.classList.contains("hidden")) {
+          syncManagedBookingViews();
+          if (typeof window.__waffelsRefreshDashboard === "function") {
+            window.__waffelsRefreshDashboard();
+          }
+        }
+      }, 120);
+    });
+
+    const initializeAdminDashboardV2 = () => {
+      const pendingSection = bookingRequestsList.closest(".panel");
+      const approvedSection = approvedBookingsList.closest(".panel");
+      if (!pendingSection || !approvedSection || document.getElementById("bookingDashboardV2")) return;
+
+      pendingSection.classList.add("hidden");
+      approvedSection.classList.add("hidden");
+
+      const dashboard = document.createElement("section");
+      dashboard.className = "panel";
+      dashboard.id = "bookingDashboardV2";
+      dashboard.innerHTML = `
+        <div class="panel-head">
+          <h2>ניהול תורים</h2>
+          <button class="btn btn-secondary" id="refreshBookingDashboardV2" type="button">רענון</button>
+        </div>
+        <p>כל בקשה נשמרת בשרת, מקבלת סטטוס ברור, ונחסמת סופית רק אחרי אישור ותשלום מקדמה.</p>
+        <div class="top-actions" style="margin:14px 0 6px;">
+          <button class="btn btn-primary" id="exportBookingsExcelButton" type="button">ייצוא לאקסל</button>
+          <button class="btn btn-secondary" id="exportBookingsCalendarButton" type="button">ייצוא יומן</button>
+        </div>
+        <div class="top-actions" id="bookingDashboardTabs" style="margin:16px 0 18px;"></div>
+        <div class="row-list" id="bookingDashboardCards"></div>
+      `;
+
+      approvedSection.insertAdjacentElement("afterend", dashboard);
+
+      const tabsWrap = document.getElementById("bookingDashboardTabs");
+      const cardsWrap = document.getElementById("bookingDashboardCards");
+      const refreshButton = document.getElementById("refreshBookingDashboardV2");
+      const exportExcelButton = document.getElementById("exportBookingsExcelButton");
+      const exportCalendarButton = document.getElementById("exportBookingsCalendarButton");
+
+      const dashboardTabs = [
+        { key: "pending", label: "בקשות ממתינות", statuses: "pending" },
+        { key: "waiting", label: "מאושר / ממתין למקדמה", statuses: "approved_waiting_deposit" },
+        { key: "confirmed", label: "תורים מאושרים", statuses: "confirmed" },
+        { key: "closed", label: "בוטל / פג תוקף", statuses: "cancelled,expired" }
+      ];
+
+      let activeDashboardTab = "pending";
+      let dashboardCache = {
+        pending: [],
+        waiting: [],
+        confirmed: [],
+        closed: []
+      };
+
+      const getBookingDisplay = (booking) => ({
+        customer: booking.fullName || booking.name || "ללא שם",
+        phone: booking.phone || "",
+        dogName: booking.dogName || booking.dog || "ללא שם כלב",
+        breed: booking.dogBreed || "לא צוין",
+        age: booking.dogAge || "לא צוין",
+        service: booking.serviceType || "לא צוין",
+        date: booking.preferredDate || booking.date || "",
+        slot: booking.preferredSlot || booking.slot || "",
+        notes: booking.notes || "",
+        photo: booking.dogPhotoDataUrl || booking.photoDataUrl || "",
+        status: booking.status || ""
+      });
+
+      const getStatusLabel = (booking) => {
+        if (booking.status === "pending") return "ממתין לאישור";
+        if (booking.status === "approved_waiting_deposit") return "מאושר / ממתין למקדמה";
+        if (booking.status === "confirmed") return "מאושר סופית";
+        if (booking.status === "cancelled") return "בוטל";
+        if (booking.status === "expired") return "פג תוקף";
+        return booking.status || "לא ידוע";
+      };
+
+      const openWhatsapp = (url) => {
+        if (url) window.open(url, "_blank", "noopener");
+      };
+
+      const buildAdminApiUrl = (path) => path;
+
+      const downloadAdminFile = async (path) => {
+        const response = await fetch(buildAdminApiUrl(path), { cache: "no-store" });
+        if (!response.ok) {
+          throw new Error("download-failed");
+        }
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.href = url;
+        anchor.download = path.endsWith(".ics") ? "waffels-calendar.ics" : "waffels-bookings.csv";
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        URL.revokeObjectURL(url);
+      };
+
+      const buildPaymentReminderWhatsappLink = (booking) => {
+        const view = getBookingDisplay(booking);
+        const amount = booking.depositAmountIls || 150;
+        const lines = [
+          "היי " + view.customer + ", כאן WAFFELS.",
+          "רצינו להזכיר שהתור שלך עדיין ממתין להסדרת מקדמה.",
+          "שם הכלב: " + view.dogName,
+          "תאריך: " + view.date,
+          "שעה: " + view.slot,
+          "סכום לתשלום: " + amount + " ש\"ח",
+          booking.paymentUrl ? "קישור לתשלום: " + booking.paymentUrl : "אפשר להשלים את התשלום מול אורטל.",
+          "תודה רבה."
+        ];
+        return buildManagedCustomerWhatsappLink({ phone: view.phone }, lines);
+      };
+
+      const fetchDashboardData = async () => {
+        const results = await Promise.all(
+          dashboardTabs.map(async (tab) => {
+            const response = await fetch(apiBase + "/bookings?status=" + encodeURIComponent(tab.statuses), { cache: "no-store" });
+            if (!response.ok) throw new Error("dashboard-fetch-failed");
+            const json = await response.json();
+            return [tab.key, Array.isArray(json.items) ? json.items : []];
+          })
+        );
+        dashboardCache = Object.fromEntries(results);
+      };
+
+      const renderDashboardTabs = () => {
+        tabsWrap.innerHTML = "";
+        dashboardTabs.forEach((tab) => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = tab.key === activeDashboardTab ? "btn btn-primary" : "btn btn-secondary";
+          button.textContent = `${tab.label} (${(dashboardCache[tab.key] || []).length})`;
+          button.addEventListener("click", () => {
+            activeDashboardTab = tab.key;
+            renderDashboardTabs();
+            renderDashboardCards();
+          });
+          tabsWrap.appendChild(button);
+        });
+      };
+
+      const renderDashboardCards = () => {
+        const bookings = dashboardCache[activeDashboardTab] || [];
+        cardsWrap.innerHTML = "";
+
+        if (!bookings.length) {
+          const empty = document.createElement("div");
+          empty.className = "row-card";
+          empty.innerHTML = "<strong>אין כרגע תורים בקטגוריה הזאת.</strong>";
+          cardsWrap.appendChild(empty);
+          return;
+        }
+
+        bookings.forEach((booking) => {
+          const view = getBookingDisplay(booking);
+          const card = document.createElement("div");
+          card.className = "row-card";
+          card.innerHTML = `
+            <strong>${view.customer}</strong>
+            <div class="booking-meta">
+              <span class="booking-chip ${booking.status === "confirmed" ? "approved" : ""}">${getStatusLabel(booking)}</span>
+              <span class="booking-chip">${view.date}</span>
+              <span class="booking-chip">${view.slot}</span>
+              <span class="booking-chip">${view.service}</span>
+            </div>
+            <p class="hint" style="margin:10px 0 6px;">טלפון: ${view.phone} | כלב: ${view.dogName} | גזע: ${view.breed} | גיל: ${view.age}</p>
+            ${view.notes ? `<p class="hint">${view.notes}</p>` : ""}
+            ${view.photo ? `<div class="booking-photo"><img src="${view.photo}" alt="תמונת הכלב"></div>` : ""}
+          `;
+
+          const actions = document.createElement("div");
+          actions.className = "row-actions";
+
+          if (booking.status === "pending") {
+            const approveButton = document.createElement("button");
+            approveButton.type = "button";
+            approveButton.className = "btn btn-primary";
+            approveButton.textContent = "אשר + פיקדון";
+            approveButton.addEventListener("click", async () => {
+              try {
+                const response = await fetch(apiBase + "/bookings/" + encodeURIComponent(booking.id) + "/approve", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" }
+                });
+                const json = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(json.error || "approve-failed");
+                saveStatus.textContent = json.paymentUrl
+                  ? "התור אושר ולינק המקדמה מוכן לשליחה ללקוח."
+                  : "התור אושר, אבל Stripe עדיין לא מחובר ולכן לא נוצר לינק תשלום.";
+                saveStatus.className = "status success";
+                openWhatsapp(json.paymentWhatsappUrl);
+                await refreshDashboard();
+              } catch (error) {
+                saveStatus.textContent = String(error.message || "") === "slot-already-approved"
+                  ? "השעה הזאת כבר אושרה קודם ולכן אי אפשר לאשר שוב."
+                  : "לא הצלחנו לאשר את התור דרך השרת.";
+                saveStatus.className = "status error";
+              }
+            });
+
+            const cancelButton = document.createElement("button");
+            cancelButton.type = "button";
+            cancelButton.className = "btn btn-secondary";
+            cancelButton.textContent = "בטל בקשה";
+            cancelButton.addEventListener("click", async () => {
+              await fetch(apiBase + "/bookings/" + encodeURIComponent(booking.id) + "/cancel", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ reason: "cancelled-by-admin" })
+              }).catch(() => {});
+              await refreshDashboard();
+            });
+
+            actions.append(approveButton, cancelButton);
+          }
+
+          if (booking.status === "approved_waiting_deposit") {
+            const resendPaymentButton = document.createElement("button");
+            resendPaymentButton.type = "button";
+            resendPaymentButton.className = "btn btn-primary";
+            resendPaymentButton.textContent = "שלח שוב לינק מקדמה";
+            resendPaymentButton.addEventListener("click", async () => {
+              try {
+                const response = await fetch(apiBase + "/bookings/" + encodeURIComponent(booking.id) + "/payment-link", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" }
+                });
+                const json = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(json.error || "payment-link-failed");
+                saveStatus.textContent = "לינק המקדמה נפתח מחדש ללקוח.";
+                saveStatus.className = "status success";
+                openWhatsapp(json.paymentWhatsappUrl);
+                await refreshDashboard();
+              } catch (_error) {
+                saveStatus.textContent = "לא הצלחנו ליצור מחדש את לינק המקדמה.";
+                saveStatus.className = "status error";
+              }
+            });
+
+            const cancelButton = document.createElement("button");
+            cancelButton.type = "button";
+            cancelButton.className = "btn btn-secondary";
+            cancelButton.textContent = "בטל תור";
+            cancelButton.addEventListener("click", async () => {
+              await fetch(apiBase + "/bookings/" + encodeURIComponent(booking.id) + "/cancel", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ reason: "cancelled-after-approval" })
+              }).catch(() => {});
+              await refreshDashboard();
+            });
+
+            const reminderButton = document.createElement("button");
+            reminderButton.type = "button";
+            reminderButton.className = "btn btn-secondary";
+            reminderButton.textContent = "תזכורת תשלום";
+            reminderButton.addEventListener("click", () => {
+              const link = buildPaymentReminderWhatsappLink(booking);
+              if (link) {
+                openWhatsapp(link);
+                saveStatus.textContent = "נפתחה הודעת תזכורת תשלום בוואטסאפ.";
+                saveStatus.className = "status success";
+              } else {
+                saveStatus.textContent = "אין מספר טלפון תקין לשליחת תזכורת.";
+                saveStatus.className = "status error";
+              }
+            });
+
+            actions.append(resendPaymentButton, reminderButton, cancelButton);
+          }
+
+          if (booking.status === "confirmed") {
+            const calendarButton = document.createElement("button");
+            calendarButton.type = "button";
+            calendarButton.className = "btn btn-primary";
+            calendarButton.textContent = "פתח ביומן";
+            calendarButton.addEventListener("click", () => {
+              if (booking.calendarHtmlLink) {
+                window.open(booking.calendarHtmlLink, "_blank", "noopener");
+              }
+            });
+            actions.appendChild(calendarButton);
+          }
+
+          if (actions.children.length) {
+            card.appendChild(actions);
+          }
+
+          cardsWrap.appendChild(card);
+        });
+      };
+
+      const refreshDashboard = async () => {
+        try {
+          await fetchDashboardData();
+          renderDashboardTabs();
+          renderDashboardCards();
+        } catch (_error) {
+          cardsWrap.innerHTML = "<div class='row-card'><strong>לא הצלחנו לטעון את רשימת התורים מהשרת.</strong></div>";
+        }
+      };
+
+      refreshButton.addEventListener("click", refreshDashboard);
+      exportExcelButton?.addEventListener("click", () => {
+        downloadAdminFile("/api/bookings/export.csv");
+        saveStatus.textContent = "קובץ אקסל/CSV ירד למחשב.";
+        saveStatus.className = "status success";
+      });
+      exportCalendarButton?.addEventListener("click", () => {
+        downloadAdminFile("/api/bookings/calendar.ics");
+        saveStatus.textContent = "קובץ יומן ירד למחשב.";
+        saveStatus.className = "status success";
+      });
+
+      window.__waffelsRefreshDashboard = refreshDashboard;
+      refreshDashboard();
+    };
+
+    async function saveAllChangesAndOpenSite() {
+      const saveButton = document.getElementById("saveButton");
+      const stickySaveButton = document.getElementById("stickySaveButton");
+
+      try {
+        if (saveButton) {
+          saveButton.disabled = true;
+          saveButton.textContent = "שומר...";
+        }
+
+        if (stickySaveButton) {
+          stickySaveButton.disabled = true;
+          stickySaveButton.textContent = "שומר...";
+        }
+
+        const payload = collectFormData();
+
+        console.log("ADMIN SAVE PAYLOAD:", payload);
+
+        const apiUrl = "/api/content";
+
+        const response = await fetch(apiUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const text = await response.text();
+        let data = {};
+
+        try {
+          data = JSON.parse(text);
+        } catch (error) {
+          data = { raw: text };
+        }
+
+        if (!response.ok) {
+          console.error("SAVE FAILED RESPONSE:", response.status, data);
+          throw new Error(data.error || data.message || "שמירה לשרת נכשלה");
+        }
+
+        console.log("SAVE SUCCESS:", data);
+
+        try {
+          localStorage.setItem(contentStorageKey, JSON.stringify(payload));
+          localStorage.setItem(STORAGE_VERSION_KEY, String(Date.now()));
+        } catch (error) {
+          console.warn("Local backup failed:", error);
+        }
+
+        serverContentOverrides = payload;
+        currentContent = loadMasterContent();
+
+        const saveStatus = document.getElementById("saveStatus");
+        if (saveStatus) {
+          saveStatus.textContent = "השינויים נשמרו בהצלחה באתר ✅";
+          saveStatus.className = "status success";
+        }
+
+        setTimeout(() => {
+          window.location.href = "/index.html?updated=" + Date.now();
+        }, 900);
+
+      } catch (error) {
+        console.error("SAVE ERROR FULL DETAILS:", error);
+
+        const saveStatus = document.getElementById("saveStatus");
+        if (saveStatus) {
+          saveStatus.textContent = "השמירה נכשלה: " + (error.message || error);
+          saveStatus.className = "status error";
+        }
+
+        if (saveButton) {
+          saveButton.disabled = false;
+          saveButton.textContent = "💾 שמירת כל השינויים באתר";
+        }
+
+        if (stickySaveButton) {
+          stickySaveButton.disabled = false;
+          stickySaveButton.textContent = "💾 שמירת כל השינויים באתר";
+        }
+      }
+    }
+
+    initializeAdminDashboardV2();    initializeAdminDashboardV2();
+
+    document.addEventListener("keydown", (event) => {
+      if (adminApp.classList.contains("hidden")) return;
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "s") {
+        event.preventDefault();
+        saveAllChangesAndOpenSite();
+      }
+    });
+    document.querySelectorAll(".admin-nav [data-scroll-target]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const selector = button.getAttribute("data-scroll-target");
+        const target = selector ? document.querySelector(selector) : null;
+        if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    });
+    document.getElementById("saveButton")?.addEventListener("click", saveAllChangesAndOpenSite);
+    document.getElementById("stickySaveButton")?.addEventListener("click", saveAllChangesAndOpenSite);
+  </script>
+</body>
+</html>
+
+
+
+

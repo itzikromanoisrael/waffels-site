@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="הסילבוס המקצועי של האקדמיה של וופל׳ס: הכשרה מעשית ומעמיקה לעולם טיפוח הכלבים בהובלת אורטל.">
+  <meta name="robots" content="index,follow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'">
+  <link rel="canonical" href="https://waffelsgrooming.com/academy-cilabos/">
+  <title>האקדמיה של וופל׳ס | סילבוס קורס טיפוח כלבים מקצועי</title>
+  <style>
+    :root {
+      --ink: #17191a;
+      --muted: #626a6d;
+      --paper: #ffffff;
+      --soft: #f4f7f8;
+      --blue: #dff4fb;
+      --blue-strong: #267f9d;
+      --mint: #e7f3ed;
+      --rose: #f5e9ed;
+      --gold: #d8b45e;
+      --line: #dce2e4;
+      --danger: #a23b3b;
+      --success: #286746;
+      --radius: 7px;
+      --shadow: 0 16px 42px rgba(20, 28, 31, .12);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: Arial, "Noto Sans Hebrew", sans-serif; letter-spacing: 0; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea { font: inherit; }
+    button, .button { cursor: pointer; }
+    .container { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+    .site-header { position: sticky; top: 0; z-index: 40; height: 74px; background: rgba(255,255,255,.96); border-bottom: 1px solid var(--line); backdrop-filter: blur(12px); }
+    .header-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 900; }
+    .brand img { width: 48px; height: 48px; object-fit: contain; }
+    .brand span { display: grid; line-height: 1.05; }
+    .brand small { margin-top: 5px; color: var(--muted); font-size: 11px; font-weight: 600; }
+    .nav { display: flex; align-items: center; gap: 22px; font-size: 14px; font-weight: 700; }
+    .button { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; border: 1px solid var(--ink); border-radius: var(--radius); background: var(--ink); color: #fff; padding: 11px 18px; font-weight: 800; }
+    .button.light { background: #fff; color: var(--ink); }
+    .button.blue { border-color: var(--blue-strong); background: var(--blue-strong); }
+    .home-link { gap: 7px; white-space: nowrap; }
+    .home-link-short { display: none; }
+    .hero { position: relative; min-height: 680px; display: grid; align-items: end; overflow: hidden; color: #fff; }
+    .hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 38%; }
+    .hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(10,14,16,.3), rgba(10,14,16,.84)); }
+    .hero-content { position: relative; z-index: 1; padding-block: 100px 72px; }
+    .eyebrow { margin-bottom: 18px; color: #b8e8f8; font-size: 14px; font-weight: 900; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { max-width: 850px; margin-bottom: 20px; font-size: clamp(42px, 6vw, 72px); line-height: 1.03; letter-spacing: 0; }
+    .hero-copy { max-width: 760px; margin-bottom: 30px; color: #eef3f4; font-size: 20px; line-height: 1.7; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .academic-strip { border-bottom: 1px solid var(--line); background: var(--blue); }
+    .academic-strip-inner { min-height: 100px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 28px; }
+    .academic-strip p { margin: 0; font-size: 17px; line-height: 1.65; }
+    .price-mark { white-space: nowrap; font-size: 24px; font-weight: 900; }
+    section { padding: 84px 0; }
+    .section-head { max-width: 760px; margin-bottom: 34px; }
+    .section-kicker { margin-bottom: 9px; color: var(--blue-strong); font-size: 13px; font-weight: 900; }
+    h2 { margin-bottom: 12px; font-size: clamp(30px, 4vw, 46px); line-height: 1.15; }
+    .section-head p, .lead { color: var(--muted); font-size: 17px; line-height: 1.75; }
+    .audience-grid, .goals-grid, .benefits-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .info-item { min-height: 150px; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; }
+    .info-item strong { display: block; margin-bottom: 9px; font-size: 18px; }
+    .info-item p { margin: 0; color: var(--muted); line-height: 1.65; }
+    .goals { background: var(--soft); }
+    .goal { padding: 17px 0; border-top: 1px solid var(--line); font-weight: 750; line-height: 1.55; }
+    .syllabus { background: var(--ink); color: #fff; }
+    .syllabus .section-head p { color: #c7ced1; }
+    .module-list { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; counter-reset: modules; }
+    .module { position: relative; padding: 25px; border: 1px solid #454a4d; border-radius: var(--radius); background: #202325; counter-increment: modules; }
+    .module::before { content: counter(modules, decimal-leading-zero); display: block; margin-bottom: 22px; color: #8fd2e9; font-size: 26px; font-weight: 900; }
+    .module h3 { margin-bottom: 14px; font-size: 21px; }
+    .module ul { margin: 0; padding-right: 20px; color: #d7dcde; line-height: 1.75; }
+    .structure-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+    .structure-note { padding: 26px; border-right: 5px solid var(--blue-strong); background: var(--blue); font-size: 18px; line-height: 1.8; }
+    .benefit { padding: 19px 0; border-bottom: 1px solid var(--line); font-weight: 750; }
+    .admission { background: var(--mint); }
+    .admission-layout { display: grid; grid-template-columns: 1fr .9fr; gap: 48px; align-items: center; }
+    .admission-list { display: grid; gap: 11px; }
+    .admission-list div { padding: 15px 17px; background: rgba(255,255,255,.72); border-right: 3px solid #63977d; }
+    .price-section { background: var(--rose); }
+    .price-panel { display: grid; grid-template-columns: 1fr auto; gap: 34px; align-items: center; padding: 36px; border: 1px solid #e2cfd5; background: #fff; box-shadow: var(--shadow); }
+    .price { font-size: clamp(38px, 6vw, 62px); font-weight: 950; white-space: nowrap; }
+    .price-copy p { color: var(--muted); line-height: 1.7; }
+    .disclaimer { margin-top: 28px; padding-top: 22px; border-top: 1px solid #dcc7ce; color: #5d4b51; line-height: 1.65; }
+    .contact { position: relative; overflow: hidden; background: var(--soft); }
+    .contact-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 52px; align-items: start; }
+    .contact-copy { position: sticky; top: 106px; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+    .academy-form { padding: 26px; border: 1px solid var(--line); border-radius: var(--radius); background: #fff; box-shadow: var(--shadow); }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    label { display: grid; gap: 7px; color: #444b4e; font-size: 14px; font-weight: 750; }
+    input, textarea { width: 100%; min-height: 47px; padding: 12px 13px; border: 1px solid #cfd6d8; border-radius: var(--radius); background: #fff; color: var(--ink); }
+    textarea { min-height: 110px; resize: vertical; }
+    input:focus, textarea:focus { outline: 3px solid rgba(38,127,157,.18); border-color: var(--blue-strong); }
+    .full { grid-column: 1 / -1; }
+    .form-status { min-height: 24px; margin-top: 14px; font-weight: 800; }
+    .form-status.success { color: var(--success); }
+    .form-status.error { color: var(--danger); }
+    footer { padding: 30px 0; background: #101213; color: #d6dcde; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; align-items: center; }
+    @media (max-width: 840px) {
+      .nav a:not(.button) { display: none; }
+      .hero { min-height: 620px; }
+      .hero::after { background: linear-gradient(0deg, rgba(10,14,16,.88), rgba(10,14,16,.25)); }
+      .academic-strip-inner, .structure-layout, .admission-layout, .contact-layout { grid-template-columns: 1fr; }
+      .academic-strip-inner { padding-block: 22px; }
+      .price-mark { white-space: normal; }
+      .audience-grid, .goals-grid, .benefits-grid { grid-template-columns: 1fr 1fr; }
+      .module-list { grid-template-columns: 1fr; }
+      .contact-copy { position: static; }
+    }
+    @media (max-width: 540px) {
+      .container { width: min(100% - 22px, 1120px); }
+      .site-header { height: 66px; }
+      .brand small { display: none; }
+      .nav .button { min-height: 40px; padding: 8px 10px; font-size: 13px; }
+      .nav .contact-header { display: none; }
+      .home-link .home-link-long { display: none; }
+      .home-link .home-link-short { display: inline; }
+      .hero { min-height: 650px; }
+      .hero-content { padding-block: 85px 48px; }
+      h1 { font-size: 42px; }
+      .hero-copy { font-size: 17px; }
+      .hero-actions .button { width: 100%; }
+      section { padding: 60px 0; }
+      .audience-grid, .goals-grid, .benefits-grid, .form-grid, .price-panel { grid-template-columns: 1fr; }
+      .price-panel { padding: 23px 18px; }
+      .price { white-space: normal; }
+      .academy-form { padding: 18px; }
+      .contact-actions .button { width: 100%; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="../landing.html" aria-label="חזרה לאתר הראשי של וופל׳ס">
+        <img src="../assets/logo.png" alt="לוגו וופל׳ס">
+        <span>WAFFEL'S ACADEMY<small>Professional Dog Grooming · Ortal</small></span>
+      </a>
+      <nav class="nav" aria-label="ניווט בסילבוס">
+        <a href="#syllabus">סילבוס</a>
+        <a href="#structure">מבנה הקורס</a>
+        <a href="#price">מחיר</a>
+        <a class="button light home-link" href="../landing.html"><span aria-hidden="true">←</span><span class="home-link-long">חזרה לאתר וופל׳ס</span><span class="home-link-short">לאתר</span></a>
+        <a class="button contact-header" href="#contact">רוצה פרטים</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <img class="hero-image" src="../assets/media/optimized/hero/hero-ortal-background.webp" alt="אורטל בעבודה מקצועית במספרת וופל׳ס">
+      <div class="container hero-content">
+        <div class="eyebrow">WAFFEL'S ACADEMY · סילבוס מקצועי</div>
+        <h1 id="hero-title">האקדמיה של וופל׳ס — קורס טיפוח כלבים מקצועי</h1>
+        <p class="hero-copy">הכשרה מעשית ומעמיקה לעולם טיפוח הכלבים, בהובלת אורטל, עם דגש על עבודה נכונה לפי סוג פרווה, התנהגות הכלב וחוויית לקוח מקצועית.</p>
+        <div class="hero-actions">
+          <a class="button light" href="#contact">רוצה פרטים על הקורס</a>
+          <a class="button blue" href="#contact">שיחת התאמה עם אורטל</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="academic-strip">
+      <div class="container academic-strip-inner">
+        <p>מסלול פרטי ומקצועי שמחבר בין ידע, הדגמות ותרגול מעשי, מתוך הסטנדרט והניסיון של וופל׳ס.</p>
+        <div class="price-mark">מחיר הקורס: 17,900 ₪</div>
+      </div>
+    </div>
+
+    <section id="audience">
+      <div class="container">
+        <div class="section-head"><div class="section-kicker">התאמה למסלול</div><h2>למי הקורס מתאים</h2><p>למי שמחפש הכשרה רצינית, מעשית ואחראית לעבודה מקצועית עם כלבים.</p></div>
+        <div class="audience-grid">
+          <article class="info-item"><strong>כניסה מקצועית לתחום</strong><p>למי שרוצה להיכנס לעולם טיפוח הכלבים בצורה מקצועית ומסודרת.</p></article>
+          <article class="info-item"><strong>אהבה ואחריות לכלבים</strong><p>לבעלי אהבה לכלבים ורצון ללמוד לעבוד נכון, רגוע ובטוח.</p></article>
+          <article class="info-item"><strong>למידה מעשית</strong><p>למי שרוצה ללמוד דרך הדגמות ותרגול, ולא רק דרך תאוריה.</p></article>
+          <article class="info-item"><strong>כיוון עצמאי לעתיד</strong><p>למי ששוקל לפתוח עסק עצמאי בתחום בעתיד ורוצה בסיס אחראי.</p></article>
+          <article class="info-item"><strong>הבנת התהליך המלא</strong><p>למי שרוצה להבין פרווה, כלים, עבודה מקצועית וחוויית לקוח.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="goals">
+      <div class="container">
+        <div class="section-head"><div class="section-kicker">תוצאות למידה</div><h2>מטרות הקורס</h2><p>לבנות הבנה מקצועית ותהליך עבודה ברור שניתן להמשיך לפתח גם לאחר סיום המסלול.</p></div>
+        <div class="goals-grid">
+          <div class="goal">הבנת עולם טיפוח הכלבים</div>
+          <div class="goal">זיהוי סוגי פרווה והתאמת טיפול</div>
+          <div class="goal">עבודה נכונה ובטוחה עם כלים</div>
+          <div class="goal">עבודה רגועה ומכבדת מול כלבים</div>
+          <div class="goal">בניית תהליך טיפול מקצועי</div>
+          <div class="goal">תקשורת מדויקת עם לקוחות</div>
+          <div class="goal">הכנה לעבודה עצמאית בתחום</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="syllabus" id="syllabus">
+      <div class="container">
+        <div class="section-head"><div class="section-kicker">תכנית הלימודים</div><h2>מה לומדים בקורס</h2><p>עשרה מודולים שמתקדמים מהבסיס המקצועי ועד פרקטיקה, תיק עבודות והכנה להמשך הדרך.</p></div>
+        <div class="module-list">
+          <article class="module"><h3>היכרות עם עולם טיפוח הכלבים</h3><ul><li>תפקיד הספר/ית כלבים</li><li>אחריות מקצועית</li><li>בטיחות, היגיינה וסביבת עבודה</li><li>הבנת חוויית הכלב והלקוח</li></ul></article>
+          <article class="module"><h3>סוגי פרווה והתאמת טיפול</h3><ul><li>מתולתלת: פודל, מלטיפו ודודל</li><li>ארוכה ומשיית: יורקשייר, שיצו ומלטז</li><li>קצרה: פיטבול, דוברמן וביגל</li><li>כפולה: האסקי, סמויד, גולדן ופומרניאן</li><li>מתי לא מגלחים</li><li>זיהוי קשרים ודחיסות</li></ul></article>
+          <article class="module"><h3>רחצה, ייבוש והכנת הכלב</h3><ul><li>התאמת שמפו וחומרים</li><li>עבודה עם כלבים רגישים</li><li>ייבוש נכון</li><li>סירוק והכנה לפני תספורת</li><li>עבודה בטוחה עם קשרים</li></ul></article>
+          <article class="module"><h3>כלים מקצועיים וטכניקות עבודה</h3><ul><li>מכונת תספורת ומספריים</li><li>מסרקים ומברשות</li><li>עבודה לפי קווים וצורה</li><li>תחזוקה בסיסית של ציוד</li><li>בטיחות עם כלים חדים</li></ul></article>
+          <article class="module"><h3>תספורות ועיצוב לפי פרווה וגזע</h3><ul><li>פודל ומלטיפו</li><li>יורקשייר, שיצו ומלטז</li><li>התאמת אורך למצב הפרווה</li><li>עבודה אסתטית ונקייה</li><li>צילום לפני ואחרי</li></ul></article>
+          <article class="module"><h3>טיפול בפרווה כפולה ונשירה</h3><ul><li>למה לא מאשרים גילוח אוטומטי</li><li>הוצאת פרווה מתה</li><li>עבודה עם גולדן, האסקי, סמויד ופומרניאן</li><li>תקשורת מקצועית מול בקשת גילוח לא מתאימה</li></ul></article>
+          <article class="module"><h3>התנהגות כלבים וניהול טיפול רגוע</h3><ul><li>כלבים מפחדים ולא משתפים פעולה</li><li>עצירות והפסקות</li><li>קריאת סימני לחץ</li><li>עבודה רגועה ובטוחה</li></ul></article>
+          <article class="module"><h3>שירות לקוחות וניהול מספרה</h3><ul><li>אבחון ראשוני מול לקוח</li><li>הסבר מחיר ותיאום ציפיות</li><li>מדיניות ביטולים</li><li>תיעוד טיפול</li><li>בניית לקוחות חוזרים</li></ul></article>
+          <article class="module"><h3>פרקטיקה מעשית</h3><ul><li>עבודה מודרכת וצפייה בטיפולים</li><li>תרגול על כלבים מתאימים בלבד</li><li>משוב מקצועי מאורטל</li><li>בניית ביטחון בעבודה</li></ul></article>
+          <article class="module"><h3>סיכום, תיק עבודות והכנה להמשך</h3><ul><li>בניית תיק עבודות בסיסי</li><li>צילום לפני ואחרי</li><li>המשך תרגול מקצועי</li><li>פתיחת עסק בצורה אחראית</li><li>שיחת סיכום אישית</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="structure">
+      <div class="container structure-layout">
+        <div>
+          <div class="section-head"><div class="section-kicker">דרך הלמידה</div><h2>מבנה הקורס</h2></div>
+          <div class="structure-note">הקורס בנוי משילוב של לימוד תאורטי, הדגמות ותרגול מעשי. פרטי משך הקורס, ימי לימוד ושעות יימסרו בשיחה אישית בהתאם למסלול.</div>
+        </div>
+        <div>
+          <div class="section-head"><div class="section-kicker">מעטפת מקצועית</div><h2>מה מקבלים</h2></div>
+          <div class="benefits-grid">
+            <div class="benefit">ליווי מקצועי של אורטל</div><div class="benefit">סילבוס מסודר</div><div class="benefit">תרגול מעשי</div><div class="benefit">הבנת סוגי פרווה</div><div class="benefit">כלים לשירות לקוחות</div><div class="benefit">הכוונה להמשך הדרך</div><div class="benefit">תיעוד התקדמות</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="admission">
+      <div class="container admission-layout">
+        <div class="section-head"><div class="section-kicker">לפני ההרשמה</div><h2>תנאי קבלה והתאמה</h2><p>ההרשמה מתבצעת לאחר שיחה אישית, כדי לוודא שהמסלול מתאים לציפיות, לקצב ולכיוון המקצועי שלך.</p></div>
+        <div class="admission-list"><div>אהבה לכלבים</div><div>סבלנות ואחריות</div><div>רצון ללמוד עבודה מדויקת</div><div>התאמה אישית בשיחה לפני הרשמה</div></div>
+      </div>
+    </section>
+
+    <section class="price-section" id="price">
+      <div class="container">
+        <div class="price-panel">
+          <div class="price-copy"><div class="section-kicker">מחיר והרשמה</div><h2>השקעה בהכשרה מקצועית</h2><p>אפשרויות תשלום ופרטי הרשמה יימסרו בשיחה אישית. הרשמה לקורס מתבצעת לאחר שיחת התאמה עם אורטל.</p></div>
+          <div class="price">17,900 ₪</div>
+        </div>
+        <div class="disclaimer">הקורס הוא הכשרה מקצועית פרטית מטעם וופל׳ס. אין התחייבות להכנסה, עבודה או תוצאה עסקית מסוימת.</div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container contact-layout">
+        <div class="contact-copy">
+          <div class="section-head"><div class="section-kicker">שיחת התאמה</div><h2>רוצה פרטים על הקורס?</h2><p>השאירו פרטים קצרים ואורטל תחזור לשיחת התאמה אישית על המסלול.</p></div>
+          <div class="contact-actions"><a class="button blue" href="#academyLeadForm">שיחת התאמה עם אורטל</a><a class="button academy-whatsapp" href="#" target="_blank" rel="noreferrer">שלחו וואטסאפ לגבי האקדמיה</a></div>
+        </div>
+        <form class="academy-form" id="academyLeadForm" novalidate>
+          <div class="form-grid">
+            <label for="academyName">שם מלא<input id="academyName" name="customer_name" autocomplete="name" required></label>
+            <label for="academyPhone">טלפון<input id="academyPhone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="050-1234567"></label>
+            <label class="full" for="academyCity">עיר / אזור<input id="academyCity" name="city" autocomplete="address-level2"></label>
+            <label class="full" for="academyExperience">ניסיון קודם עם כלבים<textarea id="academyExperience" name="experience" placeholder="אפשר לכתוב בקצרה"></textarea></label>
+            <label class="full" for="academyInterest">מה מעניין אותך ללמוד?<textarea id="academyInterest" name="interest" required></textarea></label>
+            <label class="full" for="academyComments">הערות<textarea id="academyComments" name="comments"></textarea></label>
+            <button class="button blue full" type="submit">מעבר ל־WhatsApp עם הפרטים</button>
+          </div>
+          <div class="form-status" id="academyFormStatus" aria-live="polite" aria-atomic="true"></div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container footer-inner"><strong>WAFFEL'S ACADEMY · אורטל</strong><a href="../landing.html">חזרה לאתר וופל׳ס ←</a><span>הוד השרון · 052-897-8102</span></div></footer>
+
+  <script>
+    (function initAcademySyllabus() {
+      const whatsappText = "שלום אורטל, הגעתי דרך אתר האקדמיה ואשמח לקבל פרטים על הקורס 🐾";
+      const whatsappUrl = `https://wa.me/972528978102?text=${encodeURIComponent(whatsappText)}`;
+      document.querySelectorAll(".academy-whatsapp").forEach((link) => { link.href = whatsappUrl; });
+
+      const form = document.getElementById("academyLeadForm");
+      const status = document.getElementById("academyFormStatus");
+      const submitButton = form.querySelector('button[type="submit"]');
+
+      function setStatus(message, type = "") {
+        status.textContent = message;
+        status.className = `form-status ${type}`.trim();
+      }
+
+      function normalizeIsraeliPhone(value) {
+        const cleaned = String(value || "").replace(/[^\d+]/g, "");
+        let digits = cleaned;
+        if (digits.startsWith("+972")) digits = `0${digits.slice(4)}`;
+        else if (digits.startsWith("972")) digits = `0${digits.slice(3)}`;
+        if (!/^0(?:5\d|[23489])\d{7}$/.test(digits)) return null;
+        return digits;
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const values = Object.fromEntries(new FormData(form).entries());
+        if (!String(values.customer_name || "").trim() || !String(values.phone || "").trim() || !String(values.interest || "").trim()) {
+          setStatus("יש למלא שם, טלפון ומה מעניין אותך ללמוד.", "error");
+          return;
+        }
+        const normalizedPhone = normalizeIsraeliPhone(values.phone);
+        if (!normalizedPhone) {
+          setStatus("נראה שמספר הטלפון לא תקין. כתבו מספר ישראלי מלא, למשל 050-1234567.", "error");
+          form.elements.phone.focus();
+          return;
+        }
+
+        submitButton.disabled = true;
+        setStatus("מעבירים אותך ל־WhatsApp עם הפרטים שמילאת. אורטל תבדוק ותחזור אישית.", "success");
+        const message = [
+          "שלום אורטל, הגעתי דרך עמוד האקדמיה של Waffel’s 🐾",
+          "",
+          `שם מלא: ${String(values.customer_name || "").trim()}`,
+          `טלפון: ${normalizedPhone}`,
+          `עיר / אזור: ${values.city || "לא נמסר"}`,
+          `ניסיון קודם עם כלבים: ${values.experience || "לא נמסר"}`,
+          `מה מעניין אותי ללמוד: ${values.interest}`,
+          `הערות: ${values.comments || "לא נמסרו"}`
+        ].join("\n");
+        window.setTimeout(() => {
+          submitButton.disabled = false;
+          window.location.href = `https://wa.me/972528978102?text=${encodeURIComponent(message)}`;
+        }, 900);
+      });
+    })();
+  </script>
+</body>
+</html>
