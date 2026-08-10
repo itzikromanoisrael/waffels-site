@@ -487,14 +487,18 @@
     .sphere-album-wrap .memory-photo.left,
     .sphere-album-wrap .memory-photo.top,
     .sphere-album-wrap .memory-photo.bottom,
-    .sphere-album-wrap .memory-photo.small { top: 50%; right: auto; left: 50%; width: var(--sphere-card-size); aspect-ratio: 1; border-radius: 999px; opacity: 1; translate: 0 0; transform: translate(-50%, -50%); box-shadow: 0 18px 48px rgba(33,24,17,.22); will-change: transform, opacity; backface-visibility: hidden; pointer-events: auto; }
+    .sphere-album-wrap .memory-photo.small { top: 50%; right: auto; left: 50%; width: var(--sphere-card-size); aspect-ratio: 1; border-radius: 999px; opacity: 1; translate: 0 0; transform: translate(-50%, -50%); box-shadow: 0 18px 48px rgba(33,24,17,.22); will-change: transform, opacity; backface-visibility: hidden; pointer-events: auto; cursor: pointer; }
     .sphere-album-wrap .memory-photo::before { border-radius: inherit; background: linear-gradient(180deg, rgba(0,0,0,0), transparent 44%, rgba(0,0,0,.32)); }
     .sphere-album-wrap .memory-photo img { border-radius: inherit; }
     .sphere-album-wrap .memory-photo figcaption { right: 50%; bottom: -13px; left: auto; width: max-content; max-width: 160px; translate: 50% 0; padding: 6px 10px; font-size: 11px; opacity: 0; transition: opacity .25s ease, transform .25s ease; transform: translateY(4px); }
     .sphere-album-wrap .memory-photo.is-front figcaption,
     .sphere-album-wrap .memory-photo:hover figcaption { opacity: 1; transform: translateY(0); }
-    .sphere-album-wrap .memory-photo.is-back { pointer-events: none; }
+    .sphere-album-wrap .memory-photo.is-back { pointer-events: auto; }
     .sphere-album-wrap .memory-photo.is-front { box-shadow: 0 28px 76px rgba(33,24,17,.3); }
+    .sphere-album-wrap .memory-photo.is-selected { border-radius: 30px; box-shadow: 0 38px 110px rgba(33,24,17,.36); }
+    .sphere-album-wrap .memory-photo.is-selected figcaption { opacity: 1; transform: translateY(0); bottom: 12px; }
+    .sphere-album-wrap .memory-photo.is-dimmed { filter: saturate(.82) brightness(.92) !important; }
+    .sphere-album-wrap.is-photo-focused::after { background: radial-gradient(circle, rgba(255,255,255,.4), rgba(255,255,255,.1) 46%, transparent 64%); }
     .sphere-album-wrap .memory-tag { left: 5%; bottom: 12%; top: auto; z-index: 8; max-width: 235px; font-size: 13px; }
     .sphere-album-wrap .memory-controls { margin-top: -16px; }
     .sphere-album-wrap .memory-dot { width: auto; height: auto; min-height: 32px; padding: 0 12px; border-radius: 999px; background: rgba(36,27,22,.12); color: #5b4a3d; font-size: 12px; font-weight: 850; transform: none; }
@@ -1429,6 +1433,7 @@
       let lastFrameTime = performance.now();
       let lastTouchTime = 0;
       let pointerSoftness = { x: 0, y: 0, active: 0 };
+      let selectedIndex = null;
 
       const reveal = () => section && section.classList.add('is-visible');
       const updateModeButtons = () => {
@@ -1437,6 +1442,24 @@
           dot.classList.toggle('is-active', isActive);
           dot.setAttribute('aria-current', isActive ? 'true' : 'false');
         });
+      };
+
+      const getPhotoIndex = (target) => {
+        const photo = target.closest ? target.closest('.memory-photo') : null;
+        return photo ? photos.indexOf(photo) : -1;
+      };
+
+      const togglePhotoFocus = (index) => {
+        if (index < 0) {
+          selectedIndex = null;
+        }
+        else {
+          selectedIndex = selectedIndex === index ? null : index;
+        }
+        velocity = { x: 0, y: 0 };
+        lastTouchTime = performance.now();
+        album.classList.toggle('is-photo-focused', selectedIndex !== null);
+        renderSphere();
       };
 
       const renderSphere = () => {
@@ -1453,6 +1476,8 @@
 
         photos.forEach((photo, index) => {
           const base = positions[index];
+          const isSelected = selectedIndex === index;
+          const hasSelection = selectedIndex !== null;
           let x = base.x * radius;
           let y = base.y * radius;
           let z = base.z * radius;
@@ -1469,19 +1494,43 @@
 
           const depth = (z + radius) / (2 * radius);
           const pointerLift = pointerSoftness.active * clamp(1 - Math.hypot((x / radius) - pointerSoftness.x, (y / radius) - pointerSoftness.y) * .9, 0, 1);
-          const scale = .58 + depth * .72 + pointerLift * .11;
-          const opacity = clamp(.18 + depth * .88, .12, 1);
-          const blur = z < -radius * .56 ? .9 : 0;
-          const isFront = z > radius * .5;
+          let scale = .58 + depth * .72 + pointerLift * .11;
+          let opacity = clamp(.18 + depth * .88, .12, 1);
+          let blur = z < -radius * .56 ? .9 : 0;
+          let isFront = z > radius * .5;
           const softX = pointerLift * pointerSoftness.x * 10;
           const softY = pointerLift * pointerSoftness.y * 10;
 
+          if (hasSelection) {
+            if (isSelected) {
+              x = 0;
+              y = 0;
+              z = radius * .95;
+              scale = size < 430 ? 2.12 : 2.38;
+              opacity = 1;
+              blur = 0;
+              isFront = true;
+            }
+            else {
+              x *= .72;
+              y *= .72;
+              z = z * .35 - radius * .32;
+              scale = .42 + depth * .26;
+              opacity = clamp(.14 + depth * .24, .13, .42);
+              blur = .45;
+              isFront = false;
+            }
+          }
+
           photo.classList.toggle('is-front', isFront);
           photo.classList.toggle('is-back', z < -radius * .35);
+          photo.classList.toggle('is-selected', isSelected);
+          photo.classList.toggle('is-dimmed', hasSelection && !isSelected);
+          photo.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
           photo.style.opacity = String(opacity);
-          photo.style.zIndex = String(Math.round(1000 + z));
+          photo.style.zIndex = String(isSelected ? 4000 : Math.round(1000 + z));
           photo.style.filter = `blur(${blur}px) saturate(${.82 + depth * .25})`;
-          photo.style.transform = `translate(-50%, -50%) translate3d(${x + softX}px, ${y + softY}px, ${z}px) scale(${scale})`;
+          photo.style.transform = `translate(-50%, -50%) translate3d(${x + (hasSelection ? 0 : softX)}px, ${y + (hasSelection ? 0 : softY)}px, ${z}px) scale(${scale})`;
         });
       };
 
@@ -1494,7 +1543,7 @@
           return;
         }
         const mode = modes[activeMode];
-        if (!drag && !reduceMotion) {
+        if (!drag && !reduceMotion && selectedIndex === null) {
           const autoResume = clamp((now - lastTouchTime - 900) / 1800, 0, 1);
           rotation.y = normalize(rotation.y + (mode.auto * autoResume + velocity.y) * frameStep);
           rotation.x = normalize(clamp(rotation.x + velocity.x * frameStep, -36, 36));
@@ -1512,7 +1561,7 @@
 
       const startDrag = (event) => {
         if (event.pointerType === 'mouse' && event.button !== 0) return;
-        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY, axis: null };
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY, axis: null, photoIndex: getPhotoIndex(event.target) };
         lastTouchTime = performance.now();
         velocity = { x: 0, y: 0 };
         album.setPointerCapture(event.pointerId);
@@ -1550,9 +1599,19 @@
 
       const finishDrag = (event) => {
         if (!drag || drag.id !== event.pointerId) return;
+        const current = drag;
         drag = null;
         album.classList.remove('is-dragging');
         lastTouchTime = performance.now();
+        const moved = Math.hypot(event.clientX - current.x, event.clientY - current.y);
+        if (!current.axis && moved < 9) {
+          togglePhotoFocus(current.photoIndex);
+          return;
+        }
+        if (selectedIndex !== null) {
+          velocity = { x: 0, y: 0 };
+          return;
+        }
         velocity.x *= .45;
         velocity.y *= .45;
       };
@@ -1568,6 +1627,16 @@
         updateModeButtons();
         renderSphere();
       }));
+      photos.forEach((photo, index) => {
+        photo.tabIndex = 0;
+        photo.setAttribute('role', 'button');
+        photo.setAttribute('aria-label', `הגדלת תמונה ${index + 1} באלבום`);
+        photo.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          togglePhotoFocus(index);
+        });
+      });
       album.addEventListener('pointerdown', startDrag);
       album.addEventListener('pointermove', moveDrag, { passive: true });
       album.addEventListener('pointerup', finishDrag);
