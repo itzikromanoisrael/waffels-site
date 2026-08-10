@@ -517,6 +517,23 @@
       .sphere-album-wrap .memory-dot { min-height: 30px; padding: 0 10px; font-size: 11px; }
       .sphere-album-wrap .memory-photo figcaption { display: none; }
     }
+
+    /* WAFFEL AI global motion tuning */
+    @media (prefers-reduced-motion: no-preference) {
+      .motion-reveal { opacity: 0; transform: translate3d(0, 22px, 0); transition: opacity .72s ease, transform .82s cubic-bezier(.18, .82, .18, 1); }
+      .motion-reveal.is-visible { opacity: 1; transform: translate3d(0, 0, 0); }
+      .service-item.motion-reveal, .step.motion-reveal, .coat-image.motion-reveal { transition-delay: calc(var(--motion-order, 0) * 55ms); }
+      html.is-scrolling .hero-memory-card { animation-play-state: paused; }
+      html.is-scrolling .services-dots,
+      html.is-scrolling .shapegrid-canvas { opacity: .06; }
+      html.is-scrolling .ortal-card,
+      html.is-scrolling .photo-spread-card,
+      html.is-scrolling .impact-thumb,
+      html.is-scrolling .memory-photo { transition-duration: .28s; }
+    }
+
+    .services-dots, .shapegrid-canvas { transition: opacity .45s ease; }
+    .ortal-stage, .photo-spread-stage, .impact-feature, .sphere-album-wrap { -webkit-tap-highlight-color: transparent; }
   </style>
 </head>
 <body>
@@ -820,6 +837,45 @@
   </dialog>
 
   <script>
+    (() => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let scrollTimer = 0;
+
+      const markScrolling = () => {
+        document.documentElement.classList.add('is-scrolling');
+        window.clearTimeout(scrollTimer);
+        scrollTimer = window.setTimeout(() => {
+          document.documentElement.classList.remove('is-scrolling');
+        }, 180);
+      };
+
+      window.addEventListener('scroll', markScrolling, { passive: true });
+      window.addEventListener('touchmove', markScrolling, { passive: true });
+
+      if (reduceMotion) return;
+
+      const revealItems = [
+        ...document.querySelectorAll('.section-heading, .service-item, .step, .coat-image, .care-promise, .memory-copy, .memory-stage-wrap, .impact-gallery, .lead-form')
+      ];
+
+      revealItems.forEach((item, index) => {
+        item.classList.add('motion-reveal');
+        item.style.setProperty('--motion-order', String(index % 6));
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: .12 });
+
+      revealItems.forEach((item) => observer.observe(item));
+    })();
+  </script>
+
+  <script>
     (function initLandingPage() {
       function initShapeGrid(canvas, options = {}) {
         const ctx = canvas.getContext("2d");
@@ -835,6 +891,7 @@
         let animationFrame = 0;
         let isVisible = false;
         let isRunning = false;
+        let lastPaint = 0;
 
         function resize() {
           const rect = canvas.getBoundingClientRect();
@@ -867,7 +924,13 @@
           }
         }
 
-        function animate() {
+        function animate(time = 0) {
+          const isPageScrolling = document.documentElement.classList.contains("is-scrolling");
+          if (isPageScrolling && time - lastPaint < 80) {
+            if (!reduceMotion && isVisible) animationFrame = window.requestAnimationFrame(animate);
+            return;
+          }
+          lastPaint = time;
           if (!reduceMotion) offset -= Math.max(speed, 0.1);
           draw();
           if (!reduceMotion && isVisible) animationFrame = window.requestAnimationFrame(animate);
@@ -1033,6 +1096,7 @@
       let isVisible = true;
       let frameId = 0;
       let isRunning = false;
+      let lastPaint = 0;
 
       const resize = () => {
         const bounds = section.getBoundingClientRect();
@@ -1048,6 +1112,12 @@
       };
 
       const draw = (time) => {
+        const isPageScrolling = document.documentElement.classList.contains('is-scrolling');
+        if (isPageScrolling && time - lastPaint < 72) {
+          if (isVisible && !reduceMotion) frameId = window.requestAnimationFrame(draw);
+          return;
+        }
+        lastPaint = time;
         context.clearRect(0, 0, width, height);
         const spacing = width < 560 ? 30 : 38;
         const radius = 145;
@@ -1562,10 +1632,12 @@
           return;
         }
         const mode = modes[activeMode];
+        const pageIsScrolling = document.documentElement.classList.contains('is-scrolling');
+        const motionFactor = pageIsScrolling && !drag && selectedIndex === null ? .38 : 1;
         if (!drag && !reduceMotion && selectedIndex === null) {
           const autoResume = clamp((now - lastTouchTime - 900) / 1800, 0, 1);
-          rotation.y = normalize(rotation.y + (mode.auto * autoResume + velocity.y) * frameStep);
-          rotation.x = normalize(clamp(rotation.x + velocity.x * frameStep, -36, 36));
+          rotation.y = normalize(rotation.y + (mode.auto * autoResume + velocity.y) * frameStep * motionFactor);
+          rotation.x = normalize(clamp(rotation.x + velocity.x * frameStep * motionFactor, -36, 36));
           velocity.x *= Math.pow(mode.decay, frameStep);
           velocity.y *= Math.pow(mode.decay, frameStep);
           if (Math.abs(velocity.x) < .0015) velocity.x = 0;
