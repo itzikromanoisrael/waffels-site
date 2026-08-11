@@ -427,12 +427,19 @@
       .service-grid, .form-grid { grid-template-columns: 1fr; }
       .work-gallery-shell { min-height: 510px; padding-right: 11px; padding-left: 11px; }
       .work-gallery { width: min(76vw, 300px); }
-      .impact-gallery { border-radius: 24px; padding: 14px; }
-      .impact-feature { width: 100%; height: auto; aspect-ratio: 4 / 5; border-radius: 21px; }
-      .impact-caption { padding: 18px; }
-      .impact-copy { height: 240px; padding: 16px; border-radius: 20px; }
+      .impact-gallery { border-radius: 24px; padding: 10px; margin-inline: -2px; }
+      .impact-stage { gap: 12px; }
+      .impact-feature { width: 100%; height: clamp(285px, 82vw, 340px); aspect-ratio: auto; border-radius: 20px; background: radial-gradient(circle at 50% 18%, rgba(255,255,255,.14), transparent 42%), #171c1f; }
+      .impact-feature img { object-fit: contain; padding: 4px; }
+      .impact-feature::after { background: linear-gradient(180deg, rgba(0,0,0,.02), transparent 54%, rgba(0,0,0,.58)); }
+      .impact-caption { padding: 14px; }
+      .impact-caption h3 { font-size: clamp(22px, 7vw, 30px); line-height: 1.05; }
+      .impact-count { margin-bottom: 6px; font-size: 11px; padding: 5px 8px; }
+      .impact-copy { height: auto; min-height: 0; padding: 15px; border-radius: 20px; }
       .impact-copy p { font-size: 15px; line-height: 1.65; }
       .impact-hint { font-size: 13px; }
+      .impact-thumbs { gap: 8px; margin-inline: -10px; padding: 0 10px 4px; }
+      .impact-thumb { flex: 0 0 66px; border-radius: 13px; }
       .photo-spread { min-height: 350px; margin-bottom: 28px; }
       .photo-spread-stage { height: 205px; }
       .photo-spread-card { --card-size: clamp(112px, 34vw, 142px); border-radius: 18px; }
