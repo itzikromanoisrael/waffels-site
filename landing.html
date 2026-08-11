@@ -378,10 +378,13 @@
     @media (max-width: 520px) {
       body { padding-bottom: 72px; }
       .container { width: min(100% - 22px, 1120px); }
-      .site-header { height: 66px; }
+      .site-header { height: 64px; overflow: hidden; }
+      .header-inner { justify-content: center; gap: 8px; }
+      .brand { display: none; }
       .brand small { display: none; }
-      .header-nav .button { font-size: 13px; padding: 8px 10px; }
-      .header-nav { gap: 7px; }
+      .header-nav { flex: 0 1 auto; justify-content: center; min-width: 0; overflow: visible; gap: 7px; }
+      .header-nav .button { min-height: 38px; font-size: 12.5px; padding: 7px 10px; white-space: nowrap; }
+      .header-nav .button[href="#contact"] { display: none; }
       .academy-long { display: none; }
       .academy-short { display: inline; }
       .hero { min-height: 560px; }
