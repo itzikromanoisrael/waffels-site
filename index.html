@@ -253,15 +253,11 @@
     .service-mini-dot:first-child { margin-inline-start: 0; }
     .service-status { display: inline-flex; align-items: center; min-height: 30px; padding: 6px 10px; border-radius: 999px; background: rgba(36,27,22,.08); color: #2f393d; font-size: 12px; font-weight: 900; white-space: nowrap; }
     @media (min-width: 821px) {
-      .service-grid { grid-template-columns: 1fr; grid-template-areas: "stack"; min-height: 395px; place-items: center; }
-      .service-item { grid-area: stack; width: min(100%, 360px); min-height: 220px; border-width: 2px; backdrop-filter: blur(10px); }
-      .service-item:nth-child(1) { --service-stack-x: 150px; --service-stack-y: -12px; --service-skew: -6deg; z-index: 3; }
-      .service-item:nth-child(2) { --service-stack-x: 0px; --service-stack-y: 54px; --service-skew: -6deg; z-index: 2; }
-      .service-item:nth-child(3) { --service-stack-x: -150px; --service-stack-y: 120px; --service-skew: -6deg; z-index: 1; }
-      .service-item:nth-child(1)::before,
-      .service-item:nth-child(2)::before { opacity: .64; }
-      .service-item:nth-child(1)::after,
-      .service-item:nth-child(2)::after { content: ""; position: absolute; inset: 0 -34% 0 auto; z-index: 4; width: 45%; height: auto; border-radius: 0; background: linear-gradient(270deg, var(--soft), rgba(246,241,231,.72), transparent); filter: none; transform: none; pointer-events: none; }
+      .service-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); min-height: 0; place-items: stretch; }
+      .service-item { width: auto; min-height: 238px; border-width: 2px; backdrop-filter: blur(10px); --service-stack-x: 0px; --service-stack-y: 0px; --service-skew: -2deg; }
+      .service-item:nth-child(1) { z-index: 3; }
+      .service-item:nth-child(2) { z-index: 2; }
+      .service-item:nth-child(3) { z-index: 1; }
     }
     .coat-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: 44px; align-items: center; }
     .coat-media { display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1fr 1fr; gap: 10px; min-height: 560px; }
@@ -440,10 +436,10 @@
       .work-gallery { width: min(76vw, 300px); }
       .impact-gallery { border-radius: 24px; padding: 10px; margin-inline: -2px; }
       .impact-stage { gap: 12px; }
-      .impact-feature { width: 100%; height: clamp(345px, 98vw, 430px); aspect-ratio: auto; border-radius: 20px; background: radial-gradient(circle at 50% 12%, rgba(255,255,255,.92), rgba(237,248,251,.38) 46%, rgba(13,17,19,.92) 100%); touch-action: pan-y pinch-zoom; }
-      .impact-feature img { object-fit: contain; padding: 10px 10px 76px; object-position: center; filter: saturate(1.02) contrast(1.03); }
-      .impact-feature::after { background: linear-gradient(180deg, transparent 52%, rgba(0,0,0,.66)); }
-      .impact-caption { padding: 12px 14px; }
+      .impact-feature { width: 100%; height: auto; aspect-ratio: auto; border-radius: 20px; background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(237,248,251,.72)); touch-action: pan-y pinch-zoom; contain: none; overflow: hidden; }
+      .impact-feature img { position: relative; inset: auto; width: 100%; height: auto; max-height: min(72svh, 520px); object-fit: contain; padding: 8px; object-position: center; filter: saturate(1.02) contrast(1.03); background: rgba(255,255,255,.72); }
+      .impact-feature::after { display: none; }
+      .impact-caption { position: relative; right: auto; bottom: auto; left: auto; padding: 12px 14px 14px; background: linear-gradient(180deg, rgba(13,17,19,.96), rgba(13,17,19,.9)); }
       .impact-caption h3 { font-size: clamp(22px, 7vw, 30px); line-height: 1.05; }
       .impact-count { margin-bottom: 6px; font-size: 11px; padding: 5px 8px; }
       .impact-copy { height: auto; min-height: 0; padding: 15px; border-radius: 20px; }
@@ -857,7 +853,7 @@
         <div class="impact-gallery" id="impactGallery" tabindex="0" role="region" aria-label="גלריית עבודות של וופל׳ס. בחרו תמונה, החליקו או השתמשו בחצים במקלדת.">
           <div class="impact-stage">
             <figure class="impact-feature" id="impactFeature">
-              <img id="impactImage" src="./assets/media/gallery/gallery-01.jpg" alt="טיפוח מקצועי לכלב בוופל׳ס" loading="lazy" decoding="async">
+              <img id="impactImage" src="./assets/media/fast/gallery-01.webp" alt="טיפוח מקצועי לכלב בוופל׳ס" loading="lazy" decoding="async">
               <figcaption class="impact-caption">
                 <span class="impact-count" id="impactCount">01 / 25</span>
                 <h3 id="impactTitle">טיפוח מותאם לפרווה</h3>
@@ -1492,11 +1488,12 @@
       const thumbs = [...gallery.querySelectorAll('.impact-thumb')];
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const isRtl = document.documentElement.dir === 'rtl';
+      const prefersFastImages = window.matchMedia('(max-width: 680px)').matches || navigator.connection?.saveData;
       let active = 0;
       let drag = null;
 
       const formatCount = (index) => `${String(index + 1).padStart(2, '0')} / ${String(thumbs.length).padStart(2, '0')}`;
-      const displaySrc = (thumb) => thumb?.dataset.full || thumb?.dataset.src || '';
+      const displaySrc = (thumb) => prefersFastImages ? (thumb?.dataset.src || thumb?.dataset.full || '') : (thumb?.dataset.full || thumb?.dataset.src || '');
       const preloadAround = (index) => {
         [index - 1, index + 1].forEach((value) => {
           const thumb = thumbs[(value + thumbs.length) % thumbs.length];
@@ -1510,9 +1507,10 @@
         active = (index + thumbs.length) % thumbs.length;
         const selected = thumbs[active];
         if (!selected) return;
+        const nextSrc = displaySrc(selected);
         feature.classList.add('is-changing');
-        window.setTimeout(() => {
-          image.src = displaySrc(selected);
+        const applyImage = () => {
+          image.src = nextSrc;
           image.alt = selected.dataset.alt || '';
           title.textContent = selected.dataset.title || '';
           text.textContent = selected.dataset.caption || '';
@@ -1525,7 +1523,11 @@
           if (!reduceMotion) selected.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
           preloadAround(active);
           window.setTimeout(() => feature.classList.remove('is-changing'), 90);
-        }, reduceMotion ? 0 : 120);
+        };
+        const loader = new Image();
+        loader.onload = () => window.setTimeout(applyImage, reduceMotion ? 0 : 70);
+        loader.onerror = applyImage;
+        loader.src = nextSrc;
       };
 
       thumbs.forEach((thumb, index) => {
