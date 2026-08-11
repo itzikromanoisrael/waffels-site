@@ -3,10 +3,45 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="וופל׳ס מספרת כלבים בוטיק בהוד השרון. טיפוח מקצועי, רגוע ומותאם לסוג הפרווה ולאופי הכלב.">
+  <meta name="description" content="Waffel’s Dog Grooming — וופל׳ס מספרת כלבים בהוד השרון. טיפול טיפוח פרימיום מלא, התמחות בפודלים ופרוות מתולתלות, עבודה רגועה ומותאמת לכלב.">
   <meta name="robots" content="index,follow">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'">
-  <title>וופל׳ס | מספרת כלבים בוטיק בהוד השרון</title>
+  <link rel="canonical" href="https://waffelsgrooming.com/">
+  <meta property="og:locale" content="he_IL">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Waffel’s Dog Grooming — וופל׳ס מספרת כלבים בהוד השרון">
+  <meta property="og:description" content="טיפול טיפוח פרימיום מלא לכלבים בהוד השרון, עם התמחות בפודלים, פרוות מתולתלות והתאמה רגועה למצב הפרווה.">
+  <meta property="og:url" content="https://waffelsgrooming.com/">
+  <meta property="og:image" content="https://waffelsgrooming.com/assets/media/optimized/hero/hero-ortal-background.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Waffel’s Dog Grooming — וופל׳ס מספרת כלבים">
+  <meta name="twitter:description" content="מספרת כלבים פרימיום בהוד השרון. טיפול מלא, מקצועי ורגוע לפי סוג הפרווה ומצב הכלב.">
+  <meta name="twitter:image" content="https://waffelsgrooming.com/assets/media/optimized/hero/hero-ortal-background.webp">
+  <title>Waffel’s Dog Grooming — וופל׳ס מספרת כלבים בהוד השרון</title>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Waffel’s Dog Grooming — וופל׳ס מספרת כלבים",
+      "description": "מספרת כלבים בהוד השרון לטיפול טיפוח פרימיום מלא, בהתאמה לסוג הפרווה ולמצב הכלב.",
+      "url": "https://waffelsgrooming.com/",
+      "telephone": "+972528978102",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "הוד השרון",
+        "addressCountry": "IL"
+      },
+      "areaServed": "הוד השרון",
+      "openingHoursSpecification": [
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "09:00", "closes": "16:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Monday", "opens": "09:00", "closes": "16:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Tuesday", "opens": "09:00", "closes": "16:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Wednesday", "opens": "09:00", "closes": "16:00" },
+        { "@type": "OpeningHoursSpecification", "dayOfWeek": "Thursday", "opens": "09:00", "closes": "16:00" }
+      ],
+      "priceRange": "₪₪"
+    }
+  </script>
   <style>
     :root {
       --ink: #17191a;
@@ -23,11 +58,14 @@
       --shadow: 0 16px 40px rgba(16, 24, 28, .09);
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); background: var(--paper); }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { margin: 0; font-family: "Segoe UI", Arial, sans-serif; color: var(--ink); background: var(--paper); overflow-x: hidden; }
     img { display: block; max-width: 100%; }
     a { color: inherit; }
     button, input, textarea, select { font: inherit; }
+    :focus-visible { outline: 3px solid rgba(46,113,137,.5); outline-offset: 3px; }
+    .skip-link { position: fixed; top: 10px; right: 10px; z-index: 1000; transform: translateY(-140%); background: var(--ink); color: #fff; padding: 12px 16px; border-radius: var(--radius); text-decoration: none; font-weight: 800; }
+    .skip-link:focus { transform: translateY(0); }
     button, .button {
       border: 0;
       border-radius: var(--radius);
@@ -73,6 +111,8 @@
       color: #fff;
       overflow: hidden;
       background: #30383d;
+      isolation: isolate;
+      perspective: 1200px;
     }
     .hero::before {
       content: "";
@@ -81,36 +121,126 @@
       background: linear-gradient(90deg, rgba(11,17,20,.15), rgba(11,17,20,.82));
       z-index: 1;
     }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 36%;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(0deg, rgba(16,13,11,.7), transparent);
+    }
     .hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 42% 43%; }
-    .hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: center; max-width: 680px; }
+    .hero-content { position: relative; z-index: 4; height: 100%; display: flex; flex-direction: column; justify-content: center; max-width: 680px; }
+    .hero-memory-scene { position: absolute; inset: 6% auto 7% 4%; z-index: 3; width: min(38vw, 430px); min-width: 300px; pointer-events: none; transform-style: preserve-3d; opacity: .96; filter: drop-shadow(0 26px 42px rgba(0,0,0,.32)); }
+    .hero-memory-glow { position: absolute; inset: 15% 8%; border-radius: 999px; background: radial-gradient(circle, rgba(255,226,178,.34), rgba(162,212,219,.12) 42%, transparent 72%); transform: translateZ(-90px); filter: blur(10px); }
+    .hero-memory-card { position: absolute; overflow: hidden; border: 8px solid rgba(255,250,239,.96); border-bottom-width: 32px; border-radius: 18px; background: #fff8ea; box-shadow: 0 24px 70px rgba(0,0,0,.35); transform-style: preserve-3d; animation: memoryDrift 8s ease-in-out infinite; }
+    .hero-memory-card img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.96) contrast(1.03) sepia(.08); }
+    .hero-memory-card.one { top: 13%; left: 17%; width: 54%; aspect-ratio: 4 / 5; transform: rotate(-9deg) translateZ(80px); animation-delay: -.6s; }
+    .hero-memory-card.two { top: 37%; left: 48%; width: 43%; aspect-ratio: 4 / 5; transform: rotate(7deg) translateZ(130px); animation-delay: -2.4s; }
+    .hero-memory-card.three { top: 57%; left: 5%; width: 42%; aspect-ratio: 1 / 1; transform: rotate(11deg) translateZ(45px); animation-delay: -4s; }
+    .hero-memory-note { position: absolute; left: 2%; bottom: 8%; max-width: 260px; padding: 14px 16px; border: 1px solid rgba(255,245,221,.48); border-radius: 18px; background: rgba(37,29,23,.5); color: #fff5dd; font-size: 14px; line-height: 1.55; backdrop-filter: blur(14px); transform: translateZ(170px) rotate(-1deg); }
+    @keyframes memoryDrift {
+      0%, 100% { translate: 0 0; }
+      50% { translate: 0 -10px; }
+    }
     .eyebrow { font-size: 14px; font-weight: 800; margin-bottom: 14px; }
     h1, h2, h3, p { margin-top: 0; }
     h1 { font-size: clamp(38px, 7vw, 76px); line-height: 1.02; letter-spacing: 0; margin-bottom: 20px; }
     .hero p { font-size: clamp(18px, 2.2vw, 23px); line-height: 1.65; max-width: 640px; margin-bottom: 28px; }
     .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-    .trust-strip { background: var(--blue); border-bottom: 1px solid #c7e4ee; }
-    .trust-inner { padding: 28px 0; display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
-    .trust-inner p { margin: 0; line-height: 1.7; font-size: 17px; max-width: 820px; }
-    .trust-mark { font-weight: 850; white-space: nowrap; }
+    .hero-memory-whisper { position: relative; display: inline-flex; align-items: center; gap: 10px; width: fit-content; max-width: min(100%, 440px); margin-top: 18px; padding: 10px 14px 10px 16px; overflow: hidden; border: 1px solid rgba(255,245,221,.34); border-radius: 999px; background: linear-gradient(135deg, rgba(37,29,23,.46), rgba(255,245,221,.13)); color: #fff5dd; font-size: clamp(14px, 1.45vw, 16px); line-height: 1.45; font-weight: 750; letter-spacing: .01em; box-shadow: 0 18px 46px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.22); backdrop-filter: blur(14px); animation: whisperFloat 5.8s ease-in-out infinite; }
+    .hero-memory-whisper::before { content: ""; flex: 0 0 auto; width: 9px; height: 9px; border-radius: 999px; background: #ffe2b2; box-shadow: 0 0 0 6px rgba(255,226,178,.12), 0 0 22px rgba(255,226,178,.72); }
+    .hero-memory-whisper::after { content: ""; position: absolute; inset: -40% auto -40% -24%; width: 28%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.34), transparent); transform: rotate(18deg); animation: whisperShine 6.8s ease-in-out infinite; pointer-events: none; }
+    @keyframes whisperFloat {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(0, -4px, 0); }
+    }
+    @keyframes whisperShine {
+      0%, 38% { left: -30%; opacity: 0; }
+      48% { opacity: .9; }
+      64%, 100% { left: 110%; opacity: 0; }
+    }
+    .trust-strip { position: relative; overflow: hidden; background: radial-gradient(circle at 14% 18%, rgba(255,226,178,.55), transparent 30%), radial-gradient(circle at 86% 18%, rgba(126,198,217,.32), transparent 34%), linear-gradient(135deg, #edf8fb 0%, #fff8ec 100%); border-bottom: 1px solid rgba(109,177,198,.28); perspective: 1300px; }
+    .trust-strip::before { content: ""; position: absolute; inset: -80px -10vw; opacity: .28; background-image: linear-gradient(90deg, rgba(46,113,137,.12) 1px, transparent 1px), linear-gradient(rgba(211,147,88,.12) 1px, transparent 1px); background-size: 38px 38px; mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, #000 35%, transparent 100%); pointer-events: none; }
+    .trust-inner { position: relative; z-index: 1; padding: 24px 0; }
+    .care-promise { --care-tilt-x: 0deg; --care-tilt-y: 0deg; --care-shine-x: 18%; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(18px, 3vw, 34px); align-items: center; min-height: 168px; padding: clamp(20px, 3vw, 32px); overflow: hidden; border: 1px solid rgba(255,255,255,.62); border-radius: 30px; background: linear-gradient(145deg, rgba(255,255,255,.82), rgba(255,248,236,.7) 46%, rgba(237,248,251,.74)); box-shadow: 0 30px 85px rgba(36,27,22,.12), inset 0 1px 0 rgba(255,255,255,.82); transform-style: preserve-3d; transform: rotateX(var(--care-tilt-x)) rotateY(var(--care-tilt-y)); transition: transform .42s cubic-bezier(.16, 1, .3, 1), box-shadow .42s ease; isolation: isolate; }
+    .care-promise::before { content: ""; position: absolute; inset: 10px; z-index: -1; border-radius: 24px; background: linear-gradient(90deg, transparent, rgba(255,255,255,.42), transparent); transform: translateX(calc(var(--care-shine-x) - 50%)) rotate(10deg); opacity: .65; filter: blur(10px); transition: transform .35s ease; }
+    .care-promise::after { content: ""; position: absolute; inset: auto 9% -26px 9%; height: 48px; border-radius: 999px; background: rgba(46,113,137,.18); filter: blur(24px); transform: translateZ(-80px); pointer-events: none; }
+    .care-promise:hover { box-shadow: 0 38px 98px rgba(36,27,22,.16), inset 0 1px 0 rgba(255,255,255,.9); }
+    .care-orb { position: absolute; z-index: -1; border-radius: 999px; filter: blur(.2px); pointer-events: none; animation: careOrbFloat 7.5s ease-in-out infinite; }
+    .care-orb.one { top: 16px; left: 8%; width: 78px; height: 78px; background: radial-gradient(circle, rgba(255,226,178,.64), transparent 70%); transform: translateZ(80px); }
+    .care-orb.two { right: 10%; bottom: 18px; width: 108px; height: 108px; background: radial-gradient(circle, rgba(126,198,217,.32), transparent 72%); animation-delay: -2.4s; transform: translateZ(50px); }
+    .care-content { position: relative; z-index: 1; transform: translateZ(42px); }
+    .care-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 10px; padding: 8px 12px; border: 1px solid rgba(46,113,137,.16); border-radius: 999px; background: rgba(255,255,255,.58); color: var(--blue-strong); font-size: 13px; font-weight: 900; box-shadow: 0 12px 34px rgba(46,113,137,.08); }
+    .care-kicker::before { content: ""; width: 8px; height: 8px; border-radius: 999px; background: #d39358; box-shadow: 0 0 0 6px rgba(211,147,88,.12), 0 0 18px rgba(211,147,88,.45); }
+    .care-promise p { max-width: 900px; margin: 0; color: #2f393d; font-size: clamp(16px, 1.45vw, 18px); line-height: 1.85; }
+    .care-promise strong { color: var(--ink); font-weight: 900; }
+    .care-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+    .care-badge { display: inline-flex; align-items: center; min-height: 30px; padding: 6px 10px; border: 1px solid rgba(46,113,137,.14); border-radius: 999px; background: rgba(255,255,255,.62); color: #35515a; font-size: 12px; font-weight: 850; box-shadow: 0 10px 26px rgba(36,27,22,.06); transform: translateZ(18px); }
+    .trust-mark { position: relative; z-index: 1; display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 12px 16px; border: 1px solid rgba(87,162,190,.22); border-radius: 999px; background: rgba(255,255,255,.74); color: var(--ink); font-weight: 900; white-space: nowrap; box-shadow: 0 18px 42px rgba(46,113,137,.12); transform: translateZ(58px); }
+    @keyframes careOrbFloat {
+      0%, 100% { translate: 0 0; opacity: .78; }
+      50% { translate: 0 -12px; opacity: 1; }
+    }
     section { padding: 76px 0; }
     .section-heading { max-width: 700px; margin-bottom: 34px; }
     h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1.12; letter-spacing: 0; margin-bottom: 12px; }
     .section-heading p, .lead { color: var(--muted); font-size: 17px; line-height: 1.7; }
+    .memory-album { position: relative; overflow: hidden; isolation: isolate; background: radial-gradient(circle at 12% 12%, rgba(255,225,180,.45), transparent 34%), linear-gradient(145deg, #fff6e8 0%, #f2e5d2 48%, #e9f2ef 100%); color: #241b16; }
+    .memory-album::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .18; background-image: linear-gradient(90deg, rgba(117,82,50,.18) 1px, transparent 1px), linear-gradient(rgba(117,82,50,.14) 1px, transparent 1px); background-size: 34px 34px; mask-image: radial-gradient(ellipse 82% 72% at 50% 38%, #000 42%, transparent 110%); }
+    .memory-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(420px, 1.1fr); gap: clamp(28px, 5vw, 70px); align-items: center; }
+    .memory-copy { max-width: 560px; }
+    .memory-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; padding: 8px 12px; border: 1px solid rgba(90,68,44,.16); border-radius: 999px; background: rgba(255,255,255,.52); color: #8b5d34; font-size: 13px; font-weight: 900; letter-spacing: .05em; }
+    .memory-copy h2 { font-size: clamp(34px, 5.4vw, 70px); line-height: .98; letter-spacing: -.03em; margin-bottom: 18px; }
+    .memory-copy p { color: #5f5149; font-size: clamp(17px, 1.55vw, 20px); line-height: 1.85; }
+    .memory-signature { display: inline-block; margin-top: 10px; color: #2e7189; font-weight: 900; }
+    .memory-album-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .memory-album-actions .button { background: #241b16; }
+    .memory-album-actions .button.outline-warm { background: rgba(255,255,255,.3); color: #241b16; border: 1px solid rgba(36,27,22,.22); }
+    .memory-stage-wrap { perspective: 1400px; min-height: 600px; touch-action: pan-y; cursor: grab; user-select: none; }
+    .memory-stage-wrap.is-dragging { cursor: grabbing; }
+    .memory-stage { --tilt-x: 0deg; --tilt-y: 0deg; --drag-x: 0px; position: relative; height: clamp(500px, 54vw, 640px); transform-style: preserve-3d; transform: translateX(var(--drag-x)) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); transition: transform .55s cubic-bezier(.16, 1, .3, 1); }
+    .memory-stage-wrap.is-dragging .memory-stage { transition: transform .05s linear; }
+    .memory-stage::before { content: ""; position: absolute; inset: 12% 8% 16%; border-radius: 44px; background: linear-gradient(135deg, rgba(255,255,255,.55), rgba(255,255,255,.12)); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 36px 110px rgba(111,77,43,.2); transform: translateZ(-110px) rotate(-2deg); }
+    .memory-stage::after { content: ""; position: absolute; right: 12%; bottom: 9%; width: 58%; height: 22px; border-radius: 999px; background: rgba(58,38,23,.2); filter: blur(18px); transform: translateZ(-140px); }
+    .memory-photo { position: absolute; margin: 0; width: clamp(150px, 18vw, 238px); aspect-ratio: 4 / 5; overflow: hidden; border: 10px solid #fffaf0; border-bottom-width: 42px; border-radius: 20px; background: #fffaf0; box-shadow: 0 30px 70px rgba(70,45,26,.24); transform-style: preserve-3d; opacity: 0; translate: 0 18px; transition: opacity .72s ease, translate .72s ease, transform .72s cubic-bezier(.16, 1, .3, 1), box-shadow .32s ease, filter .38s ease; }
+    .memory-album.is-visible .memory-photo { opacity: 1; translate: 0 0; transition-delay: calc(var(--order) * 85ms); }
+    .memory-album.is-shuffling .memory-photo { opacity: .58; filter: blur(.8px) saturate(.92); translate: 0 8px; transition-delay: 0ms; }
+    .memory-photo img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.97) contrast(1.04) sepia(.06); pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .memory-photo figcaption { position: absolute; right: 10px; bottom: 10px; left: 10px; color: #6a4e39; font-size: 13px; font-weight: 850; line-height: 1.2; text-align: center; }
+    .memory-photo.main { --order: 1; top: 15%; right: 29%; width: clamp(205px, 24vw, 320px); transform: translateZ(180px) rotate(-2deg); z-index: 5; }
+    .memory-photo.left { --order: 2; top: 23%; right: 3%; transform: translateZ(90px) rotate(8deg); z-index: 4; }
+    .memory-photo.top { --order: 3; top: 2%; right: 48%; width: clamp(138px, 15vw, 210px); transform: translateZ(60px) rotate(-11deg); z-index: 3; }
+    .memory-photo.bottom { --order: 4; top: 55%; right: 54%; transform: translateZ(120px) rotate(9deg); z-index: 4; }
+    .memory-photo.small { --order: 5; top: 63%; right: 15%; width: clamp(132px, 14vw, 190px); transform: translateZ(210px) rotate(-7deg); z-index: 6; }
+    .memory-photo:hover, .memory-photo:focus-within { box-shadow: 0 38px 90px rgba(70,45,26,.32); }
+    .memory-thread { position: absolute; top: 9%; right: 7%; left: 11%; height: 2px; border-radius: 999px; background: linear-gradient(90deg, transparent, rgba(114,76,43,.3), transparent); transform: translateZ(-10px) rotate(-3deg); }
     .services { position: relative; overflow: hidden; isolation: isolate; background: var(--soft); }
     .services-dots { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .services > .container { position: relative; z-index: 1; }
-    .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-    .service-item { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; min-height: 150px; }
-    .service-item strong { display: block; font-size: 18px; margin-bottom: 9px; }
-    .service-item p { margin: 0; color: var(--muted); line-height: 1.6; }
-    .ortal-showcase { margin-top: 54px; overflow: hidden; }
-    .ortal-stage { position: relative; height: 590px; margin-inline: calc(50% - 50vw); overflow: hidden; touch-action: pan-y; }
-    .ortal-card { position: absolute; top: 50%; left: 50%; width: min(32vw, 380px); aspect-ratio: 4 / 5; margin: 0; overflow: hidden; border-radius: 18px; background: #dfe4e5; box-shadow: 0 22px 55px rgba(20,30,34,.18); transition: transform .65s cubic-bezier(.2,.75,.2,1), opacity .55s ease, filter .55s ease; cursor: pointer; }
-    .ortal-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; -webkit-user-drag: none; }
-    .ortal-card[data-offset="0"] { cursor: grab; }
-    .ortal-card[data-offset="0"]:active { cursor: grabbing; }
-    .ortal-card.is-dragging { transition: none; cursor: grabbing; }
-    .ortal-note { margin: 0 auto; max-width: 650px; color: var(--muted); text-align: center; line-height: 1.7; }
+    .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; perspective: 1200px; }
+    .service-item { --service-tilt-x: 0deg; --service-tilt-y: 0deg; --service-glow-x: 18%; position: relative; display: flex; flex-direction: column; min-height: 238px; overflow: hidden; border: 1px solid rgba(255,255,255,.72); border-radius: 26px; padding: 0; background: linear-gradient(145deg, rgba(255,255,255,.86), rgba(255,248,236,.74)); box-shadow: 0 24px 62px rgba(36,27,22,.1), inset 0 1px 0 rgba(255,255,255,.78); transform-style: preserve-3d; transform: rotateX(var(--service-tilt-x)) rotateY(var(--service-tilt-y)); transition: transform .38s cubic-bezier(.16, 1, .3, 1), box-shadow .38s ease; isolation: isolate; }
+    .service-item::before { content: ""; position: absolute; inset: -1px; z-index: -1; background: radial-gradient(circle at var(--service-glow-x) 14%, rgba(255,226,178,.72), transparent 34%), radial-gradient(circle at 92% 86%, rgba(126,198,217,.38), transparent 38%); opacity: .82; transition: opacity .35s ease; }
+    .service-item::after { content: ""; position: absolute; inset: auto 14% -26px 14%; height: 48px; border-radius: 999px; background: rgba(46,113,137,.14); filter: blur(22px); transform: translateZ(-60px); pointer-events: none; }
+    .service-item:hover { box-shadow: 0 34px 82px rgba(36,27,22,.16), inset 0 1px 0 rgba(255,255,255,.9); }
+    .service-card-header, .service-card-body, .service-card-footer { position: relative; z-index: 1; transform: translateZ(34px); }
+    .service-card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 18px 18px 0; }
+    .service-chip { display: inline-flex; align-items: center; min-height: 28px; padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.68); color: #2e7189; font-size: 12px; font-weight: 900; box-shadow: 0 10px 26px rgba(46,113,137,.08); }
+    .service-menu-dots { display: inline-flex; gap: 4px; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 999px; background: rgba(36,27,22,.06); color: rgba(36,27,22,.5); }
+    .service-menu-dots::before { content: "•••"; letter-spacing: 1px; transform: translateY(-1px); }
+    .service-card-body { padding: 16px 18px 12px; }
+    .service-item strong { display: block; color: var(--ink); font-size: clamp(18px, 1.7vw, 21px); line-height: 1.25; margin-bottom: 10px; }
+    .service-item p { margin: 0; color: var(--muted); line-height: 1.65; }
+    .service-progress { margin-top: 16px; }
+    .service-progress-row { display: flex; justify-content: space-between; gap: 12px; color: #52646a; font-size: 12px; font-weight: 850; }
+    .service-progress-track { height: 7px; margin-top: 8px; overflow: hidden; border-radius: 999px; background: rgba(46,113,137,.12); }
+    .service-progress-fill { display: block; height: 100%; width: var(--service-progress, 82%); border-radius: inherit; background: linear-gradient(90deg, #2e7189, #d39358); box-shadow: 0 0 20px rgba(46,113,137,.28); }
+    .service-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: auto; padding: 0 18px 18px; }
+    .service-mini-stack { display: flex; align-items: center; }
+    .service-mini-dot { width: 28px; height: 28px; margin-inline-start: -7px; border: 2px solid rgba(255,255,255,.84); border-radius: 999px; background: linear-gradient(135deg, #fff8ec, #9bd4e7); box-shadow: 0 8px 20px rgba(36,27,22,.1); }
+    .service-mini-dot:first-child { margin-inline-start: 0; }
+    .service-status { display: inline-flex; align-items: center; min-height: 30px; padding: 6px 10px; border-radius: 999px; background: rgba(36,27,22,.08); color: #2f393d; font-size: 12px; font-weight: 900; white-space: nowrap; }
     .coat-layout { display: grid; grid-template-columns: .95fr 1.05fr; gap: 44px; align-items: center; }
     .coat-media { display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 1fr 1fr; gap: 10px; min-height: 560px; }
     .coat-image { width: 100%; height: 100%; min-height: 0; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow); }
@@ -128,19 +258,53 @@
     .appointment-note { margin: 26px 0 0; padding-top: 22px; border-top: 1px solid #505659; color: #fff; font-weight: 700; }
     .gallery-section { position: relative; z-index: 0; overflow: hidden; background: #111416; color: #fff; isolation: isolate; }
     .gallery-section .section-heading p { color: #c8ced1; }
-    .work-gallery-shell { position: relative; z-index: 0; min-height: 610px; margin-inline: calc(50% - 50vw); padding: 8px 18px 80px; overflow: hidden; isolation: isolate; }
+    .photo-spread { position: relative; min-height: 430px; margin: 8px 0 44px; padding: 24px 0 32px; overflow: hidden; }
+    .photo-spread::before { content: ""; position: absolute; inset: 110px -20vw 40px; z-index: -1; opacity: .16; background-image: linear-gradient(to right, rgba(255,255,255,.34) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.34) 1px, transparent 1px); background-size: 44px 44px; mask-image: radial-gradient(ellipse 72% 48% at 50% 32%, #000 55%, transparent 110%); }
+    .photo-spread-kicker { margin: 0 0 8px; text-align: center; color: #9bd4e7; font-size: 12px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+    .photo-spread-title { margin: 0 auto 24px; max-width: 720px; text-align: center; font-size: clamp(28px, 4vw, 50px); line-height: 1.14; }
+    .photo-spread-stage { position: relative; height: 255px; margin: 0 auto; outline: none; touch-action: pan-y; }
+    .photo-spread-card { --spread-x: 0px; --spread-y: 0px; --spread-rotation: 0deg; --spread-order: 0; --card-size: clamp(150px, 17vw, 220px); position: absolute; top: 18px; left: 50%; width: var(--card-size); height: var(--card-size); overflow: hidden; border: 1px solid rgba(255,255,255,.16); border-radius: 26px; background: #24282a; box-shadow: 0 24px 70px rgba(0,0,0,.36); opacity: 1; transform: translateX(-50%) translate3d(var(--spread-x), var(--spread-y), 0) rotate(var(--spread-rotation)) scale(1); transition: transform 1.05s cubic-bezier(.16, 1, .3, 1), opacity .55s ease, box-shadow .35s ease; cursor: grab; user-select: none; -webkit-user-drag: none; will-change: transform; }
+    .photo-spread-card:nth-child(1) { --spread-x: -320px; --spread-y: 16px; --spread-rotation: -3.5deg; --spread-order: 0; z-index: 48; }
+    .photo-spread-card:nth-child(2) { --spread-x: -160px; --spread-y: 74px; --spread-rotation: 2.5deg; --spread-order: 1; z-index: 49; }
+    .photo-spread-card:nth-child(3) { --spread-x: 0px; --spread-y: 2px; --spread-rotation: -1deg; --spread-order: 2; z-index: 52; }
+    .photo-spread-card:nth-child(4) { --spread-x: 160px; --spread-y: 74px; --spread-rotation: 3.2deg; --spread-order: 3; z-index: 49; }
+    .photo-spread-card:nth-child(5) { --spread-x: 320px; --spread-y: 16px; --spread-rotation: -2.8deg; --spread-order: 4; z-index: 48; }
+    .photo-spread.is-ready .photo-spread-card { opacity: 1; transform: translateX(-50%) translate3d(var(--spread-x), var(--spread-y), 0) rotate(var(--spread-rotation)) scale(1); transition-delay: calc(var(--spread-order) * 80ms); }
+    .photo-spread-card:hover, .photo-spread-card:focus-visible, .photo-spread-card.is-dragging { z-index: 90 !important; box-shadow: 0 32px 90px rgba(0,0,0,.46); transform: translateX(-50%) translate3d(var(--spread-x), calc(var(--spread-y) - 7px), 0) rotate(var(--spread-hover-rotation, var(--spread-rotation))) scale(1.035); }
+    .photo-spread-card.is-dragging { transition: transform .03s linear; cursor: grabbing; }
+    .photo-spread-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .photo-spread-actions { display: flex; justify-content: center; margin-top: 8px; }
+    .work-gallery-shell { position: relative; z-index: 0; min-height: 610px; margin-inline: calc(50% - 50vw); padding: 8px 18px 46px; overflow: hidden; isolation: isolate; }
     .work-gallery { position: relative; width: min(72vw, 410px); aspect-ratio: 5 / 7; margin: 0 auto; touch-action: pan-y; }
-    .work-card { position: absolute; inset: 0; overflow: hidden; margin: 0; border: 1px solid rgba(255,255,255,.13); border-radius: 8px; background: #24282a; box-shadow: 0 22px 55px rgba(0,0,0,.36); transform-origin: center bottom; transition: transform .5s ease, opacity .35s ease, box-shadow .2s ease; user-select: none; touch-action: pan-y; }
+    .work-card { position: absolute; inset: 0; overflow: hidden; margin: 0; border: 1px solid rgba(255,255,255,.13); border-radius: 8px; background: #24282a; box-shadow: 0 22px 55px rgba(0,0,0,.36); transform-origin: center bottom; transition: transform .72s cubic-bezier(.16, 1, .3, 1), opacity .48s ease, box-shadow .32s ease; user-select: none; touch-action: pan-y; will-change: transform; }
     .work-card:not([data-stack-index="0"]) { pointer-events: none; }
     .work-card[data-stack-index="0"] { cursor: grab; }
-    .work-card.is-dragging { cursor: grabbing; transition: none; box-shadow: 0 30px 70px rgba(0,0,0,.5); }
-    .work-card.is-leaving { transition: transform .28s ease, opacity .28s ease; opacity: 0; }
-    .work-card img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease; pointer-events: none; user-select: none; -webkit-user-drag: none; }
-    .work-card[data-stack-index="0"]:hover img { transform: scale(1.025); }
+    .work-card.is-dragging { cursor: grabbing; transition: transform .03s linear; box-shadow: 0 30px 70px rgba(0,0,0,.46); }
+    .work-card.is-leaving { transition: transform .44s cubic-bezier(.16, 1, .3, 1), opacity .36s ease; opacity: 0; }
+    .work-card img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .75s cubic-bezier(.16, 1, .3, 1); pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .work-card[data-stack-index="0"]:hover img { transform: scale(1.018); }
     .work-card figcaption { position: absolute; right: 0; bottom: 0; left: 0; padding: 38px 18px 16px; color: #fff; font-weight: 750; background: linear-gradient(transparent, rgba(0,0,0,.72)); pointer-events: none; user-select: none; }
-    .gallery-controls { position: absolute; right: 0; bottom: 12px; left: 0; display: flex; direction: ltr; justify-content: center; gap: 10px; }
-    .gallery-control { width: 48px; height: 48px; padding: 0; border: 1px solid rgba(255,255,255,.34); border-radius: 50%; background: #202426; color: #fff; font-size: 24px; line-height: 1; box-shadow: 0 8px 24px rgba(0,0,0,.24); }
-    .gallery-control:hover, .gallery-control:focus-visible { background: #fff; color: var(--ink); }
+    .impact-gallery { position: relative; margin-top: 10px; padding: clamp(18px, 3vw, 34px); overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 34px; background: radial-gradient(circle at 18% 8%, rgba(155,212,231,.22), transparent 34%), radial-gradient(circle at 92% 16%, rgba(211,147,88,.18), transparent 28%), linear-gradient(135deg, #171c1f, #0b0e10 76%); box-shadow: 0 32px 90px rgba(0,0,0,.36); }
+    .impact-gallery::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: .16; background-image: linear-gradient(to right, rgba(255,255,255,.24) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,.18) 1px, transparent 1px); background-size: 52px 52px; mask-image: radial-gradient(ellipse 70% 55% at 50% 35%, #000 52%, transparent 105%); }
+    .impact-stage { position: relative; z-index: 1; display: grid; grid-template-columns: minmax(0, 1.18fr) minmax(280px, .82fr); gap: clamp(18px, 3vw, 34px); align-items: stretch; }
+    .impact-feature { position: relative; height: clamp(520px, 62vw, 680px); aspect-ratio: 4 / 5; margin: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 28px; background: #24282a; box-shadow: 0 28px 72px rgba(0,0,0,.44); transform: translateZ(0); contain: layout paint; }
+    .impact-feature img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; transition: opacity .28s ease, filter .45s ease; }
+    .impact-feature.is-changing img { opacity: .34; filter: blur(2px); }
+    .impact-feature::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.04), transparent 38%, rgba(0,0,0,.72)); }
+    .impact-caption { position: absolute; right: 0; bottom: 0; left: 0; z-index: 1; padding: clamp(18px, 3vw, 32px); }
+    .impact-count { display: inline-flex; margin-bottom: 10px; padding: 6px 10px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(13,17,19,.58); color: #cfeaf3; font-size: 13px; font-weight: 850; backdrop-filter: blur(10px); }
+    .impact-caption h3 { max-width: 700px; margin: 0; font-size: clamp(30px, 5vw, 64px); line-height: .98; letter-spacing: -.02em; }
+    .impact-panel { display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+    .impact-copy { height: 320px; padding: clamp(16px, 2vw, 24px); overflow: hidden; border: 1px solid rgba(255,255,255,.12); border-radius: 26px; background: rgba(255,255,255,.06); box-shadow: inset 0 1px 0 rgba(255,255,255,.08); backdrop-filter: blur(14px); }
+    .impact-kicker { margin: 0 0 12px; color: #9bd4e7; font-size: 13px; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
+    .impact-copy h3 { margin: 0 0 12px; font-size: clamp(26px, 3vw, 42px); line-height: 1.05; }
+    .impact-copy p { margin: 0; color: #d8dee1; font-size: 17px; line-height: 1.75; }
+    .impact-hint { margin-top: 18px; color: #9fa9ae; font-size: 14px; line-height: 1.5; }
+    .impact-thumbs { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 9px; }
+    .impact-thumb { position: relative; aspect-ratio: 4 / 5; min-height: 0; padding: 0; overflow: hidden; border: 1px solid rgba(255,255,255,.14); border-radius: 18px; background: #24282a; opacity: .72; box-shadow: 0 12px 28px rgba(0,0,0,.22); transition: transform .28s ease, opacity .28s ease, border-color .28s ease; }
+    .impact-thumb img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; object-fit: cover; object-position: center; pointer-events: none; }
+    .impact-thumb:hover, .impact-thumb:focus-visible, .impact-thumb.is-active { opacity: 1; border-color: #9bd4e7; transform: translateY(-3px); }
+    .impact-thumb.is-active::after { content: ""; position: absolute; right: 10px; bottom: 10px; width: 9px; height: 9px; border-radius: 999px; background: #9bd4e7; box-shadow: 0 0 0 5px rgba(155,212,231,.2); }
     .contact { position: relative; overflow: hidden; background: var(--soft); }
     .shapegrid-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; border: 0; opacity: .14; }
     .contact-layout { position: relative; z-index: 1; display: grid; grid-template-columns: .8fr 1.2fr; gap: 52px; align-items: start; }
@@ -153,7 +317,7 @@
     input:focus, textarea:focus, select:focus { outline: 3px solid rgba(87,162,190,.2); border-color: var(--blue-strong); }
     textarea { min-height: 105px; resize: vertical; }
     .full { grid-column: 1 / -1; }
-    .form-status { min-height: 24px; margin-top: 13px; font-weight: 700; }
+    .form-status { min-height: 24px; margin-top: 13px; font-weight: 700; line-height: 1.55; }
     .form-status.success { color: var(--success); }
     .form-status.error { color: var(--danger); }
     footer { background: #101213; color: #d8dcde; padding: 30px 0; }
@@ -178,19 +342,41 @@
       .hero::before { background: linear-gradient(0deg, rgba(10,15,17,.85), rgba(10,15,17,.18)); }
       .hero-image { object-position: 44% center; }
       .hero-content { justify-content: flex-end; padding-bottom: 46px; }
+      .hero-memory-scene { inset: 6% auto auto 0; width: min(78vw, 340px); min-width: 250px; opacity: .62; transform: scale(.88); transform-origin: top left; }
+      .hero-memory-note { display: none; }
       .trust-inner, .coat-layout, .contact-layout { grid-template-columns: 1fr; }
+      .care-promise { grid-template-columns: 1fr; gap: 14px; border-radius: 26px; }
+      .trust-mark { width: fit-content; min-width: 0; }
       .coat-media { min-height: 500px; }
       .service-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .ortal-stage { height: 540px; }
-      .ortal-card { width: min(48vw, 340px); }
+      .memory-layout { grid-template-columns: 1fr; }
+      .memory-stage-wrap { min-height: 540px; }
+      .memory-stage { height: 520px; margin-inline: -10px; }
+      .memory-photo.main { right: 25%; top: 13%; }
+      .memory-photo.left { right: 0; top: 31%; }
+      .memory-photo.top { right: 49%; top: 2%; }
+      .memory-photo.bottom { right: 47%; top: 57%; }
+      .memory-photo.small { right: 12%; top: 67%; }
       .steps { grid-template-columns: 1fr; }
       .step { min-height: 0; display: grid; grid-template-columns: 42px 1fr; gap: 10px; align-items: start; }
       .step span { margin: 0; }
       .work-gallery-shell { min-height: 570px; }
       .work-gallery { width: min(68vw, 360px); }
+      .impact-stage { grid-template-columns: 1fr; }
+      .impact-feature { width: min(100%, 520px); height: auto; aspect-ratio: 4 / 5; justify-self: center; }
+      .impact-copy { height: 260px; }
+      .impact-thumbs { display: flex; gap: 10px; margin-inline: -18px; padding: 0 18px 6px; overflow-x: auto; scroll-snap-type: x mandatory; }
+      .impact-thumb { flex: 0 0 86px; scroll-snap-align: start; }
+      .photo-spread { min-height: 395px; }
+      .photo-spread-stage { height: 235px; }
+      .photo-spread-card:nth-child(1) { --spread-x: -224px; --spread-y: 16px; }
+      .photo-spread-card:nth-child(2) { --spread-x: -112px; --spread-y: 70px; }
+      .photo-spread-card:nth-child(4) { --spread-x: 112px; --spread-y: 70px; }
+      .photo-spread-card:nth-child(5) { --spread-x: 224px; --spread-y: 16px; }
       .contact-copy { position: static; }
     }
     @media (max-width: 520px) {
+      body { padding-bottom: 72px; }
       .container { width: min(100% - 22px, 1120px); }
       .site-header { height: 66px; }
       .brand small { display: none; }
@@ -199,17 +385,46 @@
       .academy-long { display: none; }
       .academy-short { display: inline; }
       .hero { min-height: 560px; }
-      h1 { font-size: 40px; }
-      .hero p { font-size: 17px; }
+      .hero-content { align-items: center; text-align: center; }
+      h1 { max-width: min(100%, 340px); font-size: clamp(28px, 8.2vw, 34px); line-height: 1.12; text-wrap: balance; }
+      .hero p { max-width: min(100%, 340px); font-size: 15.5px; line-height: 1.72; }
       .hero-actions .button { width: 100%; }
+      .hero-memory-whisper { margin-inline: auto; }
+      .hero-memory-scene { width: 310px; opacity: .42; transform: scale(.8); }
+      .memory-copy h2 { font-size: clamp(38px, 12vw, 54px); }
+      .memory-album-actions .button { width: 100%; }
+      .memory-stage-wrap { min-height: 475px; }
+      .memory-stage { height: 465px; }
+      .memory-photo { border-width: 7px; border-bottom-width: 31px; border-radius: 16px; }
+      .memory-photo figcaption { font-size: 11px; }
+      .memory-photo.main { width: 205px; right: 21%; }
+      .memory-photo.left { width: 148px; right: -3%; }
+      .memory-photo.top { width: 138px; right: 49%; }
+      .memory-photo.bottom { width: 145px; right: 49%; top: 58%; }
+      .memory-photo.small { width: 132px; right: 11%; top: 66%; }
+      .trust-inner { padding: 18px 0; }
+      .care-promise { padding: 18px; min-height: 0; }
+      .care-badges { gap: 6px; }
+      .care-badge { font-size: 11px; padding: 6px 9px; }
+      .trust-mark { font-size: 14px; }
       section { padding: 58px 0; }
       .service-grid, .form-grid { grid-template-columns: 1fr; }
-      .ortal-showcase { margin-top: 38px; }
-      .ortal-stage { height: 470px; }
-      .ortal-card { width: min(68vw, 290px); border-radius: 14px; }
       .work-gallery-shell { min-height: 510px; padding-right: 11px; padding-left: 11px; }
       .work-gallery { width: min(76vw, 300px); }
-      .gallery-control { width: 44px; height: 44px; }
+      .impact-gallery { border-radius: 24px; padding: 14px; }
+      .impact-feature { width: 100%; height: auto; aspect-ratio: 4 / 5; border-radius: 21px; }
+      .impact-caption { padding: 18px; }
+      .impact-copy { height: 240px; padding: 16px; border-radius: 20px; }
+      .impact-copy p { font-size: 15px; line-height: 1.65; }
+      .impact-hint { font-size: 13px; }
+      .photo-spread { min-height: 350px; margin-bottom: 28px; }
+      .photo-spread-stage { height: 205px; }
+      .photo-spread-card { --card-size: clamp(112px, 34vw, 142px); border-radius: 18px; }
+      .photo-spread-card:nth-child(1) { --spread-x: -120px; --spread-y: 12px; --spread-rotation: -5deg; }
+      .photo-spread-card:nth-child(2) { --spread-x: -58px; --spread-y: 66px; --spread-rotation: 4deg; }
+      .photo-spread-card:nth-child(3) { --spread-x: 0px; --spread-y: 0; }
+      .photo-spread-card:nth-child(4) { --spread-x: 58px; --spread-y: 66px; --spread-rotation: 4.8deg; }
+      .photo-spread-card:nth-child(5) { --spread-x: 120px; --spread-y: 12px; --spread-rotation: -4deg; }
       .coat-row { grid-template-columns: 1fr; gap: 5px; }
       .coat-media { min-height: 440px; gap: 7px; }
       .lead-form { padding: 18px; }
@@ -219,12 +434,160 @@
       .whatsapp-dialog h2 { font-size: 24px; }
       .dialog-actions { flex-direction: column; }
     }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+      .shapegrid-canvas, .services-dots { opacity: .08; }
+      .hero-memory-card, .memory-photo { animation: none !important; }
+      .memory-stage { transform: none !important; }
+    }
+
+    /* WAFFEL AI premium memory slider upgrade */
+    .memory-album { background: radial-gradient(circle at 16% 10%, rgba(255,232,197,.5), transparent 32%), radial-gradient(circle at 92% 18%, rgba(155,212,231,.28), transparent 30%), linear-gradient(145deg, #fff8ef 0%, #efe1d0 52%, #e7efeb 100%); }
+    .memory-album::after { content: ""; position: absolute; inset: auto 0 0; height: 46%; z-index: -1; background: linear-gradient(0deg, rgba(76,51,31,.08), transparent); pointer-events: none; }
+    .memory-layout { grid-template-columns: minmax(300px, .86fr) minmax(480px, 1.14fr); }
+    .memory-copy { padding-block: 18px; }
+    .memory-kicker { background: rgba(255,255,255,.7); box-shadow: 0 10px 30px rgba(99,72,45,.08); }
+    .memory-stage-wrap { position: relative; min-height: 620px; padding: clamp(18px, 2vw, 26px); border: 1px solid rgba(80,58,39,.14); border-radius: 42px; background: linear-gradient(145deg, rgba(255,255,255,.68), rgba(255,255,255,.28)); box-shadow: 0 34px 100px rgba(80,56,34,.18), inset 0 1px 0 rgba(255,255,255,.78); backdrop-filter: blur(18px); overflow: hidden; }
+    .memory-stage-wrap::before { content: ""; position: absolute; inset: 14px; border-radius: 34px; border: 1px solid rgba(255,255,255,.58); pointer-events: none; }
+    .memory-stage { height: clamp(500px, 52vw, 640px); }
+    .memory-stage::before { inset: 11% 11% 16%; border-radius: 38px; background: radial-gradient(circle at 42% 20%, rgba(255,255,255,.72), rgba(255,255,255,.18) 42%, transparent 76%); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 34px 110px rgba(66,45,28,.17); }
+    .memory-stage::after { right: 18%; bottom: 8%; width: 64%; height: 30px; background: rgba(70,48,30,.18); filter: blur(22px); }
+    .memory-thread { display: none; }
+    .memory-photo { border: 0; border-radius: 30px; background: #171717; box-shadow: 0 32px 80px rgba(38,27,18,.2); translate: 0 10px; transition: opacity .5s ease, translate .56s ease, transform .72s cubic-bezier(.16, 1, .3, 1), box-shadow .38s ease, filter .38s ease; }
+    .memory-photo::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.02), transparent 40%, rgba(0,0,0,.48)); }
+    .memory-photo img { filter: saturate(.98) contrast(1.04); transition: transform .9s cubic-bezier(.16, 1, .3, 1), filter .4s ease; }
+    .memory-photo figcaption { z-index: 2; right: 16px; bottom: 16px; left: 16px; padding: 9px 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(18,16,14,.45); color: #fff8ed; font-size: 13px; backdrop-filter: blur(12px); }
+    .memory-photo.main { top: 8%; right: 24%; width: clamp(250px, 30vw, 420px); aspect-ratio: 4 / 5.15; transform: translateZ(210px) rotate(-.8deg) scale(1.02); z-index: 8; box-shadow: 0 38px 96px rgba(38,27,18,.26); }
+    .memory-photo.left { top: 19%; right: 2%; width: clamp(165px, 17vw, 242px); aspect-ratio: 4 / 5; transform: translateZ(70px) rotate(4.5deg) scale(.95); z-index: 4; opacity: .92; }
+    .memory-photo.top { top: 4%; right: 57%; width: clamp(150px, 15vw, 218px); aspect-ratio: 4 / 5; transform: translateZ(55px) rotate(-5deg) scale(.92); z-index: 3; opacity: .86; }
+    .memory-photo.bottom { top: 57%; right: 54%; width: clamp(170px, 17vw, 245px); aspect-ratio: 4 / 5; transform: translateZ(95px) rotate(3.8deg) scale(.94); z-index: 5; opacity: .9; }
+    .memory-photo.small { top: 61%; right: 10%; width: clamp(148px, 14vw, 205px); aspect-ratio: 4 / 5; transform: translateZ(155px) rotate(-4deg) scale(.94); z-index: 6; opacity: .94; }
+    .memory-photo:hover img { transform: scale(1.035); }
+    .memory-photo:hover, .memory-photo:focus-within { box-shadow: 0 42px 105px rgba(38,27,18,.31); }
+    .memory-album.is-shuffling .memory-photo { opacity: .72; filter: saturate(.92) brightness(.96); translate: 0 5px; }
+    .memory-album.is-shuffling .memory-photo.main { opacity: .86; }
+
+    @media (max-width: 820px) {
+      .memory-layout { grid-template-columns: 1fr; }
+      .memory-stage-wrap { min-height: 560px; border-radius: 34px; }
+      .memory-stage { height: 500px; margin-inline: 0; }
+      .memory-photo.main { top: 8%; right: 23%; width: min(58vw, 310px); }
+      .memory-photo.left { top: 23%; right: -2%; width: min(34vw, 185px); }
+      .memory-photo.top { top: 3%; right: 58%; width: min(31vw, 170px); }
+      .memory-photo.bottom { top: 57%; right: 51%; width: min(34vw, 185px); }
+      .memory-photo.small { top: 64%; right: 12%; width: min(30vw, 165px); }
+    }
+
+    @media (max-width: 520px) {
+      .memory-stage-wrap { min-height: 500px; padding: 12px; border-radius: 28px; }
+      .memory-stage { height: 438px; }
+      .memory-photo { border-radius: 23px; }
+      .memory-photo figcaption { right: 10px; bottom: 10px; left: 10px; padding: 7px 9px; font-size: 11px; }
+      .memory-photo.main { width: 224px; right: 18%; top: 8%; }
+      .memory-photo.left { width: 136px; right: -1%; top: 26%; }
+      .memory-photo.top { width: 132px; right: 57%; top: 4%; }
+      .memory-photo.bottom { width: 138px; right: 50%; top: 58%; }
+      .memory-photo.small { width: 126px; right: 12%; top: 66%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .memory-stage, .memory-photo, .memory-photo img { transition: none !important; }
+      .memory-stage { transform: none !important; }
+    }
+
+    /* WAFFEL AI 3D image sphere motion upgrade */
+    .sphere-album-wrap { --sphere-size: min(610px, 64vw); --sphere-card-size: clamp(76px, 10vw, 118px); display: grid; align-content: center; min-height: 660px; cursor: grab; }
+    .sphere-album-wrap.is-dragging { cursor: grabbing; }
+    .sphere-album-wrap::after { content: ""; position: absolute; inset: 10% 12%; border-radius: 999px; background: radial-gradient(circle, rgba(255,255,255,.28), transparent 58%); pointer-events: none; filter: blur(2px); }
+    .sphere-album-wrap .sphere-stage { width: var(--sphere-size); height: var(--sphere-size); max-width: 100%; margin: 0 auto; transform: none; transition: none; transform-style: preserve-3d; }
+    .sphere-album-wrap .sphere-stage::before { inset: 8%; border-radius: 999px; background: radial-gradient(circle at 42% 30%, rgba(255,255,255,.58), rgba(255,255,255,.13) 42%, transparent 72%); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 38px 120px rgba(66,45,28,.16); transform: translateZ(-150px); }
+    .sphere-album-wrap .sphere-stage::after { right: 14%; bottom: 5%; width: 72%; height: 32px; background: rgba(70,48,30,.18); filter: blur(24px); transform: translateZ(-180px); }
+    .sphere-album-wrap .memory-photo,
+    .sphere-album-wrap .memory-photo.main,
+    .sphere-album-wrap .memory-photo.left,
+    .sphere-album-wrap .memory-photo.top,
+    .sphere-album-wrap .memory-photo.bottom,
+    .sphere-album-wrap .memory-photo.small { top: 50%; right: auto; left: 50%; width: var(--sphere-card-size); aspect-ratio: 1; border-radius: 999px; opacity: 1; translate: 0 0; transform: translate(-50%, -50%); box-shadow: 0 18px 48px rgba(33,24,17,.22); will-change: transform, opacity; backface-visibility: hidden; pointer-events: auto; cursor: pointer; }
+    .sphere-album-wrap .memory-photo::before { border-radius: inherit; background: linear-gradient(180deg, rgba(0,0,0,0), transparent 44%, rgba(0,0,0,.32)); }
+    .sphere-album-wrap .memory-photo img { border-radius: inherit; }
+    .sphere-album-wrap .memory-photo figcaption { right: 50%; bottom: -13px; left: auto; width: max-content; max-width: 160px; translate: 50% 0; padding: 6px 10px; font-size: 11px; opacity: 0; transition: opacity .25s ease, transform .25s ease; transform: translateY(4px); }
+    .sphere-album-wrap .memory-photo.is-front figcaption,
+    .sphere-album-wrap .memory-photo:hover figcaption { opacity: 1; transform: translateY(0); }
+    .sphere-album-wrap .memory-photo.is-back { pointer-events: auto; }
+    .sphere-album-wrap .memory-photo.is-front { box-shadow: 0 28px 76px rgba(33,24,17,.3); }
+    .sphere-album-wrap .memory-photo.is-selected { border-radius: 30px; box-shadow: 0 38px 110px rgba(33,24,17,.36); }
+    .sphere-album-wrap .memory-photo.is-selected figcaption { opacity: 1; transform: translateY(0); bottom: 12px; }
+    .sphere-album-wrap .memory-photo.is-dimmed { filter: saturate(.82) brightness(.92) !important; }
+    .sphere-album-wrap.is-photo-focused::after { background: radial-gradient(circle, rgba(255,255,255,.4), rgba(255,255,255,.1) 46%, transparent 64%); }
+
+    @media (max-width: 820px) {
+      .sphere-album-wrap { --sphere-size: min(520px, 92vw); --sphere-card-size: clamp(64px, 15vw, 92px); min-height: 575px; padding: 12px; }
+      .sphere-album-wrap .sphere-stage { height: var(--sphere-size); margin-inline: auto; }
+    }
+
+    @media (max-width: 520px) {
+      .sphere-album-wrap { --sphere-size: min(390px, 92vw); --sphere-card-size: clamp(54px, 17vw, 74px); min-height: 445px; }
+      .sphere-album-wrap .memory-photo figcaption { display: none; }
+    }
+
+    /* WAFFEL AI cinematic 3D family album */
+    .instagram-link { background: #fff5ea; color: #241b16; border: 1px solid rgba(36,27,22,.12); }
+    .cinematic-album-wrap { --album-card-width: clamp(190px, 27vw, 340px); position: relative; min-height: 630px; padding: clamp(16px, 2.5vw, 30px); overflow: hidden; border: 1px solid rgba(80,58,39,.14); border-radius: 42px; background: radial-gradient(circle at 50% 22%, rgba(255,255,255,.64), rgba(255,255,255,.18) 44%, transparent 70%), linear-gradient(145deg, rgba(255,255,255,.72), rgba(255,255,255,.28)); box-shadow: 0 34px 100px rgba(80,56,34,.18), inset 0 1px 0 rgba(255,255,255,.78); cursor: grab; touch-action: pan-y; user-select: none; perspective: 1500px; }
+    .cinematic-album-wrap.is-dragging { cursor: grabbing; }
+    .cinematic-album-wrap::before { content: ""; position: absolute; inset: 16px; border: 1px solid rgba(255,255,255,.58); border-radius: 32px; pointer-events: none; }
+    .cinematic-album-wrap::after { content: ""; position: absolute; right: 14%; bottom: 11%; width: 72%; height: 32px; border-radius: 999px; background: rgba(70,48,30,.18); filter: blur(24px); pointer-events: none; }
+    .cinematic-stage { position: relative; height: clamp(480px, 52vw, 620px); transform-style: preserve-3d; }
+    .cinematic-stage::before { content: ""; position: absolute; inset: 10% 7% 14%; border-radius: 40px; background: radial-gradient(circle at 50% 20%, rgba(255,255,255,.62), rgba(255,255,255,.12) 52%, transparent 78%); box-shadow: inset 0 1px 0 rgba(255,255,255,.72); transform: translateZ(-160px); }
+    .cinematic-stage .memory-thread { display: none; }
+    .cinematic-stage .memory-photo,
+    .cinematic-stage .memory-photo.main,
+    .cinematic-stage .memory-photo.left,
+    .cinematic-stage .memory-photo.top,
+    .cinematic-stage .memory-photo.bottom,
+    .cinematic-stage .memory-photo.small { position: absolute; top: 50%; left: 50%; right: auto; width: var(--album-card-width); aspect-ratio: 4 / 5.05; margin: 0; border: 0; border-radius: 28px; overflow: hidden; background: #171717; box-shadow: 0 26px 78px rgba(38,27,18,.22); opacity: 1; translate: 0 0; transform: translate(-50%, -50%); transform-style: preserve-3d; will-change: transform, opacity, filter; backface-visibility: hidden; cursor: pointer; transition: box-shadow .28s ease, border-radius .28s ease; }
+    .cinematic-stage .memory-photo::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit; background: linear-gradient(180deg, rgba(0,0,0,.02), transparent 44%, rgba(0,0,0,.46)); }
+    .cinematic-stage .memory-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; filter: saturate(.98) contrast(1.04); pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .cinematic-stage .memory-photo figcaption { position: absolute; right: 14px; bottom: 14px; left: 14px; z-index: 2; width: auto; max-width: none; translate: 0; padding: 9px 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(18,16,14,.46); color: #fff8ed; font-size: 13px; font-weight: 850; text-align: center; backdrop-filter: blur(12px); opacity: 0; transform: translateY(5px); transition: opacity .24s ease, transform .24s ease; }
+    .cinematic-stage .memory-photo.is-active figcaption,
+    .cinematic-stage .memory-photo.is-selected figcaption,
+    .cinematic-stage .memory-photo:hover figcaption { opacity: 1; transform: translateY(0); }
+    .cinematic-stage .memory-photo.is-selected { border-radius: 30px; box-shadow: 0 38px 110px rgba(33,24,17,.34); }
+    .cinematic-stage .memory-photo.is-dimmed { pointer-events: auto; }
+
+    @media (max-width: 820px) {
+      .cinematic-album-wrap { --album-card-width: min(54vw, 280px); min-height: 555px; padding: 12px; border-radius: 34px; }
+      .cinematic-stage { height: 490px; }
+    }
+
+    @media (max-width: 520px) {
+      .cinematic-album-wrap { --album-card-width: min(68vw, 245px); min-height: 455px; border-radius: 28px; }
+      .cinematic-stage { height: 390px; }
+      .cinematic-stage .memory-photo { border-radius: 22px; }
+      .cinematic-stage .memory-photo figcaption { right: 10px; bottom: 10px; left: 10px; padding: 7px 9px; font-size: 11px; }
+    }
+
+    /* WAFFEL AI global motion tuning */
+    @media (prefers-reduced-motion: no-preference) {
+      .motion-reveal { opacity: 0; transform: translate3d(0, 22px, 0); transition: opacity .72s ease, transform .82s cubic-bezier(.18, .82, .18, 1); }
+      .motion-reveal.is-visible { opacity: 1; transform: translate3d(0, 0, 0); }
+      .service-item.motion-reveal, .step.motion-reveal, .coat-image.motion-reveal { transition-delay: calc(var(--motion-order, 0) * 55ms); }
+      html.is-scrolling .hero-memory-card { animation-play-state: paused; }
+      html.is-scrolling .services-dots,
+      html.is-scrolling .shapegrid-canvas { opacity: .06; }
+      html.is-scrolling .photo-spread-card,
+      html.is-scrolling .impact-thumb,
+      html.is-scrolling .memory-photo { transition-duration: .28s; }
+    }
+
+    .services-dots, .shapegrid-canvas { transition: opacity .45s ease; }
+    .photo-spread-stage, .impact-feature, .sphere-album-wrap { -webkit-tap-highlight-color: transparent; }
   </style>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">דלגו לתוכן המרכזי</a>
   <header class="site-header">
     <div class="container header-inner">
-      <a class="brand" href="#top" aria-label="וופל׳ס - ראש הדף">
+      <a class="brand" href="#main-content" aria-label="וופל׳ס - ראש הדף">
         <img src="./assets/logo.png" alt="לוגו וופל׳ס">
         <span>WAFFEL'S<small>Dog Grooming · הוד השרון</small></span>
       </a>
@@ -233,53 +596,203 @@
         <a href="#process">איך זה עובד</a>
         <a href="#gallery">עבודות</a>
         <a class="button academy-button" href="./academy-cilabos/index.html"><span class="academy-long">Waffel's Academy</span><span class="academy-short">אקדמיה</span></a>
+        <a class="button academy-button instagram-link" href="https://www.instagram.com/waffels.dog.grooming?igsh=MWs5em10amR3NzU4NQ%3D%3D&utm_source=qr" target="_blank" rel="noreferrer">Instagram</a>
         <a class="button" href="#contact">השאירו פרטים</a>
       </nav>
     </div>
   </header>
 
-  <main id="top">
+  <main id="main-content">
     <section class="hero" aria-labelledby="hero-title">
-      <img class="hero-image" src="./assets/media/optimized/hero/hero-ortal-background.webp" alt="אורטל מטפחת כלב במספרת וופל׳ס">
+      <img class="hero-image" src="./assets/media/optimized/hero/hero-ortal-background.webp" alt="אורטל מטפחת כלב במספרת וופל׳ס בהוד השרון" width="1600" height="1000" fetchpriority="high" loading="eager" decoding="async">
+      <div class="hero-memory-scene" aria-hidden="true">
+        <div class="hero-memory-glow"></div>
+        <figure class="hero-memory-card one"><img src="./assets/media/fast/ortal-working-06.webp" alt=""></figure>
+        <figure class="hero-memory-card two"><img src="./assets/media/fast/poodle-after.webp" alt=""></figure>
+        <figure class="hero-memory-card three"><img src="./assets/media/fast/gallery-collie-2026.webp" alt=""></figure>
+      </div>
       <div class="container hero-content">
-        <div class="eyebrow">אורטל · טיפול טיפוח מקצועי לכלבים</div>
-        <h1 id="hero-title">וופל׳ס — מספרת כלבים בוטיק בהוד השרון</h1>
-        <p>טיפוח מקצועי, רגוע ומותאם אישית לכל כלב — לפי סוג הפרווה, מצב הפרווה והאופי שלו.</p>
+        <div class="eyebrow">Waffel’s Dog Grooming · וופל׳ס מספרת כלבים</div>
+        <h1 id="hero-title">טיפול טיפוח פרימיום לכלבים בהוד השרון</h1>
+        <p>טיפול מלא, רגוע ומותאם אישית — עם התמחות בפודלים, פרוות מתולתלות וכלבים שצריכים יד מקצועית וסבלנית.</p>
         <div class="hero-actions">
           <a class="button light whatsapp-link" href="#" target="_blank" rel="noreferrer">שלחו וואטסאפ לאורטל</a>
           <a class="button outline" href="#contact">השאירו פרטים לחזרה</a>
         </div>
+        <div class="hero-memory-whisper">לא רק טיפול — רגע קטן שנשאר בזיכרון.</div>
       </div>
     </section>
 
     <div class="trust-strip">
       <div class="container trust-inner">
-        <p>אצל אורטל כל טיפול מותאם לכלב עצמו — לא לפי תפריט קבוע. אנחנו בודקים את סוג הפרווה, מצב הקשרים, הרגישות וההתנהגות כדי לתת טיפול נכון ובטוח.</p>
-        <span class="trust-mark">יחס אישי · עבודה מקצועית</span>
+        <aside class="care-promise" data-care-card aria-label="מה כולל הטיפול אצל אורטל">
+          <span class="care-orb one" aria-hidden="true"></span>
+          <span class="care-orb two" aria-hidden="true"></span>
+          <div class="care-content">
+            <div class="care-kicker">הטיפול אצל אורטל</div>
+            <p>אצל אורטל הטיפול אינו <strong>“רק מקלחת”</strong> או <strong>“רק תספורת”</strong>. זהו תהליך טיפוח מלא לפי הצורך: רחצה, מוצרים איכותיים המותאמים לפרווה, ייבוש, סירוק, טיפול בקשרים, אוזניים, ציפורניים, אזורים סניטריים ותספורת או עיצוב כאשר סוג הפרווה מתאים.</p>
+            <div class="care-badges" aria-hidden="true">
+              <span class="care-badge">רחצה</span>
+              <span class="care-badge">ייבוש</span>
+              <span class="care-badge">קשרים</span>
+              <span class="care-badge">אוזניים</span>
+              <span class="care-badge">ציפורניים</span>
+              <span class="care-badge">עיצוב לפי פרווה</span>
+            </div>
+          </div>
+          <span class="trust-mark">ראשון–חמישי · 09:00–16:00</span>
+        </aside>
       </div>
     </div>
+
+    <section class="memory-album" id="family-album" aria-labelledby="memory-album-title">
+      <div class="container memory-layout">
+        <div class="memory-copy">
+          <span class="memory-kicker">הישן חוזר חדש</span>
+          <h2 id="memory-album-title">אלבום משפחתי חי, חם ומחבק.</h2>
+          <p>הרעיון הוא לא להציג “עוד תמונות”. הוא להחזיר את התחושה של אלבום ישן שפותחים בסלון — רק בגרסה מודרנית, רכה, תלת־ממדית ונעימה למגע. כל תמונה מספרת רגע: מבט, פרווה, יד עדינה, כלב שחוזר הביתה מסודר ורגוע.</p>
+          <p>זו השפה החדשה של וופל׳ס: מקצועית, אבל עם לב. יוקרתית, אבל לא קרה.</p>
+          <span class="memory-signature">Waffel’s — טיפול שנזכרים בו בחיוך.</span>
+          <div class="memory-album-actions">
+            <a class="button whatsapp-link" href="#" target="_blank" rel="noreferrer">שלחו תמונה לאורטל</a>
+            <a class="button outline-warm" href="#gallery">ראו את העבודות</a>
+          </div>
+        </div>
+        <div class="memory-stage-wrap cinematic-album-wrap" id="memoryAlbum3d" tabindex="0" role="region" aria-label="אלבום תמונות תלת־ממדי חי של וופל׳ס. גררו ימינה ושמאלה או השתמשו בחיצים במקלדת.">
+          <div class="memory-stage cinematic-stage" aria-label="אלבום תמונות תלת־ממדי של וופל׳ס">
+            <span class="memory-thread"></span>
+            <figure class="memory-photo main">
+              <img src="./assets/media/fast/ortal-working-06.webp" alt="אורטל מטפלת בכלב בזמן עבודה במספרה" loading="lazy" decoding="async">
+              <figcaption>רגע של אמון</figcaption>
+            </figure>
+            <figure class="memory-photo left">
+              <img src="./assets/media/fast/poodle-after.webp" alt="פודל לאחר טיפול טיפוח בוופל׳ס" loading="lazy" decoding="async">
+              <figcaption>אחרי טיפול</figcaption>
+            </figure>
+            <figure class="memory-photo top">
+              <img src="./assets/media/fast/gallery-yorkie-2026.webp" alt="יורקשייר לאחר תספורת ועיצוב" loading="lazy" decoding="async">
+              <figcaption>אופי בפרטים</figcaption>
+            </figure>
+            <figure class="memory-photo bottom">
+              <img src="./assets/media/fast/gallery-collie-2026.webp" alt="כלב קולי לאחר טיפוח מקצועי" loading="lazy" decoding="async">
+              <figcaption>פרווה שחוזרת לנשום</figcaption>
+            </figure>
+            <figure class="memory-photo small">
+              <img src="./assets/media/fast/gallery-05-shovi.webp" alt="כלב לאחר עיצוב במספרת וופל׳ס" loading="lazy" decoding="async">
+              <figcaption>חיוך קטן הביתה</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/gallery-14.webp" alt="כלב לאחר גימור מוקפד במספרה" loading="lazy" decoding="async">
+              <figcaption>גימור מוקפד</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/gallery-08.webp" alt="כלב מטופח בוופל׳ס" loading="lazy" decoding="async">
+              <figcaption>רוגע בעיניים</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/pomeranian-after.webp" alt="פומרניאן לאחר טיפול מקצועי" loading="lazy" decoding="async">
+              <figcaption>נפח טבעי</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/gallery-16.webp" alt="עבודת עיצוב לכלב בוופל׳ס" loading="lazy" decoding="async">
+              <figcaption>אופי קטן גדול</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/ortal-working-03.webp" alt="אורטל במהלך טיפול מקצועי בכלב" loading="lazy" decoding="async">
+              <figcaption>תהליך שקט</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/ortal-working-01.webp" alt="אורטל מטפחת כלב בעדינות במספרת וופל׳ס" loading="lazy" decoding="async">
+              <figcaption>יד רגועה</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/ortal-working-02.webp" alt="אורטל בזמן עיצוב פרווה מקצועי לכלב" loading="lazy" decoding="async">
+              <figcaption>דיוק עם לב</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/ortal-working-04.webp" alt="אורטל עובדת עם כלב במספרת וופל׳ס" loading="lazy" decoding="async">
+              <figcaption>רגע מהמספרה</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/ortal-working-05.webp" alt="אורטל מטפלת בכלב ברוגע ובסבלנות" loading="lazy" decoding="async">
+              <figcaption>סבלנות עדינה</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/ortal-working-06.webp" alt="אורטל מטפלת בפומרניאן בזמן עבודה במספרה" loading="lazy" decoding="async">
+              <figcaption>חום בעבודה</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/leo-after.webp" alt="כלב עם פרווה מתולתלת לאחר תספורת ועיצוב" loading="lazy" decoding="async">
+              <figcaption>מתולתל ומדויק</figcaption>
+            </figure>
+            <figure class="memory-photo">
+              <img src="./assets/media/fast/gallery-westie-2026.webp" alt="כלב ווסטי במהלך טיפול במספרה" loading="lazy" decoding="async">
+              <figcaption>מבט אחרון</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="services" id="services">
       <canvas class="services-dots" id="servicesDots" aria-hidden="true"></canvas>
       <div class="container">
         <div class="section-heading"><h2>טיפול שמתאים לכלב, לא רק למראה</h2><p>כל תהליך מתחיל בהבנת הפרווה והצרכים של הכלב. כך אפשר לעבוד בצורה רגועה, מדויקת ובטוחה יותר.</p></div>
         <div class="service-grid">
-          <article class="service-item"><strong>טיפול טיפוח מלא</strong><p>רחצה, ייבוש, סירוק, אוזניים וציפורניים בהתאם לצורך.</p></article>
-          <article class="service-item"><strong>תספורת ועיצוב</strong><p>לגזעים וסוגי פרווה שמתאימים לתספורת, לפי מצב הפרווה.</p></article>
-          <article class="service-item"><strong>טיפול לפרווה קצרה</strong><p>מקלחת, ייבוש והברשה מתאימה. לא טיפול של תספורת.</p></article>
-          <article class="service-item"><strong>טיפול לפרווה כפולה</strong><p>ייבוש יסודי, סירוק והוצאת פרווה מתה לפי בדיקה מקצועית.</p></article>
-          <article class="service-item"><strong>קשרים וסידור פרווה</strong><p>בדיקת דחיסות הפרווה והתאמת עבודה בטוחה ככל האפשר.</p></article>
-          <article class="service-item"><strong>אזורים עדינים</strong><p>אוזניים, ציפורניים וסידור אזורים עדינים בהתאם לכלב.</p></article>
-        </div>
-        <div class="ortal-showcase" aria-label="אורטל מטפלת בכלבים במספרה">
-          <div class="ortal-stage" id="ortalShowcase" tabindex="0" role="region" aria-label="תמונות מהעבודה המקצועית במספרה. השתמשו בחצים או החליקו לצדדים.">
-            <figure class="ortal-card"><img src="./assets/media/fast/ortal-working-01.webp" alt="אורטל מטפחת כלב בעדינות" loading="lazy" decoding="async"></figure>
-            <figure class="ortal-card"><img src="./assets/media/fast/ortal-working-02.webp" alt="אורטל מעצבת את פרוותו של כלב" loading="lazy" decoding="async"></figure>
-            <figure class="ortal-card"><img src="./assets/media/fast/ortal-working-03.webp" alt="אורטל במהלך טיפול מקצועי בכלב" loading="lazy" decoding="async"></figure>
-            <figure class="ortal-card"><img src="./assets/media/fast/ortal-working-04.webp" alt="אורטל עובדת עם כלבים במספרה" loading="lazy" decoding="async"></figure>
-            <figure class="ortal-card"><img src="./assets/media/fast/ortal-working-05.webp" alt="אורטל מטפלת בנלה ברוגע ובדיוק" loading="lazy" decoding="async"></figure>
-          </div>
-          <p class="ortal-note">כל טיפול נעשה בסבלנות, בהתאמה לסוג הפרווה ולתחושה של הכלב.</p>
+          <article class="service-item" data-service-card style="--service-progress: 96%;">
+            <div class="service-card-header"><span class="service-chip">Premium care</span><span class="service-menu-dots" aria-hidden="true"></span></div>
+            <div class="service-card-body">
+              <strong>טיפול טיפוח פרימיום מלא</strong>
+              <p>רחצה, ייבוש, סירוק, טיפול בקשרים, אוזניים, ציפורניים ואזורים סניטריים לפי הצורך.</p>
+              <div class="service-progress"><div class="service-progress-row"><span>התאמה אישית</span><span>96%</span></div><div class="service-progress-track"><span class="service-progress-fill"></span></div></div>
+            </div>
+            <div class="service-card-footer"><div class="service-mini-stack" aria-hidden="true"><span class="service-mini-dot"></span><span class="service-mini-dot"></span><span class="service-mini-dot"></span></div><span class="service-status">טיפול מלא</span></div>
+          </article>
+          <article class="service-item" data-service-card style="--service-progress: 94%;">
+            <div class="service-card-header"><span class="service-chip">Curly coat</span><span class="service-menu-dots" aria-hidden="true"></span></div>
+            <div class="service-card-body">
+              <strong>פודלים ופרווה מתולתלת</strong>
+              <p>התמחות בעבודה מדויקת עם פודלים, מלטיפו ודודל — לפי מצב הפרווה והסגנון שמתאים לכלב.</p>
+              <div class="service-progress"><div class="service-progress-row"><span>דיוק בגימור</span><span>94%</span></div><div class="service-progress-track"><span class="service-progress-fill"></span></div></div>
+            </div>
+            <div class="service-card-footer"><div class="service-mini-stack" aria-hidden="true"><span class="service-mini-dot"></span><span class="service-mini-dot"></span><span class="service-mini-dot"></span></div><span class="service-status">התמחות</span></div>
+          </article>
+          <article class="service-item" data-service-card style="--service-progress: 88%;">
+            <div class="service-card-header"><span class="service-chip">Style check</span><span class="service-menu-dots" aria-hidden="true"></span></div>
+            <div class="service-card-body">
+              <strong>תספורת ועיצוב כשזה מתאים</strong>
+              <p>תספורת או עיצוב מתבצעים רק כאשר סוג הפרווה והמצב בפועל מאפשרים עבודה נכונה ובטוחה.</p>
+              <div class="service-progress"><div class="service-progress-row"><span>בטיחות התאמה</span><span>88%</span></div><div class="service-progress-track"><span class="service-progress-fill"></span></div></div>
+            </div>
+            <div class="service-card-footer"><div class="service-mini-stack" aria-hidden="true"><span class="service-mini-dot"></span><span class="service-mini-dot"></span><span class="service-mini-dot"></span></div><span class="service-status">לפי פרווה</span></div>
+          </article>
+          <article class="service-item" data-service-card style="--service-progress: 91%;">
+            <div class="service-card-header"><span class="service-chip">Double coat</span><span class="service-menu-dots" aria-hidden="true"></span></div>
+            <div class="service-card-body">
+              <strong>פרווה כפולה בלי הבטחות גילוח</strong>
+              <p>בגזעים כמו האסקי, סמויד ופומרניאן מבצעים בדיקה מקצועית ומציעים דילול והוצאת פרווה מתה לפי הצורך.</p>
+              <div class="service-progress"><div class="service-progress-row"><span>שמירה על פרווה</span><span>91%</span></div><div class="service-progress-track"><span class="service-progress-fill"></span></div></div>
+            </div>
+            <div class="service-card-footer"><div class="service-mini-stack" aria-hidden="true"><span class="service-mini-dot"></span><span class="service-mini-dot"></span><span class="service-mini-dot"></span></div><span class="service-status">לא מגלחים אוטומטית</span></div>
+          </article>
+          <article class="service-item" data-service-card style="--service-progress: 86%;">
+            <div class="service-card-header"><span class="service-chip">Coat rescue</span><span class="service-menu-dots" aria-hidden="true"></span></div>
+            <div class="service-card-body">
+              <strong>קשרים וסידור פרווה</strong>
+              <p>בדיקת דחיסות הפרווה, מיקום הקשרים ורגישות העור לפני החלטה על דרך הטיפול.</p>
+              <div class="service-progress"><div class="service-progress-row"><span>בדיקה לפני טיפול</span><span>86%</span></div><div class="service-progress-track"><span class="service-progress-fill"></span></div></div>
+            </div>
+            <div class="service-card-footer"><div class="service-mini-stack" aria-hidden="true"><span class="service-mini-dot"></span><span class="service-mini-dot"></span><span class="service-mini-dot"></span></div><span class="service-status">רגיש ועדין</span></div>
+          </article>
+          <article class="service-item" data-service-card style="--service-progress: 92%;">
+            <div class="service-card-header"><span class="service-chip">Calm process</span><span class="service-menu-dots" aria-hidden="true"></span></div>
+            <div class="service-card-body">
+              <strong>טיפול רגוע ומותאם</strong>
+              <p>הטיפול הממוצע נמשך כשעתיים, בהתאם לכלב, מצב הפרווה ורמת שיתוף הפעולה.</p>
+              <div class="service-progress"><div class="service-progress-row"><span>קצב שמתאים לכלב</span><span>92%</span></div><div class="service-progress-track"><span class="service-progress-fill"></span></div></div>
+            </div>
+            <div class="service-card-footer"><div class="service-mini-stack" aria-hidden="true"><span class="service-mini-dot"></span><span class="service-mini-dot"></span><span class="service-mini-dot"></span></div><span class="service-status">כשעתיים</span></div>
+          </article>
         </div>
       </div>
     </section>
@@ -292,14 +805,67 @@
           <img class="coat-image" src="./assets/media/fast/pomeranian-after.webp" alt="פומרניאן עם פרווה כפולה לאחר טיפול מקצועי" loading="lazy" decoding="async">
         </div>
         <div>
-          <div class="section-heading"><h2>לכל פרווה יש דרך טיפול אחרת</h2><p>הגזע נותן כיוון, אבל אורטל בודקת גם את מצב הפרווה בפועל ואת הנוחות של הכלב.</p></div>
+          <div class="section-heading"><h2>לכל סוג פרווה יש דרך טיפול משלו</h2><p>הגזע נותן כיוון, אבל אורטל בודקת גם את מצב הפרווה בפועל ואת הנוחות של הכלב.</p></div>
           <div class="coat-list">
             <div class="coat-row"><strong>פרווה מתולתלת</strong><span>פודל, מלטיפו ודודל</span></div>
             <div class="coat-row"><strong>פרווה ארוכה ומשיית</strong><span>יורקשייר, שיצו ומלטז</span></div>
             <div class="coat-row"><strong>פרווה קצרה</strong><span>פיטבול, דוברמן וביגל</span></div>
             <div class="coat-row"><strong>פרווה כפולה</strong><span>האסקי, סמויד, גולדן ופומרניאן</span></div>
           </div>
-          <div class="safety-note">בגזעים עם פרווה כפולה לא מאשרים גילוח אוטומטית — אורטל בודקת מקצועית מה נכון לכלב.</div>
+          <div class="safety-note">בגזעים עם פרווה כפולה לא מבטיחים גילוח. אורטל בודקת מקצועית מה נכון לכלב, ולעיתים הטיפול הנכון הוא דילול, ייבוש והוצאת פרווה מתה.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="gallery">
+      <div class="container">
+        <div class="section-heading"><h2>עבודות של וופל׳ס</h2><p>תוצאות אמיתיות מהמספרה, בהתאמה לפרווה ולכלב.</p></div>
+        <div class="impact-gallery" id="impactGallery" tabindex="0" role="region" aria-label="גלריית עבודות של וופל׳ס. בחרו תמונה, החליקו או השתמשו בחצים במקלדת.">
+          <div class="impact-stage">
+            <figure class="impact-feature" id="impactFeature">
+              <img id="impactImage" src="./assets/media/gallery/gallery-01.jpg" alt="טיפוח מקצועי לכלב בוופל׳ס" loading="lazy" decoding="async">
+              <figcaption class="impact-caption">
+                <span class="impact-count" id="impactCount">01 / 25</span>
+                <h3 id="impactTitle">טיפוח מותאם לפרווה</h3>
+              </figcaption>
+            </figure>
+            <div class="impact-panel">
+              <div class="impact-copy">
+                <p class="impact-kicker">Waffel’s work gallery</p>
+                <h3>תוצאות שמרגישות כמו רגע “וואו”</h3>
+                <p id="impactText">כל עבודה מתחילה בבדיקה של הפרווה והכלב, ומסתיימת בגימור נקי, רגוע ומותאם אישית.</p>
+                <p class="impact-hint">לחצו על תמונה, החליקו על התמונה הגדולה או השתמשו בחצים במקלדת.</p>
+              </div>
+              <div class="impact-thumbs" aria-label="בחירת עבודה להצגה">
+                <button class="impact-thumb is-active" type="button" data-title="טיפוח מותאם לפרווה" data-caption="עבודה נקייה ומדויקת לפי סוג הפרווה ומצב הכלב." data-src="./assets/media/fast/gallery-01.webp" data-full="./assets/media/gallery/gallery-01.jpg" data-alt="טיפוח מקצועי לכלב בוופל׳ס"><img src="./assets/media/fast/gallery-01.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="גימור מדויק" data-caption="מראה מסודר שמדגיש עבודה עדינה ולא אגרסיבית." data-src="./assets/media/fast/gallery-02.webp" data-full="./assets/media/gallery/gallery-02.jpg" data-alt="עבודת טיפוח של וופל׳ס"><img src="./assets/media/fast/gallery-02.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="אחרי טיפול בוופל׳ס" data-caption="תוצאה נקייה, רכה ומוכנה לחזרה הביתה." data-src="./assets/media/fast/gallery-04.webp" data-full="./assets/media/gallery/gallery-04.jpg" data-alt="כלב לאחר טיפול בוופל׳ס"><img src="./assets/media/fast/gallery-04.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="תספורת ועיצוב" data-caption="עיצוב לפי מבנה הכלב והאופי של הפרווה." data-src="./assets/media/fast/gallery-05-shovi.webp" data-full="./assets/media/optimized/gallery/gallery-05-shovi.jpeg" data-alt="שובי לאחר תספורת ועיצוב"><img src="./assets/media/fast/gallery-05-shovi.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="עבודה לפי מצב הפרווה" data-caption="טיפול שמתייחס לקשרים, צפיפות ונוחות הכלב." data-src="./assets/media/fast/gallery-06.webp" data-full="./assets/media/gallery/gallery-06.jpg" data-alt="טיפוח פרווה מקצועי"><img src="./assets/media/fast/gallery-06.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="עיצוב הפרווה" data-caption="גימור שמרגיש טבעי, נקי ומותאם לכלב." data-src="./assets/media/fast/gallery-07.webp" data-full="./assets/media/gallery/gallery-07.jpg" data-alt="עיצוב פרווה בוופל׳ס"><img src="./assets/media/fast/gallery-07.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפול אישי ורגוע" data-caption="תהליך טיפוח עדין שמכבד את הקצב של הכלב." data-src="./assets/media/fast/gallery-08.webp" data-full="./assets/media/gallery/gallery-08.jpeg" data-alt="כלב מטופח בוופל׳ס"><img src="./assets/media/fast/gallery-08.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="תוצאה נקייה ומוקפדת" data-caption="מראה מסודר שמציג את איכות הגימור." data-src="./assets/media/fast/gallery-09.webp" data-full="./assets/media/gallery/gallery-09.jpeg" data-alt="עבודת מספרת כלבים וופל׳ס"><img src="./assets/media/fast/gallery-09.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפוח מקצועי" data-caption="טיפול מלא שמחבר בין ניקיון, נוחות ואסתטיקה." data-src="./assets/media/fast/gallery-10.webp" data-full="./assets/media/gallery/gallery-10.jpeg" data-alt="טיפוח מקצועי במספרת וופל׳ס"><img src="./assets/media/fast/gallery-10.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="סירוק ועיצוב" data-caption="עבודה שמחזירה לפרווה נפח, סדר ותנועה." data-src="./assets/media/fast/gallery-11.webp" data-full="./assets/media/gallery/gallery-11.jpeg" data-alt="כלב לאחר סירוק ועיצוב"><img src="./assets/media/fast/gallery-11.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפול מלא לפרווה" data-caption="הסתכלות מקצועית על כל שכבות הפרווה." data-src="./assets/media/fast/gallery-12.webp" data-full="./assets/media/gallery/gallery-12.jpeg" data-alt="תוצאה של טיפול פרווה"><img src="./assets/media/fast/gallery-12.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפוח עדין ומדויק" data-caption="פינישים קטנים שעושים הבדל גדול בתוצאה." data-src="./assets/media/fast/gallery-13.webp" data-full="./assets/media/gallery/gallery-13.jpeg" data-alt="עבודת טיפוח עדינה"><img src="./assets/media/fast/gallery-13.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="גימור מוקפד" data-caption="קו נקי ומסודר בלי לאבד את האישיות של הכלב." data-src="./assets/media/fast/gallery-14.webp" data-full="./assets/media/gallery/gallery-14.JPG" data-alt="כלב לאחר גימור במספרה"><img src="./assets/media/fast/gallery-14.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="תספורת מקצועית" data-caption="תספורת שמותאמת למבנה, לפרווה ולנוחות הכלב." data-src="./assets/media/fast/gallery-15.webp" data-full="./assets/media/gallery/gallery-15.jpeg" data-alt="תספורת מקצועית לכלב"><img src="./assets/media/fast/gallery-15.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="התאמה אישית לכלב" data-caption="לא תבנית קבועה — התאמה אמיתית לכל כלב." data-src="./assets/media/fast/gallery-16.webp" data-full="./assets/media/gallery/gallery-16.jpeg" data-alt="עבודת עיצוב לכלב"><img src="./assets/media/fast/gallery-16.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפוח מותאם לפרווה ארוכה" data-caption="עבודה עדינה עם פרווה ארוכה, נשירה וסירוק." data-src="./assets/media/fast/gallery-collie-2026.webp" data-full="./assets/media/gallery/gallery-collie.JPG" data-alt="כלב קולי לאחר טיפוח מקצועי"><img src="./assets/media/fast/gallery-collie-2026.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="גימור ועיצוב מוקפד" data-caption="תוצאה חדה, נקייה ומלאת אופי." data-src="./assets/media/fast/gallery-yorkie-2026.webp" data-full="./assets/media/optimized/gallery/gallery-yorkie-2026.jpeg" data-alt="כלב יורקשייר לאחר תספורת ועיצוב"><img src="./assets/media/fast/gallery-yorkie-2026.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="תספורת מקצועית" data-caption="עיצוב שמרגיש טבעי ונעים לעין." data-src="./assets/media/fast/gallery-westie-2026.webp" data-full="./assets/media/optimized/gallery/gallery-westie-2026.jpg" data-alt="כלב ווסטי במהלך טיפול במספרה"><img src="./assets/media/fast/gallery-westie-2026.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפוח לפרווה ארוכה" data-caption="שמירה על מראה מלא, נקי ובריא יותר לפרווה." data-src="./assets/media/fast/gallery-collie-original.webp" data-full="./assets/media/gallery/gallery-collie.JPG" data-alt="טיפוח מקצועי לפרווה ארוכה"><img src="./assets/media/fast/gallery-collie-original.webp" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="פודלים בגימור רך" data-caption="שני פודלים לאחר טיפול מדויק, עם מראה נקי ורך שנשאר טבעי." data-src="./assets/media/fast/waffels-2026-poodle-pair.jpg" data-full="./assets/media/gallery/waffels-2026-poodle-pair.jpeg" data-alt="שני פודלים לאחר טיפול וטיפוח בוופל׳ס"><img src="./assets/media/fast/waffels-2026-poodle-pair.jpg" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="פומרניאן מלא חיוך" data-caption="טיפול לפרווה מלאה עם שמירה על נפח, רכות ואופי טבעי." data-src="./assets/media/fast/waffels-2026-pomeranian-golden.jpg" data-full="./assets/media/gallery/waffels-2026-pomeranian-golden.jpeg" data-alt="פומרניאן חום לאחר טיפול פרווה מקצועי"><img src="./assets/media/fast/waffels-2026-pomeranian-golden.jpg" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="פרווה כפולה רכה" data-caption="מראה מלא ונקי לכלב עם פרווה עשירה, בלי לאבד את האופי של הפרווה." data-src="./assets/media/fast/waffels-2026-pomeranian-white.jpg" data-full="./assets/media/gallery/waffels-2026-pomeranian-white.jpeg" data-alt="פומרניאן לבן לאחר טיפול וטיפוח מקצועי"><img src="./assets/media/fast/waffels-2026-pomeranian-white.jpg" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="שלישיית פודלים" data-caption="שלושה כלבים בגימור אחיד, נקי ומותאם לכל אחד מהם." data-src="./assets/media/fast/waffels-2026-poodle-trio.jpg" data-full="./assets/media/gallery/waffels-2026-poodle-trio.jpeg" data-alt="שלושה פודלים לאחר טיפול וטיפוח במספרת וופל׳ס"><img src="./assets/media/fast/waffels-2026-poodle-trio.jpg" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="ווסטי בטיפול" data-caption="התחלה של טיפול שמכבד את מצב הפרווה והנוחות של הכלב." data-src="./assets/media/fast/waffels-2026-westie-table.jpg" data-full="./assets/media/gallery/waffels-2026-westie-table.jpeg" data-alt="כלב ווסטי על שולחן הטיפוח בוופל׳ס"><img src="./assets/media/fast/waffels-2026-westie-table.jpg" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפול נשירה לצ׳או צ׳או" data-caption="הוצאת פרווה מתה ודילול מקצועי שמחזירים לפרווה קלילות ונשימה." data-src="./assets/media/fast/waffels-2026-chow-deshedding.jpg" data-full="./assets/media/gallery/waffels-2026-chow-deshedding.jpeg" data-alt="צ׳או צ׳או לאחר טיפול נשירה והוצאת פרווה מתה"><img src="./assets/media/fast/waffels-2026-chow-deshedding.jpg" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="פודל בגימור נקי" data-caption="עיצוב עדין ומדויק שמדגיש את מבנה הפנים והפרווה." data-src="./assets/media/fast/waffels-2026-poodle-finish.jpg" data-full="./assets/media/gallery/waffels-2026-poodle-finish.jpeg" data-alt="פודל לאחר גימור נקי ועיצוב פרווה"><img src="./assets/media/fast/waffels-2026-poodle-finish.jpg" alt="" loading="lazy" decoding="async"></button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -314,40 +880,7 @@
           <div class="step"><span>04</span><p>מקבלים חזרה אישית עם האפשרויות המתאימות.</p></div>
           <div class="step"><span>05</span><p>מגיעים לטיפול רגוע ומקצועי.</p></div>
         </div>
-        <p class="appointment-note">תורים אינם נקבעים אוטומטית באתר. אורטל בודקת את הפרטים והזמינות וחוזרת אישית עם האפשרויות המתאימות.</p>
-      </div>
-    </section>
-
-    <section class="gallery-section" id="gallery">
-      <div class="container">
-        <div class="section-heading"><h2>עבודות של וופל׳ס</h2><p>תוצאות אמיתיות מהמספרה, בהתאמה לפרווה ולכלב.</p></div>
-        <div class="work-gallery-shell">
-          <div class="work-gallery" id="workGallery" tabindex="0" role="region" aria-label="גלריית עבודות של וופל׳ס. גררו את התמונה העליונה כדי לעבור לעבודה הבאה.">
-            <figure class="work-card"><img src="./assets/media/fast/gallery-01.webp" alt="טיפוח מקצועי לכלב בוופל׳ס" loading="lazy" decoding="async"><figcaption>טיפוח מותאם לפרווה</figcaption></figure>
-            <figure class="work-card"><img src="./assets/media/fast/gallery-02.webp" alt="עבודת טיפוח של וופל׳ס" loading="lazy" decoding="async"><figcaption>גימור מדויק</figcaption></figure>
-            <figure class="work-card"><img src="./assets/media/fast/gallery-04.webp" alt="כלב לאחר טיפול בוופל׳ס" loading="lazy" decoding="async"><figcaption>אחרי טיפול בוופל׳ס</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-05-shovi.webp" alt="שובי לאחר תספורת ועיצוב" decoding="async"><figcaption>תספורת ועיצוב</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-06.webp" alt="טיפוח פרווה מקצועי" decoding="async"><figcaption>עבודה לפי מצב הפרווה</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-07.webp" alt="עיצוב פרווה בוופל׳ס" decoding="async"><figcaption>עיצוב הפרווה</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-08.webp" alt="כלב מטופח בוופל׳ס" decoding="async"><figcaption>טיפול אישי ורגוע</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-09.webp" alt="עבודת מספרת כלבים וופל׳ס" decoding="async"><figcaption>תוצאה נקייה ומוקפדת</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-10.webp" alt="טיפוח מקצועי במספרת וופל׳ס" decoding="async"><figcaption>טיפוח מקצועי</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-11.webp" alt="כלב לאחר סירוק ועיצוב" decoding="async"><figcaption>סירוק ועיצוב</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-12.webp" alt="תוצאה של טיפול פרווה" decoding="async"><figcaption>טיפול מלא לפרווה</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-13.webp" alt="עבודת טיפוח עדינה" decoding="async"><figcaption>טיפוח עדין ומדויק</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-14.webp" alt="כלב לאחר גימור במספרה" decoding="async"><figcaption>גימור מוקפד</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-15.webp" alt="תספורת מקצועית לכלב" decoding="async"><figcaption>תספורת מקצועית</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-16.webp" alt="עבודת עיצוב לכלב" decoding="async"><figcaption>התאמה אישית לכלב</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-collie-2026.webp" alt="כלב קולי לאחר טיפוח מקצועי" decoding="async"><figcaption>טיפוח מותאם לפרווה</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-yorkie-2026.webp" alt="כלב יורקשייר לאחר תספורת ועיצוב" decoding="async"><figcaption>גימור ועיצוב מוקפד</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-westie-2026.webp" alt="כלב ווסטי במהלך טיפול במספרה" decoding="async"><figcaption>תספורת מקצועית</figcaption></figure>
-            <figure class="work-card"><img data-src="./assets/media/fast/gallery-collie-original.webp" alt="טיפוח מקצועי לפרווה ארוכה" decoding="async"><figcaption>טיפוח לפרווה ארוכה</figcaption></figure>
-          </div>
-          <div class="gallery-controls" aria-label="ניווט בגלריה">
-            <button class="gallery-control" type="button" data-gallery-action="previous" aria-label="העבודה הקודמת" title="העבודה הקודמת">←</button>
-            <button class="gallery-control" type="button" data-gallery-action="next" aria-label="העבודה הבאה" title="העבודה הבאה">→</button>
-          </div>
-        </div>
+        <p class="appointment-note">שעות הפעילות: ראשון–חמישי, 09:00–16:00. תחילת הטיפול האחרון בשעה 14:00. תורים אינם נקבעים אוטומטית באתר — אורטל בודקת את הפרטים והזמינות וחוזרת אישית.</p>
       </div>
     </section>
 
@@ -360,12 +893,12 @@
         </div>
         <form class="lead-form" id="landingLeadForm" novalidate>
           <div class="form-grid">
-            <label>שם לקוח<input name="customer_name" autocomplete="name"></label>
-            <label>טלפון<input name="phone" type="tel" inputmode="tel" autocomplete="tel" required></label>
-            <label>שם הכלב<input name="dog_name" required></label>
-            <label>גזע<input name="breed"></label>
-            <label class="full">מה תרצו לבדוק?
-              <select name="service_requested" required>
+            <label for="customerName">שם לקוח<input id="customerName" name="customer_name" autocomplete="name"></label>
+            <label for="phone">טלפון<input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="050-1234567"></label>
+            <label for="dogName">שם הכלב<input id="dogName" name="dog_name" required></label>
+            <label for="breed">גזע<input id="breed" name="breed"></label>
+            <label class="full" for="serviceRequested">מה תרצו לבדוק?
+              <select id="serviceRequested" name="service_requested" required>
                 <option value="">בחירת נושא</option>
                 <option>טיפול טיפוח מלא</option>
                 <option>תספורת ועיצוב לגזע מתאים</option>
@@ -377,11 +910,12 @@
                 <option>שאלה אחרת</option>
               </select>
             </label>
-            <label class="full">מועד מועדף<input name="preferred_date" placeholder="למשל: בשבוע הבא או ביום רביעי"></label>
-            <label class="full">הערות / מצב הפרווה<textarea name="notes" placeholder="קשרים, נשירה, רגישות, התנהגות או כל דבר שחשוב לאורטל לדעת"></textarea></label>
-            <button class="full" type="submit">שליחה לאורטל</button>
+            <label class="full" for="preferredDate">מועד מועדף<input id="preferredDate" name="preferred_date" placeholder="למשל: בשבוע הבא או ביום רביעי"></label>
+            <label class="full" for="notes">מצב הפרווה והערות<textarea id="notes" name="notes" placeholder="קשרים, נשירה, רגישות, התנהגות או כל דבר שחשוב לאורטל לדעת"></textarea></label>
+            <button class="full" type="submit">מעבר ל־WhatsApp עם הפרטים</button>
           </div>
-          <div class="form-status" id="landingFormStatus" aria-live="polite"></div>
+          <div class="form-status" id="landingFormStatus" aria-live="polite" aria-atomic="true"></div>
+          <p><a id="leadWhatsappFallback" class="whatsapp-direct-fallback" href="https://wa.me/972528978102?text=%D7%A9%D7%9C%D7%95%D7%9D%2C%20%D7%94%D7%92%D7%A2%D7%A0%D7%95%20%D7%93%D7%A8%D7%9A%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%95%D7%A0%D7%A9%D7%9E%D7%97%20%D7%9C%D7%91%D7%93%D7%95%D7%A7%20%D7%98%D7%99%D7%A4%D7%95%D7%9C%20%D7%9C%D7%9B%D7%9C%D7%91%20%F0%9F%90%BE" target="_blank" rel="noreferrer">אם הטופס לא נפתח, לחצו כאן לשליחת WhatsApp ישיר</a></p>
         </form>
       </div>
     </section>
@@ -390,7 +924,7 @@
   <footer>
     <div class="container footer-inner">
       <strong>WAFFEL'S · וופל׳ס מספרת כלבים</strong>
-      <span>הוד השרון · <a href="tel:0528978102">052-897-8102</a></span>
+      <span>הוד השרון · <a href="tel:0528978102">052-897-8102</a> · <a href="https://www.instagram.com/waffels.dog.grooming?igsh=MWs5em10amR3NzU4NQ%3D%3D&utm_source=qr" target="_blank" rel="noreferrer">Instagram</a></span>
     </div>
   </footer>
 
@@ -403,11 +937,11 @@
 
       <div class="hours">
         <strong>שעות פעילות המספרה</strong>
-        <p>א׳–ה׳: 09:00–18:00</p>
-        <p>ו׳: 09:00–13:00</p>
+        <p>ראשון–חמישי: 09:00–16:00</p>
+        <p>תחילת הטיפול האחרון: 14:00</p>
       </div>
 
-      <p>מענה ב־WhatsApp בשעות הפעילות, עד 48 שעות עבודה.</p>
+      <p>הודעת WhatsApp אינה מאשרת תור. אורטל בודקת את הפרטים והזמינות וחוזרת אישית.</p>
       <p><strong>הוד השרון · 052-897-8102</strong></p>
 
       <div class="dialog-actions">
@@ -416,6 +950,45 @@
       </div>
     </div>
   </dialog>
+
+  <script>
+    (() => {
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let scrollTimer = 0;
+
+      const markScrolling = () => {
+        document.documentElement.classList.add('is-scrolling');
+        window.clearTimeout(scrollTimer);
+        scrollTimer = window.setTimeout(() => {
+          document.documentElement.classList.remove('is-scrolling');
+        }, 180);
+      };
+
+      window.addEventListener('scroll', markScrolling, { passive: true });
+      window.addEventListener('touchmove', markScrolling, { passive: true });
+
+      if (reduceMotion) return;
+
+      const revealItems = [
+        ...document.querySelectorAll('.section-heading, .service-item, .step, .coat-image, .care-promise, .memory-copy, .memory-stage-wrap, .impact-gallery, .lead-form')
+      ];
+
+      revealItems.forEach((item, index) => {
+        item.classList.add('motion-reveal');
+        item.style.setProperty('--motion-order', String(index % 6));
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: .12 });
+
+      revealItems.forEach((item) => observer.observe(item));
+    })();
+  </script>
 
   <script>
     (function initLandingPage() {
@@ -431,6 +1004,9 @@
         let offset = 0;
         let hoveredCell = null;
         let animationFrame = 0;
+        let isVisible = false;
+        let isRunning = false;
+        let lastPaint = 0;
 
         function resize() {
           const rect = canvas.getBoundingClientRect();
@@ -463,10 +1039,28 @@
           }
         }
 
-        function animate() {
+        function animate(time = 0) {
+          const isPageScrolling = document.documentElement.classList.contains("is-scrolling");
+          if (isPageScrolling && time - lastPaint < 80) {
+            if (!reduceMotion && isVisible) animationFrame = window.requestAnimationFrame(animate);
+            return;
+          }
+          lastPaint = time;
           if (!reduceMotion) offset -= Math.max(speed, 0.1);
           draw();
+          if (!reduceMotion && isVisible) animationFrame = window.requestAnimationFrame(animate);
+        }
+
+        function start() {
+          if (reduceMotion || isRunning || !isVisible) return;
+          isRunning = true;
+          window.cancelAnimationFrame(animationFrame);
           animationFrame = window.requestAnimationFrame(animate);
+        }
+
+        function stop() {
+          isRunning = false;
+          window.cancelAnimationFrame(animationFrame);
         }
 
         canvas.addEventListener("mousemove", (event) => {
@@ -480,15 +1074,17 @@
         canvas.addEventListener("mouseleave", () => { hoveredCell = null; });
         window.addEventListener("resize", resize, { passive: true });
         resize();
-        animate();
+        if (reduceMotion) draw();
+
+        new IntersectionObserver(([entry]) => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) start();
+          else stop();
+        }).observe(canvas);
 
         document.addEventListener("visibilitychange", () => {
-          if (document.hidden) {
-            window.cancelAnimationFrame(animationFrame);
-          } else {
-            window.cancelAnimationFrame(animationFrame);
-            animate();
-          }
+          if (document.hidden) stop();
+          else start();
         });
       }
 
@@ -504,12 +1100,16 @@
       const whatsappUrl = `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(whatsappMessage)}`;
       const whatsappDialog = document.getElementById("whatsappInfoDialog");
       const continueToWhatsapp = document.getElementById("continueToWhatsapp");
+      let lastFocusedElement = null;
       continueToWhatsapp.href = whatsappUrl;
       document.querySelectorAll(".whatsapp-link").forEach((link) => {
         link.removeAttribute("target");
+        link.href = whatsappUrl;
         link.addEventListener("click", (event) => {
           event.preventDefault();
+          lastFocusedElement = document.activeElement;
           whatsappDialog.showModal();
+          continueToWhatsapp.focus();
         });
       });
       document.getElementById("closeWhatsappDialog").addEventListener("click", () => whatsappDialog.close());
@@ -517,61 +1117,83 @@
       whatsappDialog.addEventListener("click", (event) => {
         if (event.target === whatsappDialog) whatsappDialog.close();
       });
+      whatsappDialog.addEventListener("close", () => {
+        if (lastFocusedElement && typeof lastFocusedElement.focus === "function") lastFocusedElement.focus();
+      });
 
       const form = document.getElementById("landingLeadForm");
       const status = document.getElementById("landingFormStatus");
       const submitButton = form.querySelector('button[type="submit"]');
+      const leadFallback = document.getElementById("leadWhatsappFallback");
 
       function setStatus(message, type = "") {
         status.textContent = message;
         status.className = `form-status ${type}`.trim();
       }
 
-      function isUrgent(values) {
-        const text = `${values.service_requested} ${values.preferred_date} ${values.notes}`;
-        return /(היום|דחוף|בהקדם|עכשיו|אורטל|מישהו|נציג|אדם)/.test(text);
+      function normalizeIsraeliPhone(value) {
+        const cleaned = String(value || "").replace(/[^\d+]/g, "");
+        let digits = cleaned;
+        if (digits.startsWith("+972")) digits = `0${digits.slice(4)}`;
+        else if (digits.startsWith("972")) digits = `0${digits.slice(3)}`;
+        if (!/^0(?:5\d|[23489])\d{7}$/.test(digits)) return null;
+        return digits;
       }
 
-      form.addEventListener("submit", async (event) => {
+      function buildLeadWhatsappMessage(values, normalizedPhone) {
+        const line = (label, value) => `${label}: ${value || "לא נמסר"}`;
+        return [
+          "שלום אורטל, הגעתי דרך האתר של Waffel’s Dog Grooming 🐾",
+          "",
+          "אשמח שתבדקי התאמה וזמינות לטיפול. אני מבין/ה שזה לא אישור תור ולא מחיר סופי.",
+          "",
+          line("שם הלקוח", values.customer_name),
+          line("מספר טלפון", normalizedPhone),
+          line("שם הכלב", values.dog_name),
+          line("גזע", values.breed),
+          line("סוג הטיפול", values.service_requested),
+          line("מועד מועדף", values.preferred_date),
+          line("מצב הפרווה והערות", values.notes)
+        ].join("\n");
+      }
+
+      function whatsappLeadUrl(message) {
+        return `https://wa.me/${whatsappPhone}?text=${encodeURIComponent(message)}`;
+      }
+
+      function openWhatsapp(message) {
+        const url = whatsappLeadUrl(message);
+        leadFallback.href = url;
+        window.location.href = url;
+      }
+
+      form.addEventListener("submit", (event) => {
         event.preventDefault();
         if (!form.reportValidity()) return;
         const data = new FormData(form);
-        const values = Object.fromEntries(data.entries());
-        const urgent = isUrgent(values);
-        const notes = [
-          values.preferred_date ? `מועד מועדף: ${values.preferred_date}` : "",
-          values.notes || ""
-        ].filter(Boolean).join("\n");
-        const payload = {
-          customer_name: String(values.customer_name || "").trim(),
-          phone: String(values.phone || "").trim(),
-          dog_name: String(values.dog_name || "").trim(),
-          breed: String(values.breed || "").trim(),
-          service_requested: String(values.service_requested || "").trim(),
-          notes,
-          source: "website_landing",
-          status: "waiting_for_ortal",
-          temperature: urgent ? "hot" : "warm",
-          next_action: urgent ? "חזרה דחופה של אורטל" : "חזרה ללקוח לאחר בדיקת הפרטים"
+        const values = {
+          customer_name: String(data.get("customer_name") || "").trim(),
+          phone: String(data.get("phone") || "").trim(),
+          dog_name: String(data.get("dog_name") || "").trim(),
+          breed: String(data.get("breed") || "").trim(),
+          service_requested: String(data.get("service_requested") || "").trim(),
+          preferred_date: String(data.get("preferred_date") || "").trim(),
+          notes: String(data.get("notes") || "").trim()
         };
-        submitButton.disabled = true;
-        setStatus("שולח את הפרטים לאורטל...");
-        try {
-          const response = await fetch("/api/leads", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-          const result = await response.json().catch(() => ({}));
-          if (!response.ok || !result.ok) throw new Error(result.error || "lead-save-failed");
-          form.reset();
-          setStatus("תודה, הפרטים הועברו לאורטל 🐾 היא תחזור אליך אישית עם האפשרויות המתאימות.", "success");
-        } catch (error) {
-          console.error("Landing lead save failed", error);
-          setStatus("לא הצלחנו לשמור את הפרטים כרגע. אפשר לפנות לאורטל ב־WhatsApp.", "error");
-        } finally {
-          submitButton.disabled = false;
+        const normalizedPhone = normalizeIsraeliPhone(values.phone);
+        if (!normalizedPhone) {
+          setStatus("נראה שמספר הטלפון לא תקין. כתבו מספר ישראלי מלא, למשל 050-1234567.", "error");
+          form.elements.phone.focus();
+          return;
         }
+        const message = buildLeadWhatsappMessage(values, normalizedPhone);
+        leadFallback.href = whatsappLeadUrl(message);
+        submitButton.disabled = true;
+        setStatus("מעבירים אותך ל־WhatsApp עם כל הפרטים שמילאת. שים/י לב: זה לא אישור תור — אורטל תבדוק זמינות ותחזור אישית.", "success");
+        window.setTimeout(() => {
+          submitButton.disabled = false;
+          openWhatsapp(message);
+        }, 900);
       });
     })();
   </script>
@@ -587,6 +1209,9 @@
       let height = 0;
       let pixelRatio = 1;
       let isVisible = true;
+      let frameId = 0;
+      let isRunning = false;
+      let lastPaint = 0;
 
       const resize = () => {
         const bounds = section.getBoundingClientRect();
@@ -602,6 +1227,12 @@
       };
 
       const draw = (time) => {
+        const isPageScrolling = document.documentElement.classList.contains('is-scrolling');
+        if (isPageScrolling && time - lastPaint < 72) {
+          if (isVisible && !reduceMotion) frameId = window.requestAnimationFrame(draw);
+          return;
+        }
+        lastPaint = time;
         context.clearRect(0, 0, width, height);
         const spacing = width < 560 ? 30 : 38;
         const radius = 145;
@@ -623,7 +1254,19 @@
             context.fill();
           }
         }
-        if (isVisible && !reduceMotion) window.requestAnimationFrame(draw);
+        if (isVisible && !reduceMotion) frameId = window.requestAnimationFrame(draw);
+      };
+
+      const start = () => {
+        if (reduceMotion || isRunning || !isVisible) return;
+        isRunning = true;
+        window.cancelAnimationFrame(frameId);
+        frameId = window.requestAnimationFrame(draw);
+      };
+
+      const stop = () => {
+        isRunning = false;
+        window.cancelAnimationFrame(frameId);
       };
 
       section.addEventListener('pointermove', (event) => {
@@ -642,185 +1285,793 @@
       new IntersectionObserver(([entry]) => {
         const wasVisible = isVisible;
         isVisible = entry.isIntersecting;
-        if (isVisible && !wasVisible && !reduceMotion) window.requestAnimationFrame(draw);
+        if (isVisible && !wasVisible) start();
+        if (!isVisible) stop();
       }).observe(section);
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stop();
+        else start();
+      });
       resize();
-      if (!reduceMotion) window.requestAnimationFrame(draw);
+      if (reduceMotion) draw(0);
+      else start();
     })();
   </script>
   <script>
     (() => {
-      const stage = document.getElementById('ortalShowcase');
-      if (!stage) return;
-      const cards = [...stage.querySelectorAll('.ortal-card')];
-      let active = 0;
-      let pointerStart = null;
-      let didDrag = false;
+      const card = document.querySelector('[data-care-card]');
+      if (!card || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      let frame = 0;
 
-      const render = () => {
-        const spacing = Math.min(window.innerWidth * .27, 310);
-        cards.forEach((card, index) => {
-          let offset = index - active;
-          if (offset > cards.length / 2) offset -= cards.length;
-          if (offset < -cards.length / 2) offset += cards.length;
-          const distance = Math.abs(offset);
-          const scale = distance === 0 ? 1 : distance === 1 ? .82 : .66;
-          card.dataset.offset = String(offset);
-          card.style.zIndex = String(10 - distance);
-          card.style.opacity = distance > 2 ? '0' : distance === 2 ? '.42' : distance === 1 ? '.76' : '1';
-          card.style.pointerEvents = distance > 2 ? 'none' : 'auto';
-          card.style.transform = `translate(-50%, -50%) translateX(${offset * spacing}px) scale(${scale})`;
-          card.setAttribute('aria-hidden', distance > 2 ? 'true' : 'false');
+      const setTilt = (x = 0, y = 0) => {
+        window.cancelAnimationFrame(frame);
+        frame = window.requestAnimationFrame(() => {
+          card.style.setProperty('--care-tilt-x', `${y * -4.5}deg`);
+          card.style.setProperty('--care-tilt-y', `${x * 5.5}deg`);
+          card.style.setProperty('--care-shine-x', `${(x + .5) * 100}%`);
         });
       };
 
-      const move = (step) => {
-        active = (active + step + cards.length) % cards.length;
-        render();
-      };
+      card.addEventListener('pointermove', (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) - .5;
+        const y = ((event.clientY - rect.top) / rect.height) - .5;
+        setTilt(x, y);
+      }, { passive: true });
 
-      cards.forEach((card, index) => card.addEventListener('click', () => {
-        if (didDrag) { didDrag = false; return; }
-        if (index === active) { move(1); return; }
-        const forward = (index - active + cards.length) % cards.length;
-        move(forward <= cards.length / 2 ? forward : forward - cards.length);
-      }));
-
-      stage.addEventListener('pointerdown', (event) => {
-        const activeCard = cards[active];
-        if (!activeCard.contains(event.target)) return;
-        didDrag = false;
-        pointerStart = { id: event.pointerId, x: event.clientX, y: event.clientY, axis: null, card: activeCard };
-        activeCard.setPointerCapture(event.pointerId);
-      });
-      stage.addEventListener('pointermove', (event) => {
-        if (!pointerStart || pointerStart.id !== event.pointerId) return;
-        const dx = event.clientX - pointerStart.x;
-        const dy = event.clientY - pointerStart.y;
-        if (!pointerStart.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
-          pointerStart.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
-          if (pointerStart.axis === 'horizontal') {
-            didDrag = true;
-            pointerStart.card.classList.add('is-dragging');
-          }
-        }
-        if (pointerStart.axis !== 'horizontal') return;
-        pointerStart.card.style.transform = `translate(-50%, -50%) translateX(${dx}px) rotate(${dx / 28}deg) scale(1.02)`;
-      });
-      stage.addEventListener('pointerup', (event) => {
-        if (!pointerStart || pointerStart.id !== event.pointerId) return;
-        const distance = event.clientX - pointerStart.x;
-        const wasHorizontal = pointerStart.axis === 'horizontal';
-        pointerStart.card.classList.remove('is-dragging');
-        pointerStart = null;
-        if (wasHorizontal && Math.abs(distance) > 45) move(distance < 0 ? 1 : -1);
-        else render();
-        window.setTimeout(() => { didDrag = false; }, 0);
-      });
-      stage.addEventListener('pointercancel', () => {
-        if (pointerStart) pointerStart.card.classList.remove('is-dragging');
-        pointerStart = null;
-        didDrag = false;
-        render();
-      });
-      stage.addEventListener('keydown', (event) => {
-        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
-        event.preventDefault();
-        move(event.key === 'ArrowLeft' ? 1 : -1);
-      });
-      window.addEventListener('resize', render);
-      render();
+      card.addEventListener('pointerleave', () => setTilt(0, 0), { passive: true });
+      card.addEventListener('pointercancel', () => setTilt(0, 0), { passive: true });
     })();
   </script>
   <script>
     (() => {
-      const gallery = document.getElementById('workGallery');
+      const cards = [...document.querySelectorAll('[data-service-card]')];
+      if (!cards.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      cards.forEach((card) => {
+        let frame = 0;
+        const setTilt = (x = 0, y = 0) => {
+          window.cancelAnimationFrame(frame);
+          frame = window.requestAnimationFrame(() => {
+            card.style.setProperty('--service-tilt-x', `${y * -5}deg`);
+            card.style.setProperty('--service-tilt-y', `${x * 6}deg`);
+            card.style.setProperty('--service-glow-x', `${(x + .5) * 100}%`);
+          });
+        };
+
+        card.addEventListener('pointermove', (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) - .5;
+          const y = ((event.clientY - rect.top) / rect.height) - .5;
+          setTilt(x, y);
+        }, { passive: true });
+
+        card.addEventListener('pointerleave', () => setTilt(0, 0), { passive: true });
+        card.addEventListener('pointercancel', () => setTilt(0, 0), { passive: true });
+      });
+    })();
+  </script>
+  <script>
+    (() => {
+      const gallery = document.getElementById('photoSpreadGallery');
       if (!gallery) return;
-      const minDragDistance = 50;
-      let isAnimating = false;
+      const stage = gallery.querySelector('.photo-spread-stage');
+      const cards = [...gallery.querySelectorAll('.photo-spread-card')];
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let drag = null;
+      let activeOffset = 0;
+
+      const layoutForWidth = () => {
+        const width = window.innerWidth;
+        const compact = width < 560;
+        const tablet = width < 900;
+        const spacing = compact ? 64 : tablet ? 118 : 160;
+        const yOffsets = compact ? [18, 34, 6, 28, 46] : [16, 34, 8, 24, 44];
+        const rotations = [-3.5, -1.7, 1.2, 2.5, -2.2];
+        const center = (cards.length - 1) / 2;
+        cards.forEach((card, index) => {
+          const order = Math.abs(index - center);
+          const x = (index - center + activeOffset) * spacing;
+          card.style.setProperty('--spread-x', `${x}px`);
+          card.style.setProperty('--spread-y', `${yOffsets[index] || 0}px`);
+          card.style.setProperty('--spread-rotation', `${rotations[index] || 0}deg`);
+          card.style.setProperty('--spread-hover-rotation', `${(rotations[index] || 0) * .5}deg`);
+          card.style.setProperty('--spread-order', String(index));
+          card.style.zIndex = String(60 - order * 6);
+          card.tabIndex = 0;
+        });
+      };
+
+      const reveal = () => {
+        layoutForWidth();
+        if (reduceMotion) {
+          gallery.classList.add('is-ready');
+          return;
+        }
+        window.setTimeout(() => gallery.classList.add('is-ready'), 180);
+      };
+
+      const observer = new IntersectionObserver(([entry]) => {
+        if (!entry.isIntersecting) return;
+        reveal();
+        observer.disconnect();
+      }, { threshold: 0.22 });
+
+      cards.forEach((card) => {
+        card.addEventListener('pointerdown', (event) => {
+          if (event.pointerType === 'mouse' && event.button !== 0) return;
+          drag = {
+            id: event.pointerId,
+            startX: event.clientX,
+            startY: event.clientY,
+            baseX: parseFloat(getComputedStyle(card).getPropertyValue('--spread-x')) || 0,
+            baseY: parseFloat(getComputedStyle(card).getPropertyValue('--spread-y')) || 0,
+            card
+          };
+          card.classList.add('is-dragging');
+          card.setPointerCapture(event.pointerId);
+        });
+
+        card.addEventListener('pointermove', (event) => {
+          if (!drag || drag.id !== event.pointerId || drag.card !== card) return;
+          const dx = event.clientX - drag.startX;
+          const dy = event.clientY - drag.startY;
+          if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 12) return;
+          card.style.setProperty('--spread-x', `${drag.baseX + dx}px`);
+          card.style.setProperty('--spread-y', `${drag.baseY + dy * .22}px`);
+        });
+
+        const finishDrag = (event) => {
+          if (!drag || drag.id !== event.pointerId || drag.card !== card) return;
+          card.classList.remove('is-dragging');
+          drag = null;
+          layoutForWidth();
+        };
+
+        card.addEventListener('pointerup', finishDrag);
+        card.addEventListener('pointercancel', finishDrag);
+      });
+
+      stage.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        if (event.key === 'Home') activeOffset = 0;
+        else if (event.key === 'End') activeOffset = 0;
+        else activeOffset = Math.max(-.7, Math.min(.7, activeOffset + (event.key === 'ArrowLeft' ? .18 : -.18)));
+        layoutForWidth();
+      });
+
+      window.addEventListener('resize', layoutForWidth, { passive: true });
+      observer.observe(gallery);
+      layoutForWidth();
+    })();
+  </script>
+  <script>
+    (() => {
+      const gallery = document.getElementById('impactGallery');
+      if (!gallery) return;
+      const feature = gallery.querySelector('#impactFeature');
+      const image = gallery.querySelector('#impactImage');
+      const title = gallery.querySelector('#impactTitle');
+      const text = gallery.querySelector('#impactText');
+      const count = gallery.querySelector('#impactCount');
+      const thumbs = [...gallery.querySelectorAll('.impact-thumb')];
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let active = 0;
       let drag = null;
 
-      const cards = () => [...gallery.querySelectorAll('.work-card')];
-      const positionCards = () => {
-        const orderedCards = cards();
-        orderedCards.slice(0, 3).forEach((card) => {
-          const image = card.querySelector('img[data-src]');
-          if (!image) return;
-          image.src = image.dataset.src;
-          image.removeAttribute('data-src');
-        });
-        orderedCards.forEach((card, index) => {
-          card.dataset.stackIndex = String(index);
-          card.style.zIndex = String(50 - index);
-          card.style.opacity = index > 5 ? '0' : String(1 - index * .1);
-          card.style.visibility = index > 5 ? 'hidden' : 'visible';
-          card.style.transform = index === 0
-            ? 'translate3d(0, 0, 0) rotate(0deg) scale(1)'
-            : `translate3d(${-12 * index}px, ${-8 * index}px, 0) rotate(${-2 - 3 * index}deg) scale(${1 - Math.min(index, 5) * .018})`;
+      const formatCount = (index) => `${String(index + 1).padStart(2, '0')} / ${String(thumbs.length).padStart(2, '0')}`;
+      const displaySrc = (thumb) => thumb?.dataset.full || thumb?.dataset.src || '';
+      const preloadAround = (index) => {
+        [index - 1, index + 1].forEach((value) => {
+          const thumb = thumbs[(value + thumbs.length) % thumbs.length];
+          if (!thumb) return;
+          const preloader = new Image();
+          preloader.src = displaySrc(thumb);
         });
       };
 
-      const moveTopCard = (direction = 1) => {
-        if (isAnimating) return;
-        const topCard = cards()[0];
-        if (!topCard) return;
-        isAnimating = true;
-        topCard.classList.remove('is-dragging');
-        topCard.classList.add('is-leaving');
-        topCard.style.transform = `translate3d(${direction * 520}px, -25px, 0) rotate(${direction * 14}deg) scale(1.04)`;
+      const show = (index) => {
+        active = (index + thumbs.length) % thumbs.length;
+        const selected = thumbs[active];
+        if (!selected) return;
+        feature.classList.add('is-changing');
         window.setTimeout(() => {
-          topCard.classList.remove('is-leaving');
-          gallery.appendChild(topCard);
-          positionCards();
-          window.setTimeout(() => { isAnimating = false; }, 220);
-        }, 280);
+          image.src = displaySrc(selected);
+          image.alt = selected.dataset.alt || '';
+          title.textContent = selected.dataset.title || '';
+          text.textContent = selected.dataset.caption || '';
+          count.textContent = formatCount(active);
+          thumbs.forEach((thumb, thumbIndex) => {
+            const isActive = thumbIndex === active;
+            thumb.classList.toggle('is-active', isActive);
+            thumb.setAttribute('aria-current', isActive ? 'true' : 'false');
+          });
+          if (!reduceMotion) selected.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          preloadAround(active);
+          window.setTimeout(() => feature.classList.remove('is-changing'), 90);
+        }, reduceMotion ? 0 : 120);
       };
 
-      gallery.addEventListener('pointerdown', (event) => {
-        if (isAnimating) return;
-        const topCard = cards()[0];
-        if (!topCard || !topCard.contains(event.target)) return;
-        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, card: topCard, axis: null };
-        topCard.setPointerCapture(event.pointerId);
+      thumbs.forEach((thumb, index) => {
+        thumb.setAttribute('aria-label', `הצג עבודה: ${thumb.dataset.title || index + 1}`);
+        thumb.addEventListener('click', () => show(index));
       });
 
-      gallery.addEventListener('pointermove', (event) => {
+      feature.addEventListener('pointerdown', (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, axis: null };
+        feature.setPointerCapture(event.pointerId);
+      });
+
+      feature.addEventListener('pointermove', (event) => {
         if (!drag || drag.id !== event.pointerId) return;
         const dx = event.clientX - drag.x;
         const dy = event.clientY - drag.y;
         if (!drag.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
           drag.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
-          if (drag.axis === 'horizontal') drag.card.classList.add('is-dragging');
         }
         if (drag.axis !== 'horizontal') return;
-        drag.card.style.transform = `translate3d(${dx}px, ${dy * .12}px, 0) rotate(${dx / 18}deg) scale(1.04)`;
+        image.style.transform = `scale(1.03) translateX(${dx * .04}px) rotate(${dx / 260}deg)`;
       });
 
       const finishDrag = (event) => {
         if (!drag || drag.id !== event.pointerId) return;
         const dx = event.clientX - drag.x;
-        const dy = event.clientY - drag.y;
         const isHorizontalDrag = drag.axis === 'horizontal';
-        const draggedCard = drag.card;
         drag = null;
-        draggedCard.classList.remove('is-dragging');
-        if (isHorizontalDrag && Math.abs(dx) >= minDragDistance) moveTopCard(dx < 0 ? -1 : 1);
-        else positionCards();
+        image.style.transform = '';
+        if (isHorizontalDrag && Math.abs(dx) > 42) show(active + (dx < 0 ? 1 : -1));
       };
-      gallery.addEventListener('pointerup', finishDrag);
-      gallery.addEventListener('pointercancel', finishDrag);
-
-      document.querySelectorAll('[data-gallery-action]').forEach((button) => {
-        button.addEventListener('click', () => moveTopCard(button.dataset.galleryAction === 'next' ? -1 : 1));
-      });
+      feature.addEventListener('pointerup', finishDrag);
+      feature.addEventListener('pointercancel', finishDrag);
 
       gallery.addEventListener('keydown', (event) => {
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
         event.preventDefault();
-        moveTopCard(event.key === 'ArrowLeft' ? -1 : 1);
+        show(active + (event.key === 'ArrowLeft' ? -1 : 1));
       });
 
-      positionCards();
+      preloadAround(active);
+    })();
+  </script>
+  <script>
+    (() => {
+      const album = document.getElementById('memoryAlbum3d');
+      if (!album) return;
+      const section = album.closest('.memory-album');
+      const stage = album.querySelector('.cinematic-stage');
+      const photos = [...album.querySelectorAll('.memory-photo')];
+      const dots = [...album.querySelectorAll('.memory-dot')];
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const highResolutionSources = new Map([
+        ['./assets/media/fast/poodle-after.webp', './assets/media/before-after/poodle-after.jpeg'],
+        ['./assets/media/fast/gallery-yorkie-2026.webp', './assets/media/optimized/gallery/gallery-yorkie-2026.jpeg'],
+        ['./assets/media/fast/gallery-collie-2026.webp', './assets/media/gallery/gallery-collie.JPG'],
+        ['./assets/media/fast/gallery-05-shovi.webp', './assets/media/optimized/gallery/gallery-05-shovi.jpeg'],
+        ['./assets/media/fast/gallery-14.webp', './assets/media/gallery/gallery-14.JPG'],
+        ['./assets/media/fast/gallery-08.webp', './assets/media/gallery/gallery-08.jpeg'],
+        ['./assets/media/fast/pomeranian-after.webp', './assets/media/before-after/pomeranian-after.jpg'],
+        ['./assets/media/fast/gallery-16.webp', './assets/media/gallery/gallery-16.jpeg'],
+        ['./assets/media/fast/ortal-working-01.webp', './assets/media/ortal/ortal-working-01.jpeg'],
+        ['./assets/media/fast/ortal-working-02.webp', './assets/media/ortal/ortal-working-02.jpeg'],
+        ['./assets/media/fast/ortal-working-03.webp', './assets/media/ortal/ortal-working-03.jpeg'],
+        ['./assets/media/fast/ortal-working-04.webp', './assets/media/ortal/ortal-working-04.jpg'],
+        ['./assets/media/fast/ortal-working-05.webp', './assets/media/ortal/ortal-working-05.jpeg'],
+        ['./assets/media/fast/leo-after.webp', './assets/media/before-after/leo-after.jpg'],
+        ['./assets/media/fast/gallery-westie-2026.webp', './assets/media/optimized/gallery/gallery-westie-2026.jpg']
+      ]);
+      const modes = [
+        { label: 'calm', spacing: .52, sensitivity: .0065, friction: .90, auto: .0012, depth: 160 },
+        { label: 'alive', spacing: .58, sensitivity: .008, friction: .92, auto: .0022, depth: 190 },
+        { label: 'focus', spacing: .46, sensitivity: .0055, friction: .88, auto: .0006, depth: 135 }
+      ];
+      const wrap = (value) => (value % photos.length + photos.length) % photos.length;
+      const shortestOffset = (index, center) => {
+        let offset = index - center;
+        const half = photos.length / 2;
+        while (offset > half) offset -= photos.length;
+        while (offset < -half) offset += photos.length;
+        return offset;
+      };
+      const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+      let active = 0;
+      let target = 0;
+      let velocity = 0;
+      let drag = null;
+      let selectedIndex = null;
+      let activeMode = 0;
+      let frame = 0;
+      let visible = false;
+      let lastTime = performance.now();
+      let lastTouchTime = 0;
+
+      const reveal = () => section && section.classList.add('is-visible');
+      const updateModeButtons = () => {
+        dots.forEach((dot, index) => {
+          const isActive = index === activeMode;
+          dot.classList.toggle('is-active', isActive);
+          dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+      };
+      const photoIndexFromTarget = (node) => {
+        const photo = node.closest ? node.closest('.memory-photo') : null;
+        return photo ? photos.indexOf(photo) : -1;
+      };
+      const loadHighResolution = (index) => {
+        const img = photos[index]?.querySelector('img');
+        if (!img) return;
+        const current = img.getAttribute('src');
+        const full = highResolutionSources.get(current);
+        if (full) img.src = full;
+      };
+      const toggleFocus = (index) => {
+        if (index < 0) {
+          selectedIndex = null;
+        }
+        else {
+          selectedIndex = selectedIndex === index ? null : index;
+          if (selectedIndex !== null) {
+            target = index;
+            velocity = 0;
+            loadHighResolution(index);
+          }
+        }
+        album.classList.toggle('is-photo-focused', selectedIndex !== null);
+        render();
+      };
+      const render = () => {
+        const mode = modes[activeMode];
+        const bounds = stage.getBoundingClientRect();
+        const width = bounds.width || 560;
+        const centerX = width / 2;
+        const spacing = Math.min(width * mode.spacing, 330);
+
+        photos.forEach((photo, index) => {
+          const offset = shortestOffset(index, active);
+          const distance = Math.abs(offset);
+          let x = offset * spacing;
+          let y = Math.min(distance * 18, 66);
+          let z = -distance * mode.depth;
+          let rotateY = clamp(-offset * 18, -48, 48);
+          let scale = clamp(1.04 - distance * .13, .54, 1.08);
+          let opacity = distance > 4.2 ? 0 : clamp(1 - distance * .17, .18, 1);
+          let blur = distance > 2.2 ? .55 : 0;
+          const isActive = distance < .45;
+          const isSelected = selectedIndex === index;
+          const hasSelection = selectedIndex !== null;
+
+          if (hasSelection) {
+            if (isSelected) {
+              x = 0;
+              y = 0;
+              z = 260;
+              rotateY = 0;
+              scale = width < 520 ? 1.28 : 1.46;
+              opacity = 1;
+              blur = 0;
+            }
+            else {
+              x *= .72;
+              y += 24;
+              z -= 230;
+              scale *= .72;
+              opacity = clamp(opacity * .35, .08, .32);
+              blur = .8;
+            }
+          }
+
+          photo.classList.toggle('is-active', isActive);
+          photo.classList.toggle('is-selected', isSelected);
+          photo.classList.toggle('is-dimmed', hasSelection && !isSelected);
+          photo.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+          photo.style.zIndex = String(isSelected ? 5000 : Math.round(3000 - distance * 100));
+          photo.style.opacity = String(opacity);
+          photo.style.filter = `blur(${blur}px) saturate(${.92 + Math.max(0, 1 - distance) * .12})`;
+          photo.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, ${z}px) rotateY(${rotateY}deg) scale(${scale})`;
+        });
+      };
+      const animate = () => {
+        const now = performance.now();
+        const step = clamp((now - lastTime) / 16.67, .5, 1.7);
+        lastTime = now;
+        if (visible && !document.hidden) {
+          const mode = modes[activeMode];
+          const scrolling = document.documentElement.classList.contains('is-scrolling');
+          const autoResume = selectedIndex === null && !drag && !scrolling && !reduceMotion ? clamp((now - lastTouchTime - 900) / 1600, 0, 1) : 0;
+          target += mode.auto * autoResume * step;
+          active += (target - active) * .12 * step;
+          if (!drag) {
+            target += velocity * step;
+            velocity *= Math.pow(mode.friction, step);
+            if (Math.abs(velocity) < .0007) velocity = 0;
+          }
+          render();
+        }
+        frame = window.requestAnimationFrame(animate);
+      };
+      const startDrag = (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        lastTouchTime = performance.now();
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, axis: null, photoIndex: photoIndexFromTarget(event.target) };
+        velocity = 0;
+        album.setPointerCapture(event.pointerId);
+      };
+      const moveDrag = (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const dx = event.clientX - drag.x;
+        const dy = event.clientY - drag.y;
+        if (!drag.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
+          drag.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+          if (drag.axis === 'horizontal') {
+            selectedIndex = null;
+            album.classList.remove('is-photo-focused');
+            album.classList.add('is-dragging');
+          }
+        }
+        if (drag.axis !== 'horizontal') return;
+        const mode = modes[activeMode];
+        const moveX = event.clientX - drag.lastX;
+        const nextVelocity = -moveX * mode.sensitivity;
+        velocity = velocity * .62 + nextVelocity * .38;
+        target += velocity;
+        drag.lastX = event.clientX;
+        lastTouchTime = performance.now();
+        render();
+      };
+      const finishDrag = (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const current = drag;
+        drag = null;
+        album.classList.remove('is-dragging');
+        lastTouchTime = performance.now();
+        const moved = Math.hypot(event.clientX - current.x, event.clientY - current.y);
+        if (!current.axis && moved < 9) {
+          toggleFocus(current.photoIndex);
+          return;
+        }
+        target = Math.round(target);
+        velocity *= .42;
+      };
+
+      dots.forEach((dot, index) => dot.addEventListener('click', () => {
+        activeMode = index;
+        selectedIndex = null;
+        velocity = 0;
+        album.classList.remove('is-photo-focused');
+        updateModeButtons();
+        render();
+      }));
+      photos.forEach((photo, index) => {
+        photo.tabIndex = 0;
+        photo.setAttribute('role', 'button');
+        photo.setAttribute('aria-label', `הגדלת תמונה ${index + 1} באלבום`);
+        photo.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          toggleFocus(index);
+        });
+      });
+      album.addEventListener('pointerdown', startDrag);
+      album.addEventListener('pointermove', moveDrag, { passive: true });
+      album.addEventListener('pointerup', finishDrag);
+      album.addEventListener('pointercancel', finishDrag);
+      album.addEventListener('pointerleave', () => {
+        if (drag) album.classList.remove('is-dragging');
+        drag = null;
+      });
+      album.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Escape'].includes(event.key)) return;
+        event.preventDefault();
+        if (event.key === 'Escape') toggleFocus(-1);
+        if (event.key === 'ArrowLeft') target -= 1;
+        if (event.key === 'ArrowRight') target += 1;
+      });
+      window.addEventListener('resize', render, { passive: true });
+      new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) reveal();
+      }, { threshold: .18 }).observe(album);
+      updateModeButtons();
+      render();
+      frame = window.requestAnimationFrame(animate);
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const album = document.getElementById('memoryAlbum');
+      if (!album) return;
+      const section = album.closest('.memory-album');
+      const stage = album.querySelector('.memory-stage');
+      const photos = [...album.querySelectorAll('.memory-photo')];
+      const dots = [...album.querySelectorAll('.memory-dot')];
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const highResolutionSources = new Map([
+        ['./assets/media/fast/poodle-after.webp', './assets/media/before-after/poodle-after.jpeg'],
+        ['./assets/media/fast/gallery-yorkie-2026.webp', './assets/media/optimized/gallery/gallery-yorkie-2026.jpeg'],
+        ['./assets/media/fast/gallery-collie-2026.webp', './assets/media/gallery/gallery-collie.JPG'],
+        ['./assets/media/fast/gallery-05-shovi.webp', './assets/media/optimized/gallery/gallery-05-shovi.jpeg'],
+        ['./assets/media/fast/gallery-14.webp', './assets/media/gallery/gallery-14.JPG'],
+        ['./assets/media/fast/gallery-08.webp', './assets/media/gallery/gallery-08.jpeg'],
+        ['./assets/media/fast/pomeranian-after.webp', './assets/media/before-after/pomeranian-after.jpg'],
+        ['./assets/media/fast/gallery-16.webp', './assets/media/gallery/gallery-16.jpeg'],
+        ['./assets/media/fast/ortal-working-01.webp', './assets/media/ortal/ortal-working-01.jpeg'],
+        ['./assets/media/fast/ortal-working-02.webp', './assets/media/ortal/ortal-working-02.jpeg'],
+        ['./assets/media/fast/ortal-working-03.webp', './assets/media/ortal/ortal-working-03.jpeg'],
+        ['./assets/media/fast/ortal-working-04.webp', './assets/media/ortal/ortal-working-04.jpg'],
+        ['./assets/media/fast/ortal-working-05.webp', './assets/media/ortal/ortal-working-05.jpeg'],
+        ['./assets/media/fast/leo-after.webp', './assets/media/before-after/leo-after.jpg'],
+        ['./assets/media/fast/gallery-westie-2026.webp', './assets/media/optimized/gallery/gallery-westie-2026.jpg']
+      ]);
+      const modes = [
+        { label: 'calm', auto: .014, sensitivity: .045, decay: .965, radius: .34, easing: .13, dragEase: .18 },
+        { label: 'alive', auto: .026, sensitivity: .058, decay: .972, radius: .36, easing: .145, dragEase: .21 },
+        { label: 'focus', auto: .006, sensitivity: .035, decay: .956, radius: .32, easing: .115, dragEase: .16 }
+      ];
+      const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+      const normalize = (angle) => {
+        while (angle > 180) angle -= 360;
+        while (angle < -180) angle += 360;
+        return angle;
+      };
+      const toRadians = (degrees) => degrees * Math.PI / 180;
+      const positions = photos.map((_, index) => {
+        const count = photos.length;
+        const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+        const y = 1 - (index / Math.max(1, count - 1)) * 2;
+        const radiusAtY = Math.sqrt(Math.max(0, 1 - y * y));
+        return {
+          x: Math.cos(goldenAngle * index) * radiusAtY,
+          y,
+          z: Math.sin(goldenAngle * index) * radiusAtY
+        };
+      });
+      let frame = null;
+      let activeMode = 0;
+      let drag = null;
+      let rotation = { x: -7, y: 18 };
+      let displayRotation = { x: -7, y: 18 };
+      let velocity = { x: 0, y: 0 };
+      let isVisible = false;
+      let lastFrameTime = performance.now();
+      let lastTouchTime = 0;
+      let pointerSoftness = { x: 0, y: 0, active: 0 };
+      let selectedIndex = null;
+
+      const reveal = () => section && section.classList.add('is-visible');
+      const updateModeButtons = () => {
+        dots.forEach((dot, index) => {
+          const isActive = index === activeMode;
+          dot.classList.toggle('is-active', isActive);
+          dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+      };
+
+      const getPhotoIndex = (target) => {
+        const photo = target.closest ? target.closest('.memory-photo') : null;
+        return photo ? photos.indexOf(photo) : -1;
+      };
+
+      const togglePhotoFocus = (index) => {
+        if (index < 0) {
+          selectedIndex = null;
+        }
+        else {
+          selectedIndex = selectedIndex === index ? null : index;
+        }
+        if (selectedIndex !== null) {
+          const img = photos[selectedIndex]?.querySelector('img');
+          const fullSrc = highResolutionSources.get(img?.getAttribute('src'));
+          if (fullSrc) img.src = fullSrc;
+        }
+        velocity = { x: 0, y: 0 };
+        lastTouchTime = performance.now();
+        album.classList.toggle('is-photo-focused', selectedIndex !== null);
+        renderSphere();
+      };
+
+      const renderSphere = () => {
+        const mode = modes[activeMode];
+        const rect = stage.getBoundingClientRect();
+        const size = Math.min(rect.width || 520, rect.height || 520);
+        const radius = size * mode.radius;
+        const xRad = toRadians(displayRotation.x);
+        const yRad = toRadians(displayRotation.y);
+        const sinX = Math.sin(xRad);
+        const cosX = Math.cos(xRad);
+        const sinY = Math.sin(yRad);
+        const cosY = Math.cos(yRad);
+
+        photos.forEach((photo, index) => {
+          const base = positions[index];
+          const isSelected = selectedIndex === index;
+          const hasSelection = selectedIndex !== null;
+          let x = base.x * radius;
+          let y = base.y * radius;
+          let z = base.z * radius;
+
+          const x1 = x * cosY + z * sinY;
+          const z1 = -x * sinY + z * cosY;
+          x = x1;
+          z = z1;
+
+          const y2 = y * cosX - z * sinX;
+          const z2 = y * sinX + z * cosX;
+          y = y2;
+          z = z2;
+
+          const depth = (z + radius) / (2 * radius);
+          const pointerLift = pointerSoftness.active * clamp(1 - Math.hypot((x / radius) - pointerSoftness.x, (y / radius) - pointerSoftness.y) * .9, 0, 1);
+          let scale = .58 + depth * .72 + pointerLift * .11;
+          let opacity = clamp(.18 + depth * .88, .12, 1);
+          let blur = z < -radius * .56 ? .9 : 0;
+          let isFront = z > radius * .5;
+          const softX = pointerLift * pointerSoftness.x * 10;
+          const softY = pointerLift * pointerSoftness.y * 10;
+
+          if (hasSelection) {
+            if (isSelected) {
+              x = 0;
+              y = 0;
+              z = radius * .95;
+              scale = size < 430 ? 2.12 : 2.38;
+              opacity = 1;
+              blur = 0;
+              isFront = true;
+            }
+            else {
+              x *= .72;
+              y *= .72;
+              z = z * .35 - radius * .32;
+              scale = .42 + depth * .26;
+              opacity = clamp(.14 + depth * .24, .13, .42);
+              blur = .45;
+              isFront = false;
+            }
+          }
+
+          photo.classList.toggle('is-front', isFront);
+          photo.classList.toggle('is-back', z < -radius * .35);
+          photo.classList.toggle('is-selected', isSelected);
+          photo.classList.toggle('is-dimmed', hasSelection && !isSelected);
+          photo.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+          photo.style.opacity = String(opacity);
+          photo.style.zIndex = String(isSelected ? 4000 : Math.round(1000 + z));
+          photo.style.filter = `blur(${blur}px) saturate(${.82 + depth * .25})`;
+          photo.style.transform = `translate(-50%, -50%) translate3d(${x + (hasSelection ? 0 : softX)}px, ${y + (hasSelection ? 0 : softY)}px, ${z}px) scale(${scale})`;
+        });
+      };
+
+      const animate = () => {
+        const now = performance.now();
+        const frameStep = clamp((now - lastFrameTime) / 16.67, .5, 1.8);
+        lastFrameTime = now;
+        if (!isVisible || document.hidden) {
+          frame = window.requestAnimationFrame(animate);
+          return;
+        }
+        const mode = modes[activeMode];
+        const pageIsScrolling = document.documentElement.classList.contains('is-scrolling');
+        const motionFactor = pageIsScrolling && !drag && selectedIndex === null ? .38 : 1;
+        if (!drag && !reduceMotion && selectedIndex === null) {
+          const autoResume = clamp((now - lastTouchTime - 900) / 1800, 0, 1);
+          rotation.y = normalize(rotation.y + (mode.auto * autoResume + velocity.y) * frameStep * motionFactor);
+          rotation.x = normalize(clamp(rotation.x + velocity.x * frameStep * motionFactor, -36, 36));
+          velocity.x *= Math.pow(mode.decay, frameStep);
+          velocity.y *= Math.pow(mode.decay, frameStep);
+          if (Math.abs(velocity.x) < .0015) velocity.x = 0;
+          if (Math.abs(velocity.y) < .0015) velocity.y = 0;
+        }
+        pointerSoftness.active += ((drag ? 1 : 0) - pointerSoftness.active) * .08 * frameStep;
+        displayRotation.x = normalize(displayRotation.x + normalize(rotation.x - displayRotation.x) * mode.easing * frameStep);
+        displayRotation.y = normalize(displayRotation.y + normalize(rotation.y - displayRotation.y) * mode.easing * frameStep);
+        renderSphere();
+        frame = window.requestAnimationFrame(animate);
+      };
+
+      const startDrag = (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, lastY: event.clientY, axis: null, photoIndex: getPhotoIndex(event.target) };
+        lastTouchTime = performance.now();
+        velocity = { x: 0, y: 0 };
+        album.setPointerCapture(event.pointerId);
+      };
+
+      const moveDrag = (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const dx = event.clientX - drag.x;
+        const dy = event.clientY - drag.y;
+        if (!drag.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 8) {
+          drag.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+          if (drag.axis === 'horizontal') album.classList.add('is-dragging');
+        }
+        if (drag.axis !== 'horizontal') return;
+        const mode = modes[activeMode];
+        const moveX = event.clientX - drag.lastX;
+        const moveY = event.clientY - drag.lastY;
+        const rect = album.getBoundingClientRect();
+        pointerSoftness.x = clamp(((event.clientX - rect.left) / rect.width - .5) * 2, -1, 1);
+        pointerSoftness.y = clamp(((event.clientY - rect.top) / rect.height - .5) * 2, -1, 1);
+        pointerSoftness.active = Math.min(1, pointerSoftness.active + .18);
+        lastTouchTime = performance.now();
+        const nextY = clamp(moveX * mode.sensitivity, -.72, .72);
+        const nextX = clamp(-moveY * mode.sensitivity, -.42, .42);
+        velocity.y = velocity.y * .76 + nextY * .24;
+        velocity.x = velocity.x * .78 + nextX * .22;
+        rotation.y = normalize(rotation.y + velocity.y);
+        rotation.x = normalize(clamp(rotation.x + velocity.x, -36, 36));
+        displayRotation.x = normalize(displayRotation.x + normalize(rotation.x - displayRotation.x) * mode.dragEase);
+        displayRotation.y = normalize(displayRotation.y + normalize(rotation.y - displayRotation.y) * mode.dragEase);
+        drag.lastX = event.clientX;
+        drag.lastY = event.clientY;
+        renderSphere();
+      };
+
+      const finishDrag = (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const current = drag;
+        drag = null;
+        album.classList.remove('is-dragging');
+        lastTouchTime = performance.now();
+        const moved = Math.hypot(event.clientX - current.x, event.clientY - current.y);
+        if (!current.axis && moved < 9) {
+          togglePhotoFocus(current.photoIndex);
+          return;
+        }
+        if (selectedIndex !== null) {
+          velocity = { x: 0, y: 0 };
+          return;
+        }
+        velocity.x *= .45;
+        velocity.y *= .45;
+      };
+
+      const observer = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) reveal();
+      }, { threshold: .24 });
+
+      dots.forEach((dot, index) => dot.addEventListener('click', () => {
+        activeMode = index;
+        velocity = { x: 0, y: index === 1 ? .36 : .12 };
+        updateModeButtons();
+        renderSphere();
+      }));
+      photos.forEach((photo, index) => {
+        photo.tabIndex = 0;
+        photo.setAttribute('role', 'button');
+        photo.setAttribute('aria-label', `הגדלת תמונה ${index + 1} באלבום`);
+        photo.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          togglePhotoFocus(index);
+        });
+      });
+      album.addEventListener('pointerdown', startDrag);
+      album.addEventListener('pointermove', moveDrag, { passive: true });
+      album.addEventListener('pointerup', finishDrag);
+      album.addEventListener('pointerleave', () => {
+        if (drag) album.classList.remove('is-dragging');
+        drag = null;
+      });
+      album.addEventListener('pointercancel', (event) => {
+        if (drag) finishDrag(event);
+      });
+      album.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(event.key)) return;
+        event.preventDefault();
+        if (event.key === 'ArrowLeft') rotation.y -= 12;
+        if (event.key === 'ArrowRight') rotation.y += 12;
+        if (event.key === 'ArrowUp') rotation.x -= 6;
+        if (event.key === 'ArrowDown') rotation.x += 6;
+        renderSphere();
+      });
+      window.addEventListener('resize', renderSphere, { passive: true });
+      updateModeButtons();
+      observer.observe(album);
+      renderSphere();
+      frame = window.requestAnimationFrame(animate);
     })();
   </script>
 </body>
