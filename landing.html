@@ -518,6 +518,50 @@
       .sphere-album-wrap .memory-photo figcaption { display: none; }
     }
 
+    /* WAFFEL AI cinematic 3D family album */
+    .instagram-link { background: #fff5ea; color: #241b16; border: 1px solid rgba(36,27,22,.12); }
+    .cinematic-album-wrap { --album-card-width: clamp(190px, 27vw, 340px); position: relative; min-height: 630px; padding: clamp(16px, 2.5vw, 30px); overflow: hidden; border: 1px solid rgba(80,58,39,.14); border-radius: 42px; background: radial-gradient(circle at 50% 22%, rgba(255,255,255,.64), rgba(255,255,255,.18) 44%, transparent 70%), linear-gradient(145deg, rgba(255,255,255,.72), rgba(255,255,255,.28)); box-shadow: 0 34px 100px rgba(80,56,34,.18), inset 0 1px 0 rgba(255,255,255,.78); cursor: grab; touch-action: pan-y; user-select: none; perspective: 1500px; }
+    .cinematic-album-wrap.is-dragging { cursor: grabbing; }
+    .cinematic-album-wrap::before { content: ""; position: absolute; inset: 16px; border: 1px solid rgba(255,255,255,.58); border-radius: 32px; pointer-events: none; }
+    .cinematic-album-wrap::after { content: ""; position: absolute; right: 14%; bottom: 11%; width: 72%; height: 32px; border-radius: 999px; background: rgba(70,48,30,.18); filter: blur(24px); pointer-events: none; }
+    .cinematic-stage { position: relative; height: clamp(480px, 52vw, 620px); transform-style: preserve-3d; }
+    .cinematic-stage::before { content: ""; position: absolute; inset: 10% 7% 14%; border-radius: 40px; background: radial-gradient(circle at 50% 20%, rgba(255,255,255,.62), rgba(255,255,255,.12) 52%, transparent 78%); box-shadow: inset 0 1px 0 rgba(255,255,255,.72); transform: translateZ(-160px); }
+    .cinematic-stage .memory-thread { display: none; }
+    .cinematic-stage .memory-photo,
+    .cinematic-stage .memory-photo.main,
+    .cinematic-stage .memory-photo.left,
+    .cinematic-stage .memory-photo.top,
+    .cinematic-stage .memory-photo.bottom,
+    .cinematic-stage .memory-photo.small { position: absolute; top: 50%; left: 50%; right: auto; width: var(--album-card-width); aspect-ratio: 4 / 5.05; margin: 0; border: 0; border-radius: 28px; overflow: hidden; background: #171717; box-shadow: 0 26px 78px rgba(38,27,18,.22); opacity: 1; translate: 0 0; transform: translate(-50%, -50%); transform-style: preserve-3d; will-change: transform, opacity, filter; backface-visibility: hidden; cursor: pointer; transition: box-shadow .28s ease, border-radius .28s ease; }
+    .cinematic-stage .memory-photo::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit; background: linear-gradient(180deg, rgba(0,0,0,.02), transparent 44%, rgba(0,0,0,.46)); }
+    .cinematic-stage .memory-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; filter: saturate(.98) contrast(1.04); pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .cinematic-stage .memory-photo figcaption { position: absolute; right: 14px; bottom: 14px; left: 14px; z-index: 2; width: auto; max-width: none; translate: 0; padding: 9px 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(18,16,14,.46); color: #fff8ed; font-size: 13px; font-weight: 850; text-align: center; backdrop-filter: blur(12px); opacity: 0; transform: translateY(5px); transition: opacity .24s ease, transform .24s ease; }
+    .cinematic-stage .memory-photo.is-active figcaption,
+    .cinematic-stage .memory-photo.is-selected figcaption,
+    .cinematic-stage .memory-photo:hover figcaption { opacity: 1; transform: translateY(0); }
+    .cinematic-stage .memory-photo.is-selected { border-radius: 30px; box-shadow: 0 38px 110px rgba(33,24,17,.34); }
+    .cinematic-stage .memory-photo.is-dimmed { pointer-events: auto; }
+    .cinematic-album-wrap .memory-tag { left: 5%; right: auto; top: auto; bottom: 13%; z-index: 9; max-width: 235px; border: 1px solid rgba(255,255,255,.5); background: rgba(255,255,255,.66); color: #5b4a3d; font-size: 13px; box-shadow: 0 20px 58px rgba(73,51,33,.13); backdrop-filter: blur(16px); transform: rotate(1deg); }
+    .cinematic-album-wrap .memory-controls { position: relative; z-index: 10; margin-top: -20px; }
+    .cinematic-album-wrap .memory-dot { width: auto; height: auto; min-height: 32px; padding: 0 12px; border-radius: 999px; background: rgba(36,27,22,.12); color: #5b4a3d; font-size: 12px; font-weight: 850; transform: none; }
+    .cinematic-album-wrap .memory-dot::before { content: attr(data-label); }
+    .cinematic-album-wrap .memory-dot.is-active { width: auto; background: #241b16; color: #fff8ed; }
+
+    @media (max-width: 820px) {
+      .cinematic-album-wrap { --album-card-width: min(54vw, 280px); min-height: 555px; padding: 12px; border-radius: 34px; }
+      .cinematic-stage { height: 490px; }
+      .cinematic-album-wrap .memory-tag { display: none; }
+      .cinematic-album-wrap .memory-controls { margin-top: -12px; }
+    }
+
+    @media (max-width: 520px) {
+      .cinematic-album-wrap { --album-card-width: min(68vw, 245px); min-height: 455px; border-radius: 28px; }
+      .cinematic-stage { height: 390px; }
+      .cinematic-stage .memory-photo { border-radius: 22px; }
+      .cinematic-stage .memory-photo figcaption { right: 10px; bottom: 10px; left: 10px; padding: 7px 9px; font-size: 11px; }
+      .cinematic-album-wrap .memory-dot { min-height: 30px; padding: 0 10px; font-size: 11px; }
+    }
+
     /* WAFFEL AI global motion tuning */
     @media (prefers-reduced-motion: no-preference) {
       .motion-reveal { opacity: 0; transform: translate3d(0, 22px, 0); transition: opacity .72s ease, transform .82s cubic-bezier(.18, .82, .18, 1); }
@@ -549,6 +593,7 @@
         <a href="#process">איך זה עובד</a>
         <a href="#gallery">עבודות</a>
         <a class="button academy-button" href="./academy-cilabos/index.html"><span class="academy-long">Waffel's Academy</span><span class="academy-short">אקדמיה</span></a>
+        <a class="button academy-button instagram-link" href="https://www.instagram.com/waffels.dog.grooming?igsh=MWs5em10amR3NzU4NQ%3D%3D&utm_source=qr" target="_blank" rel="noreferrer">Instagram</a>
         <a class="button" href="#contact">השאירו פרטים</a>
       </nav>
     </div>
@@ -600,8 +645,8 @@
             <a class="button outline-warm" href="#gallery">ראו את העבודות</a>
           </div>
         </div>
-        <div class="memory-stage-wrap sphere-album-wrap" id="memoryAlbum" tabindex="0" role="region" aria-label="אלבום תמונות תלת־ממדי חי של וופל׳ס. גררו לסיבוב או השתמשו בחיצים במקלדת.">
-          <div class="memory-stage sphere-stage" aria-label="כדור תמונות חי של וופל׳ס">
+        <div class="memory-stage-wrap cinematic-album-wrap" id="memoryAlbum3d" tabindex="0" role="region" aria-label="אלבום תמונות תלת־ממדי חי של וופל׳ס. גררו ימינה ושמאלה או השתמשו בחיצים במקלדת.">
+          <div class="memory-stage cinematic-stage" aria-label="אלבום תמונות תלת־ממדי של וופל׳ס">
             <span class="memory-thread"></span>
             <figure class="memory-photo main">
               <img src="./assets/media/fast/ortal-working-06.webp" alt="אורטל מטפלת בכלב בזמן עבודה במספרה" loading="lazy" decoding="async">
@@ -651,14 +696,14 @@
               <img src="./assets/media/fast/gallery-westie-2026.webp" alt="כלב ווסטי במהלך טיפול במספרה" loading="lazy" decoding="async">
               <figcaption>מבט אחרון</figcaption>
             </figure>
-            <div class="memory-tag">גררו בעדינות — הכדור ממשיך לנוע עם אינרציה רכה, כמו אלבום חי בידיים.</div>
+            <div class="memory-tag">גררו בעדינות — התמונות נעות בעומק תלת־ממדי, כמו אלבום פרימיום חי.</div>
           </div>
           <div class="memory-controls" aria-label="בחירת סט תמונות באלבום">
             <button class="memory-dot is-active" type="button" data-label="רגוע" aria-label="תנועה רגועה"></button>
             <button class="memory-dot" type="button" data-label="חי" aria-label="תנועה חיה"></button>
             <button class="memory-dot" type="button" data-label="ממוקד" aria-label="תנועה ממוקדת"></button>
           </div>
-          <p class="memory-hint">גררו בעדינות על האלבום. התמונות מסתובבות ב־3D עם תנועה רכה וגמישה במובייל ובמחשב.</p>
+          <p class="memory-hint">גררו בעדינות על האלבום, או לחצו על תמונה כדי לפתוח אותה בגודל בינוני ולחזור בלחיצה שנייה.</p>
         </div>
       </div>
     </section>
@@ -809,7 +854,7 @@
   <footer>
     <div class="container footer-inner">
       <strong>WAFFEL'S · וופל׳ס מספרת כלבים</strong>
-      <span>הוד השרון · <a href="tel:0528978102">052-897-8102</a></span>
+      <span>הוד השרון · <a href="tel:0528978102">052-897-8102</a> · <a href="https://www.instagram.com/waffels.dog.grooming?igsh=MWs5em10amR3NzU4NQ%3D%3D&utm_source=qr" target="_blank" rel="noreferrer">Instagram</a></span>
     </div>
   </footer>
 
@@ -1462,6 +1507,245 @@
       preloadAround(active);
     })();
   </script>
+  <script>
+    (() => {
+      const album = document.getElementById('memoryAlbum3d');
+      if (!album) return;
+      const section = album.closest('.memory-album');
+      const stage = album.querySelector('.cinematic-stage');
+      const photos = [...album.querySelectorAll('.memory-photo')];
+      const dots = [...album.querySelectorAll('.memory-dot')];
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const highResolutionSources = new Map([
+        ['./assets/media/fast/poodle-after.webp', './assets/media/before-after/poodle-after.jpeg'],
+        ['./assets/media/fast/gallery-yorkie-2026.webp', './assets/media/optimized/gallery/gallery-yorkie-2026.jpeg'],
+        ['./assets/media/fast/gallery-collie-2026.webp', './assets/media/gallery/gallery-collie.JPG'],
+        ['./assets/media/fast/gallery-05-shovi.webp', './assets/media/optimized/gallery/gallery-05-shovi.jpeg'],
+        ['./assets/media/fast/gallery-14.webp', './assets/media/gallery/gallery-14.JPG'],
+        ['./assets/media/fast/gallery-08.webp', './assets/media/gallery/gallery-08.jpeg'],
+        ['./assets/media/fast/pomeranian-after.webp', './assets/media/before-after/pomeranian-after.jpg'],
+        ['./assets/media/fast/gallery-16.webp', './assets/media/gallery/gallery-16.jpeg'],
+        ['./assets/media/fast/ortal-working-03.webp', './assets/media/ortal/ortal-working-03.jpeg'],
+        ['./assets/media/fast/leo-after.webp', './assets/media/before-after/leo-after.jpg'],
+        ['./assets/media/fast/gallery-westie-2026.webp', './assets/media/optimized/gallery/gallery-westie-2026.jpg']
+      ]);
+      const modes = [
+        { label: 'calm', spacing: .52, sensitivity: .0065, friction: .90, auto: .0012, depth: 160 },
+        { label: 'alive', spacing: .58, sensitivity: .008, friction: .92, auto: .0022, depth: 190 },
+        { label: 'focus', spacing: .46, sensitivity: .0055, friction: .88, auto: .0006, depth: 135 }
+      ];
+      const wrap = (value) => (value % photos.length + photos.length) % photos.length;
+      const shortestOffset = (index, center) => {
+        let offset = index - center;
+        const half = photos.length / 2;
+        while (offset > half) offset -= photos.length;
+        while (offset < -half) offset += photos.length;
+        return offset;
+      };
+      const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+      let active = 0;
+      let target = 0;
+      let velocity = 0;
+      let drag = null;
+      let selectedIndex = null;
+      let activeMode = 0;
+      let frame = 0;
+      let visible = false;
+      let lastTime = performance.now();
+      let lastTouchTime = 0;
+
+      const reveal = () => section && section.classList.add('is-visible');
+      const updateModeButtons = () => {
+        dots.forEach((dot, index) => {
+          const isActive = index === activeMode;
+          dot.classList.toggle('is-active', isActive);
+          dot.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+      };
+      const photoIndexFromTarget = (node) => {
+        const photo = node.closest ? node.closest('.memory-photo') : null;
+        return photo ? photos.indexOf(photo) : -1;
+      };
+      const loadHighResolution = (index) => {
+        const img = photos[index]?.querySelector('img');
+        if (!img) return;
+        const current = img.getAttribute('src');
+        const full = highResolutionSources.get(current);
+        if (full) img.src = full;
+      };
+      const toggleFocus = (index) => {
+        if (index < 0) {
+          selectedIndex = null;
+        }
+        else {
+          selectedIndex = selectedIndex === index ? null : index;
+          if (selectedIndex !== null) {
+            target = index;
+            velocity = 0;
+            loadHighResolution(index);
+          }
+        }
+        album.classList.toggle('is-photo-focused', selectedIndex !== null);
+        render();
+      };
+      const render = () => {
+        const mode = modes[activeMode];
+        const bounds = stage.getBoundingClientRect();
+        const width = bounds.width || 560;
+        const centerX = width / 2;
+        const spacing = Math.min(width * mode.spacing, 330);
+
+        photos.forEach((photo, index) => {
+          const offset = shortestOffset(index, active);
+          const distance = Math.abs(offset);
+          let x = offset * spacing;
+          let y = Math.min(distance * 18, 66);
+          let z = -distance * mode.depth;
+          let rotateY = clamp(-offset * 18, -48, 48);
+          let scale = clamp(1.04 - distance * .13, .54, 1.08);
+          let opacity = distance > 4.2 ? 0 : clamp(1 - distance * .17, .18, 1);
+          let blur = distance > 2.2 ? .55 : 0;
+          const isActive = distance < .45;
+          const isSelected = selectedIndex === index;
+          const hasSelection = selectedIndex !== null;
+
+          if (hasSelection) {
+            if (isSelected) {
+              x = 0;
+              y = 0;
+              z = 260;
+              rotateY = 0;
+              scale = width < 520 ? 1.28 : 1.46;
+              opacity = 1;
+              blur = 0;
+            }
+            else {
+              x *= .72;
+              y += 24;
+              z -= 230;
+              scale *= .72;
+              opacity = clamp(opacity * .35, .08, .32);
+              blur = .8;
+            }
+          }
+
+          photo.classList.toggle('is-active', isActive);
+          photo.classList.toggle('is-selected', isSelected);
+          photo.classList.toggle('is-dimmed', hasSelection && !isSelected);
+          photo.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+          photo.style.zIndex = String(isSelected ? 5000 : Math.round(3000 - distance * 100));
+          photo.style.opacity = String(opacity);
+          photo.style.filter = `blur(${blur}px) saturate(${.92 + Math.max(0, 1 - distance) * .12})`;
+          photo.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, ${z}px) rotateY(${rotateY}deg) scale(${scale})`;
+        });
+      };
+      const animate = () => {
+        const now = performance.now();
+        const step = clamp((now - lastTime) / 16.67, .5, 1.7);
+        lastTime = now;
+        if (visible && !document.hidden) {
+          const mode = modes[activeMode];
+          const scrolling = document.documentElement.classList.contains('is-scrolling');
+          const autoResume = selectedIndex === null && !drag && !scrolling && !reduceMotion ? clamp((now - lastTouchTime - 900) / 1600, 0, 1) : 0;
+          target += mode.auto * autoResume * step;
+          active += (target - active) * .12 * step;
+          if (!drag) {
+            target += velocity * step;
+            velocity *= Math.pow(mode.friction, step);
+            if (Math.abs(velocity) < .0007) velocity = 0;
+          }
+          render();
+        }
+        frame = window.requestAnimationFrame(animate);
+      };
+      const startDrag = (event) => {
+        if (event.pointerType === 'mouse' && event.button !== 0) return;
+        lastTouchTime = performance.now();
+        drag = { id: event.pointerId, x: event.clientX, y: event.clientY, lastX: event.clientX, axis: null, photoIndex: photoIndexFromTarget(event.target) };
+        velocity = 0;
+        album.setPointerCapture(event.pointerId);
+      };
+      const moveDrag = (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const dx = event.clientX - drag.x;
+        const dy = event.clientY - drag.y;
+        if (!drag.axis && Math.max(Math.abs(dx), Math.abs(dy)) > 7) {
+          drag.axis = Math.abs(dx) > Math.abs(dy) ? 'horizontal' : 'vertical';
+          if (drag.axis === 'horizontal') {
+            selectedIndex = null;
+            album.classList.remove('is-photo-focused');
+            album.classList.add('is-dragging');
+          }
+        }
+        if (drag.axis !== 'horizontal') return;
+        const mode = modes[activeMode];
+        const moveX = event.clientX - drag.lastX;
+        const nextVelocity = -moveX * mode.sensitivity;
+        velocity = velocity * .62 + nextVelocity * .38;
+        target += velocity;
+        drag.lastX = event.clientX;
+        lastTouchTime = performance.now();
+        render();
+      };
+      const finishDrag = (event) => {
+        if (!drag || drag.id !== event.pointerId) return;
+        const current = drag;
+        drag = null;
+        album.classList.remove('is-dragging');
+        lastTouchTime = performance.now();
+        const moved = Math.hypot(event.clientX - current.x, event.clientY - current.y);
+        if (!current.axis && moved < 9) {
+          toggleFocus(current.photoIndex);
+          return;
+        }
+        target = Math.round(target);
+        velocity *= .42;
+      };
+
+      dots.forEach((dot, index) => dot.addEventListener('click', () => {
+        activeMode = index;
+        selectedIndex = null;
+        velocity = 0;
+        album.classList.remove('is-photo-focused');
+        updateModeButtons();
+        render();
+      }));
+      photos.forEach((photo, index) => {
+        photo.tabIndex = 0;
+        photo.setAttribute('role', 'button');
+        photo.setAttribute('aria-label', `הגדלת תמונה ${index + 1} באלבום`);
+        photo.addEventListener('keydown', (event) => {
+          if (event.key !== 'Enter' && event.key !== ' ') return;
+          event.preventDefault();
+          toggleFocus(index);
+        });
+      });
+      album.addEventListener('pointerdown', startDrag);
+      album.addEventListener('pointermove', moveDrag, { passive: true });
+      album.addEventListener('pointerup', finishDrag);
+      album.addEventListener('pointercancel', finishDrag);
+      album.addEventListener('pointerleave', () => {
+        if (drag) album.classList.remove('is-dragging');
+        drag = null;
+      });
+      album.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Escape'].includes(event.key)) return;
+        event.preventDefault();
+        if (event.key === 'Escape') toggleFocus(-1);
+        if (event.key === 'ArrowLeft') target -= 1;
+        if (event.key === 'ArrowRight') target += 1;
+      });
+      window.addEventListener('resize', render, { passive: true });
+      new IntersectionObserver(([entry]) => {
+        visible = entry.isIntersecting;
+        if (visible) reveal();
+      }, { threshold: .18 }).observe(album);
+      updateModeButtons();
+      render();
+      frame = window.requestAnimationFrame(animate);
+    })();
+  </script>
+
   <script>
     (() => {
       const album = document.getElementById('memoryAlbum');
