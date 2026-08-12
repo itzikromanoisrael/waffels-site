@@ -216,35 +216,35 @@
     .section-heading { max-width: 700px; margin-bottom: 34px; }
     h2 { font-size: clamp(30px, 4vw, 46px); line-height: 1.12; letter-spacing: 0; margin-bottom: 12px; }
     .section-heading p, .lead { color: var(--muted); font-size: 17px; line-height: 1.7; }
-    .memory-album { position: relative; overflow: hidden; isolation: isolate; background: radial-gradient(circle at 12% 12%, rgba(255,225,180,.45), transparent 34%), linear-gradient(145deg, #fff6e8 0%, #f2e5d2 48%, #e9f2ef 100%); color: #241b16; }
-    .memory-album::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .18; background-image: linear-gradient(90deg, rgba(117,82,50,.18) 1px, transparent 1px), linear-gradient(rgba(117,82,50,.14) 1px, transparent 1px); background-size: 34px 34px; mask-image: radial-gradient(ellipse 82% 72% at 50% 38%, #000 42%, transparent 110%); }
+    .memory-album { position: relative; overflow: hidden; isolation: isolate; background: radial-gradient(circle at 12% 12%, rgba(24,212,227,.18), transparent 34%), radial-gradient(circle at 88% 18%, rgba(229,68,178,.13), transparent 32%), linear-gradient(145deg, #ffffff 0%, #eafaff 52%, #fff0fb 100%); color: #111719; }
+    .memory-album::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: .16; background-image: linear-gradient(90deg, rgba(24,212,227,.14) 1px, transparent 1px), linear-gradient(rgba(229,68,178,.1) 1px, transparent 1px); background-size: 34px 34px; mask-image: radial-gradient(ellipse 82% 72% at 50% 38%, #000 42%, transparent 110%); }
     .memory-layout { display: grid; grid-template-columns: minmax(0, .9fr) minmax(420px, 1.1fr); gap: clamp(28px, 5vw, 70px); align-items: center; }
     .memory-copy { max-width: 560px; }
-    .memory-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; padding: 8px 12px; border: 1px solid rgba(90,68,44,.16); border-radius: 999px; background: rgba(255,255,255,.52); color: #8b5d34; font-size: 13px; font-weight: 900; letter-spacing: .05em; }
+    .memory-kicker { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 16px; padding: 8px 12px; border: 1px solid rgba(24,212,227,.18); border-radius: 999px; background: rgba(255,255,255,.62); color: #167f91; font-size: 13px; font-weight: 900; letter-spacing: .05em; }
     .memory-copy h2 { font-size: clamp(34px, 5.4vw, 70px); line-height: .98; letter-spacing: -.03em; margin-bottom: 18px; }
-    .memory-copy p { color: #5f5149; font-size: clamp(17px, 1.55vw, 20px); line-height: 1.85; }
+    .memory-copy p { color: #334b53; font-size: clamp(17px, 1.55vw, 20px); line-height: 1.85; }
     .memory-signature { display: inline-block; margin-top: 10px; color: #2e7189; font-weight: 900; }
     .memory-album-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
-    .memory-album-actions .button { background: #241b16; }
-    .memory-album-actions .button.outline-warm { background: rgba(255,255,255,.3); color: #241b16; border: 1px solid rgba(36,27,22,.22); }
+    .memory-album-actions .button { background: #111719; }
+    .memory-album-actions .button.outline-warm { background: rgba(255,255,255,.46); color: #111719; border: 1px solid rgba(24,212,227,.22); }
     .memory-stage-wrap { perspective: 1400px; min-height: 600px; touch-action: pan-y; cursor: grab; user-select: none; }
     .memory-stage-wrap.is-dragging { cursor: grabbing; }
     .memory-stage { --tilt-x: 0deg; --tilt-y: 0deg; --drag-x: 0px; position: relative; height: clamp(500px, 54vw, 640px); transform-style: preserve-3d; transform: translateX(var(--drag-x)) rotateX(var(--tilt-x)) rotateY(var(--tilt-y)); transition: transform .55s cubic-bezier(.16, 1, .3, 1); }
     .memory-stage-wrap.is-dragging .memory-stage { transition: transform .05s linear; }
-    .memory-stage::before { content: ""; position: absolute; inset: 12% 8% 16%; border-radius: 44px; background: linear-gradient(135deg, rgba(255,255,255,.55), rgba(255,255,255,.12)); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 36px 110px rgba(111,77,43,.2); transform: translateZ(-110px) rotate(-2deg); }
-    .memory-stage::after { content: ""; position: absolute; right: 12%; bottom: 9%; width: 58%; height: 22px; border-radius: 999px; background: rgba(58,38,23,.2); filter: blur(18px); transform: translateZ(-140px); }
-    .memory-photo { position: absolute; margin: 0; width: clamp(150px, 18vw, 238px); aspect-ratio: 4 / 5; overflow: hidden; border: 10px solid #fffaf0; border-bottom-width: 42px; border-radius: 20px; background: #fffaf0; box-shadow: 0 30px 70px rgba(70,45,26,.24); transform-style: preserve-3d; opacity: 0; translate: 0 18px; transition: opacity .72s ease, translate .72s ease, transform .72s cubic-bezier(.16, 1, .3, 1), box-shadow .32s ease, filter .38s ease; }
+    .memory-stage::before { content: ""; position: absolute; inset: 12% 8% 16%; border-radius: 44px; background: linear-gradient(135deg, rgba(255,255,255,.62), rgba(234,250,255,.18)); box-shadow: inset 0 1px 0 rgba(255,255,255,.7), 0 36px 110px rgba(24,212,227,.14); transform: translateZ(-110px) rotate(-2deg); }
+    .memory-stage::after { content: ""; position: absolute; right: 12%; bottom: 9%; width: 58%; height: 22px; border-radius: 999px; background: rgba(24,212,227,.16); filter: blur(18px); transform: translateZ(-140px); }
+    .memory-photo { position: absolute; margin: 0; width: clamp(150px, 18vw, 238px); aspect-ratio: 4 / 5; overflow: hidden; border: 10px solid #ffffff; border-bottom-width: 42px; border-radius: 20px; background: #ffffff; box-shadow: 0 30px 70px rgba(24,82,96,.18); transform-style: preserve-3d; opacity: 0; translate: 0 18px; transition: opacity .72s ease, translate .72s ease, transform .72s cubic-bezier(.16, 1, .3, 1), box-shadow .32s ease, filter .38s ease; }
     .memory-album.is-visible .memory-photo { opacity: 1; translate: 0 0; transition-delay: calc(var(--order) * 85ms); }
     .memory-album.is-shuffling .memory-photo { opacity: .58; filter: blur(.8px) saturate(.92); translate: 0 8px; transition-delay: 0ms; }
     .memory-photo img { width: 100%; height: 100%; object-fit: cover; filter: saturate(.97) contrast(1.04) sepia(.06); pointer-events: none; user-select: none; -webkit-user-drag: none; }
-    .memory-photo figcaption { position: absolute; right: 10px; bottom: 10px; left: 10px; color: #6a4e39; font-size: 13px; font-weight: 850; line-height: 1.2; text-align: center; }
+    .memory-photo figcaption { position: absolute; right: 10px; bottom: 10px; left: 10px; color: #167f91; font-size: 13px; font-weight: 850; line-height: 1.2; text-align: center; }
     .memory-photo.main { --order: 1; top: 15%; right: 29%; width: clamp(205px, 24vw, 320px); transform: translateZ(180px) rotate(-2deg); z-index: 5; }
     .memory-photo.left { --order: 2; top: 23%; right: 3%; transform: translateZ(90px) rotate(8deg); z-index: 4; }
     .memory-photo.top { --order: 3; top: 2%; right: 48%; width: clamp(138px, 15vw, 210px); transform: translateZ(60px) rotate(-11deg); z-index: 3; }
     .memory-photo.bottom { --order: 4; top: 55%; right: 54%; transform: translateZ(120px) rotate(9deg); z-index: 4; }
     .memory-photo.small { --order: 5; top: 63%; right: 15%; width: clamp(132px, 14vw, 190px); transform: translateZ(210px) rotate(-7deg); z-index: 6; }
-    .memory-photo:hover, .memory-photo:focus-within { box-shadow: 0 38px 90px rgba(70,45,26,.32); }
-    .memory-thread { position: absolute; top: 9%; right: 7%; left: 11%; height: 2px; border-radius: 999px; background: linear-gradient(90deg, transparent, rgba(114,76,43,.3), transparent); transform: translateZ(-10px) rotate(-3deg); }
+    .memory-photo:hover, .memory-photo:focus-within { box-shadow: 0 38px 90px rgba(24,82,96,.24); }
+    .memory-thread { position: absolute; top: 9%; right: 7%; left: 11%; height: 2px; border-radius: 999px; background: linear-gradient(90deg, transparent, rgba(229,68,178,.24), rgba(24,212,227,.24), transparent); transform: translateZ(-10px) rotate(-3deg); }
     .services { position: relative; overflow: hidden; isolation: isolate; background: var(--soft); }
     .services-dots { position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%; pointer-events: none; }
     .services > .container { position: relative; z-index: 1; }
@@ -496,28 +496,28 @@
     }
 
     /* WAFFEL AI premium memory slider upgrade */
-    .memory-album { background: radial-gradient(circle at 16% 10%, rgba(255,232,197,.5), transparent 32%), radial-gradient(circle at 92% 18%, rgba(155,212,231,.28), transparent 30%), linear-gradient(145deg, #fff8ef 0%, #efe1d0 52%, #e7efeb 100%); }
-    .memory-album::after { content: ""; position: absolute; inset: auto 0 0; height: 46%; z-index: -1; background: linear-gradient(0deg, rgba(76,51,31,.08), transparent); pointer-events: none; }
+    .memory-album { background: radial-gradient(circle at 16% 10%, rgba(24,212,227,.2), transparent 32%), radial-gradient(circle at 92% 18%, rgba(229,68,178,.14), transparent 30%), linear-gradient(145deg, #ffffff 0%, #eafaff 54%, #fff0fb 100%); }
+    .memory-album::after { content: ""; position: absolute; inset: auto 0 0; height: 46%; z-index: -1; background: linear-gradient(0deg, rgba(24,212,227,.06), transparent); pointer-events: none; }
     .memory-layout { grid-template-columns: minmax(300px, .86fr) minmax(480px, 1.14fr); }
     .memory-copy { padding-block: 18px; }
-    .memory-kicker { background: rgba(255,255,255,.7); box-shadow: 0 10px 30px rgba(99,72,45,.08); }
-    .memory-stage-wrap { position: relative; min-height: 620px; padding: clamp(18px, 2vw, 26px); border: 1px solid rgba(80,58,39,.14); border-radius: 42px; background: linear-gradient(145deg, rgba(255,255,255,.68), rgba(255,255,255,.28)); box-shadow: 0 34px 100px rgba(80,56,34,.18), inset 0 1px 0 rgba(255,255,255,.78); backdrop-filter: blur(18px); overflow: hidden; }
+    .memory-kicker { background: rgba(255,255,255,.74); box-shadow: 0 10px 30px rgba(24,82,96,.08); }
+    .memory-stage-wrap { position: relative; min-height: 620px; padding: clamp(18px, 2vw, 26px); border: 1px solid rgba(24,212,227,.16); border-radius: 42px; background: linear-gradient(145deg, rgba(255,255,255,.72), rgba(234,250,255,.34)); box-shadow: 0 34px 100px rgba(24,82,96,.14), inset 0 1px 0 rgba(255,255,255,.78); backdrop-filter: blur(18px); overflow: hidden; }
     .memory-stage-wrap::before { content: ""; position: absolute; inset: 14px; border-radius: 34px; border: 1px solid rgba(255,255,255,.58); pointer-events: none; }
     .memory-stage { height: clamp(500px, 52vw, 640px); }
-    .memory-stage::before { inset: 11% 11% 16%; border-radius: 38px; background: radial-gradient(circle at 42% 20%, rgba(255,255,255,.72), rgba(255,255,255,.18) 42%, transparent 76%); box-shadow: inset 0 1px 0 rgba(255,255,255,.65), 0 34px 110px rgba(66,45,28,.17); }
-    .memory-stage::after { right: 18%; bottom: 8%; width: 64%; height: 30px; background: rgba(70,48,30,.18); filter: blur(22px); }
+    .memory-stage::before { inset: 11% 11% 16%; border-radius: 38px; background: radial-gradient(circle at 42% 20%, rgba(255,255,255,.74), rgba(234,250,255,.2) 42%, transparent 76%); box-shadow: inset 0 1px 0 rgba(255,255,255,.68), 0 34px 110px rgba(24,82,96,.13); }
+    .memory-stage::after { right: 18%; bottom: 8%; width: 64%; height: 30px; background: rgba(229,68,178,.12); filter: blur(22px); }
     .memory-thread { display: none; }
-    .memory-photo { border: 0; border-radius: 30px; background: #171717; box-shadow: 0 32px 80px rgba(38,27,18,.2); translate: 0 10px; transition: opacity .5s ease, translate .56s ease, transform .72s cubic-bezier(.16, 1, .3, 1), box-shadow .38s ease, filter .38s ease; }
+    .memory-photo { border: 0; border-radius: 30px; background: #101719; box-shadow: 0 32px 80px rgba(24,82,96,.18); translate: 0 10px; transition: opacity .5s ease, translate .56s ease, transform .72s cubic-bezier(.16, 1, .3, 1), box-shadow .38s ease, filter .38s ease; }
     .memory-photo::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(180deg, rgba(0,0,0,.02), transparent 40%, rgba(0,0,0,.48)); }
     .memory-photo img { filter: saturate(.98) contrast(1.04); transition: transform .9s cubic-bezier(.16, 1, .3, 1), filter .4s ease; }
-    .memory-photo figcaption { z-index: 2; right: 16px; bottom: 16px; left: 16px; padding: 9px 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(18,16,14,.45); color: #fff8ed; font-size: 13px; backdrop-filter: blur(12px); }
-    .memory-photo.main { top: 8%; right: 24%; width: clamp(250px, 30vw, 420px); aspect-ratio: 4 / 5.15; transform: translateZ(210px) rotate(-.8deg) scale(1.02); z-index: 8; box-shadow: 0 38px 96px rgba(38,27,18,.26); }
+    .memory-photo figcaption { z-index: 2; right: 16px; bottom: 16px; left: 16px; padding: 9px 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(13,20,23,.48); color: #ffffff; font-size: 13px; backdrop-filter: blur(12px); }
+    .memory-photo.main { top: 8%; right: 24%; width: clamp(250px, 30vw, 420px); aspect-ratio: 4 / 5.15; transform: translateZ(210px) rotate(-.8deg) scale(1.02); z-index: 8; box-shadow: 0 38px 96px rgba(24,82,96,.22); }
     .memory-photo.left { top: 19%; right: 2%; width: clamp(165px, 17vw, 242px); aspect-ratio: 4 / 5; transform: translateZ(70px) rotate(4.5deg) scale(.95); z-index: 4; opacity: .92; }
     .memory-photo.top { top: 4%; right: 57%; width: clamp(150px, 15vw, 218px); aspect-ratio: 4 / 5; transform: translateZ(55px) rotate(-5deg) scale(.92); z-index: 3; opacity: .86; }
     .memory-photo.bottom { top: 57%; right: 54%; width: clamp(170px, 17vw, 245px); aspect-ratio: 4 / 5; transform: translateZ(95px) rotate(3.8deg) scale(.94); z-index: 5; opacity: .9; }
     .memory-photo.small { top: 61%; right: 10%; width: clamp(148px, 14vw, 205px); aspect-ratio: 4 / 5; transform: translateZ(155px) rotate(-4deg) scale(.94); z-index: 6; opacity: .94; }
     .memory-photo:hover img { transform: scale(1.035); }
-    .memory-photo:hover, .memory-photo:focus-within { box-shadow: 0 42px 105px rgba(38,27,18,.31); }
+    .memory-photo:hover, .memory-photo:focus-within { box-shadow: 0 42px 105px rgba(24,82,96,.28); }
     .memory-album.is-shuffling .memory-photo { opacity: .72; filter: saturate(.92) brightness(.96); translate: 0 5px; }
     .memory-album.is-shuffling .memory-photo.main { opacity: .86; }
 
@@ -586,10 +586,10 @@
 
     /* WAFFEL AI cinematic 3D family album */
     .instagram-link { background: #fff5ea; color: #241b16; border: 1px solid rgba(36,27,22,.12); }
-    .cinematic-album-wrap { --album-card-width: clamp(190px, 27vw, 340px); position: relative; min-height: 630px; padding: clamp(16px, 2.5vw, 30px); overflow: hidden; border: 1px solid rgba(80,58,39,.14); border-radius: 42px; background: radial-gradient(circle at 50% 22%, rgba(255,255,255,.64), rgba(255,255,255,.18) 44%, transparent 70%), linear-gradient(145deg, rgba(255,255,255,.72), rgba(255,255,255,.28)); box-shadow: 0 34px 100px rgba(80,56,34,.18), inset 0 1px 0 rgba(255,255,255,.78); cursor: grab; touch-action: pan-y; user-select: none; perspective: 1500px; }
+    .cinematic-album-wrap { --album-card-width: clamp(190px, 27vw, 340px); position: relative; min-height: 630px; padding: clamp(16px, 2.5vw, 30px); overflow: hidden; border: 1px solid rgba(24,212,227,.16); border-radius: 42px; background: radial-gradient(circle at 50% 22%, rgba(255,255,255,.66), rgba(234,250,255,.22) 44%, transparent 70%), linear-gradient(145deg, rgba(255,255,255,.74), rgba(255,240,251,.28)); box-shadow: 0 34px 100px rgba(24,82,96,.14), inset 0 1px 0 rgba(255,255,255,.78); cursor: grab; touch-action: pan-y; user-select: none; perspective: 1500px; }
     .cinematic-album-wrap.is-dragging { cursor: grabbing; }
     .cinematic-album-wrap::before { content: ""; position: absolute; inset: 16px; border: 1px solid rgba(255,255,255,.58); border-radius: 32px; pointer-events: none; }
-    .cinematic-album-wrap::after { content: ""; position: absolute; right: 14%; bottom: 11%; width: 72%; height: 32px; border-radius: 999px; background: rgba(70,48,30,.18); filter: blur(24px); pointer-events: none; }
+    .cinematic-album-wrap::after { content: ""; position: absolute; right: 14%; bottom: 11%; width: 72%; height: 32px; border-radius: 999px; background: rgba(24,212,227,.12); filter: blur(24px); pointer-events: none; }
     .cinematic-stage { position: relative; height: clamp(480px, 52vw, 620px); transform-style: preserve-3d; }
     .cinematic-stage::before { content: ""; position: absolute; inset: 10% 7% 14%; border-radius: 40px; background: radial-gradient(circle at 50% 20%, rgba(255,255,255,.62), rgba(255,255,255,.12) 52%, transparent 78%); box-shadow: inset 0 1px 0 rgba(255,255,255,.72); transform: translateZ(-160px); }
     .cinematic-stage .memory-thread { display: none; }
@@ -598,14 +598,14 @@
     .cinematic-stage .memory-photo.left,
     .cinematic-stage .memory-photo.top,
     .cinematic-stage .memory-photo.bottom,
-    .cinematic-stage .memory-photo.small { position: absolute; top: 50%; left: 50%; right: auto; width: var(--album-card-width); aspect-ratio: 4 / 5.05; margin: 0; border: 0; border-radius: 28px; overflow: hidden; background: #171717; box-shadow: 0 26px 78px rgba(38,27,18,.22); opacity: 1; translate: 0 0; transform: translate(-50%, -50%); transform-style: preserve-3d; will-change: transform, opacity, filter; backface-visibility: hidden; cursor: pointer; transition: box-shadow .28s ease, border-radius .28s ease; }
+    .cinematic-stage .memory-photo.small { position: absolute; top: 50%; left: 50%; right: auto; width: var(--album-card-width); aspect-ratio: 4 / 5.05; margin: 0; border: 0; border-radius: 28px; overflow: hidden; background: #101719; box-shadow: 0 26px 78px rgba(24,82,96,.2); opacity: 1; translate: 0 0; transform: translate(-50%, -50%); transform-style: preserve-3d; will-change: transform, opacity, filter; backface-visibility: hidden; cursor: pointer; transition: box-shadow .28s ease, border-radius .28s ease; }
     .cinematic-stage .memory-photo::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: inherit; background: linear-gradient(180deg, rgba(0,0,0,.02), transparent 44%, rgba(0,0,0,.46)); }
     .cinematic-stage .memory-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: inherit; filter: saturate(.98) contrast(1.04); pointer-events: none; user-select: none; -webkit-user-drag: none; }
-    .cinematic-stage .memory-photo figcaption { position: absolute; right: 14px; bottom: 14px; left: 14px; z-index: 2; width: auto; max-width: none; translate: 0; padding: 9px 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(18,16,14,.46); color: #fff8ed; font-size: 13px; font-weight: 850; text-align: center; backdrop-filter: blur(12px); opacity: 0; transform: translateY(5px); transition: opacity .24s ease, transform .24s ease; }
+    .cinematic-stage .memory-photo figcaption { position: absolute; right: 14px; bottom: 14px; left: 14px; z-index: 2; width: auto; max-width: none; translate: 0; padding: 9px 12px; border: 1px solid rgba(255,255,255,.24); border-radius: 999px; background: rgba(13,20,23,.48); color: #ffffff; font-size: 13px; font-weight: 850; text-align: center; backdrop-filter: blur(12px); opacity: 0; transform: translateY(5px); transition: opacity .24s ease, transform .24s ease; }
     .cinematic-stage .memory-photo.is-active figcaption,
     .cinematic-stage .memory-photo.is-selected figcaption,
     .cinematic-stage .memory-photo:hover figcaption { opacity: 1; transform: translateY(0); }
-    .cinematic-stage .memory-photo.is-selected { border-radius: 30px; box-shadow: 0 38px 110px rgba(33,24,17,.34); }
+    .cinematic-stage .memory-photo.is-selected { border-radius: 30px; box-shadow: 0 38px 110px rgba(24,82,96,.3); }
     .cinematic-stage .memory-photo.is-dimmed { pointer-events: auto; }
 
     @media (max-width: 820px) {
