@@ -637,6 +637,177 @@
 
     .services-dots, .shapegrid-canvas { transition: opacity .45s ease; }
     .photo-spread-stage, .impact-feature, .sphere-album-wrap { -webkit-tap-highlight-color: transparent; }
+
+    /* WAFFEL AI mobile work gallery replacement */
+    @media (max-width: 820px) {
+      .impact-gallery {
+        margin-inline: calc(50% - 50vw);
+        padding: 18px 0 22px;
+        border-right: 0;
+        border-left: 0;
+        border-radius: 0;
+        background:
+          radial-gradient(circle at 20% 8%, rgba(24,212,227,.24), transparent 34%),
+          radial-gradient(circle at 82% 2%, rgba(229,68,178,.18), transparent 30%),
+          linear-gradient(135deg, #111719, #070a0c 78%);
+      }
+
+      .impact-stage {
+        display: block;
+      }
+
+      .impact-feature {
+        display: none;
+      }
+
+      .impact-panel {
+        display: block;
+      }
+
+      .impact-copy {
+        height: auto;
+        min-height: 0;
+        margin: 0 max(18px, calc((100vw - min(92vw, 560px)) / 2)) 16px;
+        padding: 18px;
+        border-color: rgba(24,212,227,.18);
+        background: linear-gradient(145deg, rgba(255,255,255,.08), rgba(24,212,227,.08), rgba(229,68,178,.07));
+        backdrop-filter: blur(14px);
+      }
+
+      .impact-copy h3 {
+        font-size: clamp(26px, 7vw, 42px);
+      }
+
+      .impact-hint {
+        display: none;
+      }
+
+      .impact-thumbs {
+        display: flex;
+        gap: 14px;
+        margin: 0;
+        padding: 6px max(18px, calc((100vw - min(84vw, 360px)) / 2)) 18px;
+        overflow-x: auto;
+        overflow-y: visible;
+        scroll-snap-type: x mandatory;
+        scroll-padding-inline: max(18px, calc((100vw - min(84vw, 360px)) / 2));
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-inline: contain;
+        scrollbar-width: none;
+      }
+
+      .impact-thumbs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .impact-thumb {
+        position: relative;
+        flex: 0 0 min(84vw, 360px);
+        aspect-ratio: 4 / 5.12;
+        min-height: 0;
+        overflow: hidden;
+        border: 1px solid rgba(255,255,255,.16);
+        border-radius: 30px;
+        background: linear-gradient(145deg, rgba(255,255,255,.96), rgba(234,250,255,.86), rgba(255,240,251,.62));
+        opacity: 1;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        box-shadow: 0 24px 72px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.74);
+        transform: none;
+        transition: border-color .28s ease, box-shadow .28s ease, scale .28s ease;
+      }
+
+      .impact-thumb img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        object-fit: contain;
+        object-position: center;
+        background: rgba(255,255,255,.74);
+      }
+
+      .impact-thumb::before {
+        content: "";
+        position: absolute;
+        inset: auto 10px 10px 10px;
+        z-index: 1;
+        height: 38%;
+        border-radius: 0 0 22px 22px;
+        background: linear-gradient(0deg, rgba(7,10,12,.86), rgba(7,10,12,.44) 58%, transparent);
+        pointer-events: none;
+      }
+
+      .impact-thumb::after {
+        content: attr(data-title);
+        position: absolute;
+        right: 22px;
+        bottom: 22px;
+        left: 22px;
+        z-index: 2;
+        color: #fff;
+        font-size: clamp(17px, 5vw, 22px);
+        font-weight: 950;
+        line-height: 1.18;
+        text-shadow: 0 3px 18px rgba(0,0,0,.46);
+        pointer-events: none;
+      }
+
+      .impact-thumb:hover,
+      .impact-thumb:focus-visible,
+      .impact-thumb.is-active {
+        border-color: rgba(24,212,227,.5);
+        box-shadow: 0 28px 84px rgba(24,82,96,.28), 0 0 0 1px rgba(229,68,178,.22) inset;
+        transform: none;
+      }
+
+      .impact-thumb.is-active::after {
+        color: #f4feff;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .impact-gallery {
+        padding-top: 14px;
+      }
+
+      .impact-copy {
+        margin-inline: 12px;
+        padding: 16px;
+        border-radius: 22px;
+      }
+
+      .impact-copy p {
+        font-size: 15px;
+      }
+
+      .impact-thumbs {
+        gap: 12px;
+        padding-inline: max(12px, calc((100vw - min(88vw, 322px)) / 2));
+        scroll-padding-inline: max(12px, calc((100vw - min(88vw, 322px)) / 2));
+      }
+
+      .impact-thumb {
+        flex-basis: min(88vw, 322px);
+        border-radius: 26px;
+      }
+
+      .impact-thumb img {
+        padding: 8px;
+      }
+
+      .impact-thumb::before {
+        inset: auto 8px 8px 8px;
+        border-radius: 0 0 20px 20px;
+      }
+
+      .impact-thumb::after {
+        right: 18px;
+        bottom: 18px;
+        left: 18px;
+      }
+    }
   </style>
 </head>
 <body class="is-intro-active">
