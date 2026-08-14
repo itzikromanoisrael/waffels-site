@@ -1469,14 +1469,24 @@
       } catch (error) {}
 
       const startAtTop = () => {
-        const navigation = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
-        const shouldReset = !location.hash || navigation?.type === 'reload' || navigation?.type === 'back_forward';
-        if (!shouldReset) return;
+        const root = document.documentElement;
+        const previousBehavior = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
         window.scrollTo(0, 0);
-        requestAnimationFrame(() => window.scrollTo(0, 0));
+        document.body?.scrollTo?.(0, 0);
+        root.scrollTop = 0;
+        if (document.body) document.body.scrollTop = 0;
+        window.setTimeout(() => {
+          root.style.scrollBehavior = previousBehavior;
+        }, 900);
       };
 
+      startAtTop();
       window.addEventListener('pageshow', startAtTop);
+      window.addEventListener('load', () => {
+        startAtTop();
+        [60, 180, 420, 900, 1400].forEach((delay) => window.setTimeout(startAtTop, delay));
+      }, { once: true });
       document.addEventListener('DOMContentLoaded', startAtTop, { once: true });
 
       const intro = document.getElementById('siteIntro');
