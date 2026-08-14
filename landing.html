@@ -167,6 +167,47 @@
     .eyebrow { font-size: 14px; font-weight: 800; margin-bottom: 14px; }
     h1, h2, h3, p { margin-top: 0; }
     h1 { font-size: clamp(38px, 7vw, 76px); line-height: 1.02; letter-spacing: 0; margin-bottom: 20px; }
+    .hero-title-3d {
+      position: relative;
+      display: inline-block;
+      width: fit-content;
+      max-width: 100%;
+      color: #fffaf2;
+      text-shadow: 0 2px 10px rgba(0,0,0,.34), 0 18px 42px rgba(0,0,0,.26);
+      letter-spacing: -.02em;
+    }
+    .hero-title-3d::before { content: none; }
+    .hero-title-3d::after {
+      content: "";
+      position: absolute;
+      inset: auto 1% -8px;
+      height: 3px;
+      z-index: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, transparent, rgba(24,212,227,.5), rgba(229,68,178,.38), transparent);
+      opacity: .72;
+      pointer-events: none;
+    }
+    .hero-title-accent {
+      position: relative;
+      display: inline-block;
+      color: #ffffff;
+      background: linear-gradient(115deg, #e9fbff 0%, #7ee7f0 42%, #f4b4df 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+      filter: drop-shadow(0 8px 18px rgba(24,212,227,.14)) drop-shadow(0 10px 20px rgba(229,68,178,.10));
+    }
+    .hero-title-accent::after {
+      content: "";
+      position: absolute;
+      inset: auto 4% 4px;
+      height: 8px;
+      z-index: -1;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(24,212,227,.24), rgba(229,68,178,.18));
+    }
     .hero p { font-size: clamp(18px, 2.2vw, 23px); line-height: 1.65; max-width: 640px; margin-bottom: 28px; }
     .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
     .hero-memory-whisper { position: relative; display: inline-flex; align-items: center; gap: 10px; width: fit-content; max-width: min(100%, 440px); margin-top: 18px; padding: 10px 14px 10px 16px; overflow: hidden; border: 1px solid rgba(24,212,227,.34); border-radius: 999px; background: linear-gradient(135deg, rgba(13,20,23,.52), rgba(24,212,227,.13), rgba(229,68,178,.12)); color: #f4feff; font-size: clamp(14px, 1.45vw, 16px); line-height: 1.45; font-weight: 750; letter-spacing: .01em; box-shadow: 0 18px 46px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.22); backdrop-filter: blur(14px); animation: whisperFloat 5.8s ease-in-out infinite; }
@@ -1158,6 +1199,27 @@
         padding-top: 74px;
       }
 
+      .hero-title-3d {
+        width: min(100%, 352px);
+        margin-inline: auto;
+        font-size: clamp(30px, 8.4vw, 38px);
+        line-height: 1.16;
+        text-wrap: balance;
+        text-shadow: 0 2px 8px rgba(0,0,0,.38), 0 14px 30px rgba(0,0,0,.22);
+      }
+
+      .hero-title-3d::after {
+        inset-inline: 14%;
+        bottom: -7px;
+        height: 2px;
+      }
+
+      .hero-title-accent {
+        display: inline-block;
+        white-space: nowrap;
+        filter: drop-shadow(0 6px 12px rgba(24,212,227,.10)) drop-shadow(0 8px 14px rgba(229,68,178,.08));
+      }
+
       .hero-actions {
         width: 100%;
       }
@@ -1402,6 +1464,21 @@
   </div>
   <script>
     (() => {
+      try {
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      } catch (error) {}
+
+      const startAtTop = () => {
+        const navigation = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+        const shouldReset = !location.hash || navigation?.type === 'reload' || navigation?.type === 'back_forward';
+        if (!shouldReset) return;
+        window.scrollTo(0, 0);
+        requestAnimationFrame(() => window.scrollTo(0, 0));
+      };
+
+      window.addEventListener('pageshow', startAtTop);
+      document.addEventListener('DOMContentLoaded', startAtTop, { once: true });
+
       const intro = document.getElementById('siteIntro');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const hideIntro = () => {
@@ -1442,7 +1519,7 @@
       </div>
       <div class="container hero-content">
         <div class="eyebrow">Waffel’s Dog Grooming · וופל׳ס מספרת כלבים</div>
-        <h1 id="hero-title">טיפול טיפוח פרימיום לכלבים בהוד השרון</h1>
+        <h1 id="hero-title" class="hero-title-3d">טיפול טיפוח <span class="hero-title-accent">פרימיום</span> לכלבים בהוד השרון</h1>
         <p>טיפול מלא, רגוע ומותאם אישית — עם התמחות בפודלים, פרוות מתולתלות וכלבים שצריכים יד מקצועית וסבלנית.</p>
         <div class="hero-actions">
           <a class="button light whatsapp-link" href="#" target="_blank" rel="noreferrer">שלחו וואטסאפ לאורטל</a>
@@ -1554,10 +1631,6 @@
               <img src="./assets/media/fast/leo-after.webp" alt="כלב עם פרווה מתולתלת לאחר תספורת ועיצוב" loading="lazy" decoding="async">
               <figcaption>מתולתל ומדויק</figcaption>
             </figure>
-            <figure class="memory-photo">
-              <img src="./assets/media/fast/gallery-westie-2026.webp" alt="כלב ווסטי במהלך טיפול במספרה" loading="lazy" decoding="async">
-              <figcaption>מבט אחרון</figcaption>
-            </figure>
           </div>
         </div>
       </div>
@@ -1591,7 +1664,6 @@
                 <button class="impact-thumb" type="button" data-title="פומרניאן מלא חיוך" data-caption="טיפול לפרווה מלאה עם שמירה על נפח, רכות ואופי טבעי." data-src="./assets/media/fast/waffels-2026-pomeranian-golden.jpg" data-full="./assets/media/gallery/waffels-2026-pomeranian-golden.jpeg" data-alt="פומרניאן חום לאחר טיפול פרווה מקצועי"><img src="./assets/media/fast/waffels-2026-pomeranian-golden.jpg" alt="" loading="lazy" decoding="async"></button>
                 <button class="impact-thumb" type="button" data-title="פודלים בגימור רך" data-caption="שני פודלים לאחר טיפול מדויק, עם מראה נקי ורך שנשאר טבעי." data-src="./assets/media/fast/waffels-2026-poodle-pair.jpg" data-full="./assets/media/gallery/waffels-2026-poodle-pair.jpeg" data-alt="שני פודלים לאחר טיפול וטיפוח בוופל׳ס"><img src="./assets/media/fast/waffels-2026-poodle-pair.jpg" alt="" loading="lazy" decoding="async"></button>
                 <button class="impact-thumb" type="button" data-title="טיפוח לפרווה ארוכה" data-caption="שמירה על מראה מלא, נקי ובריא יותר לפרווה." data-src="./assets/media/fast/gallery-collie-original.webp" data-full="./assets/media/gallery/gallery-collie.JPG" data-alt="טיפוח מקצועי לפרווה ארוכה"><img src="./assets/media/fast/gallery-collie-original.webp" alt="" loading="lazy" decoding="async"></button>
-                <button class="impact-thumb" type="button" data-title="תספורת מקצועית" data-caption="עיצוב שמרגיש טבעי ונעים לעין." data-src="./assets/media/fast/gallery-westie-2026.webp" data-full="./assets/media/optimized/gallery/gallery-westie-2026.jpg" data-alt="כלב ווסטי במהלך טיפול במספרה"><img src="./assets/media/fast/gallery-westie-2026.webp" alt="" loading="lazy" decoding="async"></button>
                 <button class="impact-thumb" type="button" data-title="גימור ועיצוב מוקפד" data-caption="תוצאה חדה, נקייה ומלאת אופי." data-src="./assets/media/fast/gallery-yorkie-2026.webp" data-full="./assets/media/optimized/gallery/gallery-yorkie-2026.jpeg" data-alt="כלב יורקשייר לאחר תספורת ועיצוב"><img src="./assets/media/fast/gallery-yorkie-2026.webp" alt="" loading="lazy" decoding="async"></button>
                 <button class="impact-thumb" type="button" data-title="טיפוח מותאם לפרווה ארוכה" data-caption="עבודה עדינה עם פרווה ארוכה, נשירה וסירוק." data-src="./assets/media/fast/gallery-collie-2026.webp" data-full="./assets/media/gallery/gallery-collie.JPG" data-alt="כלב קולי לאחר טיפוח מקצועי"><img src="./assets/media/fast/gallery-collie-2026.webp" alt="" loading="lazy" decoding="async"></button>
                 <button class="impact-thumb" type="button" data-title="התאמה אישית לכלב" data-caption="לא תבנית קבועה — התאמה אמיתית לכל כלב." data-src="./assets/media/fast/gallery-16.webp" data-full="./assets/media/gallery/gallery-16.jpeg" data-alt="עבודת עיצוב לכלב"><img src="./assets/media/fast/gallery-16.webp" alt="" loading="lazy" decoding="async"></button>
@@ -2408,7 +2480,6 @@
         ['./assets/media/fast/ortal-working-04.webp', './assets/media/ortal/ortal-working-04.jpg'],
         ['./assets/media/fast/ortal-working-05.webp', './assets/media/ortal/ortal-working-05.jpeg'],
         ['./assets/media/fast/leo-after.webp', './assets/media/before-after/leo-after.jpg'],
-        ['./assets/media/fast/gallery-westie-2026.webp', './assets/media/optimized/gallery/gallery-westie-2026.jpg']
       ]);
       const modes = [
         { label: 'calm', spacing: .52, sensitivity: .0065, friction: .90, auto: .0012, depth: 160 },
@@ -2651,7 +2722,6 @@
         ['./assets/media/fast/ortal-working-04.webp', './assets/media/ortal/ortal-working-04.jpg'],
         ['./assets/media/fast/ortal-working-05.webp', './assets/media/ortal/ortal-working-05.jpeg'],
         ['./assets/media/fast/leo-after.webp', './assets/media/before-after/leo-after.jpg'],
-        ['./assets/media/fast/gallery-westie-2026.webp', './assets/media/optimized/gallery/gallery-westie-2026.jpg']
       ]);
       const modes = [
         { label: 'calm', auto: .014, sensitivity: .045, decay: .965, radius: .34, easing: .13, dragEase: .18 },
