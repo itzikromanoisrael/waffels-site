@@ -1478,6 +1478,32 @@
       filter: blur(28px);
       opacity: .35;
     }
+
+    /* Unified light background across desktop and mobile. */
+    .hero, .gallery-section, .process, footer {
+      background: radial-gradient(ellipse at 15% 20%, rgba(211,213,218,.32), transparent 62%), linear-gradient(135deg, #fff, #f1f2f4 60%, #fff);
+      color: #20252b;
+    }
+    .hero::before { background: linear-gradient(90deg, rgba(255,255,255,.55), rgba(255,255,255,.94)); }
+    .hero::after { background: linear-gradient(0deg, rgba(248,249,250,.94), transparent); }
+    .hero-image { opacity: .28; }
+    .hero-content, .hero h1, .hero-content p, .hero .eyebrow { color: #20252b; text-shadow: none; }
+    .hero-title-accent { color: #176174; text-shadow: none; }
+    .hero-memory-note, .hero-memory-whisper { background: rgba(255,255,255,.85); color: #303740; box-shadow: 0 12px 36px rgba(50,55,65,.08); }
+    .gallery-section .section-heading p, .process .section-heading p, .step p { color: #4c5560; }
+    .steps { background: #dfe2e6; border-color: #dfe2e6; }
+    .step { background: rgba(255,255,255,.9); color: #20252b; }
+    .step span { color: #176174; }
+    .impact-gallery { background: linear-gradient(135deg, #fff, #eef0f3); border-color: #dfe2e6; box-shadow: 0 22px 65px rgba(40,46,56,.09); }
+    .impact-gallery::before { opacity: 0; }
+    .impact-copy { background: rgba(255,255,255,.85); border-color: #dfe2e6; color: #20252b; box-shadow: 0 10px 32px rgba(45,50,60,.05); }
+    .impact-copy h3 { color: #20252b; }
+    .impact-copy p, .impact-copy .impact-hint { color: #4c5560; }
+    .impact-copy .impact-kicker { color: #176174; }
+    .impact-caption h3 { color: #fff; }
+    footer, footer strong, footer a { color: #303740; }
+    .mobile-gallery-viewer { background: rgba(247,248,250,.97); color: #20252b; }
+    .mobile-gallery-viewer__title { color: #20252b; }
   </style>
 </head>
 <body class="is-intro-active">
