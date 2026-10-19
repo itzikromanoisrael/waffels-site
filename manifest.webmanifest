@@ -1,23 +1,38 @@
 {
-  "name": "WAFFELS",
-  "short_name": "WAFFELS",
+  "name": "וופל׳ס — מספרת כלבים",
+  "short_name": "וופל׳ס",
   "description": "מספרת הכלבים של אורטל - קביעת תורים, גלריה, ביקורות ויצירת קשר במקום אחד.",
   "lang": "he",
   "dir": "rtl",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui",
+    "browser"
+  ],
   "orientation": "portrait",
-  "background_color": "#111318",
-  "theme_color": "#111318",
-  "categories": ["lifestyle", "business", "beauty"],
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "categories": [
+    "lifestyle",
+    "business",
+    "beauty"
+  ],
   "icons": [
     {
-      "src": "./assets/logo.png",
+      "src": "/assets/icons/waffels-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/icons/waffels-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }
