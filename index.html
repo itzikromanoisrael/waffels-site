@@ -47,7 +47,7 @@
       --ink: #17191a;
       --muted: #62696d;
       --paper: #ffffff;
-      --soft: #f4fbff;
+      --soft: #f4f4f5;
       --blue: #e9fbff;
       --blue-strong: #167f91;
       --cyan: #18d4e3;
@@ -1448,6 +1448,29 @@
         transition-duration: .01ms !important;
       }
     }
+
+    /* Soft white and grey backdrop; text and photos stay sharp. */
+    body { background: #fafafa; }
+    .services, .contact, .memory-album {
+      background:
+        radial-gradient(ellipse at 12% 18%, rgba(205,207,211,.28), transparent 58%),
+        radial-gradient(ellipse at 88% 80%, rgba(226,227,230,.38), transparent 62%),
+        linear-gradient(135deg, #fff, #f5f5f6 55%, #fff);
+    }
+    .site-gradient-aura::before {
+      box-shadow: inset 0 0 82px rgba(130,134,142,.06), inset 0 -72px 118px rgba(180,183,190,.08);
+    }
+    .site-gradient-aura::after {
+      background: radial-gradient(ellipse at 50% 100%, rgba(164,168,176,.18), rgba(229,230,233,.12) 40%, transparent 74%);
+      filter: blur(36px);
+      opacity: .45;
+    }
+    .site-gradient-floor { filter: blur(24px); opacity: .3; }
+    .site-gradient-bar {
+      background: linear-gradient(0deg, rgba(153,157,166,.32), rgba(220,222,226,.24) 45%, rgba(255,255,255,0) 100%);
+      filter: blur(28px);
+      opacity: .35;
+    }
   </style>
 </head>
 <body class="is-intro-active">
@@ -1546,7 +1569,7 @@
           <span class="care-orb two" aria-hidden="true"></span>
           <div class="care-content">
             <div class="care-kicker">הטיפול אצל אורטל</div>
-            <p>אצל אורטל הטיפול אינו <strong>“רק מקלחת”</strong> או <strong>“רק תספורת”</strong>. זהו תהליך טיפוח מלא לפי הצורך: רחצה, מוצרים איכותיים המותאמים לפרווה, ייבוש, סירוק, טיפול בקשרים, אוזניים, ציפורניים, אזורים סניטריים ותספורת או עיצוב כאשר סוג הפרווה מתאים.</p>
+            <p><strong>טיפוח מקצועי. יחס אישי. תשומת לב לכל פרט.</strong> רחצה במוצרים מותאמים, ייבוש, סירוק ועיצוב לפי סוג הפרווה, לצד ניקוי אוזניים, קיצוץ ציפורניים וטיפוח אזורים סניטריים לפי הצורך.</p>
             <div class="care-badges" aria-hidden="true">
               <span class="care-badge">רחצה</span>
               <span class="care-badge">ייבוש</span>
@@ -1565,9 +1588,9 @@
       <div class="container memory-layout">
         <div class="memory-copy">
           <span class="memory-kicker">הישן חוזר חדש</span>
-          <h2 id="memory-album-title">אלבום משפחתי חי, חם ומחבק.</h2>
-          <p>הרעיון הוא לא להציג “עוד תמונות”. הוא להחזיר את התחושה של אלבום ישן שפותחים בסלון — רק בגרסה מודרנית, רכה, תלת־ממדית ונעימה למגע. כל תמונה מספרת רגע: מבט, פרווה, יד עדינה, כלב שחוזר הביתה מסודר ורגוע.</p>
-          <p>זו השפה החדשה של וופל׳ס: מקצועית, אבל עם לב. יוקרתית, אבל לא קרה.</p>
+          <h2 id="memory-album-title">מקצועיות שרואים. יחס שמרגישים.</h2>
+          <p>כל כלב מקבל טיפול אישי, עבודה מדויקת וגימור מוקפד — בהתאם לסוג הפרווה ולצרכים שלו.</p>
+          <p>טיפוח מקצועי באווירה רגועה, עם תשומת לב לנוחות הכלב.</p>
           <span class="memory-signature">Waffel’s — טיפול שנזכרים בו בחיוך.</span>
           <div class="memory-album-actions">
             <a class="button whatsapp-link" href="#" target="_blank" rel="noreferrer">שלחו תמונה לאורטל</a>
@@ -1648,7 +1671,7 @@
 
     <section class="gallery-section" id="gallery">
       <div class="container">
-        <div class="section-heading"><h2>עבודות של וופל׳ס</h2><p>תוצאות אמיתיות מהמספרה, בהתאמה לפרווה ולכלב.</p></div>
+        <div class="section-heading"><h2>עבודות של וופל׳ס</h2><p>עבודה מקצועית, התאמה אישית וגימור מוקפד.</p></div>
         <div class="impact-gallery" id="impactGallery" tabindex="0" role="region" aria-label="גלריית עבודות של וופל׳ס. בחרו תמונה, החליקו או השתמשו בחצים במקלדת.">
           <div class="impact-stage">
             <figure class="impact-feature" id="impactFeature">
@@ -1660,14 +1683,14 @@
             </figure>
             <div class="impact-panel">
               <div class="impact-copy">
-                <p class="impact-kicker">Waffel’s work gallery</p>
-                <h3>תוצאות שמרגישות כמו רגע “וואו”</h3>
+                <p class="impact-kicker">העבודות של וופל׳ס</p>
+                <h3>תוצאות שמרגישות כמו רגע של “וואו”</h3>
                 <p id="impactText">עיצוב עדין ומדויק שמדגיש את מבנה הפנים והפרווה.</p>
                 <p class="impact-hint">לחצו על תמונה, החליקו על התמונה הגדולה או השתמשו בחצים במקלדת.</p>
               </div>
               <div class="impact-thumbs" aria-label="בחירת עבודה להצגה">
                 <button class="impact-thumb is-active" type="button" data-title="פודל בגימור נקי" data-caption="עיצוב עדין ומדויק שמדגיש את מבנה הפנים והפרווה." data-src="./assets/media/fast/waffels-2026-poodle-finish.jpg" data-full="./assets/media/gallery/waffels-2026-poodle-finish.jpeg" data-alt="פודל לאחר גימור נקי ועיצוב פרווה"><img src="./assets/media/fast/waffels-2026-poodle-finish.jpg" alt="" loading="lazy" decoding="async"></button>
-                <button class="impact-thumb" type="button" data-title="טיפול נשירה לצ׳או צ׳או" data-caption="הוצאת פרווה מתה ודילול מקצועי שמחזירים לפרווה קלילות ונשימה." data-src="./assets/media/fast/waffels-2026-chow-deshedding.jpg" data-full="./assets/media/gallery/waffels-2026-chow-deshedding.jpeg" data-alt="צ׳או צ׳או לאחר טיפול נשירה והוצאת פרווה מתה"><img src="./assets/media/fast/waffels-2026-chow-deshedding.jpg" alt="" loading="lazy" decoding="async"></button>
+                <button class="impact-thumb" type="button" data-title="טיפול נשירה לצ׳או צ׳או" data-caption="סירוק מקצועי והוצאת פרווה מתה למראה נקי ומטופח." data-src="./assets/media/fast/waffels-2026-chow-deshedding.jpg" data-full="./assets/media/gallery/waffels-2026-chow-deshedding.jpeg" data-alt="צ׳או צ׳או לאחר טיפול נשירה והוצאת פרווה מתה"><img src="./assets/media/fast/waffels-2026-chow-deshedding.jpg" alt="" loading="lazy" decoding="async"></button>
                 <button class="impact-thumb" type="button" data-title="ווסטי בטיפול" data-caption="התחלה של טיפול שמכבד את מצב הפרווה והנוחות של הכלב." data-src="./assets/media/fast/waffels-2026-westie-table.jpg" data-full="./assets/media/gallery/waffels-2026-westie-table.jpeg" data-alt="כלב ווסטי על שולחן הטיפוח בוופל׳ס"><img src="./assets/media/fast/waffels-2026-westie-table.jpg" alt="" loading="lazy" decoding="async"></button>
                 <button class="impact-thumb" type="button" data-title="שלישיית פודלים" data-caption="שלושה כלבים בגימור אחיד, נקי ומותאם לכל אחד מהם." data-src="./assets/media/fast/waffels-2026-poodle-trio.jpg" data-full="./assets/media/gallery/waffels-2026-poodle-trio.jpeg" data-alt="שלושה פודלים לאחר טיפול וטיפוח במספרת וופל׳ס"><img src="./assets/media/fast/waffels-2026-poodle-trio.jpg" alt="" loading="lazy" decoding="async"></button>
                 <button class="impact-thumb" type="button" data-title="פרווה כפולה רכה" data-caption="מראה מלא ונקי לכלב עם פרווה עשירה, בלי לאבד את האופי של הפרווה." data-src="./assets/media/fast/waffels-2026-pomeranian-white.jpg" data-full="./assets/media/gallery/waffels-2026-pomeranian-white.jpeg" data-alt="פומרניאן לבן לאחר טיפול וטיפוח מקצועי"><img src="./assets/media/fast/waffels-2026-pomeranian-white.jpg" alt="" loading="lazy" decoding="async"></button>
@@ -1700,7 +1723,7 @@
 
     <section class="services" id="services">
       <div class="container">
-        <div class="section-heading"><h2>טיפול שמתאים לכלב, לא רק למראה</h2><p>כל תהליך מתחיל בהבנת הפרווה והצרכים של הכלב. כך אפשר לעבוד בצורה רגועה, מדויקת ובטוחה יותר.</p></div>
+        <div class="section-heading"><h2>טיפול מקצועי, מותאם לכלב שלך</h2><p>בודקים את מצב הפרווה והעור ומתאימים טיפול מדויק, בקצב שנוח לכלב.</p></div>
         <div class="service-grid">
           <article class="service-item" data-service-card style="--service-progress: 96%;">
             <div class="service-card-header"><span class="service-chip">Premium care</span><span class="service-menu-dots" aria-hidden="true"></span></div>
@@ -1724,7 +1747,7 @@
             <div class="service-card-header"><span class="service-chip">Style check</span><span class="service-menu-dots" aria-hidden="true"></span></div>
             <div class="service-card-body">
               <strong>תספורת ועיצוב כשזה מתאים</strong>
-              <p>תספורת או עיצוב מתבצעים רק כאשר סוג הפרווה והמצב בפועל מאפשרים עבודה נכונה ובטוחה.</p>
+              <p>תספורת ועיצוב בגימור מוקפד, בהתאמה לסוג הפרווה ולמצב העור.</p>
               <div class="service-progress"><div class="service-progress-row"><span>בטיחות התאמה</span><span>88%</span></div><div class="service-progress-track"><span class="service-progress-fill"></span></div></div>
             </div>
             <div class="service-card-footer"><div class="service-mini-stack" aria-hidden="true"><span class="service-mini-dot"></span><span class="service-mini-dot"></span><span class="service-mini-dot"></span></div><span class="service-status">לפי פרווה</span></div>
@@ -1742,7 +1765,7 @@
             <div class="service-card-header"><span class="service-chip">Coat rescue</span><span class="service-menu-dots" aria-hidden="true"></span></div>
             <div class="service-card-body">
               <strong>קשרים וסידור פרווה</strong>
-              <p>לפני הטיפול בודקים את מצב הפרווה והעור, את צפיפות הפרווה ואת חומרת הקשרים, ומתאימים דרך טיפול עדינה ונוחה לכלב.</p>
+              <p>בודקים את הפרווה, הקשרים ורגישות העור, ומתאימים טיפול עדין ומקצועי.</p>
               <div class="service-progress"><div class="service-progress-row"><span>בדיקה לפני טיפול</span><span>86%</span></div><div class="service-progress-track"><span class="service-progress-fill"></span></div></div>
             </div>
             <div class="service-card-footer"><div class="service-mini-stack" aria-hidden="true"><span class="service-mini-dot"></span><span class="service-mini-dot"></span><span class="service-mini-dot"></span></div><span class="service-status">רגיש ועדין</span></div>
@@ -1751,7 +1774,7 @@
             <div class="service-card-header"><span class="service-chip">Calm process</span><span class="service-menu-dots" aria-hidden="true"></span></div>
             <div class="service-card-body">
               <strong>טיפול רגוע ומותאם</strong>
-              <p>הטיפול הממוצע נמשך כשעתיים, בהתאם לכלב, מצב הפרווה ורמת שיתוף הפעולה.</p>
+              <p>הטיפול הממוצע נמשך כשעתיים, בהתאם לצורכי הכלב, למצב הפרווה ולרמת שיתוף הפעולה.</p>
               <div class="service-progress"><div class="service-progress-row"><span>קצב שמתאים לכלב</span><span>92%</span></div><div class="service-progress-track"><span class="service-progress-fill"></span></div></div>
             </div>
             <div class="service-card-footer"><div class="service-mini-stack" aria-hidden="true"><span class="service-mini-dot"></span><span class="service-mini-dot"></span><span class="service-mini-dot"></span></div><span class="service-status">כשעתיים</span></div>
@@ -1782,12 +1805,12 @@
 
     <section class="process" id="process">
       <div class="container">
-        <div class="section-heading"><h2>פשוט, מסודר ואישי</h2><p>בלי הבטחות אוטומטיות ובלי לנחש. אורטל עוברת על הפרטים וחוזרת אליכם.</p></div>
+        <div class="section-heading"><h2>פשוט, מסודר ואישי</h2><p>שולחים פרטים, מקבלים מענה אישי ומתאמים את הטיפול המתאים.</p></div>
         <div class="steps">
           <div class="step"><span>01</span><p>שולחים פרטים או הודעת WhatsApp.</p></div>
           <div class="step"><span>02</span><p>מצרפים תמונה עדכנית של הכלב והפרווה, אם אפשר.</p></div>
           <div class="step"><span>03</span><p>אורטל בודקת את סוג הטיפול והזמינות.</p></div>
-          <div class="step"><span>04</span><p>מקבלים חזרה אישית עם האפשרויות המתאימות.</p></div>
+          <div class="step"><span>04</span><p>מקבלים מענה אישי ומתאמים תור.</p></div>
           <div class="step"><span>05</span><p>מגיעים לטיפול רגוע ומקצועי.</p></div>
         </div>
         <p class="appointment-note">שעות הפעילות: ראשון–חמישי, 09:00–16:00. תחילת הטיפול האחרון בשעה 14:00. תורים אינם נקבעים אוטומטית באתר — אורטל בודקת את הפרטים והזמינות וחוזרת אישית.</p>
@@ -1798,7 +1821,7 @@
       <canvas class="shapegrid-canvas" id="contactShapeGrid" aria-hidden="true"></canvas>
       <div class="container contact-layout">
         <div class="contact-copy">
-          <div class="section-heading"><h2>ספרו לנו על הכלב</h2><p>השאירו פרטים קצרים. אורטל תבדוק מה הטיפול המתאים ומה האפשרויות הקרובות ותחזור אליכם אישית.</p></div>
+          <div class="section-heading"><h2>ספרו לנו על הכלב</h2><p>השאירו פרטים ואורטל תחזור אליכם להתאמת הטיפול ולתיאום תור.</p></div>
           <a class="button whatsapp-link" href="#" target="_blank" rel="noreferrer">מעדיפים WhatsApp? כתבו לאורטל</a>
         </div>
         <form class="lead-form" id="landingLeadForm" novalidate>
